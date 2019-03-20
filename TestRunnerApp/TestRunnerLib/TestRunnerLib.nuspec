@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>NetOp.TestAppLib</id>
+        <version>1.1.5</version>
+        <authors>Joakim Odermalm</authors>
+        <owners>joakim000</owners>
+        <license type="expression">Apache-2.0</license>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Library for building tests to run in TestApp</description>
+		<copyright>Copyright 2019</copyright>
+        <tags>test selenium</tags>
+        <dependencies>
+            <dependency id="Selenium.WebDriver" version="3.141.0" />
+            <dependency id="Selenium.Support" version="3.141.0" />
+        </dependencies>
+		<contentFiles>
+			<files include="HowTo.cs" buildAction="EmbeddedResource" />
+		</contentFiles>
+		<references>
+			<reference file="NetOp.TestAppLib.dll" />
+			<reference file="NetOp.TestAppLib.dll.config"	 />
+		 </references>
+    </metadata>
+	 <files>
+        <file src="HowTo.cs" target="Content" />
+        <file src="NetOp.TestAppLib.dll" target="lib\net472" />
+        <file src="NetOp.TestAppLib.dll.config" target="lib" />
+    </files>
+</package>

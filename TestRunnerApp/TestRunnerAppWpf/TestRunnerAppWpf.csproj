@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A3E7E276-84BB-48BC-9191-A5C42F860980}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>TestRunnerAppWpf</RootNamespace>
+    <AssemblyName>TestRunnerAppWpf</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://joakim.dreamhosters.com/testapp/</InstallUrl>
+    <TargetCulture>en</TargetCulture>
+    <ProductName>TestApp by Unicus</ProductName>
+    <PublisherName>Unicus Sverige AB</PublisherName>
+    <SuiteName>TestApp by Unicus</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.html</WebPage>
+    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationVersion>1.1.15.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3F0DED1C753840732160A165AB6310AA22AF4141</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Test_16x.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Activities.Build" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
+    </Reference>
+    <Reference Include="WebDriver.Support, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.Support.3.141.0\lib\net45\WebDriver.Support.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Converters\BoolChangesConverter.cs" />
+    <Compile Include="Converters\ElementSizeConverter.cs" />
+    <Compile Include="Converters\DateTimeConverters.cs" />
+    <Compile Include="Converters\WebDriverTypeImgConverter.cs" />
+    <Compile Include="Lib\JsonExtension.cs" />
+    <Compile Include="MainViewModel_Props.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\OutcomeImgConverter.cs" />
+    <Compile Include="Converters\BoolStringConverter.cs" />
+    <Compile Include="SelectedItems.cs" />
+    <Compile Include="DetailsViewModel.cs" />
+    <Compile Include="NewSuiteDialog.xaml.cs">
+      <DependentUpon>NewSuiteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\OutcomeStringConverter.cs" />
+    <Compile Include="Converters\GuidStringConverter.cs" />
+    <Compile Include="Converters\IntStringConverter.cs" />
+    <Compile Include="Lib\JsonAbstractConverter.cs" />
+    <Compile Include="Lib\ObservableDictionary.cs" />
+    <Compile Include="Lib\StringExtensions.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="NewTestDialog.xaml.cs">
+      <DependentUpon>NewTestDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainViewModel_Cmd.cs" />
+    <Compile Include="FileMgmt.cs" />
+    <Compile Include="GridView.xaml.cs">
+      <DependentUpon>GridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GridViewModel.cs" />
+    <Compile Include="DetailsView.xaml.cs">
+      <DependentUpon>DetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme.cs" />
+    <Compile Include="Help\HowToWindow.xaml.cs">
+      <DependentUpon>HowToWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="GridView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewSuiteDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewTestDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Dark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Expander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Light.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\MenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Help\HowToWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestRunnerLib\TestRunnerLib.csproj">
+      <Project>{1f21be67-3ad1-4e31-8bbd-94cba167fb7c}</Project>
+      <Name>TestRunnerLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModelSupport\ViewModelSupport.csproj">
+      <Project>{5b08a692-ab22-4991-b7bb-dbe22635c282}</Project>
+      <Name>ViewModelSupport</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Export_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Close_16x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Copy_16x.png" />
+    <Resource Include="Icons\DarkTheme_16x.png" />
+    <Resource Include="Icons\Edit_16x.png" />
+    <Resource Include="Icons\FactTable_16x.png" />
+    <Resource Include="Icons\Import_16x.png" />
+    <Resource Include="Icons\LightTheme2_16x.png" />
+    <Resource Include="Icons\LineChart_16x.png" />
+    <Resource Include="Icons\Matrix_16x.png" />
+    <Resource Include="Icons\NewFile_16x.png" />
+    <Resource Include="Icons\OpenFolder_16x.png" />
+    <Resource Include="Icons\PrintPreview_16x.png" />
+    <Resource Include="Icons\Print_16x.png" />
+    <Resource Include="Icons\SaveAs_16x.png" />
+    <Resource Include="Icons\Save_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ForEach_16x.png" />
+    <Resource Include="Icons\ManualTest_16x.png" />
+    <Resource Include="Icons\MockupComponentGreen_16x.png" />
+    <Resource Include="Icons\StatusCriticalError_16x.png" />
+    <Resource Include="Icons\StatusInvalid_16x.png" />
+    <Resource Include="Icons\StatusNo_16x.png" />
+    <Resource Include="Icons\StatusOK_16x.png" />
+    <Resource Include="Icons\StatusWarning_16x.png" />
+    <Resource Include="Icons\TestCoveredFailing_16x.png" />
+    <Resource Include="Icons\TestCoveredPassing_16x.png" />
+    <Resource Include="Icons\TestImpact_16x.png" />
+    <Resource Include="Icons\TestProject_16x.png" />
+    <Resource Include="Icons\Test_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\StatusHelp_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Cut_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Paste_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Undo_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Redo_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\StatusPause_16x.png" />
+    <Resource Include="Icons\StatusRun_16x.png" />
+    <Resource Include="Icons\StatusStopOutline_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\StatusStop_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\chrome-512.png" />
+    <Resource Include="Icons\internet_explorer.png" />
+    <Resource Include="Icons\firefox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\AddOnlineVersion_16x.png" />
+    <Resource Include="Icons\AddTestGroup_16x.png" />
+    <Resource Include="Icons\AddTest_16x.png" />
+    <Resource Include="Icons\NewTestGroup_16x.png" />
+    <Resource Include="Icons\NewTestList_16x.png" />
+    <Resource Include="Icons\NewTestPlan_16x.png" />
+    <Resource Include="Icons\NewTest_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Remove_color_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\RemoveCommand_16x.png" />
+    <Resource Include="Icons\TestGroup_16x.png" />
+    <Resource Include="Icons\TestPlan_16x.png" />
+    <Resource Include="Icons\TestRun_16x.png" />
+    <Resource Include="Icons\TestSuiteRequirement_16x.png" />
+    <Resource Include="Icons\TestSuiteStatic_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\RunChecked_16x.png" />
+    <Resource Include="Icons\RunTest_16x.png" />
+    <Resource Include="Icons\RunTest_inverse_16x.png" />
+    <Resource Include="Icons\Run_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\RemoveAllDriverTests_16x.png" />
+    <Resource Include="Icons\RemoveSingleDriverTest_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\StatusHelp_grey_disabled_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\TestGroupRun_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\RunChecked2_16x.png" />
+    <Resource Include="Icons\TestGroupRun2_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\TestGroupMirror_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\packages\PhantomJS.2.1.1\tools\phantomjs\phantomjs.exe">
+      <Link>phantomjs.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="geckodriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Icons\F1Help_16x.png" />
+    <Resource Include="Icons\Log_16x.png" />
+    <Resource Include="Icons\TestJob_16x.png" />
+    <Resource Include="Icons\TestResultDetail_16x.png" />
+    <Resource Include="Icons\Text_16x.png" />
+    <Resource Include="Icons\TestManager2_16x.png" />
+    <Resource Include="Icons\Property_16x.png" />
+    <Resource Include="Icons\transparent16.png" />
+    <Resource Include="Icons\GlyphUp_16x.png" />
+    <Resource Include="Icons\phantomjs.png" />
+    <Content Include="IEDriverServer.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Test_16x.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <FileAssociation Include=".testapp">
+      <Visible>False</Visible>
+      <Description>Test suite</Description>
+      <Progid>TestApp</Progid>
+      <DefaultIcon>Test_16x.ico</DefaultIcon>
+    </FileAssociation>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Selenium.WebDriver.IEDriver.3.141.5\build\Selenium.WebDriver.IEDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.IEDriver.3.141.5\build\Selenium.WebDriver.IEDriver.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.IEDriver.3.141.5\build\Selenium.WebDriver.IEDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.IEDriver.3.141.5\build\Selenium.WebDriver.IEDriver.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.GeckoDriver.Win64.0.24.0\build\Selenium.WebDriver.GeckoDriver.Win64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.GeckoDriver.Win64.0.24.0\build\Selenium.WebDriver.GeckoDriver.Win64.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.Chrome.WebDriver.2.45\build\Selenium.Chrome.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.Chrome.WebDriver.2.45\build\Selenium.Chrome.WebDriver.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets'))" />
+  </Target>
+  <Import Project="..\packages\Selenium.WebDriver.GeckoDriver.Win64.0.24.0\build\Selenium.WebDriver.GeckoDriver.Win64.targets" Condition="Exists('..\packages\Selenium.WebDriver.GeckoDriver.Win64.0.24.0\build\Selenium.WebDriver.GeckoDriver.Win64.targets')" />
+  <Import Project="..\packages\Selenium.Chrome.WebDriver.2.45\build\Selenium.Chrome.WebDriver.targets" Condition="Exists('..\packages\Selenium.Chrome.WebDriver.2.45\build\Selenium.Chrome.WebDriver.targets')" />
+  <Import Project="..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets" Condition="Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" />
+</Project>

@@ -1,0 +1,336 @@
+﻿<Window x:Class="TestRunnerAppWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestRunnerAppWpf"
+        xmlns:testapp="clr-namespace:TestRunnerLib"
+        mc:Ignorable="d"
+        Title="{Binding windowTitle}" 
+        Height="700" Width="1200"
+        WindowStyle="ThreeDBorderWindow"
+        WindowState="Normal"
+        Icon="pack://application:,,,/Icons/Test_16x.png"
+        Closing="Window_Closing"      
+        Topmost="{Binding topMost}"
+        
+ >
+
+    <Window.DataContext>
+        <local:MainViewModel x:Name="model"/>
+    </Window.DataContext>
+    <Window.InputBindings>
+        <!--<KeyBinding Key="Enter" Command="{Binding CalcCommand}" />-->
+        <!--<KeyBinding Key="OemComma" Command="{Binding InputBtnCommand}" CommandParameter="{Binding ElementName=BtnDot, Path=Content}"/>-->
+    </Window.InputBindings>
+
+    <Window.Resources>
+       
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MasterCol" Width="*"/>
+            <ColumnDefinition x:Name="DetailsCol" Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="MenuBarRow" Height="Auto" />
+            <RowDefinition x:Name="ToolBarRow" Height="Auto" />
+            <RowDefinition x:Name="ContentRow" Height="*" />
+            <RowDefinition x:Name="StatusBarRow" Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="0" Grid.Row="2">
+            <local:GridView x:Name="gridView" />
+        </DockPanel>
+
+        <DockPanel Grid.Column="1" Grid.Row="2">
+            <local:DetailsView x:Name="detailsView" />
+        </DockPanel>
+
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" x:Name="MenuBar" >
+            <!--<Menu.DataContext>
+                <local:MenuBarViewModel/>
+            </Menu.DataContext>-->
+            <MenuItem Header="_Suite" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_New" Command="{Binding NewSuiteCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/NewFile_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Open" Command="{Binding FileOpenCmd}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/OpenFolder_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save" Command="{Binding FileSaveCmd}"   >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Save_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Save as..." Command="{Binding FileSaveAsCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/SaveAs_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <!--<MenuItem Header="_Import" Command="{Binding ImportCmd}" IsEnabled="False"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Import_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Export" Command="{Binding ExportCmd}" IsEnabled="False"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Export_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Header="_View details" Command="{Binding SuiteDetailsCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/TestPlan_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Create report" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Text_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Exit" Click="Exit"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Close_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="_Tests" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_Add test" Command="{Binding NewTestCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/AddTest_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Copy selected" Command="{Binding CopyTestCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/TestGroupMirror_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Remove selected" Command="{Binding RemoveTestCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/RemoveSingleDriverTest_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Import test library" Command="{Binding ImportLibCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Import_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="_Execution" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_Run selected"  Command="{Binding RunSelectedCmd}" IsEnabled="{Binding enableRun}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/RunChecked2_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Run all"  Command="{Binding RunAllCmd}" IsEnabled="{Binding enableRun}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/TestGroupRun2_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <!--<MenuItem Header="_Pause"  Command="{Binding PauseCmd}" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/StatusPause_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>-->
+                <MenuItem Header="_Stop"  Command="{Binding StopCmd}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/StatusStop_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_Discard selected runs"  Command="{Binding DiscardRunsCmd}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+
+            <MenuItem Header="_Web driver" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_Chrome" IsCheckable="True" IsChecked="{Binding checkedChrome}" 
+                          Command="{Binding SetChromeCmd}" IsEnabled="{Binding chromeAvailable}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/chrome-512.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Firefox"  IsCheckable="True" IsChecked="{Binding checkedFirefox}" 
+                          Command="{Binding SetFirefoxCmd}" IsEnabled="{Binding firefoxAvailable}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/firefox.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Internet Explorer" IsCheckable="True" IsChecked="{Binding checkedIE}" 
+                          Command="{Binding SetIECmd}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/internet_explorer.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_PhantomJS" IsCheckable="True" IsEnabled="False" 
+                          Command="{Binding SetIECmd}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/phantomjs.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="_Settings" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_On top while running" IsCheckable="True" IsChecked="{Binding checkedOnTop}"  Command="{Binding SetOnTopCmd}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/GlyphUp_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Dark mode"  IsCheckable="True" IsChecked="{Binding checkedDarkTheme}" Command="{Binding SetThemeCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/DarkTheme_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_Show help"  Command="{Binding HelpCmd}" IsEnabled="False" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/StatusHelp_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_How to write tests"  Command="{Binding HowToCmd}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Property_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="_About..."  Command="{Binding AboutCmd}" >
+                </MenuItem>
+                
+            </MenuItem>
+
+            <!--<MenuItem Header="_Debug" Template="{DynamicResource MenuItemControlTemplateCustom}" >
+                <MenuItem Header="_Load placeholder" Command="{Binding Debug1Cmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/MockupComponentGreen_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Testdata to console"  Command="{Binding Debug2Cmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/MockupComponentGreen_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Assemblies"  Command="{Binding Debug3Cmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Property_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>-->
+
+        </Menu>
+
+        <ToolBarTray Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding NewSuiteCmd}" ToolTip="New suite">
+                    <Image Source="pack://application:,,,/Icons/NewTestGroup_16x.png" Style="{StaticResource ToolBarImage}"/>
+                </Button>
+                <Button Command="{Binding FileOpenCmd}" ToolTip="Open suite">
+                    <Image Source="pack://application:,,,/Icons/OpenFolder_16x.png" Style="{StaticResource ToolBarImage}"/>
+                </Button>
+                <Button Command="{Binding FileSaveCmd}" ToolTip="Save suite">
+                    <Image Source="pack://application:,,,/Icons/Save_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding FileSaveAsCmd}" ToolTip="Save suite as..." >
+                    <Image Source="pack://application:,,,/Icons/SaveAs_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+            </ToolBar>
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding SuiteDetailsCmd}" ToolTip="Suite details" >
+                    <Image Source="pack://application:,,,/Icons/TestPlan_16x.png"  Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button ToolTip="Create report" IsEnabled="False" >
+                    <Image Source="pack://application:,,,/Icons/Text_16x.png"  Style="{StaticResource ToolBarImage}" />
+                </Button>
+            </ToolBar>
+            <!--<ToolBar>
+                <Button Command="Undo" ToolTip="Undo">
+                    <Image Source="pack://application:,,,/Icons/Undo_16x.png"  Style="{StaticResource ToolBarImage} />
+                </Button>
+                <Button Command="Redo" ToolTip="Redo">
+                    <Image Source="pack://application:,,,/Icons/Redo_16x.png"  Style="{StaticResource ToolBarImage} />
+                </Button>
+            </ToolBar>-->
+            <!--<ToolBar>
+                <Button Command="Cut" ToolTip="Cut">
+                    <Image Source="pack://application:,,,/Icons/Cut_16x.png"  Style="{StaticResource ToolBarImage}  />
+                </Button>
+                <Button Command="Copy" ToolTip="Copy">
+                    <Image Source="pack://application:,,,/Icons/Copy_16x.png"  Style="{StaticResource ToolBarImage}  />
+                </Button>
+                <Button Command="Paste" ToolTip="Paste">
+                    <Image Source="pack://application:,,,/Icons/Paste_16x.png"  Style="{StaticResource ToolBarImage} />
+                </Button>
+            </ToolBar>-->
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding NewTestCmd}" ToolTip="Add test">
+                    <Image Source="pack://application:,,,/Icons/AddTest_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding CopyTestCmd}" ToolTip="Copy test" >
+                    <Image Source="pack://application:,,,/Icons/TestGroupMirror_16x.png"  Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding RemoveTestCmd}" ToolTip="Remove selected">
+                    <Image Source="pack://application:,,,/Icons/RemoveSingleDriverTest_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+            </ToolBar>
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding RunSelectedCmd}" ToolTip="Run selected" IsEnabled="{Binding enableRun}">
+                    <Image Source="pack://application:,,,/Icons/RunChecked2_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding RunAllCmd}" ToolTip="Run all" IsEnabled="{Binding enableRun}">
+                    <Image Source="pack://application:,,,/Icons/TestGroupRun2_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <!--<Button Command="{Binding PauseCmd}" ToolTip="Pause" IsEnabled="False">
+                    <Image Source="pack://application:,,,/Icons/StatusPause_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>-->
+                <Button Command="{Binding StopCmd}" ToolTip="Stop" >
+                    <Image Source="pack://application:,,,/Icons/StatusStop_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StatusBarItem Grid.Column="0" >
+                    <TextBlock Text="{Binding runStatus}" />
+                </StatusBarItem>
+                <StatusBarItem Grid.Column="1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding runCurrent}" />
+                        <TextBlock Text="{Binding runSlash}" />
+                        <TextBlock Text="{Binding runTotal}" />
+                    </StackPanel>
+                </StatusBarItem>
+                <ProgressBar Grid.Column="2" x:Name="progressBar" Value="{Binding progressBarValue}" 
+                             Background="{DynamicResource ProgressBarBackgroundBrush}" 
+                             Foreground="{DynamicResource ProgressBarForegroundBrush}"
+                             BorderBrush="{DynamicResource ProgressBarBorderBrush}"
+                             Template="{DynamicResource ProgressBarControlTemplateCustom}"/>
+                <!--<ProgressBar Grid.Column="2" x:Name="progressBar" Value="{Binding progressBarValue}" 
+                             Background="{DynamicResource ProgressBarBackgroundBrush}" Foreground="{DynamicResource ProgressBarForegroundBrush}"
+                             BorderBrush="{DynamicResource ProgressBarBorderdBrush}" Template="{DynamicResource ProgressBarControlTemplate1}"/>-->
+                <StatusBarItem Grid.Column="3" HorizontalAlignment="Right" Margin="100,0,0,0">
+                     <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}" />
+                </StatusBarItem>
+            </Grid>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,82 @@
+﻿<Application x:Class="TestRunnerAppWpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TestRunnerAppWpf"
+             Startup="Application_Startup"
+>
+    
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/Themes/Light.xaml" />-->
+                <ResourceDictionary Source="/Themes/Dark.xaml" />
+                <ResourceDictionary Source="/Themes/ProgressBar.xaml" />
+                <ResourceDictionary Source="/Themes/ToolBar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BoolToVisi" />
+            <local:BoolStringConverter x:Key="BoolToString" />
+            <local:BoolChangesConverter x:Key="BoolToChanges" />
+            <local:IntStringConverter x:Key="IntStringConverter" />
+            <local:IntStringNoZeroConverter x:Key="IntStringNoZeroConverter" />
+            <local:DateTimeForceShortConverter x:Key="DateTimeForceShortConverter" />
+            <local:DateTimeShortConverter x:Key="DateTimeShortConverter" />
+            <local:OutcomeStringConverter x:Key="OutcomeStringConverter" />
+            <local:OutcomeImgConverter x:Key="OutcomeImgConverter" />
+            <local:WebDriverTypeImgConverter x:Key="WebDriverTypeImgConverter" />
+            <local:ElementSizeConverter x:Key="ElementSizeConverter"/>
+
+            <Style TargetType="{x:Type DataGridRow}" >
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style TargetType="{x:Type DataGridCell}"  >
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+
+            <Style TargetType="{x:Type Image}" x:Key="ToolBarImage" >
+                <Setter Property="Height" Value="20" />
+                <Setter Property="Width" Value="20" />
+                <Setter Property="Margin" Value="5,0,5,0" />
+            </Style>
+
+            <Style TargetType="{x:Type ProgressBar}"  >
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Width" Value="240" />
+            </Style>
+
+            <Style TargetType="{x:Type Label}" >
+                <Setter Property="Margin" Value="0,0,0,0" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBox}" >
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0,0,10,10" />
+                <Setter Property="AcceptsReturn" Value="True" />
+                <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
+                
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock }"  >
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="{x:Type TextBlock }" x:Key="TBLeft" >
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+            
+            
+
+
+
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
