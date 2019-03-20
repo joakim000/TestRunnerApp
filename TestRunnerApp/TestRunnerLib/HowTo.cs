@@ -75,7 +75,7 @@ namespace MyTestSuite
 
             try
             {
-                using (IWebDriver driver = WebDriver.Get(w))
+                using (IWebDriver driver = WebDriver.Get(webDriverType))
                 {
                     // Go somewhere
                     testStep++;
@@ -111,7 +111,7 @@ namespace MyTestSuite
     {
         public TestKind Kind { get; } = TestKind.Other;
 
-        public TestResult Test(WebDriverType webDriverType, string param1, string param2, string param3, string param4)
+        public TestResult Test(string param1, string param2, string param3, string param4)
         {
             int testStep = 0;
 
