@@ -17,26 +17,25 @@ namespace TestRunnerAppWpf
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
             MainWindow w = new MainWindow();
+
+            // Always want to have this dir available
+            try
+            {
+                string testsDir = AppDomain.CurrentDomain.BaseDirectory + "Tests";
+                if (!Directory.Exists(testsDir))
+                    Directory.CreateDirectory(testsDir);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error creating dir: {ex}");
+                MessageBox.Show($"Error creating dir: {ex.Message}");
+            }
+
 
             // Open file by association
             if (e.Args.Length == 1)
             {
-                // Always want to have this dir available
-                try
-                {
-                    string testsDir = AppDomain.CurrentDomain.BaseDirectory + "Tests";
-                    if (!Directory.Exists(testsDir))
-                        Directory.CreateDirectory(testsDir);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"Error creating dir: {ex}");
-                    MessageBox.Show($"Error creating dir: {ex.Message}");
-                }
-
-
                 System.Diagnostics.Debug.WriteLine("Startup opening file: \n\n" + e.Args[0]);
 
                 string fileToOpen = e.Args[0];
@@ -76,10 +75,6 @@ namespace TestRunnerAppWpf
                 if (fileopen.Item1 != null)
                     w.model.gridViewModel.suite.filename = fileopen.Item1;
             }
-
-            
-
-
 
             w.Show();
         }
