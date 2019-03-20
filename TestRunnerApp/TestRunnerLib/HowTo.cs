@@ -121,7 +121,7 @@ namespace MyTestSuite
                 testStep++;
                 string testReturn = "Something my test returns";
                 bool MyParameterTest =
-                    testReturn.Contains(stringParam, StringComparison.OrdinalIgnoreCase) ? true : false;
+                    testReturn.Contains(param1, StringComparison.OrdinalIgnoreCase) ? true : false;
 
                 // Return result
                 if (MyParameterTest)
