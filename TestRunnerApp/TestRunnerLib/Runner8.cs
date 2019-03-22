@@ -25,8 +25,11 @@ namespace TestRunnerLib
                 if (called == null)
                     return new TestResult(Outcome.Warning, "Type not found. Check namespace / type.");
 
+                Debug.WriteLine(called.Name);
+                string message = called.Name.ToString();
+
                 // This will fall through if no match is found.
-                TestResult tr = new TestResult(Outcome.Warning, $"{called} is not a test");
+                TestResult tr = new TestResult(Outcome.Warning, $"{called} is not a test: {message}");
 
                 object callObj;
                 callObj = Activator.CreateInstance(called) as ITest;
