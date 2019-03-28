@@ -35,19 +35,21 @@ namespace TestRunnerLib
                 callObj = Activator.CreateInstance(called) as ITest;
                 if (callObj != null)
                 {
+                    Debug.WriteLine($"{called} is ITest");
                     ITest test = (ITest)callObj;
                     tr = test.Test(param, param2, param3, param4);
                     tr.kind = test.Kind;
-                    Debug.WriteLine($"{called} is ITest");
+                    return tr;
                 }
                 callObj = Activator.CreateInstance(called) as IWebTest;
                 if (callObj != null)
                 {
+                    Debug.WriteLine($"{called} is IWebTest");
                     IWebTest test = (IWebTest)callObj;
                     tr = test.Test(webDriver, param, param2, param3, param4);
                     tr.webDriver = webDriver;
                     tr.kind = TestKind.Web;
-                    Debug.WriteLine($"{called} is IWebTest");
+                    return tr;
                 }
                 return tr;
             }

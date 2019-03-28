@@ -90,7 +90,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Parameter 1" Binding="{Binding callParam, UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
+                <DataGridTextColumn Header="Test data 1" Binding="{Binding callParam, UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -98,7 +98,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Parameter 2" Binding="{Binding callParam2, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                <DataGridTextColumn Header="Test data 2" Binding="{Binding callParam2, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -160,8 +160,8 @@
                             <TextBlock Grid.Column="1" Grid.Row="0" Text="Namespace"  Margin="0,5,0,1"  Style="{StaticResource TBLeft}"/>
                             <TextBlock Grid.Column="2" Grid.Row="0" Text="Type"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
                             <!--<TextBlock Grid.Column="3" Grid.Row="0" Text="Method"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />-->
-                            <TextBlock Grid.Column="3" Grid.Row="0" Text="Parameter 3"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
-                            <TextBlock Grid.Column="4" Grid.Row="0" Text="Parameter 4"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
+                            <TextBlock Grid.Column="3" Grid.Row="0" Text="Test data 3"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
+                            <TextBlock Grid.Column="4" Grid.Row="0" Text="Test data 4"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
                             <!--<TextBlock Grid.Column="3" Grid.Row="0" Text="Web"  Margin="0,5,3,1" Style="{StaticResource TBLeft}" />-->
                             <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding callAss, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" Margin="3,0,3,10" />
                             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />

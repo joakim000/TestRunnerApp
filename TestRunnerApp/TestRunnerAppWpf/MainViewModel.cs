@@ -148,6 +148,9 @@ namespace TestRunnerAppWpf
                 c.callAss = t.callAss;
                 c.callMeth = t.callMeth;
                 c.callParam = t.callParam;
+                c.callParam2 = t.callParam2;
+                c.callParam3 = t.callParam3;
+                c.callParam4 = t.callParam4;
                 c.callSpace = t.callSpace;
                 c.callType = t.callType;
                 c.webDriver = t.webDriver;
