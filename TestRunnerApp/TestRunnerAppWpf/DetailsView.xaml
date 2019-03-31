@@ -21,7 +21,8 @@
         </Style>-->
 
         <Style TargetType="{x:Type TextBox}" x:Key="RowTextBox" >
-            <Setter Property="Background" Value="{x:Null}" />
+            <!--<Setter Property="Background" Value="{x:Null}" />-->
+            <Setter Property="Background" Value="{Binding Background, ElementName=detailsGrid}" />
             <Setter Property="Margin" Value="5,0,5,0" />
             <Setter Property="MaxHeight" Value="66" />
             <Setter Property="MinWidth" Value="180" />
@@ -32,8 +33,19 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
-
         </Style>
+
+        <Style TargetType="{x:Type TextBlock}" x:Key="RowTextBlock" >
+            <!--<Setter Property="Background" Value="{x:Null}" />-->
+            <!--<Setter Property="Background" Value="{Binding Background, ElementName=detailsGrid}" />-->
+            <Setter Property="Margin" Value="5,0,0,1" />
+            <Setter Property="MaxHeight" Value="66" />
+            <Setter Property="MinWidth" Value="180" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+
         <Style TargetType="{x:Type TextBox}" x:Key="RowDetailsTextBox" >
             <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
             <Setter Property="Margin" Value="10,2,10,5" />
@@ -118,9 +130,8 @@
                         <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <!--<TextBox Text="{Binding resultObj.message}" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"
-                                             Margin="0,0,0,0" MaxHeight="66" Width="180" Style="{StaticResource DataGridTextBox}"/>-->
-                                    <TextBox Text="{Binding resultObj.message}" Style="{StaticResource RowTextBox}" VerticalAlignment="Center"/>
+                                    <!--<TextBox Text="{Binding resultObj.message}" Style="{StaticResource RowTextBox}" VerticalAlignment="Center"/>-->
+                                <TextBlock Text="{Binding resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
