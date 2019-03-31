@@ -316,7 +316,7 @@ namespace TestRunnerAppWpf
                 runCurrent = runTotal;
             }
             this.unsavedChanges = true;
-            Debug.WriteLine($"Async worker result: {e.Result}");
+            //Debug.WriteLine($"Async worker result: {e.Result}");
         }
 
 

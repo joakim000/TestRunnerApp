@@ -87,7 +87,6 @@ namespace TestRunnerLib
             message = "Exception";
             eType = e.GetType().ToString();
             eMessage = e.Message;
-            eData = e.Data;
         }
         // 3 returns
         public TestResult(Outcome o, int step, Exception e)
@@ -98,16 +97,14 @@ namespace TestRunnerLib
             this.e = e;
             eType = e.GetType().ToString();
             eMessage = e.Message;
-            eData = e.Data;
         }
         public TestResult(Outcome o, string s, Exception e)
         {
             outcome = o;
-            message = s;
+            message = string.IsNullOrWhiteSpace(s) ? "Exception" : s;
             this.e = e;
             eType = e.GetType().ToString();
             eMessage = e.Message;
-            eData = e.Data;
         }
         public TestResult(Outcome o, int step, string s)
         {
@@ -120,11 +117,10 @@ namespace TestRunnerLib
         {
             outcome = o;
             failStep = step;
-            message = s;
+            message = string.IsNullOrWhiteSpace(s) ? "Exception" : s;
             this.e = e;
             eType = e.GetType().ToString();
             eMessage = e.Message;
-            eData = e.Data;
         }
 
     }

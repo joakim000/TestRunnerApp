@@ -39,7 +39,6 @@ namespace TestRunnerLib
                     ITest test = (ITest)callObj;
                     tr = test.Test(param, param2, param3, param4);
                     tr.kind = test.Kind;
-                    return tr;
                 }
                 callObj = Activator.CreateInstance(called) as IWebTest;
                 if (callObj != null)
@@ -49,8 +48,13 @@ namespace TestRunnerLib
                     tr = test.Test(webDriver, param, param2, param3, param4);
                     tr.webDriver = webDriver;
                     tr.kind = TestKind.Web;
-                    return tr;
                 }
+
+                // Exceptions returned from IronPython causes System.ArgumentNullException on serialization of Data-property
+                // Will just clear it for now. TODO: Check if we need to clear it. Alt. serialize it some other way (XMLSerializer?)
+                if (tr.e != null)
+                    tr.e.Data.Clear();
+
                 return tr;
             }
         }
@@ -111,10 +115,10 @@ namespace TestRunnerLib
             {
                 return new TestResult(Outcome.Warning, "File not found. Check assembly.", ex);
             }
-            catch (Exception ex)
-            {
-                return new TestResult(Outcome.Warning, ex);
-            }
+            //catch (Exception ex)
+            //{
+            //    return new TestResult(Outcome.Warning, ex);
+            //}
 
         }
 
