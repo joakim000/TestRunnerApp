@@ -22,9 +22,10 @@
 
         <Style TargetType="{x:Type TextBox}" x:Key="RowTextBox" >
             <Setter Property="Background" Value="{x:Null}" />
-            <Setter Property="Margin" Value="0,0,0,0" />
+            <Setter Property="Margin" Value="5,0,5,0" />
             <Setter Property="MaxHeight" Value="66" />
-            <Setter Property="Width" Value="180" />
+            <Setter Property="MinWidth" Value="180" />
+            <Setter Property="Width" Value="Auto" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="IsReadOnly" Value="True" />
@@ -35,8 +36,11 @@
         </Style>
         <Style TargetType="{x:Type TextBox}" x:Key="RowDetailsTextBox" >
             <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
-            <Setter Property="Margin" Value="0,2,0,5" />
-            <Setter Property="Width" Value="350" />
+            <Setter Property="Margin" Value="10,2,10,5" />
+            <!--<Setter Property="MinWidth" Value="350" />-->
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="MaxWidth" Value="{Binding ActualWidth, ElementName=testDetails, Converter={StaticResource ElementSizeConverter}, ConverterParameter=1#30}" />
+            <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="MaxHeight" Value="114" />
             <Setter Property="TextWrapping" Value="Wrap" />
             <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
@@ -48,7 +52,8 @@
 
         <Style TargetType="{x:Type TextBox}" x:Key="SuiteDetailsTextBox">
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Width" Value="340" />
+            <Setter Property="MinWidth" Value="340" />
+            <Setter Property="Width" Value="Auto" />
             <Setter Property="Margin" Value="0,0,10,10" />
             <Setter Property="AcceptsReturn" Value="True" />
             <Setter Property="MaxHeight" Value="114" />
@@ -60,7 +65,7 @@
 
     </UserControl.Resources>
 
-        <Grid Width="390" >
+        <Grid  >
         
             <Grid x:Name="testDetails" Visibility="{Binding testDetailsVisi, Converter={StaticResource BoolToVisi}}" >
                 <DataGrid Grid.Column="2" x:Name="detailsGrid"

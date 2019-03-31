@@ -31,7 +31,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="MasterCol" Width="*"/>
-            <ColumnDefinition x:Name="DetailsCol" Width="Auto"/>
+            <ColumnDefinition x:Name="Splitter" Width="3"/>
+            <ColumnDefinition x:Name="DetailsCol" MinWidth="390" Width="390"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="MenuBarRow" Height="Auto" />
@@ -44,11 +45,13 @@
             <local:GridView x:Name="gridView" />
         </DockPanel>
 
-        <DockPanel Grid.Column="1" Grid.Row="2">
+        <GridSplitter Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" Width="5" />
+
+        <DockPanel Grid.Column="2" Grid.Row="2">
             <local:DetailsView x:Name="detailsView" />
         </DockPanel>
 
-        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" x:Name="MenuBar" >
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" x:Name="MenuBar" >
             <!--<Menu.DataContext>
                 <local:MenuBarViewModel/>
             </Menu.DataContext>-->
@@ -169,7 +172,7 @@
                         <Image Source="pack://application:,,,/Icons/firefox.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Internet Explorer" IsCheckable="True" IsChecked="{Binding checkedIE}" 
+                <MenuItem Header="_Internet Explorer" IsCheckable="True" IsEnabled="False" 
                           Command="{Binding SetIECmd}">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/internet_explorer.png" />
@@ -233,7 +236,7 @@
 
         </Menu>
 
-        <ToolBarTray Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+        <ToolBarTray Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
             <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
                 <Button Command="{Binding NewSuiteCmd}" ToolTip="New suite">
                     <Image Source="pack://application:,,,/Icons/NewTestGroup_16x.png" Style="{StaticResource ToolBarImage}"/>
@@ -301,7 +304,7 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
+        <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" />
