@@ -39,7 +39,7 @@
             <!--<Setter Property="Background" Value="{x:Null}" />-->
             <!--<Setter Property="Background" Value="{Binding Background, ElementName=detailsGrid}" />-->
             <Setter Property="Margin" Value="5,0,0,1" />
-            <Setter Property="MaxHeight" Value="66" />
+            <!--<Setter Property="MaxHeight" Value="66" />-->
             <Setter Property="MinWidth" Value="180" />
             <Setter Property="Width" Value="Auto" />
             <Setter Property="TextWrapping" Value="Wrap" />
