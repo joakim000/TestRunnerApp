@@ -20,8 +20,18 @@
         <local:MainViewModel x:Name="model"/>
     </Window.DataContext>
     <Window.InputBindings>
-        <!--<KeyBinding Key="Enter" Command="{Binding CalcCommand}" />-->
-        <!--<KeyBinding Key="OemComma" Command="{Binding InputBtnCommand}" CommandParameter="{Binding ElementName=BtnDot, Path=Content}"/>-->
+        <KeyBinding Key="F5" Command="{Binding RunSelectedCmd}" />
+        <KeyBinding Gesture="Ctrl+O" Command="{Binding FileOpenCmd}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding FileSaveCmd}"/>
+        <KeyBinding Gesture="Ctrl+Shift+S" Command="{Binding FileSaveAsCmd}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding StopCmd}"/>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding SetOnTopCmd}"/>
+        <KeyBinding Gesture="Ctrl+E" Command="{Binding SetThemeCmd}"/>
+        <KeyBinding Gesture="Ctrl+T" Command="{Binding NewTestCmd}"/>
+        <KeyBinding Gesture="Ctrl+I" Command="{Binding ImportLibCmd}"/>
+        
+        
+        
     </Window.InputBindings>
 
     <Window.Resources>
