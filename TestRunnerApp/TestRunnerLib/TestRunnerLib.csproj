@@ -136,9 +136,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ViewModelSupport\ViewModelSupport.csproj">
-      <Project>{5b08a692-ab22-4991-b7bb-dbe22635c282}</Project>
-      <Name>ViewModelSupport</Name>
+    <ProjectReference Include="..\ViewModelSupportStd\ViewModelSupportStd.csproj">
+      <Project>{dc68c101-4f56-4a88-88ca-7e5ad48cd041}</Project>
+      <Name>ViewModelSupportStd</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
