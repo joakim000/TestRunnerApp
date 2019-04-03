@@ -18,9 +18,8 @@ namespace TestRunnerAppWpf
         // Settings commands
         public void Execute_SetChromeCmd()
         {
-            checkedChrome = true; checkedFirefox = false; checkedIE = false;
-            //Properties.Settings.Default.WebDriver = "chrome";
-            SettingsAccessor.SetWebDriver("chrome");
+            checkedChrome = true; checkedFirefox = false; checkedIE = false; checkedPhantomJS = false; checkedEdge = false;
+            Properties.Settings.Default.WebDriver = "chrome";
         }
         public bool CanExecute_SetChromeCmd()
         {
@@ -29,9 +28,8 @@ namespace TestRunnerAppWpf
 
         public void Execute_SetFirefoxCmd()
         {
-            checkedChrome = false; checkedFirefox = true; checkedIE = false;
-            //Properties.Settings.Default.WebDriver = "firefox";
-            SettingsAccessor.SetWebDriver("firefox");
+            checkedChrome = false; checkedFirefox = true; checkedIE = false; checkedPhantomJS = false; checkedEdge = false;
+            Properties.Settings.Default.WebDriver = "firefox";
         }
         public bool CanExecute_SetFirefoxCmd() 
         {
@@ -40,13 +38,37 @@ namespace TestRunnerAppWpf
 
         public void Execute_SetIECmd()
         {
-            checkedChrome = false; checkedFirefox = false; checkedIE = true;
-            SettingsAccessor.SetWebDriver("ie");
+            checkedChrome = false; checkedFirefox = false; checkedIE = true; checkedPhantomJS = false; checkedEdge = false;
+            Properties.Settings.Default.WebDriver = "ie";
         }
         public bool CanExecute_SetIECmd()
         {
             return true;
         }
+
+        public void Execute_SetPhantomJSCmd()
+        {
+            checkedChrome = false; checkedFirefox = false; checkedIE = false; checkedPhantomJS = true; checkedEdge = false;
+            Properties.Settings.Default.WebDriver = "phantomjs";
+        }
+        public bool CanExecute_SetPhantomJSCmd()
+        {
+            return true;
+        }
+
+        public void Execute_SetEdgeCmd()
+        {
+            checkedChrome = false; checkedFirefox = false; checkedIE = false; checkedPhantomJS = false; checkedEdge = true;
+            Properties.Settings.Default.WebDriver = "edge";
+        }
+        public bool CanExecute_SetEdgeCmd()
+        {
+            return true;
+        }
+
+
+
+
 
         public void Execute_SetThemeCmd()
         {

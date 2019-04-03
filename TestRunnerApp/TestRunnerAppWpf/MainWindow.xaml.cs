@@ -64,7 +64,6 @@ namespace TestRunnerAppWpf
         {
             Debug.WriteLine("Saving user-settings");
             Properties.Settings.Default.Save();
-            TestRunnerLib.SettingsAccessor.SaveSettings();
 
             if (model.unsavedChanges)
             {

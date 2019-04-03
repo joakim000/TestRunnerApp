@@ -1,6 +1,6 @@
 ﻿
 
-namespace TestRunnerLib
+namespace TestRunnerAppWpf
 {
     public static class SettingsAccessor  
     {

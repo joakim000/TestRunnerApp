@@ -56,21 +56,22 @@ namespace TestRunnerAppWpf
             try
             {
                 // Get WebDriver-setting
-                switch (SettingsAccessor.GetWebDriver())
+                switch (GetWebDriverType())
                 {
-                    case "chrome":
-                         Execute_SetChromeCmd();
-                         break;
-                    case "firefox":
-                         Execute_SetFirefoxCmd();
-                         break;
-                    case "ie":
-                         Execute_SetIECmd();
-                         break;
+                    case WebDriverType.Chrome:
+                        Execute_SetChromeCmd();
+                        break;
+                    case WebDriverType.Firefox:
+                        Execute_SetFirefoxCmd();
+                        break;
+                    case WebDriverType.IE:
+                        Execute_SetIECmd();
+                        break;
                     default:
-                         Execute_SetChromeCmd();
-                         break;
+                        Execute_SetChromeCmd();
+                        break;
                 }
+
                 // Get on-top-when-running setting
                 checkedOnTop = Properties.Settings.Default.OnTop;
 
@@ -168,6 +169,7 @@ namespace TestRunnerAppWpf
         }
 
 
+        /* Legacy sync running 
         public void RunAll()
         {
             foreach (TestModel test in gridViewModel.suite.tests)
@@ -206,6 +208,7 @@ namespace TestRunnerAppWpf
                 test.numberOfRuns = test.runs.Count();
             }
         }
+        */
 
         public void RunAllAsync()
         {
@@ -214,6 +217,7 @@ namespace TestRunnerAppWpf
 
         public void RunSelectedAsync(ObservableCollection<TestModel> tests)
         {
+            #if DEBUG
             Debug.WriteLine("Running selected tests");
             if (gridViewModel.selectedItems.selectedItems == null)
                 Debug.WriteLine("selectedItems is null");
@@ -226,7 +230,44 @@ namespace TestRunnerAppWpf
                     Debug.WriteLine($"{test.name} Runs:{test.runs.Count()} Last outcome:{test.previousOutcome}");
                 }
             }
+            #endif
+
             StartAsyncRunner(tests);
+        }
+
+        private WebDriverType GetWebDriverType()
+        {
+            WebDriverType driver = WebDriverType.None;
+            try
+            {
+                switch (Properties.Settings.Default.WebDriver)
+                {
+                    case "chrome":
+                        driver = WebDriverType.Chrome;
+                        break;
+                    case "firefox":
+                        driver = WebDriverType.Firefox;
+                        break;
+                    case "ie":
+                        driver = WebDriverType.IE;
+                        break;
+                    default:
+                        driver = WebDriverType.None;
+                        break;
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                // In case of problems with settings-file
+                Debug.WriteLine($"Null-ref getting webdriversetting: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"General exception getting webdriversetting:: {ex.Message}");
+            }
+            Debug.WriteLine($"GetWebDriverType returned: {driver.ToString()}");
+
+            return driver;
         }
 
 
@@ -261,6 +302,7 @@ namespace TestRunnerAppWpf
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
+            WebDriverType webDriverType = GetWebDriverType();
 
             var tests = (ObservableCollection<TestModel>)e.Argument;
             int testsRun = 0;
@@ -271,9 +313,8 @@ namespace TestRunnerAppWpf
             {
                 Debug.WriteLine($"Running {test.name}");
 
-                RunModel r = new RunModel(test);
+                RunModel r = new RunModel(test, webDriverType);
                 test.previousOutcome = r.result;
-                //test.runs.Add(r);
                 uiContext.Send(x => test.runs.Add(r), null);
                 test.numberOfRuns = test.runs.Count();
 
@@ -316,11 +357,9 @@ namespace TestRunnerAppWpf
                 runCurrent = runTotal;
             }
             this.unsavedChanges = true;
-            //Debug.WriteLine($"Async worker result: {e.Result}");
+            Debug.WriteLine($"Async worker result: {e.Result}");
         }
 
 
-
-
-    }
+    } // MainViewModel
 }

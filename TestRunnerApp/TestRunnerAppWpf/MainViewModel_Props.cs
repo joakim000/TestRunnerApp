@@ -33,6 +33,17 @@ namespace TestRunnerAppWpf
             get => Get(() => checkedIE);
             set => Set(() => checkedIE, value);
         }
+        public bool checkedPhantomJS
+        {
+            get => Get(() => checkedPhantomJS);
+            set => Set(() => checkedPhantomJS, value);
+        }
+        public bool checkedEdge
+        {
+            get => Get(() => checkedEdge);
+            set => Set(() => checkedEdge, value);
+        }
+
         public bool checkedOnTop
         {
             get => Get(() => checkedOnTop, true);

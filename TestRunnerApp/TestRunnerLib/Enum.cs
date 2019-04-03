@@ -8,8 +8,8 @@ namespace TestRunnerLib
 {
     public enum Outcome { Pass, Fail, Warning, NotRun };
 
-    public enum TestKind { Other, Web, AD, Exchange };
+    public enum TestKind { Other, Web, AD, Exchange, ADO };
 
-    public enum WebDriverType { None, Chrome, Firefox, IE, PhantomJS };
+    public enum WebDriverType { None, Chrome, Firefox, IE, PhantomJS, Edge };
 
 }
