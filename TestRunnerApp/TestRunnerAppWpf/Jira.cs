@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,102 +9,143 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Diagnostics;
 
-//using Windows.Web.Http;
-//using Windows.Web.Http.Filters;
-//using Windows.Web.Http.Headers;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TestRunnerAppWpf
 {
-    class Jira
+    public class Jira
     {
-        //https://unicus-sverige.atlassian.net/jira/software/projects/TA/boards/28
-        string baseURLTest = @"https://unicus-sverige.atlassian.net/jira/rest/atm/1.0/";
-        string baseURL = @"https://unicus-sverige.atlassian.net/jira/rest/api/2/";
+        public Jira() {}
 
-
-
-        public async Task<String> CreateJiraCall()
+        public async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
-            var postData = new Dictionary<string, string>();
-            postData.Add("caller_id", "Driftkontakt Axians AB");
-         
+            /* Get from settings */
+            string baseURL = @"https://unicus-sverige.atlassian.net/rest/api/3/";
+            string user = "joakim.odermalm@unicus.no";
+            string pw = "Madrid2000";
+            string authToken = "get from settings";
+            /* Get from settings */
 
-
-            var itemAsJson = JsonConvert.SerializeObject(postData);
+            var itemAsJson = JsonConvert.SerializeObject(data);
             var query = new StringContent(itemAsJson);
-
-            var uri = new Uri("https://axprod.service-now.com/api/now/table/incident");
-            string user = "xymon-webservice";
-            string pw = "kWDRw5NcAP-M4&$d";
-
-            string r = String.Empty;
-            var client = new HttpClient();
+            var uri = new Uri(baseURL + api);
+            var client = GetClientByUserPw(method, uri, user, pw);
+            //var client = GetClient(method, uri, authToken);
+            query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = new HttpResponseMessage();
             try
             {
-                //var request = new HttpRequestMessage("POST", ServiceNowUri, ServiceNowUser, ServiceNowPw);
+                if (method == HttpMethod.Get)
+                    response = await client.GetAsync(uri);
+                else if (method == HttpMethod.Post)
+                    response = await client.PostAsync(uri, query);
+                else if (method == HttpMethod.Put)
+                    response = await client.PutAsync(uri, query);
+                else if (method == HttpMethod.Delete)
+                    response = await client.DeleteAsync(uri);
+                else return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.MethodNotAllowed, null);
 
-                string username = user;
-                string password = pw;
-
-                var request = new HttpRequestMessage(HttpMethod.Post, uri);
-                var byteArray = Encoding.ASCII.GetBytes("{user}:{pw}");
-                var base64token = Convert.ToBase64String(byteArray);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64token);
-                client.DefaultRequestHeaders.Authorization = request.Headers.Authorization;
-
-                query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-
-                
-
-                var response = await client.PostAsync(uri, query);
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    r = response.Content.ToString();
-                    Debug.WriteLine("ServiceNowCall success: " + response.Content.ToString());
+                    JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
+                    Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
+                    return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.OK, jsonObj);
                 }
                 else
                 {
-                    r = "ServiceNow call failed. Statuscode: " + response.StatusCode;
-                    Debug.WriteLine("ServiceNow call failed. Statuscode: " + response.StatusCode);
-                    Debug.WriteLine(response.RequestMessage);
-                    Debug.WriteLine(response.Content);
+                    Debug.WriteLine("Call failed. Statuscode: " + response.StatusCode);
+                    Debug.WriteLine("Request message: " + response.RequestMessage);
+                    Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
                 }
             }
-            catch (OperationCanceledException e) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "OperationCanceledException: " + e); }
-            catch (Exception e) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "General exception: " + e); }
+            catch (ArgumentNullException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "ArgumentNullException: " + ex); }
+            catch (HttpRequestException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "HttpRequestException: " + ex); }
+            catch (OperationCanceledException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "OperationCanceledException: " + ex); }
+            catch (Exception ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "General exception: " + ex); }
             finally
             {
                 client.Dispose();
             }
-            return r;
-
-
+            return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.Unused, null);
         }
 
 
-        public HttpRequestMessage RequestMessage(string method, Uri uri, string user, string pw)
+        public async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TM4JCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
-            HttpMethod m = new HttpMethod(method);
-            var request = new HttpRequestMessage(m, uri);
+            /* Get from settings */
+            //string baseURL = @"https://unicus-sverige.atlassian.net/rest/atm/1.0/";
+            string baseURL = @"https://api.adaptavist.io/tm4j/v2/";
+            string authToken = "get from settings";
+            /* Get from settings */
 
-            // Set the header with a strong type.
-            if (user != null && pw != null)
+            var itemAsJson = JsonConvert.SerializeObject(data);
+            var query = new StringContent(itemAsJson);
+            var uri = new Uri(baseURL + api);
+            var client = GetClient(method, uri, "Bearer", authToken);
+            query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = new HttpResponseMessage();
+            try
             {
-                string username = user;
-                string password = pw;
+                if (method == HttpMethod.Get)
+                    response = await client.GetAsync(uri);
+                else if (method == HttpMethod.Post)
+                    response = await client.PostAsync(uri, query);
+                else if (method == HttpMethod.Put)
+                    response = await client.PutAsync(uri, query);
+                else if (method == HttpMethod.Delete)
+                    response = await client.DeleteAsync(uri);
+                else return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.MethodNotAllowed, null);
 
-                //var bufferUWP = System.Security.Cryptography.CryptographicBuffer.ConvertStringToBinary(username + ":" + password, System.Security.Cryptography.BinaryStringEncoding.Utf8);
-                //string base64token = Windows.Security.Cryptography.CryptographicBuffer.EncodeToBase64String(buffer);
-                //request.Headers.Authorization = new HttpCredentialsHeaderValue("Basic", base64token);
-
-                var byteArray = Encoding.ASCII.GetBytes("{user}:{pw}");
-
-
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
+                    Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
+                    return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.OK, jsonObj);
+                }
+                else
+                {
+                    Debug.WriteLine("Call failed. Statuscode: " + response.StatusCode);
+                    Debug.WriteLine("Request message: " + response.RequestMessage);
+                    Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                }
             }
+            catch (ArgumentNullException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "ArgumentNullException: " + ex); }
+            catch (HttpRequestException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "HttpRequestException: " + ex); }
+            catch (OperationCanceledException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "OperationCanceledException: " + ex); }
+            catch (Exception ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "General exception: " + ex); }
+            finally
+            {
+                client.Dispose();
+            }
+            return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.Unused, null);
+        }
+
+
+        public HttpClient GetClientByUserPw(HttpMethod method, Uri uri, string user, string pw)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(method, uri);
+            var byteArray = Encoding.ASCII.GetBytes($"{user}:{pw}");
+            var base64token = Convert.ToBase64String(byteArray);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Basic", base64token);
+            client.DefaultRequestHeaders.Authorization = request.Headers.Authorization;
+            return client;
+        }
+
+        public HttpClient GetClient(HttpMethod method, Uri uri, string authType, string authToken)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(method, uri);
+            // Auth types: Basic, Bearer
+            request.Headers.Authorization = new AuthenticationHeaderValue(authType, authToken);
+            client.DefaultRequestHeaders.Authorization = request.Headers.Authorization;
+            return client;
+        }
+
+
 
             // Get the strong type out
             //System.Diagnostics.Debug.WriteLine("One of the Authorization values: {0}={1}",
@@ -113,8 +155,7 @@ namespace TestRunnerAppWpf
             //// The ToString() is useful for diagnostics, too.
             //System.Diagnostics.Debug.WriteLine("The Authorization ToString() results: {0}", request.Headers.Authorization.ToString());
 
-            return request;
-        }
+         
 
     }
 }

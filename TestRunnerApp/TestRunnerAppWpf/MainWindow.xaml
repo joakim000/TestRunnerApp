@@ -234,7 +234,7 @@
                 
             </MenuItem>
 
-            <!--<MenuItem Header="_Debug" Template="{DynamicResource MenuItemControlTemplateCustom}" >
+            <MenuItem Header="_Debug" Template="{DynamicResource MenuItemControlTemplateCustom}" >
                 <MenuItem Header="_Load placeholder" Command="{Binding Debug1Cmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/MockupComponentGreen_16x.png" />
@@ -250,7 +250,14 @@
                         <Image Source="pack://application:,,,/Icons/Property_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-            </MenuItem>-->
+                
+                <MenuItem Header="_Report1"  Command="{Binding Report1Cmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Property_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                
+            </MenuItem>
 
         </Menu>
 

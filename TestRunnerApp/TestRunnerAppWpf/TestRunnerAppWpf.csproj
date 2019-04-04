@@ -201,6 +201,9 @@
       <DependentUpon>DetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsAccessor.cs" />
+    <Compile Include="SettingsManager.xaml.cs">
+      <DependentUpon>SettingsManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Theme.cs" />
     <Compile Include="Help\HowToWindow.xaml.cs">
       <DependentUpon>HowToWindow.xaml</DependentUpon>
@@ -230,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

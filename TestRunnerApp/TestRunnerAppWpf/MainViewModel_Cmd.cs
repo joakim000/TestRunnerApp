@@ -8,8 +8,11 @@ using System.Windows;
 using ViewModelSupport;
 using TestRunnerLib;
 using System.Reflection;
-//using SeExperiments;
-//using Esumit;
+
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System.Net;
+
 
 namespace TestRunnerAppWpf
 {
@@ -367,8 +370,6 @@ namespace TestRunnerAppWpf
 
         public void Execute_Debug3Cmd()
         {
-            
-
             var asses = AppDomain.CurrentDomain.GetAssemblies();
 
             foreach (Assembly a in asses)
@@ -390,6 +391,30 @@ namespace TestRunnerAppWpf
         {
             return true;
         }
+
+
+        /* Reporting */
+        
+        public async void Execute_Report1Cmd()
+        {
+            var j = new Jira();
+
+            // Serverinfo
+            Task<Tuple<HttpStatusCode, JObject>> t = j.JiraCall(HttpMethod.Get, "serverInfo", null);
+
+            // Get test case
+            //Task<Tuple<HttpStatusCode, JObject>> t = j.JiraCall(HttpMethod.Get, "testcase/JOAK-T12", null);
+
+
+            await t;
+        }
+        public bool CanExecute_Report1Cmd()
+        {
+            return true;
+        }
+
+
+
 
     }
 }
