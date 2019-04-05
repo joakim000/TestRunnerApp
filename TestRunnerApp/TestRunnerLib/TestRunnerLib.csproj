@@ -109,6 +109,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="SuiteModel.cs" />
     <Compile Include="SettingsModel.cs" />
+    <Compile Include="CycleModel.cs" />
     <Compile Include="TestModel.cs" />
     <Compile Include="TestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

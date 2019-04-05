@@ -72,6 +72,15 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetCycle(string testCycleIdOrKey)
+        {
+            string path = "/" + testCycleIdOrKey;
+
+            var t = TmjCall(HttpMethod.Get, "testcycles" + path, null);
+            await t;
+            return t.Result;
+        }
+
 
         public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(string projectKey, string folderType, string maxResults )
         //public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(string projectKey, FolderType folderType, string maxResults )
@@ -152,6 +161,31 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetCycles(string projectKey, string folderId, string maxResults)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(folderId))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "folderId=" + folderId;
+
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "testcycles" + query, null);
+            await t;
+            return t.Result;
+        }
+
         public static async Task<Tuple<HttpStatusCode, JObject>> GetEnvirons(string projectKey, string maxResults)
         {
             string query = string.Empty;
@@ -197,23 +231,62 @@ namespace TestRunnerAppWpf
 
 
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> PostSomething(string project, string folder, string maxResults)
+        public static async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(string projectKey,
+                                                                            string name, string description, string folderId, bool setOwner)
         {
             var data = new Dictionary<string, string>();
 
-            if (!string.IsNullOrEmpty(project))
-                data.Add("projectKey", project);
-            if (!string.IsNullOrEmpty(folder))
-                data.Add("folderId", folder);
-            if (!string.IsNullOrEmpty(maxResults))
-                data.Add("maxResults", maxResults);
+            if (!string.IsNullOrEmpty(projectKey))
+                data.Add("projectKey", projectKey);
+            if (!string.IsNullOrEmpty(name))
+                data.Add("name", name);
+            if (!string.IsNullOrEmpty(description))
+                data.Add("description", description);
+            if (!string.IsNullOrEmpty(folderId))
+                data.Add("folderId", folderId);
 
 
-            var t = TmjCall(HttpMethod.Post, "something", data);
+            var t = TmjCall(HttpMethod.Post, "testcycles", data);
             await t;
             return t.Result;
         }
 
+        public static async Task<Tuple<HttpStatusCode, JObject>> CreateExec(string projectKey,
+                                                                            string testCaseKey,
+                                                                            string testCycleKey,
+                                                                            string statusName, 
+                                                                            string environmentName,
+                                                                            string actualEndDate,
+                                                                            string executedById,
+                                                                            string comment)
+        {
+            var data = new Dictionary<string, string>();
+
+            if (!string.IsNullOrEmpty(projectKey))
+                data.Add("projectKey", projectKey);
+            if (!string.IsNullOrEmpty(testCaseKey))
+                data.Add("testCaseKey", testCaseKey);
+            if (!string.IsNullOrEmpty(testCycleKey))
+                data.Add("testCycleKey", testCycleKey);
+            if (!string.IsNullOrEmpty(statusName))
+                data.Add("statusName", statusName);
+            if (!string.IsNullOrEmpty(environmentName))
+                data.Add("environmentName", environmentName);
+            if (!string.IsNullOrEmpty(actualEndDate))
+                data.Add("actualEndDate", actualEndDate);
+            if (!string.IsNullOrEmpty(statusName))
+                data.Add("executedById", executedById);
+            if (!string.IsNullOrEmpty(comment))
+                data.Add("comment", comment);
+
+
+
+            var t = TmjCall(HttpMethod.Post, "testexecutions", data);
+            await t;
+            return t.Result;
+        }
+
+       
 
 
 
@@ -235,13 +308,13 @@ namespace TestRunnerAppWpf
         private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
             /* Get from settings */
-            string jiraInstance = @"https://unicus-sverige.atlassian.net";
+            string jiraInstance = @"unicus-sverige.atlassian.net";
             string user = "joakim.odermalm@unicus.no";
             string userID = "5c580424b76d5c34f3599572";
             string apiToken = "KJjFX9E2PcJnq9Bp4rF71410";
             /* Get from settings */
 
-            string baseURL = jiraInstance + @"/rest/api/3/";
+            string baseURL = @"https://" + jiraInstance + @"/rest/api/3/";
 
             var itemAsJson = JsonConvert.SerializeObject(data);
             var query = new StringContent(itemAsJson);

@@ -419,7 +419,8 @@ namespace TestRunnerAppWpf
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses("JOAK", "TEST_EXECUTION", "100");            
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
-            Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
+            Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
 
 
 
