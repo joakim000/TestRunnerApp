@@ -13,28 +13,42 @@ namespace TestRunnerLib
             get => Get(() => jiraBase);
             set => Set(() => jiraBase, value);
         }
-        public string tm4jBase
+        public string jiraUser
         {
-            get => Get(() => tm4jBase);
-            set => Set(() => tm4jBase, value);
+            get => Get(() => jiraUser);
+            set => Set(() => jiraUser, value);
         }
-        public string user
+        public string jiraUserId
         {
-            get => Get(() => user);
-            set => Set(() => user, value);
+            get => Get(() => jiraUserId);
+            set => Set(() => jiraUserId, value);
         }
-        public string pw
+        public string jiraToken
         {
-            get => Get(() => pw);
-            set => Set(() => pw, value);
+            get => Get(() => jiraToken);
+            set => Set(() => jiraToken, value);
         }
-        public string token
-        {
-            get => Get(() => token);
-            set => Set(() => token, value);
-        }
-        
-        public SettingsModel() { }
 
+
+        public string tmjBase
+        {
+            get => Get(() => tmjBase);
+            set => Set(() => tmjBase, value);
+        }
+        public string TMJid
+        {
+            get => Get(() => TMJid);
+            set => Set(() => TMJid, value);
+        }
+
+        public string TMJkey
+        {
+            get => Get(() => TMJkey);
+            set => Set(() => TMJkey, value);
+        }
+
+
+
+        public SettingsModel() { }
     }
 }

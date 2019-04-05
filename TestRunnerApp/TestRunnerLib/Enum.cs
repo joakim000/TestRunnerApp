@@ -12,6 +12,6 @@ namespace TestRunnerLib
 
     public enum WebDriverType { None, Chrome, Firefox, IE, PhantomJS, Edge };
 
-    public enum Api { Jira, TM4J }
+    public enum Api { Jira, Tmj }
 
 }

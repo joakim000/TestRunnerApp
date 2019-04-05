@@ -16,23 +16,237 @@ using Newtonsoft.Json.Linq;
 
 namespace TestRunnerAppWpf
 {
-    public class Jira
-    {
-        public Jira() {}
+    
 
-        public async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
+    public static class Jira
+    {
+        public enum FolderType { All, Case, Plan, Cycle }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetServerInfo()
+        {
+            var t = JiraCall(HttpMethod.Get, "serverInfo", null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetCases(string projectKey, string folderId, string maxResults)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(folderId))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "folderId=" + folderId;
+
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "testcases" + query, null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetCase(string testCaseKey)
+        {
+            string path = "/" + testCaseKey;
+
+            var t = TmjCall(HttpMethod.Get, "testcases" + path, null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetProj(string projectIdOrKey)
+        {
+            string path = "/" + projectIdOrKey;
+
+            var t = TmjCall(HttpMethod.Get, "projects" + path, null);
+            await t;
+            return t.Result;
+        }
+
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(string projectKey, string folderType, string maxResults )
+        //public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(string projectKey, FolderType folderType, string maxResults )
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(folderType)) // Valid: "TEST_CASE" "TEST_PLAN" "TEST_CYCLE"
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "folderType=" + folderType;
+
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "testcases" + query, null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetExecs(string projectKey, string testCase, string testCycle, string folderId, string maxResults)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(folderId))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "folderId=" + folderId;
+            }
+            if (!string.IsNullOrEmpty(testCase))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "testCase=" + testCase;
+            }
+            if (!string.IsNullOrEmpty(testCycle))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "testCycle=" + testCycle;
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "testexecutions" + query, null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetPrios(string projectKey, string maxResults)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "priorities" + query, null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetEnvirons(string projectKey, string maxResults)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "environments" + query, null);
+            await t;
+            return t.Result;
+        }
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetStatuses(string projectKey, string statusType, string maxResults)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(projectKey))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "projectKey=" + projectKey;
+            }
+            if (!string.IsNullOrEmpty(statusType)) // Valid: "TEST_CASE" "TEST_PLAN" "TEST_CYCLE" "TEST_EXECUTION"
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "statusType=" + statusType;
+            }
+            if (!string.IsNullOrEmpty(maxResults))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "maxResults=" + maxResults;
+            }
+
+            var t = TmjCall(HttpMethod.Get, "statuses" + query, null);
+            await t;
+            return t.Result;
+        }
+
+
+
+        public static async Task<Tuple<HttpStatusCode, JObject>> PostSomething(string project, string folder, string maxResults)
+        {
+            var data = new Dictionary<string, string>();
+
+            if (!string.IsNullOrEmpty(project))
+                data.Add("projectKey", project);
+            if (!string.IsNullOrEmpty(folder))
+                data.Add("folderId", folder);
+            if (!string.IsNullOrEmpty(maxResults))
+                data.Add("maxResults", maxResults);
+
+
+            var t = TmjCall(HttpMethod.Post, "something", data);
+            await t;
+            return t.Result;
+        }
+
+
+
+
+
+
+        /* Private methods */
+        private static string BuildQuery(params string[] p)
+        {
+            string query = string.Empty;
+            foreach (string s in p)
+            {
+                if (!string.IsNullOrEmpty(s))
+                    query += string.IsNullOrEmpty(query) ? "?" : "&";
+            }
+            return query;
+        }
+
+
+        private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
             /* Get from settings */
-            string baseURL = @"https://unicus-sverige.atlassian.net/rest/api/3/";
+            string jiraInstance = @"https://unicus-sverige.atlassian.net";
             string user = "joakim.odermalm@unicus.no";
-            string pw = "Madrid2000";
-            string authToken = "get from settings";
+            string userID = "5c580424b76d5c34f3599572";
+            string apiToken = "KJjFX9E2PcJnq9Bp4rF71410";
             /* Get from settings */
+
+            string baseURL = jiraInstance + @"/rest/api/3/";
 
             var itemAsJson = JsonConvert.SerializeObject(data);
             var query = new StringContent(itemAsJson);
             var uri = new Uri(baseURL + api);
-            var client = GetClientByUserPw(method, uri, user, pw);
+            var client = GetClientByUserPw(method, uri, user, apiToken);
             //var client = GetClient(method, uri, authToken);
             query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var response = new HttpResponseMessage();
@@ -51,7 +265,8 @@ namespace TestRunnerAppWpf
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
-                    Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
+                    //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
+                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {query}");
                     return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.OK, jsonObj);
                 }
                 else
@@ -73,19 +288,26 @@ namespace TestRunnerAppWpf
         }
 
 
-        public async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TM4JCall(HttpMethod method, string api, Dictionary<string, string> data)
+        private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
-            /* Get from settings */
-            //string baseURL = @"https://unicus-sverige.atlassian.net/rest/atm/1.0/";
             string baseURL = @"https://api.adaptavist.io/tm4j/v2/";
-            string authToken = "get from settings";
+
+            /* Get from settings */
+            string idToken = "JZMVlWAEC";
+            string keyToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InV1aWQiOiJKWk1WbFdBRUMiLCJhcGlHd0tleSI6ImNwZG1PYnB3OE05elRuNnQyYlk3ODJhRFg5c2g5aHI1OGN4WHVtWGkiLCJiYXNlVXJsIjoiaHR0cHM6Ly91bmljdXMtc3ZlcmlnZS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI1YzU4MDQyNGI3NmQ1YzM0ZjM1OTk1NzIiLCJkaXNwbGF5TmFtZSI6IkpvYWtpbSBPZGVybWFsbSIsInVzZXJLZXkiOiJqb2FraW0ub2Rlcm1hbG0iLCJ1c2VybmFtZSI6ImpvYWtpbS5vZGVybWFsbSJ9fSwiaWF0IjoxNTU0NDQ0NzIxLCJleHAiOjE1ODYwMDIzMjEsImlzcyI6ImNvbS5rYW5vYWgudGVzdC1tYW5hZ2VyIiwic3ViIjoiNTdlMTU4OGQtNGY1Zi0zN2RkLTkyYWItM2MwZGQzYTc0MDMxIn0.Lt6T-zcgdHA6sMhUOS7ueYLazbBYAiG26EBIRWEb7iw";
             /* Get from settings */
 
-            var itemAsJson = JsonConvert.SerializeObject(data);
-            var query = new StringContent(itemAsJson);
             var uri = new Uri(baseURL + api);
-            var client = GetClient(method, uri, "Bearer", authToken);
-            query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var client = GetClient(method, uri, "Bearer", keyToken);
+
+            StringContent query = null;
+            if (data != null)
+            {
+                var itemAsJson = JsonConvert.SerializeObject(data);
+                query = new StringContent(itemAsJson);
+                query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            }
+
             var response = new HttpResponseMessage();
             try
             {
@@ -102,7 +324,8 @@ namespace TestRunnerAppWpf
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
-                    Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
+                    //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
+                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {query}");
                     return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.OK, jsonObj);
                 }
                 else
@@ -124,7 +347,7 @@ namespace TestRunnerAppWpf
         }
 
 
-        public HttpClient GetClientByUserPw(HttpMethod method, Uri uri, string user, string pw)
+        private static HttpClient GetClientByUserPw(HttpMethod method, Uri uri, string user, string pw)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(method, uri);
@@ -135,7 +358,7 @@ namespace TestRunnerAppWpf
             return client;
         }
 
-        public HttpClient GetClient(HttpMethod method, Uri uri, string authType, string authToken)
+        private static HttpClient GetClient(HttpMethod method, Uri uri, string authType, string authToken)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(method, uri);
@@ -145,17 +368,25 @@ namespace TestRunnerAppWpf
             return client;
         }
 
+        // Get the strong type out
+        //System.Diagnostics.Debug.WriteLine("One of the Authorization values: {0}={1}",
+        //    request.Headers.Authorization.Scheme,
+        //    request.Headers.Authorization.Token);
+
+        //// The ToString() is useful for diagnostics, too.
+        //System.Diagnostics.Debug.WriteLine("The Authorization ToString() results: {0}", request.Headers.Authorization.ToString());
 
 
-            // Get the strong type out
-            //System.Diagnostics.Debug.WriteLine("One of the Authorization values: {0}={1}",
-            //    request.Headers.Authorization.Scheme,
-            //    request.Headers.Authorization.Token);
 
-            //// The ToString() is useful for diagnostics, too.
-            //System.Diagnostics.Debug.WriteLine("The Authorization ToString() results: {0}", request.Headers.Authorization.ToString());
 
-         
+
+
+
+
+
+
+
+
 
     }
 }

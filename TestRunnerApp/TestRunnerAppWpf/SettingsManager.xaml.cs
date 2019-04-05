@@ -34,9 +34,9 @@ namespace TestRunnerAppWpf
 
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            var byteArray = Encoding.ASCII.GetBytes($"{settings.user}:{settings.pw}");
-            var base64token = Convert.ToBase64String(byteArray);
-            settings.token = base64token;
+            //var byteArray = Encoding.ASCII.GetBytes($"{settings.jiraUser}:{settings.jiraPw}");
+            //var base64token = Convert.ToBase64String(byteArray);
+            //settings.jiraToken = base64token;
 
             this.DialogResult = true;
         }

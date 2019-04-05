@@ -50,6 +50,23 @@ namespace TestRunnerLib
             set => Set(() => notes, value);
         }
 
+        /* Jira */
+        public string jiraInstance
+        {
+            get => Get(() => jiraInstance);
+            set => Set(() => jiraInstance, value);
+        }
+        public string jiraProject
+        {
+            get => Get(() => jiraProject);
+            set => Set(() => jiraProject, value);
+        }
+        public string jiraFolder
+        {
+            get => Get(() => jiraFolder);
+            set => Set(() => jiraFolder, value);
+        }
+
 
         public SuiteModel()
         {

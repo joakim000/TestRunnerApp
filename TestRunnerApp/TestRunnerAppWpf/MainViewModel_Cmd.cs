@@ -395,19 +395,38 @@ namespace TestRunnerAppWpf
 
         /* Reporting */
         
+        //public async void Execute_Report1Cmd()
+        //{
+        //    var j = new Jira();
+
+        //    // Serverinfo
+        //    //Task<Tuple<HttpStatusCode, JObject>> t = j.JiraCall(HttpMethod.Get, "serverInfo", null);
+
+        //    // Get test case
+        //    Task<Tuple<HttpStatusCode, JObject>> t = j.TmjCall(HttpMethod.Get, "testcases", null);
+
+
+        //    await t;
+        //}
+
         public async void Execute_Report1Cmd()
         {
-            var j = new Jira();
-
             // Serverinfo
-            Task<Tuple<HttpStatusCode, JObject>> t = j.JiraCall(HttpMethod.Get, "serverInfo", null);
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetServerInfo();
+            //Debug.WriteLine(r.Item2);
 
-            // Get test case
-            //Task<Tuple<HttpStatusCode, JObject>> t = j.JiraCall(HttpMethod.Get, "testcase/JOAK-T12", null);
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses("JOAK", "TEST_EXECUTION", "100");            
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
+            Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
 
 
-            await t;
+
+            Debug.WriteLine(r.Item2);
         }
+
+
         public bool CanExecute_Report1Cmd()
         {
             return true;
