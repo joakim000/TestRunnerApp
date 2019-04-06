@@ -108,7 +108,11 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetExecs(string projectKey, string testCase, string testCycle, string folderId, string maxResults)
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetExecs(string projectKey,
+                                                                          string testCase, 
+                                                                          string testCycle, 
+                                                                          string folderId, 
+                                                                          string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -161,7 +165,9 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetCycles(string projectKey, string folderId, string maxResults)
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetCycles(string projectKey,
+                                                                           string folderId,
+                                                                           string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -186,7 +192,8 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetEnvirons(string projectKey, string maxResults)
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetEnvirons(string projectKey,
+                                                                             string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -205,7 +212,9 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetStatuses(string projectKey, string statusType, string maxResults)
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetStatuses(string projectKey,
+                                                                             string statusType,
+                                                                             string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -232,7 +241,10 @@ namespace TestRunnerAppWpf
 
 
         public static async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(string projectKey,
-                                                                            string name, string description, string folderId, bool setOwner)
+                                                                             string name, 
+                                                                             string description, 
+                                                                             string folderId, 
+                                                                             bool setOwner)
         {
             var data = new Dictionary<string, string>();
 
@@ -252,8 +264,8 @@ namespace TestRunnerAppWpf
         }
 
         public static async Task<Tuple<HttpStatusCode, JObject>> CreateExec(string projectKey,
-                                                                            string testCaseKey,
                                                                             string testCycleKey,
+                                                                            string testCaseKey,
                                                                             string statusName, 
                                                                             string environmentName,
                                                                             string actualEndDate,
@@ -274,10 +286,16 @@ namespace TestRunnerAppWpf
                 data.Add("environmentName", environmentName);
             if (!string.IsNullOrEmpty(actualEndDate))
                 data.Add("actualEndDate", actualEndDate);
-            if (!string.IsNullOrEmpty(statusName))
+            if (!string.IsNullOrEmpty(executedById))
                 data.Add("executedById", executedById);
             if (!string.IsNullOrEmpty(comment))
                 data.Add("comment", comment);
+
+//            data.Add("testScriptResults", new Array({
+//"statusName": "Pass",
+//"actualEndDate": "2019-04-06T12:49:03Z",
+//"actualResult": "User logged in successfully"
+//})
 
 
 
@@ -346,6 +364,7 @@ namespace TestRunnerAppWpf
                 {
                     Debug.WriteLine("Call failed. Statuscode: " + response.StatusCode);
                     Debug.WriteLine("Request message: " + response.RequestMessage);
+                    Debug.WriteLine("Query: " + query.ToString());
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
                 }
             }
@@ -405,6 +424,7 @@ namespace TestRunnerAppWpf
                 {
                     Debug.WriteLine("Call failed. Statuscode: " + response.StatusCode);
                     Debug.WriteLine("Request message: " + response.RequestMessage);
+                    Debug.WriteLine("Query: " + JsonConvert.SerializeObject(data));
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
                 }
             }

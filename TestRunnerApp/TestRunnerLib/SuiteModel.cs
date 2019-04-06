@@ -13,6 +13,16 @@ namespace TestRunnerLib
             get => Get(() => tests);
             set => Set(() => tests, value);
         }
+        public ObservableCollection<CycleModel> cycles
+        {
+            get => Get(() => cycles);
+            set => Set(() => cycles, value);
+        }
+        public Guid uid
+        {
+            get => Get(() => uid);
+            set => Set(() => uid, value);
+        }
         public string name
         {
             get => Get(() => name);
@@ -70,7 +80,9 @@ namespace TestRunnerLib
 
         public SuiteModel()
         {
+            uid = Guid.NewGuid();
             tests = new ObservableCollection<TestModel>();
+            cycles = new ObservableCollection<CycleModel>();
         }
     }
 }

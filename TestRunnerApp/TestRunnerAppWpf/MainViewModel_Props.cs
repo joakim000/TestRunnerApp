@@ -58,7 +58,7 @@ namespace TestRunnerAppWpf
         
         /* Threading */
         private BackgroundWorker worker = null;
-        SynchronizationContext uiContext = SynchronizationContext.Current;
+        SynchronizationContext syncContext = SynchronizationContext.Current;
         public int progressBarValue
         {
             get => Get(() => progressBarValue);

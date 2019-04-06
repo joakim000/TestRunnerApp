@@ -140,29 +140,12 @@ namespace TestRunnerAppWpf
             }
         }
 
-        public void CopySelectedToNew()
+        public void CopySelectedToNew()  // Should be method in TestModel
         {
             if (gridViewModel.selectedItems.selectedItems.Count() == 1)
             {
                 var t = gridViewModel.selectedItems.selectedItems[0];
-                var c = new TestModel();
-                c.callAss = t.callAss;
-                c.callMeth = t.callMeth;
-                c.callParam = t.callParam;
-                c.callParam2 = t.callParam2;
-                c.callParam3 = t.callParam3;
-                c.callParam4 = t.callParam4;
-                c.callSpace = t.callSpace;
-                c.callType = t.callType;
-                c.webDriver = t.webDriver;
-                c.descExecution = t.descExecution;
-                c.descExpected = t.descExpected;
-                c.id = t.id;
-                c.name = t.name;
-                c.notes = t.notes;
-                c.numberOfRuns = 0;
-                c.previousOutcome = Outcome.NotRun;
-                c.prio = t.prio;
+                var c = t.DeepCopy();
                 gridViewModel.suite.tests.Add(c);
                 this.unsavedChanges = true;
             }
@@ -271,9 +254,7 @@ namespace TestRunnerAppWpf
         }
 
 
-
-
-        /* Async stuff */
+        /* Run tests */ // Should be moved to lib? Has view updates...
         private void CancelJob() => worker.CancelAsync();
 
         private void StartAsyncRunner(ObservableCollection<TestModel> tests)
@@ -287,6 +268,8 @@ namespace TestRunnerAppWpf
             runSlash = "/";
             runCurrent = "1";
 
+            
+
             worker = new BackgroundWorker
             {
                 WorkerReportsProgress = true,
@@ -296,7 +279,7 @@ namespace TestRunnerAppWpf
             worker.ProgressChanged += worker_ProgressChanged;
             worker.RunWorkerCompleted += worker_RunWorkerCompleted;
 
-            uiContext = SynchronizationContext.Current;
+            syncContext = SynchronizationContext.Current;
             worker.RunWorkerAsync(tests);
         }
 
@@ -308,20 +291,27 @@ namespace TestRunnerAppWpf
             int testsRun = 0;
             int testsToRun = tests.Count();
 
-            //foreach (TestModel test in (ObservableCollection<TestModel>)e.Argument)            
+            CycleModel cycle = new CycleModel();
+            syncContext.Send(x => gridViewModel.suite.cycles.Add(cycle), null);
+
             foreach (TestModel test in tests)
             {
                 Debug.WriteLine($"Running {test.name}");
 
                 RunModel r = new RunModel(test, webDriverType);
-                test.previousOutcome = r.result;
-                uiContext.Send(x => test.runs.Add(r), null);
-                test.numberOfRuns = test.runs.Count();
+                syncContext.Send(x => test.runs.Add(r), null);
+                syncContext.Send(x => test.previousOutcome = r.result, null);
+                syncContext.Send(x => test.numberOfRuns = test.runs.Count(), null);
+                //test.previousOutcome = r.result;
+                //test.numberOfRuns = test.runs.Count();
+
+                CycleRun cycleRun = new CycleRun(test, r);
+                syncContext.Send(x => cycle.cycleRuns.Add(cycleRun), null);
 
                 testsRun++;
                 if (worker.CancellationPending == true)
                 {
-                    uiContext.Send(x => runStatus = "Cancelled", null);
+                    syncContext.Send(x => runStatus = "Cancelled", null);
                     e.Cancel = true;
                     return;
                 }
@@ -358,6 +348,23 @@ namespace TestRunnerAppWpf
             }
             this.unsavedChanges = true;
             Debug.WriteLine($"Async worker result: {e.Result}");
+
+            Debug.WriteLine($"Cycles in suite: {gridViewModel.suite.cycles.Count()}");
+            if (gridViewModel.suite.cycles.Count() > 0)
+            {
+
+
+                Debug.WriteLine($"Testruns in first cycle: {gridViewModel.suite.cycles.First().cycleRuns.Count()}");
+                foreach (CycleRun c in gridViewModel.suite.cycles.First().cycleRuns)
+                {
+                    Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
+                }
+                Debug.WriteLine($"Testruns in previous cycle: {gridViewModel.suite.cycles.Last().cycleRuns.Count()}");
+                foreach (CycleRun c in gridViewModel.suite.cycles.Last().cycleRuns)
+                {
+                    Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
+                }
+            }
         }
 
 

@@ -9,18 +9,16 @@ namespace TestRunnerLib
     [JsonObject(MemberSerialization.OptOut)]
     public class TestResult : ViewModelBase
     {
+        public Guid uid
+        {
+            get => Get(() => uid, Guid.NewGuid());
+            set => Set(() => uid, value);
+        }
         public Outcome outcome
         {
             get => Get(() => outcome, Outcome.NotRun);
             set => Set(() => outcome, value);
         }
-
-         public TestKind kind
-        {
-            get => Get(() => kind);
-            set => Set(() => kind, value);
-        }
-
         public int failStep
         {
             get => Get(() => failStep, 0);
@@ -31,13 +29,8 @@ namespace TestRunnerLib
             get => Get(() => message, string.Empty);
             set => Set(() => message, value);
         }
-
-        public WebDriverType webDriver
-        {
-            get => Get(() => webDriver, WebDriverType.None);
-            set => Set(() => webDriver, value);
-        }
-
+       
+        /* Exceptions */
         public Exception e
         {
             get => Get(() => e);
@@ -58,16 +51,28 @@ namespace TestRunnerLib
             get => Get(() => eData);
             set => Set(() => eData, value);
         }
+        /* end: Exceptions */
 
-        private void setWebDriver()
+        /* Deprecated */
+        public WebDriverType webDriver // In RunModel
         {
-
+            get => Get(() => webDriver, WebDriverType.None);
+            set => Set(() => webDriver, value);
         }
+        public TestKind kind // In TestModel
+        {
+            get => Get(() => kind);
+            set => Set(() => kind, value);
+        }
+        /* end: Deprecated */
+
+
 
         public TestResult() { }
 
-        // 1 return
+         // 1 return
         public TestResult(Outcome o) => outcome = o;
+        
         // 2 returns
         public TestResult(Outcome o, int step)
         {

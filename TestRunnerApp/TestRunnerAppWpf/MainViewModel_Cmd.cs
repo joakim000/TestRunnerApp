@@ -227,6 +227,16 @@ namespace TestRunnerAppWpf
             return true;
         }
 
+        public void Execute_OpenLibDirCmd()
+        {
+            Process.Start(AppDomain.CurrentDomain.BaseDirectory + "Tests");
+        }
+        public bool CanExecute_OpenLibDirCmd()
+        {
+            return true;
+        }
+
+
         public void Execute_SuiteDetailsCmd()
         {
             detailsViewModel.testDetailsVisi = false;
@@ -238,14 +248,22 @@ namespace TestRunnerAppWpf
             return true;
         }
 
+
+        
+
+
+
         // Test execution commands
         public void Execute_RunSelectedCmd()
         {
             if (gridViewModel.selectedItems.selectedItems != null || gridViewModel.selectedItems.selectedItems.Count() > 0)
             {
-                //RunSelected(gridViewModel.selectedItems.selectedItems);
                 RunSelectedAsync(gridViewModel.selectedItems.selectedItems);
             }
+            Debug.WriteLine($"Cycles in suite: {gridViewModel.suite.cycles.Count()}");
+            if (gridViewModel.suite.cycles.Count() > 0)
+                Debug.WriteLine($"Testruns in previous cycle: {gridViewModel.suite.cycles.Last().cycleRuns.Count()}");
+          
         }
         public bool CanExecute_RunSelectedCmd()
         {
@@ -426,13 +444,79 @@ namespace TestRunnerAppWpf
 
             Debug.WriteLine(r.Item2);
         }
-
-
         public bool CanExecute_Report1Cmd()
         {
             return true;
         }
 
+
+        public async void Execute_Report2Cmd()
+        {
+            //Tuple<HttpStatusCode, JObject> r = await Jira.CreateCycle("TEM", "First cycle", "My very first cycle", null, false);
+
+            CycleModel c = gridViewModel.suite.cycles.Last();
+
+            //Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM",
+            //                                                         "TEM-R3",
+            //                                                         "TEM-T1",
+            //                                                         "Pass",
+            //                                                         null,
+            //                                                         null, 
+            //                                                         null, 
+            //                                                         null);
+            //Debug.WriteLine(r.Item2);
+
+            foreach (CycleRun cr in c.cycleRuns)
+            {
+                Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM",
+                                                                         "TEM-R2",
+                                                                         cr.run.test.id,
+                                                                         Outcome2string(cr.run.result),
+                                                                         WebDriverType2string(cr.run.webDriverType),
+                                                                         null, //enddate
+                                                                         null, //executedbyid
+                                                                         cr.run.resultObj.message);
+                Debug.WriteLine(r.Item2);
+            }
+
+            //Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM", "First cycle", "My very first cycle", null, false);
+            //Debug.WriteLine(r.Item2);
+        }
+        public bool CanExecute_Report2Cmd()
+        {
+            return true;
+        }
+
+        private string Outcome2string(Outcome o)
+        {
+            switch (o)
+            {
+                case Outcome.Warning:
+                    return "Warning";
+                case Outcome.Pass:
+                    return "Pass";
+                case Outcome.Fail:
+                    return "Fail";
+                case Outcome.NotRun:
+                    return "Not Executed";
+                default:
+                    return "Unknown";
+
+            }
+        }
+        private string WebDriverType2string(WebDriverType w)
+        {
+            switch (w)
+            {
+                case WebDriverType.Chrome:
+                    return "Chrome";
+                case WebDriverType.Firefox:
+                    return "Firefox";
+                default:
+                    return "Unknown";
+
+            }
+        }
 
 
 

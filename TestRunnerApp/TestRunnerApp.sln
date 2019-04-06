@@ -4,17 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerAppWpf", "TestRunnerAppWpf\TestRunnerAppWpf.csproj", "{A3E7E276-84BB-48BC-9191-A5C42F860980}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5B08A692-AB22-4991-B7BB-DBE22635C282} = {5B08A692-AB22-4991-B7BB-DBE22635C282}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerLib", "TestRunnerLib\TestRunnerLib.csproj", "{1F21BE67-3AD1-4E31-8BBD-94CBA167FB7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelSupport", "ViewModelSupport\ViewModelSupport.csproj", "{5B08A692-AB22-4991-B7BB-DBE22635C282}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestRunnerLibStd", "TestRunnerLibStd\TestRunnerLibStd.csproj", "{88E72146-F580-4B54-9A96-0FF6EA6D4CB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerLibStd", "TestRunnerLibStd\TestRunnerLibStd.csproj", "{88E72146-F580-4B54-9A96-0FF6EA6D4CB2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModelSupportStd", "ViewModelSupportStd\ViewModelSupportStd.csproj", "{DC68C101-4F56-4A88-88CA-7E5AD48CD041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelSupportStd", "ViewModelSupportStd\ViewModelSupportStd.csproj", "{DC68C101-4F56-4A88-88CA-7E5AD48CD041}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +25,6 @@ Global
 		{1F21BE67-3AD1-4E31-8BBD-94CBA167FB7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F21BE67-3AD1-4E31-8BBD-94CBA167FB7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F21BE67-3AD1-4E31-8BBD-94CBA167FB7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B08A692-AB22-4991-B7BB-DBE22635C282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B08A692-AB22-4991-B7BB-DBE22635C282}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B08A692-AB22-4991-B7BB-DBE22635C282}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B08A692-AB22-4991-B7BB-DBE22635C282}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88E72146-F580-4B54-9A96-0FF6EA6D4CB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88E72146-F580-4B54-9A96-0FF6EA6D4CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E72146-F580-4B54-9A96-0FF6EA6D4CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU

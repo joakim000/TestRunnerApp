@@ -1,0 +1,102 @@
+﻿<Window x:Class="TestRunnerAppWpf.ExportDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestRunnerAppWpf"
+        mc:Ignorable="d"
+        Title="New suite" Height="450" Width="800"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Icons/Test_16x.png"
+        ContentRendered="Window_ContentRendered"
+        Margin="5,5,5,5"
+ >
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Width" Value="340" />
+            <Setter Property="Margin" Value="0,0,0,15" />
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Background="{DynamicResource MenuBackgroundBrush}">
+        <Label Content="Last run to Jira" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
+
+        <Grid Margin="15,0,15,15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="1" Grid.Row="0" Content="Project key" />
+            <TextBox Grid.Column="1" Grid.Row="1" Width="350"
+                     Text="{Binding Path=projectKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="2" Content="Cycle name" />
+            <TextBox Grid.Column="1" Grid.Row="3" Width="350"
+                     Text="{Binding Path=name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="4" Content="Cycle ID" />
+            <TextBox Grid.Column="1" Grid.Row="5" Width="350" 
+                     Text="{Binding Path=key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="6" Content="Cycle description" />
+            <TextBox Grid.Column="1" Grid.Row="7" Width="350"
+                     Text="{Binding Path=description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="8" Content="Cycle folder" />
+            <TextBox Grid.Column="1" Grid.Row="9" Width="350"
+                     Text="{Binding Path=folderId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="10" Content="Set owner" />
+            <CheckBox Grid.Column="1" Grid.Row="11"
+                     IsChecked="{Binding Path=setOwner, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="12" Content="Cycles" />
+            <ComboBox Grid.Column="1" Grid.Row="13" Width="150"
+                     
+            />
+
+            <Label Grid.Column="1" Grid.Row="14" Content="New cycle" />
+            <Button Grid.Column="1" Grid.Row="15" Width="150"
+                    
+            />
+            
+
+        </Grid>
+
+        <WrapPanel Grid.Row="12" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="15">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
+            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
+
+
+    </StackPanel>
+</Window>

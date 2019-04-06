@@ -161,7 +161,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExportViewModel.cs" />
     <Compile Include="Jira.cs" />
+    <Compile Include="ExportDialog.xaml.cs">
+      <DependentUpon>ExportDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Report.cs" />
     <Compile Include="Converters\BoolChangesConverter.cs" />
     <Compile Include="Converters\ElementSizeConverter.cs" />
@@ -223,6 +227,10 @@
     <Page Include="GridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="NewSuiteDialog.xaml">
       <SubType>Designer</SubType>

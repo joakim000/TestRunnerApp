@@ -104,22 +104,28 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        
-                        <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                        <DataGridTemplateColumn Header="Kind" Width="32" IsReadOnly="True" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                <Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                    <!--<Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding result, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="5,3,5,3" VerticalAlignment="Center"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Step" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding result, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="5,3,5,3" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Step" IsReadOnly="True">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding resultObj.failStep, Converter={StaticResource IntStringNoZeroConverter} }" Width="40" TextAlignment="Center" VerticalAlignment="Center"/>
