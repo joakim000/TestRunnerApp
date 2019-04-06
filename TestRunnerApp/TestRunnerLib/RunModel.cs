@@ -57,7 +57,7 @@ namespace TestRunnerLib
             get => Get(() => datetime);
             set => Set(() => datetime, value);
         }
-        public long runTime
+        public double runTime
         {
             get => Get(() => runTime);
             set => Set(() => runTime, value);
@@ -128,6 +128,8 @@ namespace TestRunnerLib
                 Debug.WriteLine($"Invoke: driverType=[{webDriverType}]  param=[{t.callParam}, {t.callParam2}, {t.callParam3}, {t.callParam4}, ]");
             resultObj = Runner8.InvokeTest(t.callAss, t.callSpace, t.callType, webDriverType, t.callParam, t.callParam2, t.callParam3, t.callParam4);
             datetimeEnd = DateTime.Now;
+            runTime = datetimeEnd.Subtract(datetime).TotalMilliseconds;
+
             if (resultObj != null)
                 result = resultObj.outcome;
         }

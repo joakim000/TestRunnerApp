@@ -468,15 +468,17 @@ namespace TestRunnerAppWpf
 
             foreach (CycleRun cr in c.cycleRuns)
             {
-                Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM",
-                                                                         "TEM-R2",
-                                                                         cr.run.test.id,
-                                                                         Outcome2string(cr.run.result),
-                                                                         WebDriverType2string(cr.run.webDriverType),
-                                                                         null, //enddate
-                                                                         null, //executedbyid
-                                                                         cr.run.resultObj.message);
-                Debug.WriteLine(r.Item2);
+                RunModel r = cr.run;
+                Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec("TEM",
+                                                                                "TEM-R2",
+                                                                                r.test.id,
+                                                                                Outcome2string(r.result),
+                                                                                WebDriverType2string(r.webDriverType),
+                                                                                JiraDate(cr.run.datetimeEnd), 
+                                                                                null, 
+                                                                                null, 
+                                                                                r.resultObj.message);
+                Debug.WriteLine(response.Item2);
             }
 
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM", "First cycle", "My very first cycle", null, false);
@@ -518,7 +520,7 @@ namespace TestRunnerAppWpf
             }
         }
 
-
+        private string JiraDate(DateTime dt) => dt.ToUniversalTime().ToString("s") + "Z";
 
     }
 }

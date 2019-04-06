@@ -269,6 +269,7 @@ namespace TestRunnerAppWpf
                                                                             string statusName, 
                                                                             string environmentName,
                                                                             string actualEndDate,
+                                                                            string executionTime,
                                                                             string executedById,
                                                                             string comment)
         {
@@ -286,6 +287,8 @@ namespace TestRunnerAppWpf
                 data.Add("environmentName", environmentName);
             if (!string.IsNullOrEmpty(actualEndDate))
                 data.Add("actualEndDate", actualEndDate);
+            if (!string.IsNullOrEmpty(executionTime))
+                data.Add("executionTime", executionTime);
             if (!string.IsNullOrEmpty(executedById))
                 data.Add("executedById", executedById);
             if (!string.IsNullOrEmpty(comment))
@@ -338,8 +341,7 @@ namespace TestRunnerAppWpf
             var query = new StringContent(itemAsJson);
             var uri = new Uri(baseURL + api);
             var client = GetClientByUserPw(method, uri, user, apiToken);
-            //var client = GetClient(method, uri, authToken);
-            query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            query = new StringContent(itemAsJson, System.Text.Encoding.UTF8, "application/json");
             var response = new HttpResponseMessage();
             try
             {
@@ -353,12 +355,12 @@ namespace TestRunnerAppWpf
                     response = await client.DeleteAsync(uri);
                 else return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.MethodNotAllowed, null);
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
                     JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
                     //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
-                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {query}");
-                    return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.OK, jsonObj);
+                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
+                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
                 else
                 {
@@ -396,8 +398,7 @@ namespace TestRunnerAppWpf
             if (data != null)
             {
                 var itemAsJson = JsonConvert.SerializeObject(data);
-                query = new StringContent(itemAsJson);
-                query.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                query = new StringContent(itemAsJson, System.Text.Encoding.UTF8, "application/json");
             }
 
             var response = new HttpResponseMessage();
@@ -413,12 +414,12 @@ namespace TestRunnerAppWpf
                     response = await client.DeleteAsync(uri);
                 else return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.MethodNotAllowed, null);
 
-                if (response.StatusCode == HttpStatusCode.OK)
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
                     JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
                     //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
-                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {query}");
-                    return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.OK, jsonObj);
+                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
+                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
                 else
                 {
