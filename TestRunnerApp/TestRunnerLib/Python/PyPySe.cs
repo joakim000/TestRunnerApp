@@ -10,18 +10,18 @@ using System.Diagnostics;
 /// </summary>
 /// 
 /// <todo>
+/// 
+///     Workaround implemented: Receive exceptions raised in script    
 ///     DONE: Access selenium module from script
-///     DONE: Receive exceptions raised in script
 ///     DONE: Access enums from script, workaround with switch statements for now
 /// </todo>
 /// 
 /// <remarks>
-///     Copy both .dll and .py to Tests directory
+///     Install IronPython from https://ironpython.net/  and edit path to Lib below
+///     Install Selenium module using pip or easy_install, edit path to module below
+///     Install-Package IronPython -Version 2.7.9
 /// 
-///     Required:
-///         Install-Package IronPython -Version 2.7.9
-///     Possibly helpful:
-///         Install-Package IronPython.StdLib -Version 2.7.9
+///     Copy both .dll and .py to Tests directory
 /// </remarks>
 
 
@@ -41,29 +41,32 @@ namespace PythonTest
     using OpenQA.Selenium.Support.UI;
     
 
-    public class PyNetSe : IWebTest
+    public class PyPySe : IWebTest
     {
-        public TestResult Test(WebDriverType webDriverType, string param1, string param2, string param3, string param4)
+        public TestResult Test(WebDriverType webDriverType, string[] testData)
         {
             ScriptEngine engine = Python.CreateEngine();
 
-            // For py modules
+            // Python paths
             ICollection<string> searchPaths = engine.GetSearchPaths();
-            searchPaths.Add("..\\.."); // project root
-            // Add module paths as needed:
-            //searchPaths.Add(""); 
+            // Project root
+            searchPaths.Add("..\\.."); // 
+           // IronPython lib
+            searchPaths.Add(@"C:\Program Files\IronPython 2.7\Lib");
+            // Selenium module
+            searchPaths.Add(@"C:\Users\joakim\AppData\Local\Programs\Python\Python37-32\Lib\site-packages");
             engine.SetSearchPaths(searchPaths);
 
-            // Create python module TestApp that contains Outcome and TestResult
+            // Create python module that contains Outcome, WebDriverType, TestResult
             var testModuleSource = String.Join(
                 Environment.NewLine,
                 "import clr",
                $"clr.AddReferenceToFileAndPath(r'{typeof(Outcome).Assembly.Location}')",
                $"clr.AddReferenceToFileAndPath(r'{typeof(TestResult).Assembly.Location}')",
+               $"clr.AddReferenceToFileAndPath(r'{typeof(WebDriverType).Assembly.Location}')",
                $"import {typeof(Outcome).FullName} as Outcome",
                $"import {typeof(TestResult).FullName} as TestResult",
-               $"clr.AddReferenceToFileAndPath(r'WebDriver.dll')",
-               $"clr.AddReferenceToFileAndPath(r'WebDriver.Support.dll')"
+               $"import {typeof(WebDriverType).FullName} as WebDriverType"
             );
             var testModule = engine.CreateModule("TestAppLib");
             engine.Execute(testModuleSource, testModule);
@@ -72,39 +75,42 @@ namespace PythonTest
             ScriptScope scope = engine.CreateScope();
 
             // Script
-            ScriptSource script = engine.CreateScriptSourceFromFile("Tests\\PyNetSe.py");
+            ScriptSource script = engine.CreateScriptSourceFromFile("Tests\\PyPySe.py");
 
             // Run variables, to be overwritten by script return
             int step = 0;
             string message = String.Empty;
             Outcome outcome = Outcome.NotRun;
+            Exception rex = null;
 
             /* Access from script */
             // Make sure we can get these later
             scope.SetVariable("outcome", outcome);
             scope.SetVariable("step", step);
             scope.SetVariable("message", message);
+            scope.SetVariable("rex", rex);
             // Actual input params
-            scope.SetVariable("param1", param1);
-            scope.SetVariable("param2", param2);
-            scope.SetVariable("param3", param3);
-            scope.SetVariable("param4", param4);
+            scope.SetVariable("webdrivertype", webDriverType);
+            scope.SetVariable("testData", testData);
 
             try
             {
-                using (IWebDriver driver = WebDriver.Get(webDriverType))
-                {
-                    scope.SetVariable("webdriver", driver);
-                    script.Execute(scope);
-                    TestResult result = scope.GetVariable<TestResult>("result");
+               script.Execute(scope);
+               TestResult result = scope.GetVariable<TestResult>("result");
 
-                    // Exceptions returned from IronPython causes System.ArgumentNullException on serialization of Data-property
-                    // Will just clear it for now. TODO: Check if we need to clear it. Alt. serialize it some other way.
-                    if (result.e != null)
-                        result.e.Data.Clear();
+                // Work around any mistakenly returned Python exceptions
+                result.e = null;
 
-                    return result;
-                }
+                // Exception data from Python exception string
+                int exIndex = result.message.IndexOf("Exception:");
+               if (exIndex > -1)
+               {
+                   result.eType = result.message.Substring(0, exIndex + 9);
+                   result.eMessage = result.message.Substring(exIndex + 11);
+                   result.message = "Exception";
+               }
+
+               return result;
             }
 
             // Web driver error
@@ -122,6 +128,7 @@ namespace PythonTest
             {
                 return new TestResult(Outcome.Warning, step, ex);
             }
+
 
             
         }
