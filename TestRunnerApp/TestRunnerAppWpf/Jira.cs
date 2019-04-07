@@ -29,6 +29,13 @@ namespace TestRunnerAppWpf
             return t.Result;
         }
 
+        public static async Task<Tuple<HttpStatusCode, JObject>> CurrentUser()
+        {
+            var t = JiraCall(HttpMethod.Get, "myself", null);
+            await t;
+            return t.Result;
+        }
+
         public static async Task<Tuple<HttpStatusCode, JObject>> GetCases(string projectKey, string folderId, string maxResults)
         {
             string query = string.Empty;
@@ -246,7 +253,7 @@ namespace TestRunnerAppWpf
                                                                              string folderId, 
                                                                              bool setOwner)
         {
-            var data = new Dictionary<string, string>();
+            var data = new Dictionary<string, object>();
 
             if (!string.IsNullOrEmpty(projectKey))
                 data.Add("projectKey", projectKey);
@@ -269,11 +276,11 @@ namespace TestRunnerAppWpf
                                                                             string statusName, 
                                                                             string environmentName,
                                                                             string actualEndDate,
-                                                                            string executionTime,
+                                                                            long? executionTime,
                                                                             string executedById,
                                                                             string comment)
         {
-            var data = new Dictionary<string, string>();
+            var data = new Dictionary<string, object>();
 
             if (!string.IsNullOrEmpty(projectKey))
                 data.Add("projectKey", projectKey);
@@ -287,7 +294,7 @@ namespace TestRunnerAppWpf
                 data.Add("environmentName", environmentName);
             if (!string.IsNullOrEmpty(actualEndDate))
                 data.Add("actualEndDate", actualEndDate);
-            if (!string.IsNullOrEmpty(executionTime))
+            if (executionTime != null)
                 data.Add("executionTime", executionTime);
             if (!string.IsNullOrEmpty(executedById))
                 data.Add("executedById", executedById);
@@ -382,7 +389,7 @@ namespace TestRunnerAppWpf
         }
 
 
-        private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method, string api, Dictionary<string, string> data)
+        private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method, string api, Dictionary<string, object> data)
         {
             string baseURL = @"https://api.adaptavist.io/tm4j/v2/";
 
@@ -419,6 +426,7 @@ namespace TestRunnerAppWpf
                     JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
                     //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
                     Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
+                    Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
                     return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
                 else

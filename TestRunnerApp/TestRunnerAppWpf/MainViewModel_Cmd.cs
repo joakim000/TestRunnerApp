@@ -431,18 +431,27 @@ namespace TestRunnerAppWpf
         {
             // Serverinfo
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetServerInfo();
-            //Debug.WriteLine(r.Item2);
+
+            // Current user
+            Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser();
 
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses("JOAK", "TEST_EXECUTION", "100");            
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses(null, "TEST_EXECUTION", "100");
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
-            Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
+            //Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
 
 
 
             Debug.WriteLine(r.Item2);
+
+            if (r.Item2.TryGetValue("accountId", out JToken accountId)) {
+                Debug.WriteLine(accountId.ToString());
+            }
+            else
+                Debug.WriteLine("accountId not found");
+
         }
         public bool CanExecute_Report1Cmd()
         {
@@ -454,18 +463,13 @@ namespace TestRunnerAppWpf
         {
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateCycle("TEM", "First cycle", "My very first cycle", null, false);
 
+            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser();
+            string accountId = null;
+            if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
+                accountId = accountIdToken.ToString();
+
+
             CycleModel c = gridViewModel.suite.cycles.Last();
-
-            //Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM",
-            //                                                         "TEM-R3",
-            //                                                         "TEM-T1",
-            //                                                         "Pass",
-            //                                                         null,
-            //                                                         null, 
-            //                                                         null, 
-            //                                                         null);
-            //Debug.WriteLine(r.Item2);
-
             foreach (CycleRun cr in c.cycleRuns)
             {
                 RunModel r = cr.run;
@@ -474,9 +478,9 @@ namespace TestRunnerAppWpf
                                                                                 r.test.id,
                                                                                 Outcome2string(r.result),
                                                                                 WebDriverType2string(r.webDriverType),
-                                                                                JiraDate(cr.run.datetimeEnd), 
-                                                                                null, 
-                                                                                null, 
+                                                                                JiraDate(r.datetimeEnd), 
+                                                                                r.runTime, 
+                                                                                accountId, 
                                                                                 r.resultObj.message);
                 Debug.WriteLine(response.Item2);
             }

@@ -54,10 +54,10 @@ namespace TestRunnerLib
         }
         public DateTime datetimeEnd
         {
-            get => Get(() => datetime);
-            set => Set(() => datetime, value);
+            get => Get(() => datetimeEnd);
+            set => Set(() => datetimeEnd, value);
         }
-        public double runTime
+        public Int64 runTime
         {
             get => Get(() => runTime);
             set => Set(() => runTime, value);
@@ -118,14 +118,13 @@ namespace TestRunnerLib
         private void RunTest(TestModel t)
         {
             test = t.DeepCopy();
-
             rerun = t.numberOfRuns > 0 ? true : false;
             datetime = DateTime.Now;
                 Debug.WriteLine($"Invoke: driverType=[{webDriverType}]  param=[{t.testData[0]}, {t.testData[1]}, {t.testData[2]}, {t.testData[3]}, ]");
             resultObj = Runner9.InvokeTest(t.callAss, t.callSpace, t.callType, webDriverType, t.testData);
             datetimeEnd = DateTime.Now;
-            runTime = datetimeEnd.Subtract(datetime).TotalMilliseconds;
-
+            runTime = (Int64)System.Math.Round(datetimeEnd.Subtract(datetime).TotalMilliseconds);
+                Debug.WriteLine($"Execution time (ms): {runTime.ToString()}");
             if (resultObj != null)
                 result = resultObj.outcome;
         }
