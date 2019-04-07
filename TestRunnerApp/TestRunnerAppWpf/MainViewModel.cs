@@ -25,7 +25,9 @@ namespace TestRunnerAppWpf
 
             
             this.unsavedChanges = false;
-            GetSettings();
+
+            //GetSettings();
+            Settings.GetSettings(this);
             CheckWebDriverAvailibility();
         }
 
@@ -51,52 +53,52 @@ namespace TestRunnerAppWpf
         private void setWindowTitle() => 
             windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? Properties.Settings.Default.AppTitle : $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
 
-        private void GetSettings()
-        {
-            try
-            {
-                // Get WebDriver-setting
-                switch (GetWebDriverType())
-                {
-                    case WebDriverType.Chrome:
-                        Execute_SetChromeCmd();
-                        break;
-                    case WebDriverType.Firefox:
-                        Execute_SetFirefoxCmd();
-                        break;
-                    case WebDriverType.IE:
-                        Execute_SetIECmd();
-                        break;
-                    default:
-                        Execute_SetChromeCmd();
-                        break;
-                }
+        //private void GetSettings()
+        //{
+        //    try
+        //    {
+        //        // Get WebDriver-setting
+        //        switch (Settings.GetWebDriverType())
+        //        {
+        //            case WebDriverType.Chrome:
+        //                Execute_SetChromeCmd();
+        //                break;
+        //            case WebDriverType.Firefox:
+        //                Execute_SetFirefoxCmd();
+        //                break;
+        //            case WebDriverType.IE:
+        //                Execute_SetIECmd();
+        //                break;
+        //            default:
+        //                Execute_SetChromeCmd();
+        //                break;
+        //        }
 
-                // Get on-top-when-running setting
-                checkedOnTop = Properties.Settings.Default.OnTop;
+        //        // Get on-top-when-running setting
+        //        checkedOnTop = Properties.Settings.Default.OnTop;
 
-                switch (Properties.Settings.Default.Theme)
-                {
-                    case "Light":
-                        Themes.SetLight();
-                        checkedDarkTheme = false;
-                        break;
-                    case "Dark":
-                        Themes.SetDark();
-                        checkedDarkTheme = true;
-                        break;
-                 default:
-                        Themes.SetLight();
-                        checkedDarkTheme = false;
-                        break;
-                }
-            }
-            catch (NullReferenceException e)
-            {
-                // In case of problems with settings-file
-                Debug.WriteLine($"Null-ref getting settings: {e.Message}");
-            }
-        }
+        //        switch (Properties.Settings.Default.Theme)
+        //        {
+        //            case "Light":
+        //                Themes.SetLight();
+        //                checkedDarkTheme = false;
+        //                break;
+        //            case "Dark":
+        //                Themes.SetDark();
+        //                checkedDarkTheme = true;
+        //                break;
+        //         default:
+        //                Themes.SetLight();
+        //                checkedDarkTheme = false;
+        //                break;
+        //        }
+        //    }
+        //    catch (NullReferenceException e)
+        //    {
+        //        // In case of problems with settings-file
+        //        Debug.WriteLine($"Null-ref getting settings: {e.Message}");
+        //    }
+        //}
 
 
         public void CheckWebDriverAvailibility()
@@ -218,40 +220,40 @@ namespace TestRunnerAppWpf
             StartAsyncRunner(tests);
         }
 
-        private WebDriverType GetWebDriverType()
-        {
-            WebDriverType driver = WebDriverType.None;
-            try
-            {
-                switch (Properties.Settings.Default.WebDriver)
-                {
-                    case "chrome":
-                        driver = WebDriverType.Chrome;
-                        break;
-                    case "firefox":
-                        driver = WebDriverType.Firefox;
-                        break;
-                    case "ie":
-                        driver = WebDriverType.IE;
-                        break;
-                    default:
-                        driver = WebDriverType.None;
-                        break;
-                }
-            }
-            catch (NullReferenceException ex)
-            {
-                // In case of problems with settings-file
-                Debug.WriteLine($"Null-ref getting webdriversetting: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"General exception getting webdriversetting:: {ex.Message}");
-            }
-            Debug.WriteLine($"GetWebDriverType returned: {driver.ToString()}");
+        //private WebDriverType GetWebDriverType()
+        //{
+        //    WebDriverType driver = WebDriverType.None;
+        //    try
+        //    {
+        //        switch (Properties.Settings.Default.WebDriver)
+        //        {
+        //            case "chrome":
+        //                driver = WebDriverType.Chrome;
+        //                break;
+        //            case "firefox":
+        //                driver = WebDriverType.Firefox;
+        //                break;
+        //            case "ie":
+        //                driver = WebDriverType.IE;
+        //                break;
+        //            default:
+        //                driver = WebDriverType.None;
+        //                break;
+        //        }
+        //    }
+        //    catch (NullReferenceException ex)
+        //    {
+        //        // In case of problems with settings-file
+        //        Debug.WriteLine($"Null-ref getting webdriversetting: {ex.Message}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"General exception getting webdriversetting:: {ex.Message}");
+        //    }
+        //    Debug.WriteLine($"GetWebDriverType returned: {driver.ToString()}");
 
-            return driver;
-        }
+        //    return driver;
+        //}
 
 
         /* Run tests */ // Should be moved to lib? Has view updates...
@@ -285,7 +287,7 @@ namespace TestRunnerAppWpf
 
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            WebDriverType webDriverType = GetWebDriverType();
+            WebDriverType webDriverType = Settings.GetWebDriverType();
 
             var tests = (ObservableCollection<TestModel>)e.Argument;
             int testsRun = 0;

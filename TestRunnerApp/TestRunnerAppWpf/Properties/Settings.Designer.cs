@@ -151,5 +151,53 @@ namespace TestRunnerAppWpf.Properties {
                 return ((string)(this["TestsDir"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JiraUser {
+            get {
+                return ((string)(this["JiraUser"]));
+            }
+            set {
+                this["JiraUser"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JiraToken {
+            get {
+                return ((string)(this["JiraToken"]));
+            }
+            set {
+                this["JiraToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TmjIdToken {
+            get {
+                return ((string)(this["TmjIdToken"]));
+            }
+            set {
+                this["TmjIdToken"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TmjKeyToken {
+            get {
+                return ((string)(this["TmjKeyToken"]));
+            }
+            set {
+                this["TmjKeyToken"] = value;
+            }
+        }
     }
 }

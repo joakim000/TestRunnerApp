@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 
 using System.Net;
 using System.Net.Http;
@@ -20,6 +21,21 @@ namespace TestRunnerAppWpf
 
     public static class Jira
     {
+        /* Get from settings */
+        // Jira cloud
+        static string jiraUser = "joakim.odermalm@unicus.no";
+        static string userID = null;
+        static string jiraToken = "KJjFX9E2PcJnq9Bp4rF71410";
+        // TM4J cloud
+        static string tmjIdToken = "JZMVlWAEC";
+        static string tmjKeyToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InV1aWQiOiJKWk1WbFdBRUMiLCJhcGlHd0tleSI6ImNwZG1PYnB3OE05elRuNnQyYlk3ODJhRFg5c2g5aHI1OGN4WHVtWGkiLCJiYXNlVXJsIjoiaHR0cHM6Ly91bmljdXMtc3ZlcmlnZS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI1YzU4MDQyNGI3NmQ1YzM0ZjM1OTk1NzIiLCJkaXNwbGF5TmFtZSI6IkpvYWtpbSBPZGVybWFsbSIsInVzZXJLZXkiOiJqb2FraW0ub2Rlcm1hbG0iLCJ1c2VybmFtZSI6ImpvYWtpbS5vZGVybWFsbSJ9fSwiaWF0IjoxNTU0NDQ0NzIxLCJleHAiOjE1ODYwMDIzMjEsImlzcyI6ImNvbS5rYW5vYWgudGVzdC1tYW5hZ2VyIiwic3ViIjoiNTdlMTU4OGQtNGY1Zi0zN2RkLTkyYWItM2MwZGQzYTc0MDMxIn0.Lt6T-zcgdHA6sMhUOS7ueYLazbBYAiG26EBIRWEb7iw";
+        /* end: Get from settings */
+
+        // Get from suite
+        static string jiraInstance = @"unicus-sverige.atlassian.net";
+        static string jiraProject = @"TEM";
+
+
         public enum FolderType { All, Case, Plan, Cycle }
 
         public static async Task<Tuple<HttpStatusCode, JObject>> GetServerInfo()
@@ -283,7 +299,7 @@ namespace TestRunnerAppWpf
             var data = new Dictionary<string, object>();
 
             if (!string.IsNullOrEmpty(projectKey))
-                data.Add("projectKey", projectKey);
+                data.Add(nameof(projectKey), projectKey);
             if (!string.IsNullOrEmpty(testCaseKey))
                 data.Add("testCaseKey", testCaseKey);
             if (!string.IsNullOrEmpty(testCycleKey))
@@ -332,22 +348,20 @@ namespace TestRunnerAppWpf
             return query;
         }
 
+        private static Dictionary<string, object> BuildData(Dictionary<string, object> data, object obj, string name)
+        {
+            return null;
+        }
+
 
         private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
-            /* Get from settings */
-            string jiraInstance = @"unicus-sverige.atlassian.net";
-            string user = "joakim.odermalm@unicus.no";
-            string userID = "5c580424b76d5c34f3599572";
-            string apiToken = "KJjFX9E2PcJnq9Bp4rF71410";
-            /* Get from settings */
-
             string baseURL = @"https://" + jiraInstance + @"/rest/api/3/";
 
             var itemAsJson = JsonConvert.SerializeObject(data);
             var query = new StringContent(itemAsJson);
             var uri = new Uri(baseURL + api);
-            var client = GetClientByUserPw(method, uri, user, apiToken);
+            var client = GetClientByUserPw(method, uri, jiraUser, jiraToken);
             query = new StringContent(itemAsJson, System.Text.Encoding.UTF8, "application/json");
             var response = new HttpResponseMessage();
             try
@@ -393,13 +407,10 @@ namespace TestRunnerAppWpf
         {
             string baseURL = @"https://api.adaptavist.io/tm4j/v2/";
 
-            /* Get from settings */
-            string idToken = "JZMVlWAEC";
-            string keyToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InV1aWQiOiJKWk1WbFdBRUMiLCJhcGlHd0tleSI6ImNwZG1PYnB3OE05elRuNnQyYlk3ODJhRFg5c2g5aHI1OGN4WHVtWGkiLCJiYXNlVXJsIjoiaHR0cHM6Ly91bmljdXMtc3ZlcmlnZS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI1YzU4MDQyNGI3NmQ1YzM0ZjM1OTk1NzIiLCJkaXNwbGF5TmFtZSI6IkpvYWtpbSBPZGVybWFsbSIsInVzZXJLZXkiOiJqb2FraW0ub2Rlcm1hbG0iLCJ1c2VybmFtZSI6ImpvYWtpbS5vZGVybWFsbSJ9fSwiaWF0IjoxNTU0NDQ0NzIxLCJleHAiOjE1ODYwMDIzMjEsImlzcyI6ImNvbS5rYW5vYWgudGVzdC1tYW5hZ2VyIiwic3ViIjoiNTdlMTU4OGQtNGY1Zi0zN2RkLTkyYWItM2MwZGQzYTc0MDMxIn0.Lt6T-zcgdHA6sMhUOS7ueYLazbBYAiG26EBIRWEb7iw";
-            /* Get from settings */
+           
 
             var uri = new Uri(baseURL + api);
-            var client = GetClient(method, uri, "Bearer", keyToken);
+            var client = GetClient(method, uri, "Bearer", tmjKeyToken);
 
             StringContent query = null;
             if (data != null)

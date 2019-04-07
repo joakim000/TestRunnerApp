@@ -38,5 +38,17 @@
     <Setting Name="TestsDir" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Tests\</Value>
     </Setting>
+    <Setting Name="JiraUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="JiraToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TmjIdToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TmjKeyToken" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -140,7 +140,31 @@ namespace TestRunnerAppWpf
 
 
         /* Jira */
-
+        public bool jiraMgmt
+        {
+            get => Get(() => jiraMgmt, false);
+            set => Set(() => jiraMgmt, value);
+        }
+        public string jiraUser
+        {
+            get => Get(() => jiraUser);
+            set => Set(() => jiraUser, value);
+        }
+        public string jiraToken
+        {
+            get => Get(() => jiraToken);
+            set => Set(() => jiraToken, value);
+        }
+        public string tmjIdToken
+        {
+            get => Get(() => tmjIdToken);
+            set => Set(() => tmjIdToken, value);
+        }
+        public string tmjKeyToken
+        {
+            get => Get(() => tmjKeyToken);
+            set => Set(() => tmjKeyToken, value);
+        }
 
     }
 }

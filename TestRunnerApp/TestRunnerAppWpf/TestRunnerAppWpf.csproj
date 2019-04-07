@@ -204,6 +204,7 @@
     <Compile Include="DetailsView.xaml.cs">
       <DependentUpon>DetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="SettingsAccessor.cs" />
     <Compile Include="SettingsManager.xaml.cs">
       <DependentUpon>SettingsManager.xaml</DependentUpon>
