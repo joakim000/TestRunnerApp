@@ -114,19 +114,15 @@ namespace TestRunnerLib
             RunTest(t);
         }
 
+
         private void RunTest(TestModel t)
         {
-            //test = t; // Should be deep copy, method in TestModel
             test = t.DeepCopy();
-            testUid = t.uid;
-            testVersion = t.version;
-            //testdata
-            //testkind
 
             rerun = t.numberOfRuns > 0 ? true : false;
             datetime = DateTime.Now;
-                Debug.WriteLine($"Invoke: driverType=[{webDriverType}]  param=[{t.callParam}, {t.callParam2}, {t.callParam3}, {t.callParam4}, ]");
-            resultObj = Runner8.InvokeTest(t.callAss, t.callSpace, t.callType, webDriverType, t.callParam, t.callParam2, t.callParam3, t.callParam4);
+                Debug.WriteLine($"Invoke: driverType=[{webDriverType}]  param=[{t.testData[0]}, {t.testData[1]}, {t.testData[2]}, {t.testData[3]}, ]");
+            resultObj = Runner9.InvokeTest(t.callAss, t.callSpace, t.callType, webDriverType, t.testData);
             datetimeEnd = DateTime.Now;
             runTime = datetimeEnd.Subtract(datetime).TotalMilliseconds;
 

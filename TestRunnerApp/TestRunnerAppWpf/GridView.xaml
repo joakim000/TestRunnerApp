@@ -90,7 +90,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Test data 1" Binding="{Binding callParam, UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
+                <DataGridTextColumn Header="Test data 1" Binding="{Binding testData[0], UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -98,7 +98,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Test data 2" Binding="{Binding callParam2, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                <DataGridTextColumn Header="Test data 2" Binding="{Binding testData[1], UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -167,8 +167,8 @@
                             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
                             <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding callType, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
                             <!--<TextBox Grid.Column="3" Grid.Row="1" Text="{Binding callMeth, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />-->
-                            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding callParam3, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
-                            <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding callParam4, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
+                            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding testData[2], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
+                            <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding testData[3], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
                             <!--<CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding useWebDriver, UpdateSourceTrigger=PropertyChanged}"
                                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,4,3,0"/>-->
                         </Grid>

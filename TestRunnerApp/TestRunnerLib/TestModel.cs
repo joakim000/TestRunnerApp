@@ -20,20 +20,20 @@ namespace TestRunnerLib
         }
         public Guid uid
         {
-            get => Get(() => uid);
+            get => Get(() => uid, Guid.NewGuid());
             set => Set(() => uid, value);
         }
         // Duplicates child data
             // Number of runs: runs.Count();
         public int numberOfRuns
         {
-            get => Get(() => numberOfRuns);
+            get => Get(() => numberOfRuns, 0);
             set => Set(() => numberOfRuns, value);
         }
             // Last result: runs.Last().result
         public Outcome previousOutcome
         {
-            get => Get(() => previousOutcome);
+            get => Get(() => previousOutcome, Outcome.NotRun);
             set => Set(() => previousOutcome, value);
         }
 
@@ -81,7 +81,7 @@ namespace TestRunnerLib
         }
         public string version
         {
-            get => Get(() => version, "1");
+            get => Get(() => version, "1.0");
             set => Set(() => version, value);
         }
         /* end: Description fields */
@@ -106,7 +106,7 @@ namespace TestRunnerLib
         }
         public string[] testData
         {
-            get => Get(() => testData);
+            get => Get(() => testData, new string[64]);
             set => Set(() => testData, value);
         }
         /* end: Test call */
@@ -134,8 +134,8 @@ namespace TestRunnerLib
         }
         public string jiraTestVersion
         {
-            get => Get(() => jiraPrioName);
-            set => Set(() => jiraPrioName, value);
+            get => Get(() => jiraTestVersion);
+            set => Set(() => jiraTestVersion, value);
         }
         /* end: Jira integration */
 
@@ -185,9 +185,11 @@ namespace TestRunnerLib
 
         public TestModel()
         {
-            uid = Guid.NewGuid();
+            //uid = Guid.NewGuid();
+            testData = new string[64];
             runs = new ObservableCollection<RunModel>();
-            previousOutcome = Outcome.NotRun;
+            cycles = new ObservableCollection<CycleModel>();
+            //previousOutcome = Outcome.NotRun;
             useWebDriver = true;
 
         }
@@ -199,31 +201,32 @@ namespace TestRunnerLib
 
         public TestModel DeepCopy() 
         {
-            
             var c = new TestModel();
-            c.callAss = string.Copy(callAss);
-            c.callMeth = StringCopy(callMeth);
-            c.callParam = string.Copy(callParam);
-            c.callParam2 = StringCopy(callParam2);
-            c.callParam3 = StringCopy(callParam3);
-            c.callParam4 = StringCopy(callParam4);
+
+            c.callAss = StringCopy(callAss);
             c.callSpace = StringCopy(callSpace);
             c.callType = StringCopy(callType);
-            c.descExecution = StringCopy(descExecution);
-            c.descExpected = StringCopy(descExpected);
+            c.testData = new string[testData.Length];
+            Array.Copy(testData, c.testData, testData.Length);
+
+            c.kind = kind; // ref
             c.id = StringCopy(id);
             c.name = StringCopy(name);
+
+            c.descExecution = StringCopy(descExecution);
+            c.descPrecond = StringCopy(descPrecond);
+            c.descExpected = StringCopy(descExpected);
             c.notes = StringCopy(notes);
             c.prio = StringCopy(prio);
+            c.version = StringCopy(version);
 
-            c.numberOfRuns = 0;
-            c.previousOutcome = Outcome.NotRun;
-
-
+            c.jiraPrioId = StringCopy(jiraPrioId);
+            c.jiraPrioName = StringCopy(jiraPrioName);
+            c.jiraTestId = StringCopy(jiraTestId);
+            c.jiraTestName = StringCopy(jiraTestName);
+            c.jiraTestVersion = StringCopy(jiraTestVersion);
 
             return c;
-
-
         }
 
 
