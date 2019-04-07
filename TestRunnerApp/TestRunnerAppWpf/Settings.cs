@@ -10,6 +10,8 @@ namespace TestRunnerAppWpf
 {
     public static class Settings
     {
+        public static string[] mgmtOptions = { "None", "Jira Cloud with TM4J", "ReqTest" };
+
         public static WebDriverType GetWebDriverType()
         {
             WebDriverType driver = WebDriverType.None;

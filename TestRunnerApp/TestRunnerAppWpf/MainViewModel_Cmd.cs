@@ -493,6 +493,23 @@ namespace TestRunnerAppWpf
             return true;
         }
 
+
+        /* Integration */
+        public void Execute_MgmtSettingsCmd()
+        {
+            var d = new SettingsManager();
+            if (d.ShowDialog() == true)
+            {
+
+            }
+        }
+        public bool CanExecute_MgmtSettingsCmd()
+        {
+            return true;
+        }
+
+
+
         private string Outcome2string(Outcome o)
         {
             switch (o)

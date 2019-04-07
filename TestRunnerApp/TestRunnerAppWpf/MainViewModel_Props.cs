@@ -140,10 +140,10 @@ namespace TestRunnerAppWpf
 
 
         /* Jira */
-        public bool jiraMgmt
+        public bool jiraCloudMgmt
         {
-            get => Get(() => jiraMgmt, false);
-            set => Set(() => jiraMgmt, value);
+            get => Get(() => jiraCloudMgmt, false);
+            set => Set(() => jiraCloudMgmt, value);
         }
         public string jiraUser
         {

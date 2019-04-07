@@ -210,6 +210,11 @@
             </MenuItem>
 
             <MenuItem Header="_Settings" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_Management..."  Command="{Binding MgmtSettingsCmd}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/GlyphUp_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="_On top while running" IsCheckable="True" IsChecked="{Binding checkedOnTop}"  Command="{Binding SetOnTopCmd}" >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/GlyphUp_16x.png" />

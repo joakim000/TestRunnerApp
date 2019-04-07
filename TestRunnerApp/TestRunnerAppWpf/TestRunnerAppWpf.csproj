@@ -209,6 +209,7 @@
     <Compile Include="SettingsManager.xaml.cs">
       <DependentUpon>SettingsManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsManagerViewModel.cs" />
     <Compile Include="Theme.cs" />
     <Compile Include="Help\HowToWindow.xaml.cs">
       <DependentUpon>HowToWindow.xaml</DependentUpon>
