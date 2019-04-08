@@ -214,6 +214,8 @@ namespace TestRunnerAppWpf
             int testsToRun = tests.Count();
 
             CycleModel cycle = new CycleModel();
+            cycle.name = "Cycle name";
+            cycle.description = "Cycle description";
             syncContext.Send(x => gridViewModel.suite.cycles.Add(cycle), null);
 
             foreach (TestModel test in tests)

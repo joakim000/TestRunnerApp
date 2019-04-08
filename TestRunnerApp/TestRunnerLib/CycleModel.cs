@@ -6,7 +6,6 @@ using ViewModelSupport;
 namespace TestRunnerLib
 {
     [JsonObject(MemberSerialization.OptOut)]
-
     public class CycleRun : ViewModelBase
     {
         public CycleRun(TestModel t, RunModel r)
@@ -14,9 +13,9 @@ namespace TestRunnerLib
             test = t;
             run = r;
 
-            testUid = t.uid;
-            runUid = r.uid;
-            testVersion = t.version;
+            //testUid = t.uid;
+            //runUid = r.uid;
+            //testVersion = t.version;
         }
 
         public TestModel test
@@ -46,6 +45,7 @@ namespace TestRunnerLib
         }
     }
 
+    [JsonObject(MemberSerialization.OptOut)]
     public class CycleModel : ViewModelBase
     {
         public CycleModel()
