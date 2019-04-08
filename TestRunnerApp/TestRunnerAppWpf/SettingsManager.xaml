@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestRunnerAppWpf"
         mc:Ignorable="d"
-        Title="Management integration" Height="450" Width="800"
+        Title="Management integration" Height="450" Width="600"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         Icon="pack://application:,,,/Icons/Test_16x.png"
@@ -36,10 +36,19 @@
         </Grid.ColumnDefinitions>
         <StackPanel>
             <!--<Label Content="Management integration" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
-
-            <ComboBox  Margin="15,20,0,0" Width="200" />
-
-            <Grid Margin="15,15,15,15" x:Name="JiraCloudGrid"  Visibility="Visible" >
+            <Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system" />
+            <ComboBox x:Name="OptionsCombo" Margin="15,0,0,0" Width="200" HorizontalAlignment="Left"
+                      ItemsSource="{Binding Path=mgmtOptions}"
+                      IsEditable="False" IsReadOnly="True"
+                      SelectionChanged="OptionsCombo_SelectionChanged"
+                      >
+                <!--<ComboBoxItem Content="None" IsEnabled="True" />
+                <ComboBoxItem Content="Jira Cloud with TM4J" />
+                <ComboBoxItem Content="ReqTest"  />-->
+            </ComboBox>
+            
+            <Grid Margin="15,15,15,15" x:Name="JiraCloudGrid" 
+                  Visibility="{Binding jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -57,26 +66,39 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Label Grid.Column="1" Grid.Row="0" Content="Jira user (e-mail)" />
+                <Label Grid.Column="1" Grid.Row="0" Content="Jira instance" />
                 <TextBox Grid.Column="1" Grid.Row="1" Width="350"
-                     Text="{Binding Path=jiraBase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=jiraInstance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
-
-                <Label Grid.Column="1" Grid.Row="2" Content="Jira API Token" />
+                
+                <Label Grid.Column="1" Grid.Row="2" Content="Jira user (e-mail)" />
                 <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=tm4jBase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=jiraUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
+                
 
-                <Label Grid.Column="1" Grid.Row="4" Content="TM4J Key Token" />
+                <Label Grid.Column="1" Grid.Row="4" Content="Jira API Token" />
                 <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=user, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=jiraToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
-
+                <TextBlock Grid.Column="1" Grid.Row="6" Width="350" Margin="0,0,0,20">           
+                    <Hyperlink NavigateUri="https://id.atlassian.com/manage/api-tokens" RequestNavigate="Hyperlink_RequestNavigate">
+                        https://id.atlassian.com/manage/api-tokens
+                    </Hyperlink>
+                </TextBlock>
+                
+                <Label Grid.Column="1" Grid.Row="7" Content="TM4J Key Token" />
+                <TextBox Grid.Column="1" Grid.Row="8" Width="350"
+                     Text="{Binding Path=tmjKeyToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+                <Image Grid.Column="1" Grid.Row="9" Width="300" HorizontalAlignment="Left"
+                    Source="pack://application:,,,/Help/TMJkey.png" />
 
             </Grid>
 
-            <Grid Margin="15,15,15,15" x:Name="ReqTestGrid" Visibility="Collapsed">
-                <Label Content="Coming soon to a TestApp near you" FontSize="16" FontWeight="Bold" Margin="100,100,100,100"/>
+            <Grid Margin="15,15,15,15" x:Name="ReqTestGrid" Visibility="{Binding reqTestMgmt, Converter={StaticResource BoolToVisi}}">
+                <Image Grid.Column="1" Grid.Row="1" Width="300" HorizontalAlignment="Left"
+                    Source="pack://application:,,,/Help/soonHorse.jpg" />
 
             </Grid>
 

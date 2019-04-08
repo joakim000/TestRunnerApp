@@ -450,7 +450,8 @@
     <Resource Include="Icons\GlyphUp_16x.png" />
     <Resource Include="Icons\phantomjs.png" />
     <Resource Include="Icons\edge_logo_256.png" />
-    <Resource Include="Icons\TMJkey.png" />
+    <Resource Include="Help\TMJkey.png" />
+    <Resource Include="Help\soonHorse.jpg" />
     <Content Include="IEDriverServer.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -1,16 +1,26 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using TestRunnerLib;
 
 namespace TestRunnerAppWpf
 {
     public static class Settings
     {
-        public static string[] mgmtOptions = { "None", "Jira Cloud with TM4J", "ReqTest" };
+        // Settings from Suite
+        //public static string jiraInstance = @"unicus-sverige.atlassian.net";
+        public static string jiraProject = @"TEM";
+        public static string jiraFolder = @"";
+
+        public static bool accountIdSet = false;
+        //public static string jiraAccountId;
+        
 
         public static WebDriverType GetWebDriverType()
         {
@@ -48,7 +58,7 @@ namespace TestRunnerAppWpf
         }
 
 
-        public static void GetSettings(MainViewModel caller)
+        public static async void GetSettings(MainViewModel caller)
         {
             try
             {
@@ -88,9 +98,17 @@ namespace TestRunnerAppWpf
                         break;
                 }
 
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
+                    caller.jiraInstance = Properties.Settings.Default.JiraInstance;
+
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraUser))
                     caller.jiraUser = Properties.Settings.Default.JiraUser;
 
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+                {
+                    caller.jiraAccountId = Properties.Settings.Default.JiraAccountId;
+                    Settings.accountIdSet = true;
+                }
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraToken))
                     caller.jiraToken = Properties.Settings.Default.JiraToken;
 
@@ -101,6 +119,28 @@ namespace TestRunnerAppWpf
                     caller.tmjKeyToken = Properties.Settings.Default.TmjKeyToken;
 
 
+                if (Properties.Settings.Default.MgmtSystem == "None")
+                {
+                    caller.jiraCloudMgmt = false;
+                    caller.reqTestMgmt = false;
+                }
+                else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
+                {
+                    caller.jiraCloudMgmt = true;
+                    caller.reqTestMgmt = false;
+                    //if (string.IsNullOrEmpty(caller.jiraAccountId))
+                    //{
+                    //    if (!await Jira.SetAccountId())
+                    //        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                    //}
+                }
+                else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
+                {
+                    caller.jiraCloudMgmt = false;
+                    caller.reqTestMgmt = true;
+                }
+
+        
             }
             catch (NullReferenceException e)
             {

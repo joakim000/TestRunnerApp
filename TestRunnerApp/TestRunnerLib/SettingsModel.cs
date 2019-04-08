@@ -18,10 +18,10 @@ namespace TestRunnerLib
             get => Get(() => jiraUser);
             set => Set(() => jiraUser, value);
         }
-        public string jiraUserId
+        public string jiraAccountId
         {
-            get => Get(() => jiraUserId);
-            set => Set(() => jiraUserId, value);
+            get => Get(() => jiraAccountId);
+            set => Set(() => jiraAccountId, value);
         }
         public string jiraToken
         {

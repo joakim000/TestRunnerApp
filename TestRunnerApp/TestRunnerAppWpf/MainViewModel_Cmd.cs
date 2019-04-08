@@ -476,11 +476,11 @@ namespace TestRunnerAppWpf
                 Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec("TEM",
                                                                                 "TEM-R2",
                                                                                 r.test.id,
-                                                                                Outcome2string(r.result),
-                                                                                WebDriverType2string(r.webDriverType),
-                                                                                JiraDate(r.datetimeEnd), 
-                                                                                r.runTime, 
-                                                                                accountId, 
+                                                                                r.result,
+                                                                                r.webDriverType,
+                                                                                r.datetimeEnd, 
+                                                                                r.runTime,
+                                                                                Properties.Settings.Default.JiraAccountId, 
                                                                                 r.resultObj.message);
                 Debug.WriteLine(response.Item2);
             }
@@ -495,12 +495,35 @@ namespace TestRunnerAppWpf
 
 
         /* Integration */
-        public void Execute_MgmtSettingsCmd()
+        public async void Execute_MgmtSettingsCmd()
         {
             var d = new SettingsManager();
             if (d.ShowDialog() == true)
             {
+                jiraInstance = Properties.Settings.Default.JiraInstance;
+                jiraUser = Properties.Settings.Default.JiraUser;
+                jiraToken = Properties.Settings.Default.JiraToken;
+                tmjIdToken = Properties.Settings.Default.TmjIdToken;
+                tmjKeyToken = Properties.Settings.Default.TmjKeyToken;
 
+
+                if (Properties.Settings.Default.MgmtSystem == "None")
+                {
+                    jiraCloudMgmt = false;
+                    reqTestMgmt = false;
+                }
+                else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
+                {
+                    jiraCloudMgmt = true;
+                    reqTestMgmt = false;
+                    if (!await Jira.SetAccountId())
+                        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
+                {
+                    jiraCloudMgmt = false;
+                    reqTestMgmt = true;
+                }
             }
         }
         public bool CanExecute_MgmtSettingsCmd()
@@ -510,38 +533,7 @@ namespace TestRunnerAppWpf
 
 
 
-        private string Outcome2string(Outcome o)
-        {
-            switch (o)
-            {
-                case Outcome.Warning:
-                    return "Warning";
-                case Outcome.Pass:
-                    return "Pass";
-                case Outcome.Fail:
-                    return "Fail";
-                case Outcome.NotRun:
-                    return "Not Executed";
-                default:
-                    return "Unknown";
-
-            }
-        }
-        private string WebDriverType2string(WebDriverType w)
-        {
-            switch (w)
-            {
-                case WebDriverType.Chrome:
-                    return "Chrome";
-                case WebDriverType.Firefox:
-                    return "Firefox";
-                default:
-                    return "Unknown";
-
-            }
-        }
-
-        private string JiraDate(DateTime dt) => dt.ToUniversalTime().ToString("s") + "Z";
+       
 
     }
 }

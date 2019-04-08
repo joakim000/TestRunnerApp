@@ -14,6 +14,8 @@ using System.Net.Http.Headers;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Windows;
+using TestRunnerLib;
 
 namespace TestRunnerAppWpf
 {
@@ -21,22 +23,33 @@ namespace TestRunnerAppWpf
 
     public static class Jira
     {
-        /* Get from settings */
-        // Jira cloud
-        static string jiraUser = "joakim.odermalm@unicus.no";
-        static string userID = null;
-        static string jiraToken = "KJjFX9E2PcJnq9Bp4rF71410";
-        // TM4J cloud
-        static string tmjIdToken = "JZMVlWAEC";
-        static string tmjKeyToken = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250ZXh0Ijp7InV1aWQiOiJKWk1WbFdBRUMiLCJhcGlHd0tleSI6ImNwZG1PYnB3OE05elRuNnQyYlk3ODJhRFg5c2g5aHI1OGN4WHVtWGkiLCJiYXNlVXJsIjoiaHR0cHM6Ly91bmljdXMtc3ZlcmlnZS5hdGxhc3NpYW4ubmV0IiwidXNlciI6eyJhY2NvdW50SWQiOiI1YzU4MDQyNGI3NmQ1YzM0ZjM1OTk1NzIiLCJkaXNwbGF5TmFtZSI6IkpvYWtpbSBPZGVybWFsbSIsInVzZXJLZXkiOiJqb2FraW0ub2Rlcm1hbG0iLCJ1c2VybmFtZSI6ImpvYWtpbS5vZGVybWFsbSJ9fSwiaWF0IjoxNTU0NDQ0NzIxLCJleHAiOjE1ODYwMDIzMjEsImlzcyI6ImNvbS5rYW5vYWgudGVzdC1tYW5hZ2VyIiwic3ViIjoiNTdlMTU4OGQtNGY1Zi0zN2RkLTkyYWItM2MwZGQzYTc0MDMxIn0.Lt6T-zcgdHA6sMhUOS7ueYLazbBYAiG26EBIRWEb7iw";
-        /* end: Get from settings */
-
-        // Get from suite
-        static string jiraInstance = @"unicus-sverige.atlassian.net";
-        static string jiraProject = @"TEM";
-
-
         public enum FolderType { All, Case, Plan, Cycle }
+
+        // Jira cloud
+        static string jiraUser = null;
+        static string accountID = null;
+        static string jiraToken = null;
+        static string baseURL = null;
+        // TM4J cloud
+        static string tmjIdToken = null;
+        static string tmjKeyToken = null;
+
+        public static async Task<bool> SetAccountId()
+        {
+            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser();
+            if (user.Item1 == HttpStatusCode.OK)
+            {
+                if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
+                {
+                    Properties.Settings.Default.JiraAccountId = accountIdToken.ToString();
+                    Settings.accountIdSet = true;
+                    return true;
+                }
+            }
+            //MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
 
         public static async Task<Tuple<HttpStatusCode, JObject>> GetServerInfo()
         {
@@ -289,9 +302,9 @@ namespace TestRunnerAppWpf
         public static async Task<Tuple<HttpStatusCode, JObject>> CreateExec(string projectKey,
                                                                             string testCycleKey,
                                                                             string testCaseKey,
-                                                                            string statusName, 
-                                                                            string environmentName,
-                                                                            string actualEndDate,
+                                                                            Outcome? outcome,              //string statusName, 
+                                                                            WebDriverType? webDriverType,  //string environmentName,
+                                                                            DateTime? endTime,             //string actualEndDate,
                                                                             long? executionTime,
                                                                             string executedById,
                                                                             string comment)
@@ -300,20 +313,34 @@ namespace TestRunnerAppWpf
 
             if (!string.IsNullOrEmpty(projectKey))
                 data.Add(nameof(projectKey), projectKey);
+
             if (!string.IsNullOrEmpty(testCaseKey))
                 data.Add("testCaseKey", testCaseKey);
+
             if (!string.IsNullOrEmpty(testCycleKey))
                 data.Add("testCycleKey", testCycleKey);
-            if (!string.IsNullOrEmpty(statusName))
-                data.Add("statusName", statusName);
-            if (!string.IsNullOrEmpty(environmentName))
-                data.Add("environmentName", environmentName);
-            if (!string.IsNullOrEmpty(actualEndDate))
-                data.Add("actualEndDate", actualEndDate);
+
+            //if (!string.IsNullOrEmpty(statusName))
+            //    data.Add("statusName", statusName);
+            if (outcome != null)
+                data.Add("statusName", Outcome2string(outcome));
+
+            //if (!string.IsNullOrEmpty(environmentName))
+            //    data.Add("environmentName", environmentName);
+            if (webDriverType != null && webDriverType != WebDriverType.None)
+                data.Add("environmentName", WebDriverType2string(webDriverType));
+
+            //if (!string.IsNullOrEmpty(actualEndDate))
+            //    data.Add("actualEndDate", actualEndDate);
+            if (endTime != null)
+                data.Add("actualEndDate", JiraDate(endTime));
+
             if (executionTime != null)
                 data.Add("executionTime", executionTime);
+
             if (!string.IsNullOrEmpty(executedById))
                 data.Add("executedById", executedById);
+
             if (!string.IsNullOrEmpty(comment))
                 data.Add("comment", comment);
 
@@ -353,10 +380,64 @@ namespace TestRunnerAppWpf
             return null;
         }
 
+        private async static Task<bool> JiraPreflight()
+        {
+            string message = string.Empty;
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraUser))
+            {
+                jiraUser = Properties.Settings.Default.JiraUser;
+            }
+            else
+                message += "Jira user not set." + Environment.NewLine;
+
+            if (Settings.accountIdSet)
+            {
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+                {
+                    accountID = Properties.Settings.Default.JiraAccountId;
+                }
+                else
+                {
+                    //message += "Jira Account ID not set." + Environment.NewLine;
+                    Settings.accountIdSet = false;
+                    if (!await Jira.SetAccountId())
+                        message += "Error retrieving Account ID." + Environment.NewLine;
+                    else
+                        accountID = Properties.Settings.Default.JiraAccountId;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraToken))
+            {
+                jiraToken = Properties.Settings.Default.JiraToken;
+            }
+            else
+                message += "Jira API Token not set." + Environment.NewLine;
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
+            {
+                baseURL = @"https://" + Properties.Settings.Default.JiraInstance + @"/rest/api/3/";
+            }
+            else
+                message += "Jira instance not set." + Environment.NewLine;
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                MessageBox.Show(message, "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            else
+                return true;
+        }
+
 
         private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
         {
-            string baseURL = @"https://" + jiraInstance + @"/rest/api/3/";
+            if (!await JiraPreflight())
+            {
+                return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.PaymentRequired, null); // Using this statuscode for intenal purposes
+            }
 
             var itemAsJson = JsonConvert.SerializeObject(data);
             var query = new StringContent(itemAsJson);
@@ -389,6 +470,7 @@ namespace TestRunnerAppWpf
                     Debug.WriteLine("Request message: " + response.RequestMessage);
                     Debug.WriteLine("Query: " + query.ToString());
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, null);
                 }
             }
             catch (ArgumentNullException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "ArgumentNullException: " + ex); }
@@ -403,12 +485,56 @@ namespace TestRunnerAppWpf
         }
 
 
+        private async static Task<bool> TmjPreflight()
+        {
+            string message = string.Empty;
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjIdToken))
+            {
+                tmjIdToken = Properties.Settings.Default.TmjIdToken;
+            }
+            else
+                // Not used as of now
+                //message += "TM4J Id Token not set." + Environment.NewLine;
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjKeyToken))
+            {
+                tmjKeyToken = Properties.Settings.Default.TmjKeyToken;
+            }
+            else
+                message += "TM4J Key Token not set." + Environment.NewLine;
+
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+            {
+                accountID = Properties.Settings.Default.JiraAccountId;
+            }
+            else
+            {
+                if (!await Jira.SetAccountId())
+                    message += "Error retrieving Account ID." + Environment.NewLine;
+                else
+                    accountID = Properties.Settings.Default.JiraAccountId;
+            }
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                MessageBox.Show(message, "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+            else
+                return true;
+        }
+
+
+
         private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method, string api, Dictionary<string, object> data)
         {
+            if (!await TmjPreflight())
+            {
+                return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.PaymentRequired, null); // Using this statuscode for intenal purposes
+            }
+
             string baseURL = @"https://api.adaptavist.io/tm4j/v2/";
-
-           
-
             var uri = new Uri(baseURL + api);
             var client = GetClient(method, uri, "Bearer", tmjKeyToken);
 
@@ -446,6 +572,7 @@ namespace TestRunnerAppWpf
                     Debug.WriteLine("Request message: " + response.RequestMessage);
                     Debug.WriteLine("Query: " + JsonConvert.SerializeObject(data));
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, null);
                 }
             }
             catch (ArgumentNullException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "ArgumentNullException: " + ex); }
@@ -489,7 +616,93 @@ namespace TestRunnerAppWpf
         //// The ToString() is useful for diagnostics, too.
         //System.Diagnostics.Debug.WriteLine("The Authorization ToString() results: {0}", request.Headers.Authorization.ToString());
 
+        /* Helper methods */
+        private static string Outcome2string(Outcome o)
+        {
+            switch (o)
+            {
+                case Outcome.Warning:
+                    return "Warning";
+                case Outcome.Pass:
+                    return "Pass";
+                case Outcome.Fail:
+                    return "Fail";
+                case Outcome.NotRun:
+                    return "Not Executed";
+                default:
+                    return "Unknown";
 
+            }
+        }
+
+        private static string Outcome2string(Outcome? nullableO)
+        {
+            if (nullableO == null)
+                return null;
+            else
+            {
+                Outcome o = (Outcome)nullableO;
+                switch (o)
+                {
+                    case Outcome.Warning:
+                        return "Warning";
+                    case Outcome.Pass:
+                        return "Pass";
+                    case Outcome.Fail:
+                        return "Fail";
+                    case Outcome.NotRun:
+                        return "Not Executed";
+                    default:
+                        return "Unknown";
+
+                }
+            }
+        }
+
+        private static string WebDriverType2string(WebDriverType w)
+        {
+            switch (w)
+            {
+                case WebDriverType.Chrome:
+                    return "Chrome";
+                case WebDriverType.Firefox:
+                    return "Firefox";
+                default:
+                    return "Unknown";
+
+            }
+        }
+
+        private static string WebDriverType2string(WebDriverType? nullableWdt)
+        {
+            if (nullableWdt == null)
+                return null;
+            else
+            {
+                WebDriverType wdt = (WebDriverType)nullableWdt;
+                switch (wdt)
+                {
+                    case WebDriverType.Chrome:
+                        return "Chrome";
+                    case WebDriverType.Firefox:
+                        return "Firefox";
+                    default:
+                        return "Unknown";
+
+                }
+            }
+        }
+
+        private static string JiraDate(DateTime? nullableDt)
+        {
+            if (nullableDt == null)
+                return null;
+            else
+            {
+                DateTime dt = (DateTime)nullableDt;
+                return dt.ToUniversalTime().ToString("s") + "Z";
+            }
+        } 
 
 
 

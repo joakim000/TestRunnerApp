@@ -199,5 +199,41 @@ namespace TestRunnerAppWpf.Properties {
                 this["TmjKeyToken"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MgmtSystem {
+            get {
+                return ((string)(this["MgmtSystem"]));
+            }
+            set {
+                this["MgmtSystem"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JiraInstance {
+            get {
+                return ((string)(this["JiraInstance"]));
+            }
+            set {
+                this["JiraInstance"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JiraAccountId {
+            get {
+                return ((string)(this["JiraAccountId"]));
+            }
+            set {
+                this["JiraAccountId"] = value;
+            }
+        }
     }
 }

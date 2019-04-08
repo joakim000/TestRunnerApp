@@ -139,16 +139,34 @@ namespace TestRunnerAppWpf
         }
 
 
-        /* Jira */
+        /* Managment integration */
+        // Options
         public bool jiraCloudMgmt
         {
             get => Get(() => jiraCloudMgmt, false);
             set => Set(() => jiraCloudMgmt, value);
         }
+        public bool reqTestMgmt
+        {
+            get => Get(() => reqTestMgmt, false);
+            set => Set(() => reqTestMgmt, value);
+        }
+
+        // Jira settings
+        public string jiraInstance
+        {
+            get => Get(() => jiraInstance);
+            set => Set(() => jiraInstance, value);
+        }
         public string jiraUser
         {
             get => Get(() => jiraUser);
             set => Set(() => jiraUser, value);
+        }
+        public string jiraAccountId
+        {
+            get => Get(() => jiraAccountId);
+            set => Set(() => jiraAccountId, value);
         }
         public string jiraToken
         {

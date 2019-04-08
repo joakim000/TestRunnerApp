@@ -78,209 +78,220 @@
     </UserControl.Resources>
 
         <Grid  >
-        
-            <Grid x:Name="testDetails" Visibility="{Binding testDetailsVisi, Converter={StaticResource BoolToVisi}}" >
-                <DataGrid Grid.Column="2" x:Name="detailsGrid"
-                      ItemsSource="{Binding Path=test.runs, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                      AutoGenerateColumns="False" 
-                      IsReadOnly="False"
-                      CanUserAddRows="False" SelectionUnit="FullRow"
-                      AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
-                      ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
-                          SelectionChanged="DataGrid_SelectionChanged"
+
+        <TabControl>
+            <TabItem Header="Results">
+                <Grid x:Name="testDetails"  >
+                    <!--Visibility="{Binding testDetailsVisi, Converter={StaticResource BoolToVisi}}"-->
+                    <DataGrid Grid.Column="2" x:Name="detailsGrid"
+                          ItemsSource="{Binding Path=test.runs, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="False"
+                          CanUserAddRows="False" SelectionUnit="FullRow"
+                          AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
+                          ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
+                              SelectionChanged="DataGrid_SelectionChanged"
         >
-                    <DataGrid.RowHeaderStyle>
-                        <Style>
-                            <Setter Property="Control.Width" Value="0"/>
-                        </Style>
-                    </DataGrid.RowHeaderStyle>
-               
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Time"   Binding="{Binding datetime, Converter={StaticResource DateTimeForceShortConverter}, ConverterCulture=sv-SE}" IsReadOnly="True" >
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="Margin" Value="2,0,3,0" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTemplateColumn Header="Kind" Width="32" IsReadOnly="True" >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <!--<Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>-->
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding result, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="5,3,5,3" VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Step" IsReadOnly="True">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding resultObj.failStep, Converter={StaticResource IntStringNoZeroConverter} }" Width="40" TextAlignment="Center" VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <!--<DataGridTextColumn Header="Outcome" Binding="{Binding result, Converter={StaticResource OutcomeStringConverter}}" IsReadOnly="True"/>-->
-                        <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <!--<TextBox Text="{Binding resultObj.message}" Style="{StaticResource RowTextBox}" VerticalAlignment="Center"/>-->
-                                <TextBlock Text="{Binding resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                    <DataGrid.RowDetailsTemplate>
-                        <DataTemplate>
-                            <Grid>
+                        <DataGrid.RowHeaderStyle>
+                            <Style>
+                                <Setter Property="Control.Width" Value="0"/>
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Time"   Binding="{Binding datetime, Converter={StaticResource DateTimeForceShortConverter}, ConverterCulture=sv-SE}" IsReadOnly="True" >
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <Setter Property="Margin" Value="2,0,3,0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Kind" Width="38" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!--<Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>-->
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding result, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="5,3,5,3" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Step" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding resultObj.failStep, Converter={StaticResource IntStringNoZeroConverter} }" Width="40" TextAlignment="Center" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <!--<DataGridTextColumn Header="Outcome" Binding="{Binding result, Converter={StaticResource OutcomeStringConverter}}" IsReadOnly="True"/>-->
+                            <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <!--<TextBox Text="{Binding resultObj.message}" Style="{StaticResource RowTextBox}" VerticalAlignment="Center"/>-->
+                                        <TextBlock Text="{Binding resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.RowDetailsTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="Failed step" FontSize="12" VerticalAlignment="Bottom" Margin="3,5,0,1" FontWeight="Bold"  />
+                                    <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding resultObj.failStep }" IsReadOnly="True" 
+                                             Width="35" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,3,10,10"/>-->
+
+                                    <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Message" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
+                                    <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding resultObj.message }" IsReadOnly="True"/>-->
+
+                                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Exception type"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
+                                    <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding resultObj.eType }"
+                                             Style="{StaticResource RowDetailsTextBox}" BorderThickness="0"/>
+
+                                    <TextBlock Grid.Column="0" Grid.Row="6" Text="Exception message" Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
+                                    <TextBox Grid.Column="0" Grid.Row="7" Text="{Binding resultObj.eMessage }" 
+                                             Style="{StaticResource RowDetailsTextBox}" BorderThickness="0" />
+
+                                    <TextBlock Grid.Column="0" Grid.Row="8" Text="Notes"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
+                                    <TextBox Grid.Column="0" Grid.Row="9" Text="{Binding note, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource RowDetailsTextBox}"
+                                             AcceptsReturn="True" IsReadOnly="False" Background="{x:Static SystemColors.WindowBrushKey}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGrid.RowDetailsTemplate>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cycles" >
+
+            </TabItem>
+
+            <TabItem Header="Suite">
+
+                <ScrollViewer x:Name="suiteDetails" 
+                          VerticalScrollBarVisibility="Auto"
+                          Background="{DynamicResource MenuBackgroundBrush}"
+                          >
+                    <!--Visibility="{Binding suiteDetailsVisi, Converter={StaticResource BoolToVisi}}"-->
+
+                    <Grid>
+                        <StackPanel>
+                            <Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
+                            <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="Failed step" FontSize="12" VerticalAlignment="Bottom" Margin="3,5,0,1" FontWeight="Bold"  />
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding resultObj.failStep }" IsReadOnly="True" 
-                                         Width="35" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,3,10,10"/>-->
 
-                                <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Message" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
-                                <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding resultObj.message }" IsReadOnly="True"/>-->
+                                <Label Grid.Column="1" Grid.Row="0" Content="Name" />
+                                <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
+                             Text="{Binding Path=name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
 
-                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Exception type"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
-                                <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding resultObj.eType }"
-                                         Style="{StaticResource RowDetailsTextBox}" BorderThickness="0"/>
+                                <Label Grid.Column="1" Grid.Row="2" Content="System" />
+                                <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
+                             Text="{Binding Path=system, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
 
-                            <TextBlock Grid.Column="0" Grid.Row="6" Text="Exception message" Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
-                                <TextBox Grid.Column="0" Grid.Row="7" Text="{Binding resultObj.eMessage }" 
-                                         Style="{StaticResource RowDetailsTextBox}" BorderThickness="0" />
+                                <Label Grid.Column="1" Grid.Row="4" Content="Version" />
+                                <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
+                             Text="{Binding Path=version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
 
-                            <TextBlock Grid.Column="0" Grid.Row="8" Text="Notes"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
-                                <TextBox Grid.Column="0" Grid.Row="9" Text="{Binding note, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource RowDetailsTextBox}"
-                                         AcceptsReturn="True" IsReadOnly="False" Background="{x:Static SystemColors.WindowBrushKey}"/>
+                                <Label Grid.Column="1" Grid.Row="6" Content="Developer / Customer" />
+                                <TextBox Grid.Column="1" Grid.Row="7" Style="{DynamicResource SuiteDetailsTextBox}"
+                             Text="{Binding Path=developer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
+
+
+                                <Label Grid.Column="1" Grid.Row="8" Content="Tester" />
+                                <TextBox Grid.Column="1" Grid.Row="9" Style="{DynamicResource SuiteDetailsTextBox}"
+                             Text="{Binding Path=tester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
+
+                                <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
+                                <TextBox Grid.Column="1" Grid.Row="11" Style="{DynamicResource SuiteDetailsTextBox}" MinHeight="50"
+                             Text="{Binding Path=notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
+
+
                             </Grid>
-                        </DataTemplate>
-                    </DataGrid.RowDetailsTemplate>
-                </DataGrid>
-            </Grid>
 
-        <ScrollViewer x:Name="suiteDetails" 
-                      VerticalScrollBarVisibility="Auto"
-                      Visibility="{Binding suiteDetailsVisi, Converter={StaticResource BoolToVisi}}"        
-                      Background="{DynamicResource MenuBackgroundBrush}"
-                      >
-            
-            <Grid>
-                <StackPanel>
-                    <Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
-                    <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+                            <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
+                            <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                        <Label Grid.Column="1" Grid.Row="0" Content="Name" />
-                        <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
-                     Text="{Binding Path=name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
+                                <!--<Label Grid.Column="1" Grid.Row="0" Content="Instance" />
+                                <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
+                             Text="{Binding Path=jiraInstance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />-->
 
-                        <Label Grid.Column="1" Grid.Row="2" Content="System" />
-                        <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
-                     Text="{Binding Path=system, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
+                                <Label Grid.Column="1" Grid.Row="2" Content="Project" />
+                                <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
+                             Text="{Binding Path=jiraProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
 
-                        <Label Grid.Column="1" Grid.Row="4" Content="Version" />
-                        <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
-                     Text="{Binding Path=version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
-
-                        <Label Grid.Column="1" Grid.Row="6" Content="Developer / Customer" />
-                        <TextBox Grid.Column="1" Grid.Row="7" Style="{DynamicResource SuiteDetailsTextBox}"
-                     Text="{Binding Path=developer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
+                                <Label Grid.Column="1" Grid.Row="4" Content="Folder" />
+                                <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
+                             Text="{Binding Path=jiraFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                            />
 
 
-                        <Label Grid.Column="1" Grid.Row="8" Content="Tester" />
-                        <TextBox Grid.Column="1" Grid.Row="9" Style="{DynamicResource SuiteDetailsTextBox}"
-                     Text="{Binding Path=tester, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
-
-                        <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
-                        <TextBox Grid.Column="1" Grid.Row="11" Style="{DynamicResource SuiteDetailsTextBox}" MinHeight="50"
-                     Text="{Binding Path=notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
-
-
+                            </Grid>
+                        </StackPanel>
                     </Grid>
-
-                    <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
-                    <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Label Grid.Column="1" Grid.Row="0" Content="Instance" />
-                        <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
-                     Text="{Binding Path=jiraInstance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
-
-                        <Label Grid.Column="1" Grid.Row="2" Content="Project" />
-                        <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
-                     Text="{Binding Path=jiraProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
-
-                        <Label Grid.Column="1" Grid.Row="4" Content="Folder" />
-                        <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
-                     Text="{Binding Path=jiraFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                    />
-
-
-                    </Grid>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

@@ -53,53 +53,7 @@ namespace TestRunnerAppWpf
         private void setWindowTitle() => 
             windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? Properties.Settings.Default.AppTitle : $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
 
-        //private void GetSettings()
-        //{
-        //    try
-        //    {
-        //        // Get WebDriver-setting
-        //        switch (Settings.GetWebDriverType())
-        //        {
-        //            case WebDriverType.Chrome:
-        //                Execute_SetChromeCmd();
-        //                break;
-        //            case WebDriverType.Firefox:
-        //                Execute_SetFirefoxCmd();
-        //                break;
-        //            case WebDriverType.IE:
-        //                Execute_SetIECmd();
-        //                break;
-        //            default:
-        //                Execute_SetChromeCmd();
-        //                break;
-        //        }
-
-        //        // Get on-top-when-running setting
-        //        checkedOnTop = Properties.Settings.Default.OnTop;
-
-        //        switch (Properties.Settings.Default.Theme)
-        //        {
-        //            case "Light":
-        //                Themes.SetLight();
-        //                checkedDarkTheme = false;
-        //                break;
-        //            case "Dark":
-        //                Themes.SetDark();
-        //                checkedDarkTheme = true;
-        //                break;
-        //         default:
-        //                Themes.SetLight();
-        //                checkedDarkTheme = false;
-        //                break;
-        //        }
-        //    }
-        //    catch (NullReferenceException e)
-        //    {
-        //        // In case of problems with settings-file
-        //        Debug.WriteLine($"Null-ref getting settings: {e.Message}");
-        //    }
-        //}
-
+       
 
         public void CheckWebDriverAvailibility()
         {
@@ -118,14 +72,14 @@ namespace TestRunnerAppWpf
         {
             if (gridViewModel.selectedItems.selectedItems.Count() == 1)
             {
-                detailsViewModel.suiteDetailsVisi = false;
-                detailsViewModel.testDetailsVisi = true;
+                //detailsViewModel.suiteDetailsVisi = false;
+                //detailsViewModel.testDetailsVisi = true;
                 detailsViewModel.test = gridViewModel.selectedItems.selectedItems[0];
             }
             else
             {
-                detailsViewModel.testDetailsVisi = false;
-                detailsViewModel.suiteDetailsVisi = true;
+                //detailsViewModel.testDetailsVisi = false;
+                //detailsViewModel.suiteDetailsVisi = true;
                 detailsViewModel.suite = gridViewModel.suite;
             }
 
@@ -220,41 +174,7 @@ namespace TestRunnerAppWpf
             StartAsyncRunner(tests);
         }
 
-        //private WebDriverType GetWebDriverType()
-        //{
-        //    WebDriverType driver = WebDriverType.None;
-        //    try
-        //    {
-        //        switch (Properties.Settings.Default.WebDriver)
-        //        {
-        //            case "chrome":
-        //                driver = WebDriverType.Chrome;
-        //                break;
-        //            case "firefox":
-        //                driver = WebDriverType.Firefox;
-        //                break;
-        //            case "ie":
-        //                driver = WebDriverType.IE;
-        //                break;
-        //            default:
-        //                driver = WebDriverType.None;
-        //                break;
-        //        }
-        //    }
-        //    catch (NullReferenceException ex)
-        //    {
-        //        // In case of problems with settings-file
-        //        Debug.WriteLine($"Null-ref getting webdriversetting: {ex.Message}");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Debug.WriteLine($"General exception getting webdriversetting:: {ex.Message}");
-        //    }
-        //    Debug.WriteLine($"GetWebDriverType returned: {driver.ToString()}");
-
-        //    return driver;
-        //}
-
+       
 
         /* Run tests */ // Should be moved to lib? Has view updates...
         private void CancelJob() => worker.CancelAsync();

@@ -10,10 +10,32 @@ namespace TestRunnerAppWpf
 {
     class SettingsManagerViewModel : ViewModelBase
     {
+        public string[] optionsArray = { "None", "Jira Cloud with TM4J", "ReqTest" };
+
+        public string[] mgmtOptions
+        {
+            get => Get(() => mgmtOptions, optionsArray );
+            set => Set(() => mgmtOptions, value);
+        }
         public bool jiraCloudMgmt
         {
             get => Get(() => jiraCloudMgmt, false);
             set => Set(() => jiraCloudMgmt, value);
+        }
+        public bool reqTestMgmt
+        {
+            get => Get(() => reqTestMgmt, false);
+            set => Set(() => reqTestMgmt, value);
+        }
+
+
+
+
+
+        public string jiraInstance
+        {
+            get => Get(() => jiraInstance);
+            set => Set(() => jiraInstance, value);
         }
         public string jiraUser
         {
@@ -38,11 +60,16 @@ namespace TestRunnerAppWpf
 
 
 
-        public bool reqTestMgmt
-        {
-            get => Get(() => reqTestMgmt, false);
-            set => Set(() => reqTestMgmt, value);
-        }
+        //public void Execute_SetFirefoxCmd()
+        //{
+        //    checkedChrome = false; checkedFirefox = true; checkedIE = false; checkedPhantomJS = false; checkedEdge = false;
+        //    Properties.Settings.Default.WebDriver = "firefox";
+        //}
+        //public bool CanExecute_SetFirefoxCmd()
+        //{
+        //    return true;
+        //}
+
 
 
     }
