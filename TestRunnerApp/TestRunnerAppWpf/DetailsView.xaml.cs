@@ -36,11 +36,18 @@ namespace TestRunnerAppWpf
                 }
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             System.Collections.IList items = (System.Collections.IList)detailsGrid.SelectedItems;
             var itemsCast = items.Cast<RunModel>();
             model.selectedItems = new ObservableCollection<RunModel>(itemsCast);
+        }
+
+        private void CyclesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            System.Collections.IList items = (System.Collections.IList)cyclesGrid.SelectedItems;
+            var itemsCast = items.Cast<CycleModel>();
+            model.selectedCycleItems = new ObservableCollection<CycleModel>(itemsCast);
         }
 
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TestRunnerLib;
 using ViewModelSupport;
 
 namespace TestRunnerAppWpf
@@ -55,7 +56,20 @@ namespace TestRunnerAppWpf
             set => Set(() => checkedDarkTheme, value);
         }
 
-        
+
+        /* Data */
+        public CycleModel currentCycle
+        {
+            get => Get(() => currentCycle);
+            set => Set(() => currentCycle, value);
+        }
+        public SuiteModel suite
+        {
+            get => Get(() => suite);
+            set => Set(() => suite, value);
+        }
+
+
         /* Threading */
         private BackgroundWorker worker = null;
         SynchronizationContext syncContext = SynchronizationContext.Current;
@@ -136,6 +150,18 @@ namespace TestRunnerAppWpf
         {
             get => Get(() => ieAvailable);
             set => Set(() => ieAvailable, value);
+        }
+
+        /* Undo */
+        public string undoSuite
+        {
+            get => Get(() => undoSuite);
+            set => Set(() => undoSuite, value);
+        }
+        public string redoSuite
+        {
+            get => Get(() => redoSuite);
+            set => Set(() => redoSuite, value);
         }
 
 

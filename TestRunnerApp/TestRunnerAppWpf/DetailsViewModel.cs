@@ -12,6 +12,24 @@ namespace TestRunnerAppWpf
 {
     public class DetailsViewModel : ViewModelBase
     {
+        public MainViewModel mainViewModel
+        {
+            get => Get(() => mainViewModel);
+            set => Set(() => mainViewModel, value);
+        }
+
+
+        public ObservableCollection<RunModel> selectedItems
+        {
+            get => Get(() => selectedItems, new ObservableCollection<RunModel>());
+            set => Set(() => selectedItems, value);
+        }
+        public ObservableCollection<CycleModel> selectedCycleItems
+        {
+            get => Get(() => selectedCycleItems, new ObservableCollection<CycleModel>());
+            set => Set(() => selectedCycleItems, value);
+        }
+
 
         public TestModel test
         {
@@ -23,6 +41,13 @@ namespace TestRunnerAppWpf
             get => Get(() => suite);
             set => Set(() => suite, value);
         }
+        public CycleModel cycle
+        {
+            get => Get(() => cycle);
+            set => Set(() => cycle, value);
+        }
+
+        /* Deprecated */
         public bool testDetailsVisi
         {
             get => Get(() => testDetailsVisi);
@@ -33,12 +58,8 @@ namespace TestRunnerAppWpf
             get => Get(() => suiteDetailsVisi);
             set => Set(() => suiteDetailsVisi, value);
         }
+        /* end: Deprecated */
 
-        public ObservableCollection<RunModel> selectedItems
-        {
-            get => Get(() => selectedItems, new ObservableCollection<RunModel>());
-            set => Set(() => selectedItems, value);
-        }
 
         public DetailsViewModel()
         {
@@ -46,6 +67,7 @@ namespace TestRunnerAppWpf
 
             test = new TestModel();
             suite = new SuiteModel();
+            cycle = new CycleModel();
         }
     }
 }

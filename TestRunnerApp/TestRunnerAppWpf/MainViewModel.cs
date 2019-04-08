@@ -23,24 +23,29 @@ namespace TestRunnerAppWpf
             topMost = false;
             enableRun = true;
 
-            
             this.unsavedChanges = false;
 
-            //GetSettings();
             Settings.GetSettings(this);
             CheckWebDriverAvailibility();
         }
 
-        public  void GridViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        /* Events */
+        public void GridViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            unsavedChanges = true;
             if (e.PropertyName == "suite")
             {
                 gridViewModel.suite.PropertyChanged += Suite_PropertyChanged;
                 gridViewModel.suite.tests.CollectionChanged += Tests_CollectionChanged;
+                gridViewModel.suite.cycles.CollectionChanged += Cycles_CollectionChanged;
                 setWindowTitle();
             }
         }
+
         internal void Tests_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) =>
+            this.unsavedChanges = true;
+
+        internal void Cycles_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) =>
             this.unsavedChanges = true;
 
         internal void Suite_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -48,24 +53,6 @@ namespace TestRunnerAppWpf
             this.unsavedChanges = true;
             if (e.PropertyName == "name")
                 setWindowTitle();
-        }
-
-        private void setWindowTitle() => 
-            windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? Properties.Settings.Default.AppTitle : $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
-
-       
-
-        public void CheckWebDriverAvailibility()
-        {
-            /* Current availibility-testing too time-consuming to do at startup */
-            //WebDriver.checkAvailibility();
-            //chromeAvailable = WebDriver.chromeAvailable;
-            //firefoxAvailable = WebDriver.firefoxAvailable;
-            //ieAvailable = WebDriver.ieAvailable;
-
-            chromeAvailable = Properties.Settings.Default.chromeAvailable;
-            firefoxAvailable = Properties.Settings.Default.firefoxAvailable;
-            ieAvailable = Properties.Settings.Default.ieAvailable; 
         }
 
         public void SelectedItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -96,58 +83,31 @@ namespace TestRunnerAppWpf
             }
         }
 
-        public void CopySelectedToNew()  // Should be method in TestModel
+        public void DetailsViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (gridViewModel.selectedItems.selectedItems.Count() == 1)
-            {
-                var t = gridViewModel.selectedItems.selectedItems[0];
-                var c = t.DeepCopy();
-                gridViewModel.suite.tests.Add(c);
-                this.unsavedChanges = true;
-            }
+            unsavedChanges = true;
         }
 
+            /* end: Events */
 
-        /* Legacy sync running 
-        public void RunAll()
+
+
+            private void setWindowTitle() => 
+            windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? Properties.Settings.Default.AppTitle : $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
+
+        public void CheckWebDriverAvailibility()
         {
-            foreach (TestModel test in gridViewModel.suite.tests)
-            {
-                Debug.WriteLine($"Running {test.name}");
+            /* Current availibility-testing too time-consuming to do at startup */
+            //WebDriver.checkAvailibility();
+            //chromeAvailable = WebDriver.chromeAvailable;
+            //firefoxAvailable = WebDriver.firefoxAvailable;
+            //ieAvailable = WebDriver.ieAvailable;
 
-                RunModel r = new RunModel(test);
-                test.previousOutcome = r.result;
-                test.runs.Add(r);
-                test.numberOfRuns = test.runs.Count();
-            }
+            chromeAvailable = Properties.Settings.Default.chromeAvailable;
+            firefoxAvailable = Properties.Settings.Default.firefoxAvailable;
+            ieAvailable = Properties.Settings.Default.ieAvailable; 
         }
-
-        public void RunSelected(ObservableCollection<TestModel> tests)
-        {
-            //Debug.WriteLine("Running selected tests");
-            //if (gridViewModel.selectedItems.selectedItems == null)
-            //    Debug.WriteLine("selectedItems is null");
-            //else if (gridViewModel.selectedItems.selectedItems.Count() == 0)
-            //    Debug.WriteLine("selectedItems count is 0");
-            //else
-            //{
-            //    foreach (TestModel test in gridViewModel.selectedItems.selectedItems)
-            //    {
-            //        Debug.WriteLine($"{test.name} Runs:{test.runs.Count()} Last outcome:{test.previousOutcome}");
-            //    }
-            //}
-
-            foreach (TestModel test in tests)
-            {
-                Debug.WriteLine($"Running {test.name}");
-
-                RunModel r = new RunModel(test);
-                test.previousOutcome = r.result;
-                test.runs.Add(r);
-                test.numberOfRuns = test.runs.Count();
-            }
-        }
-        */
+       
 
         public void RunAllAsync()
         {
@@ -213,10 +173,12 @@ namespace TestRunnerAppWpf
             int testsRun = 0;
             int testsToRun = tests.Count();
 
-            CycleModel cycle = new CycleModel();
-            cycle.name = "Cycle name";
-            cycle.description = "Cycle description";
-            syncContext.Send(x => gridViewModel.suite.cycles.Add(cycle), null);
+            //CycleModel cycle = new CycleModel();
+            //cycle.name = "Cycle name";
+            //cycle.description = "Cycle description";
+            //syncContext.Send(x => gridViewModel.suite.cycles.Add(cycle), null);
+            CycleModel cycle = gridViewModel.suite.currentCycle;
+            
 
             foreach (TestModel test in tests)
             {

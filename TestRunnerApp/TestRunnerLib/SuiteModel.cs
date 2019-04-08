@@ -18,6 +18,11 @@ namespace TestRunnerLib
             get => Get(() => cycles);
             set => Set(() => cycles, value);
         }
+        public CycleModel currentCycle
+        {
+            get => Get(() => currentCycle);
+            set => Set(() => currentCycle, value);
+        }
         public Guid uid
         {
             get => Get(() => uid);
@@ -83,6 +88,11 @@ namespace TestRunnerLib
             uid = Guid.NewGuid();
             tests = new ObservableCollection<TestModel>();
             cycles = new ObservableCollection<CycleModel>();
+
+            //currentCycle = new CycleModel();
+            //currentCycle.key = "R1";
+            //currentCycle.name = "New cycle";
+            //cycles.Add(currentCycle);
         }
     }
 }

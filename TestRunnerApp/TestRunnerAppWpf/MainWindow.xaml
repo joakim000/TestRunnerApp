@@ -97,11 +97,11 @@
                         <Image Source="pack://application:,,,/Icons/Export_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>-->
-                <MenuItem Header="_View details" Command="{Binding SuiteDetailsCmd}"  >
+                <!--<MenuItem Header="_View details" Command="{Binding SuiteDetailsCmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/TestPlan_16x.png" />
                     </MenuItem.Icon>
-                </MenuItem>
+                </MenuItem>-->
                 <MenuItem Header="_Create report" IsEnabled="False">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/Text_16x.png" />
@@ -260,7 +260,14 @@
                         <Image Source="pack://application:,,,/Icons/Property_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                
+
+                <MenuItem Header="_Discard selected cycles"  Command="{Binding DiscardCyclesCmd}" >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+
+
                 <MenuItem Header="_Report1"  Command="{Binding Report1Cmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/Property_16x.png" />
@@ -292,21 +299,21 @@
                 </Button>
             </ToolBar>
             <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
-                <Button Command="{Binding SuiteDetailsCmd}" ToolTip="Suite details" >
+                <!--<Button Command="{Binding SuiteDetailsCmd}" ToolTip="Suite details" >
                     <Image Source="pack://application:,,,/Icons/TestPlan_16x.png"  Style="{StaticResource ToolBarImage}" />
-                </Button>
+                </Button>-->
                 <Button ToolTip="Create report" IsEnabled="False" >
                     <Image Source="pack://application:,,,/Icons/Text_16x.png"  Style="{StaticResource ToolBarImage}" />
                 </Button>
             </ToolBar>
-            <!--<ToolBar>
-                <Button Command="Undo" ToolTip="Undo">
-                    <Image Source="pack://application:,,,/Icons/Undo_16x.png"  Style="{StaticResource ToolBarImage} />
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding UndoCmd}" ToolTip="Undo">
+                    <Image Source="pack://application:,,,/Icons/Undo_16x.png"  Style="{StaticResource ToolBarImage}" />
                 </Button>
-                <Button Command="Redo" ToolTip="Redo">
-                    <Image Source="pack://application:,,,/Icons/Redo_16x.png"  Style="{StaticResource ToolBarImage} />
+                <Button Command="{Binding RedoCmd}" ToolTip="Redo">
+                    <Image Source="pack://application:,,,/Icons/Redo_16x.png"  Style="{StaticResource ToolBarImage}" />
                 </Button>
-            </ToolBar>-->
+            </ToolBar>
             <!--<ToolBar>
                 <Button Command="Cut" ToolTip="Cut">
                     <Image Source="pack://application:,,,/Icons/Cut_16x.png"  Style="{StaticResource ToolBarImage}  />
@@ -343,6 +350,38 @@
                     <Image Source="pack://application:,,,/Icons/StatusStop_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
             </ToolBar>
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding NewCycleCmd}" ToolTip="New cycle">
+                    <Image Source="pack://application:,,,/Icons/NewFile_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding EditCycleCmd}" ToolTip="Edit cycle">
+                    <Image Source="pack://application:,,,/Icons/Edit_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding ImportCyclesCmd}" ToolTip="Import cycles">
+                    <Image Source="pack://application:,,,/Icons/Import_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding ExportCycleCmd}" ToolTip="Export cycle">
+                    <Image Source="pack://application:,,,/Icons/Export_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding DiscardCyclesCmd}" ToolTip="Discard cycles">
+                    <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <ComboBox x:Name="CyclesCombo" MinWidth="100" 
+                          ItemsSource="{Binding Path=gridViewModel.suite.cycles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
+                          SelectedItem="{Binding Path=gridViewModel.suite.currentCycle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          SelectionChanged="CyclesCombo_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5,2,5,2" Text="{Binding key}" />
+                                <TextBlock Margin="5,2,5,2" Text="{Binding name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+            </ToolBar>
+            
         </ToolBarTray>
         <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
             <Grid>
@@ -351,7 +390,7 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>   
                 <StatusBarItem Grid.Column="0" >
                     <TextBlock Text="{Binding runStatus}" />
                 </StatusBarItem>

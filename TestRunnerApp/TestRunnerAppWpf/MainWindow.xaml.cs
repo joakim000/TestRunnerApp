@@ -37,6 +37,10 @@ namespace TestRunnerAppWpf
             model.gridViewModel.PropertyChanged += model.GridViewModel_PropertyChanged;
             model.gridViewModel.suite.PropertyChanged += model.Suite_PropertyChanged;
             model.gridViewModel.suite.tests.CollectionChanged += model.Tests_CollectionChanged;
+            model.gridViewModel.suite.cycles.CollectionChanged += model.Cycles_CollectionChanged;
+
+            model.detailsViewModel.mainViewModel = model;
+            model.detailsViewModel.PropertyChanged += model.DetailsViewModel_PropertyChanged;
 
             // Continue previous session, if not opened by association
             if (string.IsNullOrEmpty(model.gridViewModel.suite.filename) &&
@@ -94,5 +98,9 @@ namespace TestRunnerAppWpf
             this.Close();
         }
 
+        private void CyclesCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

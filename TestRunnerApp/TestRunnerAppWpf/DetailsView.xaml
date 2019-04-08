@@ -79,8 +79,8 @@
 
         <Grid  >
 
-        <TabControl>
-            <TabItem Header="Results">
+        <TabControl BorderThickness="0" Padding="0">
+            <TabItem Header="Results" BorderThickness="0">
                 <Grid x:Name="testDetails"  >
                     <!--Visibility="{Binding testDetailsVisi, Converter={StaticResource BoolToVisi}}"-->
                     <DataGrid Grid.Column="2" x:Name="detailsGrid"
@@ -90,7 +90,7 @@
                           CanUserAddRows="False" SelectionUnit="FullRow"
                           AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
                           ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
-                              SelectionChanged="DataGrid_SelectionChanged"
+                          SelectionChanged="ResultsDataGrid_SelectionChanged"
         >
                         <DataGrid.RowHeaderStyle>
                             <Style>
@@ -191,14 +191,13 @@
             <TabItem Header="Cycles" >
                 <Grid x:Name="testCycles" >
                     <DataGrid Grid.Column="2" x:Name="cyclesGrid"
-                          ItemsSource="{Binding suite.cycles, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          ItemsSource="{Binding mainViewModel.gridViewModel.suite.cycles, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           AutoGenerateColumns="False" 
                           IsReadOnly="False"
                           CanUserAddRows="False" SelectionUnit="FullRow"
                           AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
                           ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
-                              SelectionChanged="DataGrid_SelectionChanged"
-        >
+                          SelectionChanged="CyclesDataGrid_SelectionChanged">
                         <DataGrid.RowHeaderStyle>
                             <Style>
                                 <Setter Property="Control.Width" Value="0"/>
@@ -387,7 +386,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Suite">
+            <TabItem Header="Suite" BorderThickness="0" BorderBrush="Black">
 
                 <ScrollViewer x:Name="suiteDetails" 
                           VerticalScrollBarVisibility="Auto"
@@ -395,10 +394,10 @@
                           >
                     <!--Visibility="{Binding suiteDetailsVisi, Converter={StaticResource BoolToVisi}}"-->
 
-                    <Grid>
-                        <StackPanel>
+                    <Grid >
+                        <StackPanel >
                             <Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
-                            <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
+                            <Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -451,39 +450,42 @@
 
 
                             </Grid>
+                            <StackPanel Orientation="Vertical"
+                                         Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
+                                <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />
 
-                            <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
-                            <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
+                                <Grid Margin="15,0,5,15" DataContext="{Binding suite}" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
 
-                                <!--<Label Grid.Column="1" Grid.Row="0" Content="Instance" />
-                                <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
-                             Text="{Binding Path=jiraInstance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                            />-->
+                                    <!--<Label Grid.Column="1" Grid.Row="0" Content="Instance" />
+                                    <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
+                                 Text="{Binding Path=jiraInstance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                />-->
 
-                                <Label Grid.Column="1" Grid.Row="2" Content="Project" />
-                                <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
-                             Text="{Binding Path=jiraProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                            />
+                                    <Label Grid.Column="1" Grid.Row="2" Content="Project" />
+                                    <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
+                                 Text="{Binding Path=jiraProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                />
 
-                                <Label Grid.Column="1" Grid.Row="4" Content="Folder" />
-                                <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
-                             Text="{Binding Path=jiraFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                            />
+                                    <Label Grid.Column="1" Grid.Row="4" Content="Folder" />
+                                    <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
+                                 Text="{Binding Path=jiraFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                />
 
 
-                            </Grid>
+                                </Grid>
+                            </StackPanel>    
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>

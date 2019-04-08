@@ -17,6 +17,7 @@ namespace TestRunnerAppWpf
             get => Get(() => suite);
             set => Set(() => suite, value);
         }
+        
         public SelectedItems selectedItems
         {
             get => Get(() => selectedItems);

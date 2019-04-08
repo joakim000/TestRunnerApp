@@ -201,7 +201,39 @@ namespace TestRunnerAppWpf
             }
         }
 
-        public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
+        public static string Serialize(object obj)
+        {
+            string serialized = null;
+            try
+            {
+                serialized = JsonConvert.SerializeObject(obj);
+                //Debug.WriteLine(serialized);
+            }
+            catch (JsonSerializationException e)
+            {
+                MessageBox.Show($"Error serializing data:{Environment.NewLine}{e.Message}");
+                Debug.WriteLine($"Error serializing data:{Environment.NewLine}{e}");
+            }
+            return serialized;
+        }
+        public static SuiteModel DeserialSuite(string serialized)
+        {
+            SuiteModel openSuite = new SuiteModel(); 
+            try
+            {
+                openSuite = JsonConvert.DeserializeObject<SuiteModel>(serialized);
+                return openSuite;
+            }
+            catch (JsonSerializationException e)
+            {
+                Debug.WriteLine($"Error deserializing: {e}");
+                MessageBox.Show($"Error deserializing: {e.Message}");
+                return null;
+            }
+        }
+
+
+public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
         {
             string serialized = null;
             try

@@ -163,6 +163,7 @@ namespace TestRunnerAppWpf
                 var d = new NewSuiteDialog();
                 if (d.ShowDialog() == true)
                 {
+                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
                     gridViewModel.suite = d.newItem;
                     SelectedItems_PropertyChanged(null, null);
                     FileMgmt.filename = null;
@@ -236,7 +237,7 @@ namespace TestRunnerAppWpf
             return true;
         }
 
-
+        /* Deprecated */
         public void Execute_SuiteDetailsCmd()
         {
             detailsViewModel.testDetailsVisi = false;
@@ -247,9 +248,90 @@ namespace TestRunnerAppWpf
         {
             return true;
         }
+        /* Deprecated */
 
+        public void Execute_UndoCmd()
+        {
+            redoSuite = string.Copy(undoSuite);
+            SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(undoSuite);
+            if (restoredSuite != null)
+                gridViewModel.suite = restoredSuite;
+        }
+        public bool CanExecute_UndoCmd()
+        {
+            return true;
+        }
 
-        
+        public void Execute_RedoCmd()
+        {
+            SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(redoSuite);
+            if (restoredSuite != null)
+                gridViewModel.suite = restoredSuite;
+        }
+        public bool CanExecute_RedoCmd()
+        {
+            return true;
+        }
+
+        // Cycle commands
+        public void Execute_NewCycleCmd()
+        {
+            CycleModel c = new CycleModel();
+            c.key = "NewId";
+            c.name = "New cycle";
+            gridViewModel.suite.currentCycle = c;
+            gridViewModel.suite.cycles.Add(c);
+        }
+        public bool CanExecute_NewCycleCmd()
+        {
+            return true;
+        }
+
+        public void Execute_DiscardCyclesCmd()
+        {
+            Debug.WriteLine("Selected cycles:" + Environment.NewLine);
+            foreach (CycleModel c in detailsViewModel.selectedCycleItems)
+                Debug.WriteLine(c.key + " " + c.name + Environment.NewLine);
+
+            if (detailsViewModel.selectedCycleItems != null)
+            {
+                undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                foreach (CycleModel c in detailsViewModel.selectedCycleItems)
+                    gridViewModel.suite.cycles.Remove(c);
+                unsavedChanges = true;
+            }
+        }
+        public bool CanExecute_DiscardCyclesCmd()
+        {
+            return true;
+        }
+
+        public void Execute_EditCycleCmd()
+        {
+            
+        }
+        public bool CanExecute_EditCycleCmd()
+        {
+            return true;
+        }
+
+        public void Execute_ImportCyclesCmd()
+        {
+            
+        }
+        public bool CanExecute_ImportCyclesCmd()
+        {
+            return true;
+        }
+
+        public void Execute_ExportCycleCmd()
+        {
+            
+        }
+        public bool CanExecute_ExportCycleCmd()
+        {
+            return true;
+        }
 
 
 
@@ -270,7 +352,7 @@ namespace TestRunnerAppWpf
             return true;
         }
 
-         public void Execute_RunAllCmd()
+        public void Execute_RunAllCmd()
         {
             RunAllAsync();
         }
@@ -303,7 +385,9 @@ namespace TestRunnerAppWpf
             var d = new NewTestDialog();
             if (d.ShowDialog() == true)
             {
+                undoSuite = FileMgmt.Serialize(gridViewModel.suite);
                 gridViewModel.suite.tests.Add(d.newItem);
+                unsavedChanges = true;
             }
         }
         public bool CanExecute_NewTestCmd()
@@ -313,7 +397,14 @@ namespace TestRunnerAppWpf
 
         public void Execute_CopyTestCmd()
         {
-            CopySelectedToNew();
+            if (gridViewModel.selectedItems.selectedItems.Count() == 1)
+            {
+                undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                var t = gridViewModel.selectedItems.selectedItems[0];
+                var c = t.DeepCopy();
+                gridViewModel.suite.tests.Add(c);
+                this.unsavedChanges = true;
+            }
         }
         public bool CanExecute_CopyTestCmd()
         {
@@ -324,8 +415,10 @@ namespace TestRunnerAppWpf
         {
             if (gridViewModel.selectedItems.selectedItems != null)
             {
+                undoSuite = FileMgmt.Serialize(gridViewModel.suite);
                 foreach (TestModel test in gridViewModel.selectedItems.selectedItems )
                     gridViewModel.suite.tests.Remove(test);
+                unsavedChanges = true;
             }
         }
         public bool CanExecute_RemoveTestCmd()
@@ -340,15 +433,21 @@ namespace TestRunnerAppWpf
                 Debug.WriteLine(run.datetime + run.result.ToString() + Environment.NewLine);
 
             if (detailsViewModel.selectedItems != null)
+            undoSuite = FileMgmt.Serialize(gridViewModel.suite);
             {
                 foreach (RunModel run in detailsViewModel.selectedItems )
                     detailsViewModel.test.runs.Remove(run);
+                unsavedChanges = true;
             }
         }
         public bool CanExecute_DiscardRunsCmd()
         {
             return true;
         }
+
+
+       
+
 
         // Development & debugging commands
         public void Execute_Debug1Cmd()
