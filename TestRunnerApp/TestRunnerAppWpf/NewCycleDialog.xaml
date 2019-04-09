@@ -1,11 +1,11 @@
-﻿<Window x:Class="TestRunnerAppWpf.NewTestDialog"
+﻿<Window x:Class="TestRunnerAppWpf.NewCycleDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestRunnerAppWpf"
         mc:Ignorable="d"
-        Title="Add new test" Height="450" Width="800"
+        Title="Add new cycle" Height="450" Width="800"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         Icon="pack://application:,,,/Icons/Test_16x.png"
@@ -71,36 +71,26 @@
                      Text="{Binding Path=prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="6" Content="Pre-conditions" />
+            <Label Grid.Column="1" Grid.Row="6" Content="Long description" />
             <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=descPrecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Grid.Column="1" Grid.Row="8" Content="Execution steps" />
-            <TextBox Grid.Column="1" Grid.Row="9" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=descExecution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Grid.Column="1" Grid.Row="10" Content="Expected result" />
-            <TextBox Grid.Column="1" Grid.Row="11" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=descExpected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
-            <Label Grid.Column="1" Grid.Row="12" Content="Notes" />
-            <TextBox Grid.Column="1" Grid.Row="13" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+            <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
+            <TextBox Grid.Column="1" Grid.Row="11" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="50"
                      Text="{Binding Path=notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
+            
+            
         </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="1">
-            <Label Content="Test" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
+        <StackPanel Grid.Column="1" Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
+            <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
-        <Grid Margin="15,0,15,15">
+        <Grid Margin="15,0,15,15" DataContext="{Binding Path=newItem}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -125,41 +115,50 @@
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Column="1" Grid.Row="0" Content="Assembly" />
+            <!--<Label Grid.Column="1" Grid.Row="0" Content="Key" />
             <TextBox Grid.Column="1" Grid.Row="1" Width="350"
-                     Text="{Binding Path=callAss, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />-->
+
+            <Label Grid.Column="1" Grid.Row="0" Content="Status" />
+            <TextBox Grid.Column="1" Grid.Row="1" Width="350"
+                     Text="{Binding Path=status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="2" Content="Namespace" />
+            <Label Grid.Column="1" Grid.Row="2" Content="Folder" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=callSpace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=folder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="4" Content="Type" />
+            <Label Grid.Column="1" Grid.Row="4" Content="Version" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=callType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
+            <Label Grid.Column="1" Grid.Row="6" Content="Project" />
+            <TextBox Grid.Column="1" Grid.Row="7" Width="350" IsEnabled="False"
+                     Text="{Binding Path=project, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
 
-            <Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
+            <!--<Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
             <TextBox Grid.Column="1" Grid.Row="9" Width="350"
                      Text="{Binding Path=testData[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            />-->
             
-            <Label Grid.Column="1" Grid.Row="10" Content="Test data 2" />
+            <!--<Label Grid.Column="1" Grid.Row="10" Content="Test data 2" />
             <TextBox Grid.Column="1" Grid.Row="11" Width="350"
                      Text="{Binding Path=testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            />-->
             
-            <Label Grid.Column="1" Grid.Row="12" Content="Test data 3" />
+            <!--<Label Grid.Column="1" Grid.Row="12" Content="Test data 3" />
             <TextBox Grid.Column="1" Grid.Row="13" Width="350"
                      Text="{Binding Path=testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            />-->
             
-            <Label Grid.Column="1" Grid.Row="14" Content="Test data 4" />
+            <!--<Label Grid.Column="1" Grid.Row="14" Content="Test data 4" />
             <TextBox Grid.Column="1" Grid.Row="15" Width="350"
                      Text="{Binding Path=testData[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            />-->
            
             <!--<Label Grid.Column="1" Grid.Row="10" Content="Use Web driver" />-->
             <!--<TextBox Grid.Column="1" Grid.Row="11" Width="350"

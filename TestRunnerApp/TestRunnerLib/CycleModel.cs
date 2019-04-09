@@ -75,6 +75,16 @@ namespace TestRunnerLib
             get => Get(() => uid);
             set => Set(() => uid, value);
         }
+        public string id
+        {
+            get => Get(() => id);
+            set => Set(() => id, value);
+        }
+        public string notes
+        {
+            get => Get(() => notes);
+            set => Set(() => notes, value);
+        }
 
         /* Jira integration */
         public string name
@@ -91,6 +101,11 @@ namespace TestRunnerLib
         {
             get => Get(() => description);
             set => Set(() => description, value);
+        }
+        public string project
+        {
+            get => Get(() => project);
+            set => Set(() => project, value);
         }
         public string folder
         {

@@ -166,6 +166,9 @@
     <Compile Include="ExportDialog.xaml.cs">
       <DependentUpon>ExportDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NewCycleDialog.xaml.cs">
+      <DependentUpon>NewCycleDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Report.cs" />
     <Compile Include="Converters\BoolChangesConverter.cs" />
     <Compile Include="Converters\ElementSizeConverter.cs" />
@@ -237,6 +240,10 @@
     <Page Include="NewSuiteDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewCycleDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="NewTestDialog.xaml">
       <SubType>Designer</SubType>
