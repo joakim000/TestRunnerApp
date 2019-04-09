@@ -252,10 +252,13 @@ namespace TestRunnerAppWpf
 
         public void Execute_UndoCmd()
         {
-            redoSuite = string.Copy(undoSuite);
-            SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(undoSuite);
-            if (restoredSuite != null)
-                gridViewModel.suite = restoredSuite;
+            if (undoSuite != null)
+            {
+                redoSuite = string.Copy(undoSuite);
+                SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(undoSuite);
+                if (restoredSuite != null)
+                    gridViewModel.suite = restoredSuite;
+            }
         }
         public bool CanExecute_UndoCmd()
         {
@@ -276,11 +279,25 @@ namespace TestRunnerAppWpf
         // Cycle commands
         public void Execute_NewCycleCmd()
         {
-            CycleModel c = new CycleModel();
-            c.key = "NewId";
-            c.name = "New cycle";
-            gridViewModel.suite.currentCycle = c;
-            gridViewModel.suite.cycles.Add(c);
+            var d = new NewCycleDialog(this);
+            if (d.ShowDialog() == true)
+            {
+                if (!string.IsNullOrEmpty(d.newItem.id) && !string.IsNullOrEmpty(d.newItem.name))
+                {
+
+
+
+                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                    gridViewModel.suite.cycles.Add(d.newItem);
+                    unsavedChanges = true;
+                }
+            }
+
+            //CycleModel c = new CycleModel();
+            //c.key = "NewId";
+            //c.name = "New cycle";
+            //gridViewModel.suite.currentCycle = c;
+            //gridViewModel.suite.cycles.Add(c);
         }
         public bool CanExecute_NewCycleCmd()
         {

@@ -18,21 +18,49 @@ namespace TestRunnerAppWpf
     public partial class NewCycleDialog : Window
     {
         public CycleModel newItem { get; set; }
+        MainViewModel mainViewModel { get; set; }
+        //bool jiraCloudMgmt { get; set; }
+        //bool jiraServerMgmt { get; set; }
+        //bool reqTestdMgmt { get; set; }
 
+        //public NewCycleDialog(bool jiraCloudMgmt, bool jiraServerMgmt, bool reqTestMgmt)
         public NewCycleDialog(MainViewModel mainViewModel)
         {
+            InitializeComponent();
 
-            DataContext = mainViewModel;
+            //this.mainViewModel = mainViewModel;
+            //DataContext = mainViewModel;
+
+
+
             newItem = new CycleModel();
+            DataContext = newItem;
+            jiraPanel.DataContext = mainViewModel.jiraCloudMgmt;
+            jiraGrid.DataContext = newItem;
             
+            //descGrid.DataContext = newItem;
+
+            
+
 
             if (mainViewModel.jiraCloudMgmt)
             {
 
             }
-            
 
-            InitializeComponent();
+            //if (jiraServerMgmt)
+            //{
+
+            //}
+
+            if (mainViewModel.reqTestMgmt)
+            {
+
+            }
+
+
+
+            
 
             //newItem.PropertyChanged += NewItem_PropertyChanged;
         }

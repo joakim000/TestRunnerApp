@@ -8,7 +8,7 @@ namespace TestRunnerLib
 {
     public interface ITest
     {
-        TestKind Kind { get; } // { Other, AD, Exchange }
         TestResult Test(string[] testData);
+        TestKind Kind { get; } // { Other, Web, AD, Exchange, ADO };
     }
 }

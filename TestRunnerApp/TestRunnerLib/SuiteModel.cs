@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using TestRunnerLib.Jira;
 using ViewModelSupport;
 
 namespace TestRunnerLib
@@ -71,7 +72,7 @@ namespace TestRunnerLib
             get => Get(() => jiraInstance);
             set => Set(() => jiraInstance, value);
         }
-        public string jiraProject
+        public JiraProject jiraProject
         {
             get => Get(() => jiraProject);
             set => Set(() => jiraProject, value);

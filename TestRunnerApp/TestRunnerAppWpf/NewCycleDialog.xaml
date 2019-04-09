@@ -34,7 +34,7 @@
     <StackPanel>
         <Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
-        <Grid Margin="15,0,15,15">
+        <Grid x:Name="descGrid"  Margin="15,0,15,15" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -66,10 +66,10 @@
                      Text="{Binding Path=name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
-            <Label Grid.Column="1" Grid.Row="4" Content="Priority" />
+            <!--<Label Grid.Column="1" Grid.Row="4" Content="Priority" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
                      Text="{Binding Path=prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            />-->
 
             <Label Grid.Column="1" Grid.Row="6" Content="Long description" />
             <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
@@ -87,10 +87,10 @@
             
         </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="1" Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
+        <StackPanel x:Name="jiraPanel"  Grid.Column="1" Visibility="{Binding Path=., Converter={StaticResource BoolToVisi}}">
             <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
-        <Grid Margin="15,0,15,15" DataContext="{Binding Path=newItem}">
+        <Grid x:Name="jiraGrid"  Margin="15,0,15,15" DataContext="{Binding}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />

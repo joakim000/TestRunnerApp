@@ -373,7 +373,7 @@
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="5,2,5,2" Text="{Binding key}" />
+                                <TextBlock Margin="5,2,5,2" Text="{Binding id}" />
                                 <TextBlock Margin="5,2,5,2" Text="{Binding name}" />
                             </StackPanel>
                         </DataTemplate>

@@ -98,6 +98,8 @@
     <Compile Include="ImageTools.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="IWebTest.cs" />
+    <Content Include="Jira\Jira.cs.txt" />
+    <Compile Include="Jira\Models.cs" />
     <Compile Include="Python\PyNetSe.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

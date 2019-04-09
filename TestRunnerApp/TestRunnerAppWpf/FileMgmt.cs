@@ -216,6 +216,20 @@ namespace TestRunnerAppWpf
             }
             return serialized;
         }
+        public static object Deserialize(string serialized)
+        {
+            try
+            {
+                var obj = JsonConvert.DeserializeObject(serialized);
+                return obj;
+            }
+            catch (JsonSerializationException e)
+            {
+                Debug.WriteLine($"Error deserializing: {e}");
+                MessageBox.Show($"Error deserializing: {e.Message}");
+                return null;
+            }
+        }
         public static SuiteModel DeserialSuite(string serialized)
         {
             SuiteModel openSuite = new SuiteModel(); 

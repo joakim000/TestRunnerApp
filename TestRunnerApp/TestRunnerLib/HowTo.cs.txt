@@ -47,12 +47,12 @@
 /// <example>
 ///     return new TestResult(Outcome o);
 ///     return new TestResult(Outcome o, int step)
-///     return new TestResult(Outcome o, string s)
-///     return new TestResult(Outcome o, Exception e)
-///     return new TestResult(Outcome o, int step, string s)
-///     return new TestResult(Outcome o, int step, Exception e)
-///     return new TestResult(Outcome o, string s, Exception e)
-///     return new TestResult(Outcome o, int step, string s, Exception e)
+///     return new TestResult(Outcome o, string message)
+///     return new TestResult(Outcome o, Exception ex)
+///     return new TestResult(Outcome o, int step, string message)
+///     return new TestResult(Outcome o, int step, Exception ex)
+///     return new TestResult(Outcome o, string message, Exception ex)
+///     return new TestResult(Outcome o, int step, string message, Exception ex)
 /// </example>
 
 using System;

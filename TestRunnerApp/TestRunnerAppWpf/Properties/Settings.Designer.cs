@@ -235,5 +235,17 @@ namespace TestRunnerAppWpf.Properties {
                 this["JiraAccountId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string JiraAvailableProjects {
+            get {
+                return ((string)(this["JiraAvailableProjects"]));
+            }
+            set {
+                this["JiraAvailableProjects"] = value;
+            }
+        }
     }
 }

@@ -472,11 +472,28 @@
                                     <TextBox Grid.Column="1" Grid.Row="1" Style="{DynamicResource SuiteDetailsTextBox}"
                                  Text="{Binding Path=jiraInstance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                                 />-->
+                                    <StackPanel Grid.Column="1" Grid.Row="2">
+                                        <Label Content="Project" />
+                                        <ComboBox x:Name="ProjectsCombo"
+                                                  SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.selectedProject, 
+                                                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                            ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.jiraAvailableProjects, 
+                                                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}">
 
-                                    <Label Grid.Column="1" Grid.Row="2" Content="Project" />
-                                    <TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
-                                 Text="{Binding Path=jiraProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                                />
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding key}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <Button Content="Update" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.JiraGetAvailableProjectsCmd}"/>
+                                    </StackPanel>
+
+                                    <!--<TextBox Grid.Column="1" Grid.Row="3" Style="{DynamicResource SuiteDetailsTextBox}" 
+                                         Text="{Binding Path=jiraProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                    />-->
 
                                     <Label Grid.Column="1" Grid.Row="4" Content="Folder" />
                                     <TextBox Grid.Column="1" Grid.Row="5" Style="{DynamicResource SuiteDetailsTextBox}" 
