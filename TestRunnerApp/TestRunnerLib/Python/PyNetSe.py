@@ -1,6 +1,7 @@
 ﻿import clr
 import time
 import sys
+import array
 
 from TestAppLib import TestResult, Outcome
 from OpenQA.Selenium import *
@@ -8,9 +9,9 @@ from OpenQA.Selenium.Support.UI import *
 
 
 # Test runner
-def Run(driver, param1, param2, param3, param4):
-    server = param1; 
-    input = param2;
+def Run(driver, testdata):
+    server = testdata[1]; 
+    input = testdata[2];
 
     step = 1;
     try:
@@ -27,7 +28,7 @@ def Run(driver, param1, param2, param3, param4):
         return TestResult(Outcome.Pass, step, "Page title is: {title}".format(title=webdriver.Title))
 
 # Execution
-result = Run(webdriver, param1, param2, param3, param4 )
+result = Run(webdriver, testdata)
 
 
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="TestRunnerAppWpf.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+      <section name="TestRunnerAppWpf.Properties.Settings1" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+      <section name="TestRunnerAppWpf.UserSettings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+    <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="TestRunnerAppWpf.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    </sectionGroup>
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+  </startup>
+  <userSettings>
+    <TestRunnerAppWpf.Properties.Settings>
+      <setting name="WebDriver" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="OnTop" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="Theme" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="PreviousDir" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="PreviousFile" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="PreviousLibDir" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="PreviousLibFile" serializeAs="String">
+        <value />
+      </setting>
+    </TestRunnerAppWpf.Properties.Settings>
+    <TestRunnerAppWpf.Properties.Settings1>
+      <setting name="WebDriver" serializeAs="String">
+        <value />
+      </setting>
+    </TestRunnerAppWpf.Properties.Settings1>
+    <TestRunnerAppWpf.UserSettings>
+      <setting name="Theme" serializeAs="String">
+        <value>dark</value>
+      </setting>
+      <setting name="OpenOnStart" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="SaveOnExit" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="Filename" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="WebDriver" serializeAs="String">
+        <value>chrome</value>
+      </setting>
+      <setting name="chromeAvailable" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="firefoxAvailable" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="ieAvailable" serializeAs="String">
+        <value>False</value>
+      </setting>
+    </TestRunnerAppWpf.UserSettings>
+  </userSettings>
+  <applicationSettings>
+    <TestRunnerAppWpf.Properties.Settings>
+      <setting name="AppTitle" serializeAs="String">
+        <value>TestApp by Unicus</value>
+      </setting>
+      <setting name="chromeAvailable" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="firefoxAvailable" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="ieAvailable" serializeAs="String">
+        <value>False</value>
+      </setting>
+      <setting name="TestsDir" serializeAs="String">
+        <value>Tests\</value>
+      </setting>
+    </TestRunnerAppWpf.Properties.Settings>
+  </applicationSettings>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+</configuration>

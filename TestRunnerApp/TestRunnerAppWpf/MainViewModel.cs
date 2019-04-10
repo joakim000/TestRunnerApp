@@ -27,6 +27,7 @@ namespace TestRunnerAppWpf
 
             Settings.GetSettings(this);
             CheckWebDriverAvailibility();
+
         }
 
         /* Events */
@@ -35,6 +36,7 @@ namespace TestRunnerAppWpf
             unsavedChanges = true;
             if (e.PropertyName == "suite")
             {
+                unsavedChanges = true;
                 gridViewModel.suite.PropertyChanged += Suite_PropertyChanged;
                 gridViewModel.suite.tests.CollectionChanged += Tests_CollectionChanged;
                 gridViewModel.suite.cycles.CollectionChanged += Cycles_CollectionChanged;
@@ -59,14 +61,10 @@ namespace TestRunnerAppWpf
         {
             if (gridViewModel.selectedItems.selectedItems.Count() == 1)
             {
-                //detailsViewModel.suiteDetailsVisi = false;
-                //detailsViewModel.testDetailsVisi = true;
                 detailsViewModel.test = gridViewModel.selectedItems.selectedItems[0];
             }
             else
             {
-                //detailsViewModel.testDetailsVisi = false;
-                //detailsViewModel.suiteDetailsVisi = true;
                 detailsViewModel.suite = gridViewModel.suite;
             }
 
@@ -85,7 +83,7 @@ namespace TestRunnerAppWpf
 
         public void DetailsViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            unsavedChanges = true;
+            //unsavedChanges = true;
         }
 
             /* end: Events */
@@ -188,11 +186,12 @@ namespace TestRunnerAppWpf
                 syncContext.Send(x => test.runs.Add(r), null);
                 syncContext.Send(x => test.previousOutcome = r.result, null);
                 syncContext.Send(x => test.numberOfRuns = test.runs.Count(), null);
-                //test.previousOutcome = r.result;
-                //test.numberOfRuns = test.runs.Count();
 
-                CycleRun cycleRun = new CycleRun(test, r);
-                syncContext.Send(x => cycle.cycleRuns.Add(cycleRun), null);
+                if (cycle != null)
+                {
+                    CycleRun cycleRun = new CycleRun(test, r);
+                    syncContext.Send(x => cycle.cycleRuns.Add(cycleRun), null);
+                }
 
                 testsRun++;
                 if (worker.CancellationPending == true)

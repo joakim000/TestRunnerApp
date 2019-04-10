@@ -57,13 +57,13 @@
             </Grid.RowDefinitions>
 
             <Label Grid.Column="1" Grid.Row="0" Content="ID" />
-            <TextBox Grid.Column="1" Grid.Row="1" Width="350"
-                     Text="{Binding Path=id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            <TextBox Grid.Column="1" Grid.Row="1" Width="350" x:Name="idTB"
+                     Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="2" Content="Name" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <!--<Label Grid.Column="1" Grid.Row="4" Content="Priority" />
@@ -74,23 +74,23 @@
             <Label Grid.Column="1" Grid.Row="6" Content="Long description" />
             <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
             <TextBox Grid.Column="1" Grid.Row="11" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="50"
-                     Text="{Binding Path=notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             
             
         </Grid>
         </StackPanel>
-        <StackPanel x:Name="jiraPanel"  Grid.Column="1" Visibility="{Binding Path=., Converter={StaticResource BoolToVisi}}">
+        <StackPanel x:Name="jiraPanel"  Grid.Column="1" Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
             <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
-        <Grid x:Name="jiraGrid"  Margin="15,0,15,15" DataContext="{Binding}">
+        <Grid x:Name="jiraGrid"  Margin="15,0,15,15" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -120,24 +120,50 @@
                      Text="{Binding Path=key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />-->
 
-            <Label Grid.Column="1" Grid.Row="0" Content="Status" />
-            <TextBox Grid.Column="1" Grid.Row="1" Width="350"
-                     Text="{Binding Path=status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+        <StackPanel Grid.Column="1" Grid.Row="0">
+             <Label Content="Cycle Key" />
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="CyclesCombo"
+                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
+                                  ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                                               SelectedItem="{Binding jiraSelectedCycle, 
+                                                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                         ItemsSource="{Binding jiraAvailableCycles, 
+                                                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}">
 
-            <Label Grid.Column="1" Grid.Row="2" Content="Folder" />
+                 <ComboBox.ItemTemplate>
+                     <DataTemplate>
+                         <StackPanel Orientation="Horizontal">
+                             <TextBlock Text="{Binding key}" />
+                         </StackPanel>
+                     </DataTemplate>
+                 </ComboBox.ItemTemplate>
+             </ComboBox>
+                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                 Content="Update list" Command="{Binding JiraGetAvailableCyclesCmd}"/>
+                        </StackPanel> 
+        </StackPanel>
+
+                <StackPanel  Grid.Column="1"  Grid.Row="1">
+        <Label Content="Status" />
+            <TextBox  Width="350"
+                     Text="{Binding Path=newItem.status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+                </StackPanel>
+            
+                <Label Grid.Column="1" Grid.Row="2" Content="Folder" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=folder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.folder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="4" Content="Version" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="6" Content="Project" />
             <TextBox Grid.Column="1" Grid.Row="7" Width="350" IsEnabled="False"
-                     Text="{Binding Path=project, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.project, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <!--<Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
@@ -167,11 +193,16 @@
                 <!--<CheckBox Grid.Column="1" Grid.Row="11" IsChecked="{Binding useWebDriver}" Margin="15,0,0,0" />-->
 
 
-            <WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" >
+            <!--<WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" >
                 <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
                 <Button IsCancel="True" MinWidth="60">_Cancel</Button>
-            </WrapPanel>
+            </WrapPanel>-->
         </Grid>
         </StackPanel>
+        <WrapPanel Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" >
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" 
+                    Padding="0,2,0,2" Margin="0,0,10,0">_Ok</Button>
+            <Button IsCancel="True" Padding="0,2,0,2" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
     </Grid>
 </Window>

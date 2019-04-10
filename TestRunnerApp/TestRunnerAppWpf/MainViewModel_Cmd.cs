@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ViewModelSupport;
 using TestRunnerLib;
+using TestRunnerLib.Jira;
 using System.Reflection;
 
 using Newtonsoft.Json.Linq;
@@ -113,7 +114,7 @@ namespace TestRunnerAppWpf
 
         public void Execute_AboutCmd()
         {
-            string versionString = "1.1";
+            string versionString = "2.0 beta1";
             string aboutString = $"TestApp v{versionString}{Environment.NewLine}{Environment.NewLine}Joakim Odermalm{Environment.NewLine}Unicus Sverige{Environment.NewLine}2019";
             MessageBox.Show(aboutString);
         }
@@ -267,9 +268,12 @@ namespace TestRunnerAppWpf
 
         public void Execute_RedoCmd()
         {
-            SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(redoSuite);
-            if (restoredSuite != null)
-                gridViewModel.suite = restoredSuite;
+            if (redoSuite != null)
+            {
+                SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(redoSuite);
+                if (restoredSuite != null)
+                    gridViewModel.suite = restoredSuite;
+            }
         }
         public bool CanExecute_RedoCmd()
         {
@@ -282,13 +286,13 @@ namespace TestRunnerAppWpf
             var d = new NewCycleDialog(this);
             if (d.ShowDialog() == true)
             {
-                if (!string.IsNullOrEmpty(d.newItem.id) && !string.IsNullOrEmpty(d.newItem.name))
+                if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
                 {
 
 
 
                     undoSuite = FileMgmt.Serialize(gridViewModel.suite);
-                    gridViewModel.suite.cycles.Add(d.newItem);
+                    gridViewModel.suite.cycles.Add(d.viewModel.newItem);
                     unsavedChanges = true;
                 }
             }
@@ -549,7 +553,7 @@ namespace TestRunnerAppWpf
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetServerInfo();
 
             // Current user
-            Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser();
+            Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser(await JiraConnect.Preflight());
 
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
@@ -579,7 +583,7 @@ namespace TestRunnerAppWpf
         {
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateCycle("TEM", "First cycle", "My very first cycle", null, false);
 
-            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser();
+            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await JiraConnect.Preflight());
             string accountId = null;
             if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
                 accountId = accountIdToken.ToString();
@@ -589,7 +593,8 @@ namespace TestRunnerAppWpf
             foreach (CycleRun cr in c.cycleRuns)
             {
                 RunModel r = cr.run;
-                Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec("TEM",
+                Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec(await JiraConnect.Preflight(),
+                                                                                "TEM",
                                                                                 "TEM-R2",
                                                                                 r.test.id,
                                                                                 r.result,
@@ -632,7 +637,7 @@ namespace TestRunnerAppWpf
                 {
                     jiraCloudMgmt = true;
                     reqTestMgmt = false;
-                    if (!await Jira.SetAccountId())
+                    if (!await JiraConnect.SetAccountId())
                         MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else if (Properties.Settings.Default.MgmtSystem == "ReqTest")

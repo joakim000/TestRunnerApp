@@ -90,7 +90,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Test data 1" Binding="{Binding testData[0], UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
+                <DataGridTextColumn Header="Test data 1" Binding="{Binding testData[1], UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -98,7 +98,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Test data 2" Binding="{Binding testData[1], UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                <DataGridTextColumn Header="Test data 2" Binding="{Binding testData[2], UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -159,16 +159,14 @@
                             <TextBlock Grid.Column="0" Grid.Row="0" Text="Assembly" Margin="3,5,0,1"  Style="{StaticResource TBLeft}"/>
                             <TextBlock Grid.Column="1" Grid.Row="0" Text="Namespace"  Margin="0,5,0,1"  Style="{StaticResource TBLeft}"/>
                             <TextBlock Grid.Column="2" Grid.Row="0" Text="Type"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
-                            <!--<TextBlock Grid.Column="3" Grid.Row="0" Text="Method"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />-->
                             <TextBlock Grid.Column="3" Grid.Row="0" Text="Test data 3"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
                             <TextBlock Grid.Column="4" Grid.Row="0" Text="Test data 4"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
                             <!--<TextBlock Grid.Column="3" Grid.Row="0" Text="Web"  Margin="0,5,3,1" Style="{StaticResource TBLeft}" />-->
                             <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding callAss, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" Margin="3,0,3,10" />
                             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
                             <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding callType, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
-                            <!--<TextBox Grid.Column="3" Grid.Row="1" Text="{Binding callMeth, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />-->
-                            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding testData[2], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
-                            <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding testData[3], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
+                            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding testData[3], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
+                            <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding testData[4], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
                             <!--<CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding useWebDriver, UpdateSourceTrigger=PropertyChanged}"
                                       HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,4,3,0"/>-->
                         </Grid>

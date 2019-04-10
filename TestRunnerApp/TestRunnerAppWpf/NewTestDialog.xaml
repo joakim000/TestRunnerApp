@@ -143,22 +143,22 @@
 
             <Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
             <TextBox Grid.Column="1" Grid.Row="9" Width="350"
-                     Text="{Binding Path=testData[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="10" Content="Test data 2" />
             <TextBox Grid.Column="1" Grid.Row="11" Width="350"
-                     Text="{Binding Path=testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="12" Content="Test data 3" />
             <TextBox Grid.Column="1" Grid.Row="13" Width="350"
-                     Text="{Binding Path=testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=testData[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="14" Content="Test data 4" />
             <TextBox Grid.Column="1" Grid.Row="15" Width="350"
-                     Text="{Binding Path=testData[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=testData[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
            
             <!--<Label Grid.Column="1" Grid.Row="10" Content="Use Web driver" />-->

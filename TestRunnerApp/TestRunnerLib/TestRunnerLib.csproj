@@ -92,13 +92,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum.cs" />
-    <Content Include="HowTo.cs.txt">
+    <Compile Include="HowTo.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Compile>
     <Compile Include="ImageTools.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="IWebTest.cs" />
-    <Content Include="Jira\Jira.cs.txt" />
+    <Compile Include="Jira\Jira.cs" />
     <Compile Include="Jira\Models.cs" />
     <Compile Include="Python\PyNetSe.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

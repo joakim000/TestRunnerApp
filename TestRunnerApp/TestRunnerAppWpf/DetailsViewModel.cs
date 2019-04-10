@@ -38,10 +38,10 @@ namespace TestRunnerAppWpf
             get => Get(() => jiraAvailableProjects, new ObservableCollection<JiraProject>());
             set => Set(() => jiraAvailableProjects, value);
         }
-        public JiraProject selectedProject
+        public JiraProject jiraSelectedProject
         {
-            get => Get(() => selectedProject);
-            set => Set(() => selectedProject, value);
+            get => Get(() => jiraSelectedProject);
+            set => Set(() => jiraSelectedProject, value);
         }
 
         public TestModel test
@@ -65,7 +65,7 @@ namespace TestRunnerAppWpf
         /* Commands */
         public async void Execute_JiraGetAvailableProjectsCmd()
         {
-            Tuple<HttpStatusCode, JObject> projects = await Jira.GetProjects("100");
+            Tuple<HttpStatusCode, JObject> projects = await Jira.GetProjects(await JiraConnect.TmjPrep(), "100");
             if (projects.Item1 == HttpStatusCode.OK)
             {
                 //JToken values = projects.Item2.GetValue("values");
@@ -86,8 +86,9 @@ namespace TestRunnerAppWpf
                 }
 
                 jiraAvailableProjects = jiraProjects;
+                jiraSelectedProject = jiraProjects.First();
                 Properties.Settings.Default.JiraAvailableProjects = FileMgmt.Serialize(jiraAvailableProjects);
-                selectedProject = jiraProjects.First();
+                
             }
 
 
@@ -120,14 +121,33 @@ namespace TestRunnerAppWpf
             suite = new SuiteModel();
             cycle = new CycleModel();
 
+            jiraAvailableProjects = Settings.jiraAvailableProjects;
+
             this.PropertyChanged += DetailsViewModel_PropertyChanged;
 
         }
 
-        private void DetailsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void DetailsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            Debug.WriteLine($"DetailsViewModel propchanged: {e.PropertyName}");
             if (e.PropertyName == "jiraSelectedProject")
-                mainViewModel.gridViewModel.suite.jiraProject = selectedProject;
+            {
+                mainViewModel.gridViewModel.suite.jiraProject = jiraSelectedProject;
+                Debug.WriteLine($"jiraproject.key: {mainViewModel.gridViewModel.suite.jiraProject.key}");
+
+                var p = mainViewModel.gridViewModel.suite.jiraProject;
+                var response = await Jira.GetProjJira(await JiraConnect.Preflight(), p.key);
+                if (response.Item1 == HttpStatusCode.OK)
+                {
+                    p.name = response.Item2.Value<string>("name");
+                    p.description = response.Item2.Value<string>("description");
+                    p.self = response.Item2.Value<string>("self");
+                }
+                
+
+
+            }
+            
         }
     }
 }

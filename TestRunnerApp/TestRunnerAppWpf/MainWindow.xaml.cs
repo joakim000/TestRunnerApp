@@ -60,6 +60,14 @@ namespace TestRunnerAppWpf
                 }
                 if (fileopen.Item1 != null)
                     model.gridViewModel.suite.filename = fileopen.Item1;
+
+                if (model.gridViewModel.suite.currentCycle != null)
+                {
+                    string cc = model.gridViewModel.suite.currentCycle.key;
+                    model.gridViewModel.suite.currentCycle = model.gridViewModel.suite.cycles.Where(x => x.key == cc).First();
+                    CyclesCombo.SelectedItem = model.gridViewModel.suite.currentCycle;
+                }
+
             }
         }
 

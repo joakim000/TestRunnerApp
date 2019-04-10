@@ -32,7 +32,27 @@
     <!--<SolidColorBrush x:Key="RowBackgroundSelectedBrush" Color="#FF333333" />-->
 
 
-    
+    <Style TargetType="{x:Type ComboBox}" x:Key="ComboStyle">
+        <Setter Property="FontSize" Value="12" />
+        <!--<Setter Property="FontWeight" Value="Bold" />-->
+        <!--<Setter Property="VerticalAlignment" Value="Bottom" />-->
+        <!--<Setter Property="HorizontalAlignment" Value="Left" />-->
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+    </Style>
+
+    <Style TargetType="{x:Type ComboBoxItem}" x:Key="ComboItemStyle">
+        <Setter Property="FontSize" Value="12" />
+        <!--<Setter Property="FontWeight" Value="Bold" />-->
+        <!--<Setter Property="VerticalAlignment" Value="Bottom" />-->
+        <!--<Setter Property="HorizontalAlignment" Value="Left" />-->
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+    </Style>
+
+
+
     <!--// Show selection in selection-color even when working in details-pane-->
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey }" Color="#FF0078D7" />
 

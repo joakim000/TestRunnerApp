@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using TestRunnerLib;
+using TestRunnerLib.Jira;
 
 namespace TestRunnerAppWpf
 {
@@ -17,6 +19,8 @@ namespace TestRunnerAppWpf
         //public static string jiraInstance = @"unicus-sverige.atlassian.net";
         public static string jiraProject = @"TEM";
         public static string jiraFolder = @"";
+
+        public static ObservableCollection<JiraProject> jiraAvailableProjects = new ObservableCollection<JiraProject>();
 
         public static bool accountIdSet = false;
         //public static string jiraAccountId;
@@ -58,7 +62,7 @@ namespace TestRunnerAppWpf
         }
 
 
-        public static async void GetSettings(MainViewModel caller)
+        public static void GetSettings(MainViewModel caller)
         {
             try
             {
@@ -140,7 +144,20 @@ namespace TestRunnerAppWpf
                     caller.reqTestMgmt = true;
                 }
 
-        
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAvailableProjects))
+                {
+                    //var c = new ObservableCollection<JiraProject>();
+                    var tokenArray = (JArray)FileMgmt.Deserialize(Properties.Settings.Default.JiraAvailableProjects);
+                    foreach (JToken t in tokenArray)
+                        jiraAvailableProjects.Add(t.ToObject<JiraProject>());
+
+                    //caller.detailsViewModel.jiraAvailableProjects.Add(t.ToObject<JiraProject>());
+                    //caller.detailsViewModel.jiraAvailableProjects = c;
+                    
+                }
+
+
+
             }
             catch (NullReferenceException e)
             {

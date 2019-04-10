@@ -35,9 +35,9 @@ def GetDriver(webdrivertype):
         result = TestResult(Outcome.Warning, 0, "WebDriver error")
 
 # Test runner
-def Run(driver, param1, param2, param3, param4):
-      server = param1; 
-      input = param2;
+def Run(driver, testdata):
+      server = testdata[1]; 
+      input = testdata[2];
 
       step = 1;
       try:

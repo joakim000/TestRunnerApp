@@ -82,6 +82,11 @@ namespace TestRunnerLib
             get => Get(() => jiraFolder);
             set => Set(() => jiraFolder, value);
         }
+        public JiraCycle jiraCycle
+        {
+            get => Get(() => jiraCycle);
+            set => Set(() => jiraCycle, value);
+        }
 
 
         public SuiteModel()

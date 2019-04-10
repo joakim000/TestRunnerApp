@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>NetOp.TestRunnerLib</id>
-        <version>1.1.4</version>
+        <version>2.0.0</version>
         <authors>Joakim Odermalm</authors>
         <owners>joakim000</owners>
         <license type="expression">Apache-2.0</license>
@@ -15,12 +15,11 @@
             <dependency id="Selenium.Support" version="3.141.0" />
         </dependencies>
 		<contentFiles>
-			<files include="HowTo.cs.txt" buildAction="EmbeddedResource" />
-			<files include="PyPySe.cs.txt" buildAction="Content" />
+			<files include="HowTo.cs" buildAction="EmbeddedResource" />
+			<files include="PyPySe.cs" buildAction="Content" />
 			<files include="PyPySe.py" buildAction="Content" />
-			<files include="PyNetSe.cs.txt" buildAction="Content" />
+			<files include="PyNetSe.cs" buildAction="Content" />
 			<files include="PyNetSe.py" buildAction="Content" />
-			<files include="PythonTest.testapp" buildAction="Content" />
 		</contentFiles>
 		<references>
 			<reference file="NetOp.TestRunnerLib.dll" />
@@ -28,13 +27,12 @@
 		 </references>
     </metadata>
 	 <files>
-        <file src="HowTo.cs.txt" target="Content" />
+        <file src="HowTo.cs" target="Content" />
         <file src="NetOp.TestRunnerLib.dll" target="lib\net461" />
         <file src="NetOp.TestRunnerLib.dll.config" target="lib" />
-		<file src="Python\PyPySe.cs.txt" target="Python" />
+		<file src="Python\PyPySe.cs" target="Python" />
 		<file src="Python\PyPySe.py" target="Python" />
-		<file src="Python\PyNetSe.cs.txt" target="Python" />
+		<file src="Python\PyNetSe.cs" target="Python" />
 		<file src="Python\PyNetSe.py" target="Python" />
-		<file src="Python\PythonTest.testapp" target="Python" />
     </files>
 </package>

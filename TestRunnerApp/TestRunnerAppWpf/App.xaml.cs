@@ -47,9 +47,11 @@ namespace TestRunnerAppWpf
                     FileMgmt.unsavedChanges = false;
                     w.model.unsavedChanges = false;
 
+                    if (w.model.gridViewModel.suite.currentCycle != null)
+                        w.model.gridViewModel.suite.currentCycle = w.model.gridViewModel.suite.currentCycle;
+
                     string file = FileMgmt.ShortFilename(fileToOpen);
                     string libFile = FileMgmt.PreviousDir(fileToOpen) + @"\" + file.Substring(0, file.LastIndexOf(".")) + ".dll";
-
                     if (File.Exists(libFile))
                     {
                         System.Diagnostics.Debug.WriteLine("Found matching libfile opening associated file: " + libFile);

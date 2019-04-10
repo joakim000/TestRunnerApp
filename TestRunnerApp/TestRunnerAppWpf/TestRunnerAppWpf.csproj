@@ -34,8 +34,8 @@
     <SuiteName>TestApp by Unicus</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
-    <ApplicationVersion>1.1.15.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -61,11 +61,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3F0DED1C753840732160A165AB6310AA22AF4141</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>0A9E911DC5BF4039F0B316B329D886AC46F583CD</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>sect_CS_bak.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -161,8 +160,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NewCycleDialogViewModel.cs" />
     <Compile Include="ExportViewModel.cs" />
-    <Compile Include="Jira.cs" />
+    <Compile Include="JiraConnect.cs" />
+    <Content Include="Jira.cs.txt" />
     <Compile Include="ExportDialog.xaml.cs">
       <DependentUpon>ExportDialog.xaml</DependentUpon>
     </Compile>
@@ -305,6 +306,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="sect_CS_bak.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

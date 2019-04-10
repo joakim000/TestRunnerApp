@@ -212,7 +212,7 @@
             <MenuItem Header="_Settings" Template="{DynamicResource MenuItemControlTemplateCustom}">
                 <MenuItem Header="_Management..."  Command="{Binding MgmtSettingsCmd}" >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Icons/GlyphUp_16x.png" />
+                        <Image Source="pack://application:,,,/Icons/TestPlan_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_On top while running" IsCheckable="True" IsChecked="{Binding checkedOnTop}"  Command="{Binding SetOnTopCmd}" >
@@ -244,7 +244,7 @@
                 
             </MenuItem>
 
-            <MenuItem Header="_Debug" Template="{DynamicResource MenuItemControlTemplateCustom}" >
+            <!--<MenuItem Header="_Debug" Template="{DynamicResource MenuItemControlTemplateCustom}" >
                 <MenuItem Header="_Load placeholder" Command="{Binding Debug1Cmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/MockupComponentGreen_16x.png" />
@@ -278,8 +278,7 @@
                         <Image Source="pack://application:,,,/Icons/Property_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                
-            </MenuItem>
+            </MenuItem>-->
 
         </Menu>
 
@@ -386,10 +385,12 @@
         <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>   
                 <StatusBarItem Grid.Column="0" >
                     <TextBlock Text="{Binding runStatus}" />
@@ -409,8 +410,23 @@
                 <!--<ProgressBar Grid.Column="2" x:Name="progressBar" Value="{Binding progressBarValue}" 
                              Background="{DynamicResource ProgressBarBackgroundBrush}" Foreground="{DynamicResource ProgressBarForegroundBrush}"
                              BorderBrush="{DynamicResource ProgressBarBorderdBrush}" Template="{DynamicResource ProgressBarControlTemplate1}"/>-->
+                <StatusBarItem Grid.Column="5" HorizontalAlignment="Right" Margin="100,0,0,0">
+                     <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}"
+                                />
+                </StatusBarItem>
+                <StatusBarItem Grid.Column="4" HorizontalAlignment="Right" Margin="100,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.key, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                    </StackPanel>
+                </StatusBarItem>
                 <StatusBarItem Grid.Column="3" HorizontalAlignment="Right" Margin="100,0,0,0">
-                     <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding gridViewModel.suite.currentCycle.id, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding gridViewModel.suite.currentCycle.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                    </StackPanel>
                 </StatusBarItem>
             </Grid>
         </StatusBar>
