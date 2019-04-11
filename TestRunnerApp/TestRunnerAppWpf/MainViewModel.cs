@@ -16,6 +16,9 @@ namespace TestRunnerAppWpf
     {
         public MainViewModel()
         {
+            Debug.WriteLine("Creating mainViewModel");
+
+
             runStatus = "Idle";
             runTotal = string.Empty;
             runCurrent = string.Empty;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using TestRunnerLib.Jira;
 using ViewModelSupport;
 
 namespace TestRunnerLib
@@ -80,6 +81,16 @@ namespace TestRunnerLib
             get => Get(() => id);
             set => Set(() => id, value);
         }
+        public string name
+        {
+            get => Get(() => name);
+            set => Set(() => name, value);
+        }
+        public string description
+        {
+            get => Get(() => description);
+            set => Set(() => description, value);
+        }
         public string notes
         {
             get => Get(() => notes);
@@ -87,46 +98,51 @@ namespace TestRunnerLib
         }
 
         /* Jira integration */
-        public string name
+        public bool jiraCloud
         {
-            get => Get(() => name);
-            set => Set(() => name, value);
+            get => Get(() => jiraCloud, false);
+            set => Set(() => jiraCloud, value);
         }
-        public string key
+        public string jiraProjectKey
         {
-            get => Get(() => key);
-            set => Set(() => key, value);
+            get => Get(() => jiraProjectKey);
+            set => Set(() => jiraProjectKey, value);
         }
-        public string description
+        public JiraCycle jiraCycle
         {
-            get => Get(() => description);
-            set => Set(() => description, value);
+            get => Get(() => jiraCycle, new JiraCycle());
+            set => Set(() => jiraCycle, value);
         }
-        public string project
-        {
-            get => Get(() => project);
-            set => Set(() => project, value);
-        }
-        public string folder
-        {
-            get => Get(() => folder);
-            set => Set(() => folder, value);
-        }
-        public string status
-        {
-            get => Get(() => status);
-            set => Set(() => status, value);
-        }
-        public string version // Version of what? Test probably
-        {
-            get => Get(() => version);
-            set => Set(() => version, value);
-        }
+        
+
+
+        
+        //public string key
+        //{
+        //    get => Get(() => key);
+        //    set => Set(() => key, value);
+        //}
+      
+        //public string folder
+        //{
+        //    get => Get(() => folder);
+        //    set => Set(() => folder, value);
+        //}
+        //public string status
+        //{
+        //    get => Get(() => status);
+        //    set => Set(() => status, value);
+        //}
+        //public string version // Version of what? Test probably
+        //{
+        //    get => Get(() => version);
+        //    set => Set(() => version, value);
+        //}
         /* end: Jira integration */
 
 
 
-        
+
 
     }
 }

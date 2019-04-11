@@ -76,6 +76,20 @@ namespace TestRunnerAppWpf
                 }
                 if (fileopen.Item1 != null)
                     w.model.gridViewModel.suite.filename = fileopen.Item1;
+
+                if (w.model.gridViewModel.suite.currentCycle != null)
+                {
+                    Guid cc = w.model.gridViewModel.suite.currentCycle.uid;
+                    w.model.gridViewModel.suite.currentCycle = w.model.gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
+                }
+
+                if (w.model.gridViewModel.suite.jiraProject != null)
+                {
+                    string key = w.model.gridViewModel.suite.jiraProject.key;
+                    w.model.detailsViewModel.jiraSelectedProject = w.model.detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
+                    w.model.detailsViewModel.LoadProjectData();
+                }
+
             }
 
             w.Show();

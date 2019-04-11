@@ -63,10 +63,16 @@ namespace TestRunnerAppWpf
 
                 if (model.gridViewModel.suite.currentCycle != null)
                 {
-                    string cc = model.gridViewModel.suite.currentCycle.key;
-                    model.gridViewModel.suite.currentCycle = model.gridViewModel.suite.cycles.Where(x => x.key == cc).First();
-                    CyclesCombo.SelectedItem = model.gridViewModel.suite.currentCycle;
+                    Guid cc = model.gridViewModel.suite.currentCycle.uid;
+                    model.gridViewModel.suite.currentCycle = model.gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
                 }
+
+                if (model.gridViewModel.suite.jiraProject != null)
+                {
+                    string key = model.gridViewModel.suite.jiraProject.key;
+                    model.detailsViewModel.jiraSelectedProject = model.detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
+                }
+
 
             }
         }

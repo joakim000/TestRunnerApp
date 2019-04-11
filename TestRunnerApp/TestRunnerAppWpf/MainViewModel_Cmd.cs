@@ -191,6 +191,22 @@ namespace TestRunnerAppWpf
 
                 if (fileopen.Item1 != null)
                     gridViewModel.suite.filename = fileopen.Item1;
+
+
+                if (gridViewModel.suite.currentCycle != null)
+                {
+                    Guid cc = gridViewModel.suite.currentCycle.uid;
+                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
+                }
+
+                if (gridViewModel.suite.jiraProject != null)
+                {
+                    string key = gridViewModel.suite.jiraProject.key;
+                    detailsViewModel.jiraSelectedProject = detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
+                    detailsViewModel.LoadProjectData();
+                }
+
+
             }
         }
         public bool CanExecute_FileOpenCmd()
@@ -289,10 +305,11 @@ namespace TestRunnerAppWpf
                 if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
                 {
 
-
-
                     undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+
                     gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Last();
+
                     unsavedChanges = true;
                 }
             }
@@ -312,7 +329,7 @@ namespace TestRunnerAppWpf
         {
             Debug.WriteLine("Selected cycles:" + Environment.NewLine);
             foreach (CycleModel c in detailsViewModel.selectedCycleItems)
-                Debug.WriteLine(c.key + " " + c.name + Environment.NewLine);
+                Debug.WriteLine(c.id + " " + c.name + Environment.NewLine);
 
             if (detailsViewModel.selectedCycleItems != null)
             {

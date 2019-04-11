@@ -58,23 +58,21 @@
 
             <Label Grid.Column="1" Grid.Row="0" Content="ID" />
             <TextBox Grid.Column="1" Grid.Row="1" Width="350" x:Name="idTB"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
                      Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="2" Content="Name" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
                      Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
-            
-            <!--<Label Grid.Column="1" Grid.Row="4" Content="Priority" />
-            <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />-->
 
             <Label Grid.Column="1" Grid.Row="6" Content="Long description" />
             <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
                      Text="{Binding Path=newItem.description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
@@ -128,8 +126,8 @@
                                   ItemContainerStyle="{StaticResource ComboItemStyle}"     
                                                SelectedItem="{Binding jiraSelectedCycle, 
                                                                      Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                         ItemsSource="{Binding jiraAvailableCycles, 
-                                                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}">
+                                         ItemsSource="{Binding jiraProject.cycles, 
+                                                                     Mode=OneWay, NotifyOnSourceUpdated=True}">
 
                  <ComboBox.ItemTemplate>
                      <DataTemplate>
@@ -139,31 +137,34 @@
                      </DataTemplate>
                  </ComboBox.ItemTemplate>
              </ComboBox>
-                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
-                 Content="Update list" Command="{Binding JiraGetAvailableCyclesCmd}"/>
+                        <!--<Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"  Content="Update list" Command="{Binding JiraGetAvailableCyclesCmd}"/>-->
                         </StackPanel> 
         </StackPanel>
 
                 <StackPanel  Grid.Column="1"  Grid.Row="1">
-        <Label Content="Status" />
-            <TextBox  Width="350"
-                     Text="{Binding Path=newItem.status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+                        <Label Content="Status" />
+                        <TextBox  Width="350"
+                                Text="{Binding Path=newItem.jiraCycle.status.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                        />
                 </StackPanel>
             
                 <Label Grid.Column="1" Grid.Row="2" Content="Folder" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
                      Text="{Binding Path=newItem.folder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                             IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="4" Content="Version" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
                      Text="{Binding Path=newItem.version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                             IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="6" Content="Project" />
-            <TextBox Grid.Column="1" Grid.Row="7" Width="350" IsEnabled="False"
-                     Text="{Binding Path=newItem.project, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            <TextBox Grid.Column="1" Grid.Row="7" Width="350" 
+                             IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.jiraProjectKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <!--<Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />

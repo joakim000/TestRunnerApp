@@ -33,6 +33,8 @@ namespace TestRunnerAppWpf
 
         public GridViewModel()
         {
+            Debug.WriteLine("Creating gridViewModel");
+
             suite = new SuiteModel();
             selectedItems = new SelectedItems();
             this.PropertyChanged += GridViewModel_PropertyChanged;

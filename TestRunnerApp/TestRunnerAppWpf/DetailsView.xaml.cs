@@ -23,6 +23,10 @@ namespace TestRunnerAppWpf
         public DetailsView()
         {
             InitializeComponent();
+
+
+
+
         }
 
         private void RowDetails_Toggle(object sender, RoutedEventArgs e)
