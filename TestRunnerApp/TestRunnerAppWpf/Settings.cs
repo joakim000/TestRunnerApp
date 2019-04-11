@@ -86,6 +86,8 @@ namespace TestRunnerAppWpf
                 // Get on-top-when-running setting
                 caller.checkedOnTop = Properties.Settings.Default.OnTop;
 
+                caller.multiCycleView = Properties.Settings.Default.multiCycleView;
+
                 switch (Properties.Settings.Default.Theme)
                 {
                     case "Light":
@@ -101,6 +103,8 @@ namespace TestRunnerAppWpf
                         caller.checkedDarkTheme = false;
                         break;
                 }
+
+
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
                     caller.jiraInstance = Properties.Settings.Default.JiraInstance;

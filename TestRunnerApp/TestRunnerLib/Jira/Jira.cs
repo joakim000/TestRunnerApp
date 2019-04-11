@@ -508,7 +508,6 @@ namespace TestRunnerLib.Jira
             if (!info.ready)
             {
                 return null;
-                //return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.PaymentRequired, null); // Using this statuscode for intenal purposes
             }
 
             var baseURL = @"https://" + info.jiraInstance + @"/rest/api/3/";
@@ -531,10 +530,10 @@ namespace TestRunnerLib.Jira
                     response = await client.DeleteAsync(uri);
                 else return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.MethodNotAllowed, null);
 
+                JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
+
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
-                    JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
-                    //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
                     Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
                     return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
@@ -544,7 +543,7 @@ namespace TestRunnerLib.Jira
                     Debug.WriteLine("Request message: " + response.RequestMessage);
                     Debug.WriteLine("Query: " + query.ToString());
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
-                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, null);
+                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
             }
             catch (ArgumentNullException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "ArgumentNullException: " + ex); }
@@ -591,10 +590,10 @@ namespace TestRunnerLib.Jira
                     response = await client.DeleteAsync(uri);
                 else return new Tuple<HttpStatusCode, JObject>(HttpStatusCode.MethodNotAllowed, null);
 
+                JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
+
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
-                    JObject jsonObj = (JObject)JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
-                    //Debug.WriteLine($"Call OK:{Environment.NewLine}{jsonObj}");
                     Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
                     return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
@@ -605,7 +604,7 @@ namespace TestRunnerLib.Jira
                     Debug.WriteLine("Request message: " + response.RequestMessage);
                     Debug.WriteLine("Query: " + JsonConvert.SerializeObject(data));
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
-                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, null);
+                    return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
             }
             catch (ArgumentNullException ex) { Debug.WriteLine(DateTime.Now.ToString("yyMMdd HH:mm:ss") + " " + "ArgumentNullException: " + ex); }

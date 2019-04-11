@@ -30,7 +30,7 @@ namespace DevTests
 
                     Debug.WriteLine("Page title is: " + driver.Title);
 
-                    if (driver.Title.Contains(testData[0], StringComparison.OrdinalIgnoreCase))
+                    if (driver.Title.Contains(testData[1], StringComparison.OrdinalIgnoreCase))
                         return new TestResult(Outcome.Pass, $"{testData[1]}");
                     else
                         return new TestResult(Outcome.Fail, $"{testData[1]}");

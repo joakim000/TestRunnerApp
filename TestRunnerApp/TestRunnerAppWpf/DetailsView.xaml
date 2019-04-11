@@ -75,6 +75,19 @@
             <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
         </Style>
 
+        <Style TargetType="{x:Type TextBox}" x:Key="CycleDetailsTextBox">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinWidth" Value="140" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Margin" Value="0,0,10,2" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="MaxHeight" Value="114" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="AutoWordSelection" Value="True" />
+            <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
+        </Style>
+
     </UserControl.Resources>
 
         <Grid  >
@@ -187,9 +200,9 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            
-            <TabItem Header="Cycles" >
-                <Grid x:Name="testCycles" >
+
+            <TabItem Header="Cycles" Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}">
+                <Grid x:Name="testCyclesMulti" Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}">
                     <DataGrid Grid.Column="2" x:Name="cyclesGrid"
                           ItemsSource="{Binding mainViewModel.gridViewModel.suite.cycles, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           AutoGenerateColumns="False" 
@@ -213,7 +226,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            
+
                             <DataGridTextColumn Header="Name"   Binding="{Binding name}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -222,7 +235,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            
+
                             <DataGridTextColumn Header="Status"  Binding="{Binding status}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -231,7 +244,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            
+
                             <DataGridTextColumn Header="Folder"  Binding="{Binding folder}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -240,7 +253,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            
+
                             <DataGridTextColumn Header="Version"  Binding="{Binding version}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -249,7 +262,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            
+
                             <DataGridTextColumn Header="Progress"  Binding="{Binding version}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
@@ -258,7 +271,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                            
+
                             <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -267,7 +280,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
-                        
+
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <Grid x:Name="cyclerunGrid" >
@@ -293,7 +306,7 @@
                                                     </Style>
                                                 </DataGridTextColumn.ElementStyle>
                                             </DataGridTextColumn>
-                                            
+
                                             <DataGridTextColumn Header="Time"   Binding="{Binding run.datetime, Converter={StaticResource DateTimeForceShortConverter}, ConverterCulture=sv-SE}" IsReadOnly="True" >
                                                 <DataGridTextColumn.ElementStyle>
                                                     <Style TargetType="TextBlock">
@@ -302,7 +315,15 @@
                                                     </Style>
                                                 </DataGridTextColumn.ElementStyle>
                                             </DataGridTextColumn>
-                                            
+
+                                            <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Image Source="{Binding run.resultObj.kind, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
                                             <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -310,15 +331,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            
-                                            <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
-                                                <DataGridTemplateColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <Image Source="{Binding run.resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
-                                                    </DataTemplate>
-                                                </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
-                                            
+
                                             <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -326,7 +339,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            
+
                                             <DataGridTemplateColumn Header="Step" IsReadOnly="True">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -334,7 +347,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            
+
                                             <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -342,7 +355,7 @@
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
-                                            
+
                                         </DataGrid.Columns>
                                         <DataGrid.RowDetailsTemplate>
                                             <DataTemplate>
@@ -385,6 +398,152 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
+
+            <TabItem Header="Cycle" Visibility="{Binding mainViewModel.singleCycleView, Converter={StaticResource BoolToVisi}}">
+                <Grid x:Name="testCyclesSingle" Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}"
+                      DataContext="{Binding mainViewModel.gridViewModel.suite.currentCycle, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,0,0">
+                                <Label Content="ID" />
+                                <TextBox Text="{Binding id}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <Label Content="Status" />
+                                <TextBox Text="{Binding name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <Label Content="Folder" />
+                                <TextBox Text="{Binding status}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <Label Content="Name" />
+                                <TextBox Text="{Binding name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <Label Content="Progress" />
+                                <TextBox Text="{Binding progress}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <Label Content="Version" />
+                                <TextBox Text="{Binding version}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                            </StackPanel>
+                           
+                        </Grid>
+                        <Label Content="Description" />
+                        <TextBox Text="{Binding description}" IsReadOnly="True" Style="{DynamicResource SuiteDetailsTextBox}" />
+                        <Grid x:Name="cyclerunGrid" >
+                            <DataGrid Grid.Column="2" x:Name="cycleRunDataGrid"
+                                              ItemsSource="{Binding cycleRuns, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                              AutoGenerateColumns="False" 
+                                              IsReadOnly="False"
+                                              CanUserAddRows="False" SelectionUnit="FullRow"
+                                              AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
+                                              ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}">
+                                <DataGrid.RowHeaderStyle>
+                                    <Style>
+                                        <Setter Property="Control.Width" Value="0"/>
+                                    </Style>
+                                </DataGrid.RowHeaderStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Test ID"   Binding="{Binding test.id}" IsReadOnly="True" >
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="Margin" Value="2,0,3,0" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn Header="Time"   Binding="{Binding run.datetime, Converter={StaticResource DateTimeForceShortConverter}, ConverterCulture=sv-SE}" IsReadOnly="True" >
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="Margin" Value="2,0,3,0" />
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding run.resultObj.kind, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding run.resultObj.webDriver, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding run.result, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="5,3,5,3" VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Step" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding run.resultObj.failStep, Converter={StaticResource IntStringNoZeroConverter} }" Width="40" TextAlignment="Center" VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding run.resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                                <DataGrid.RowDetailsTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Exception type"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
+                                            <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding resultObj.eType }" 
+                                                             Style="{StaticResource RowDetailsTextBox}" BorderThickness="0"/>
+
+                                            <TextBlock Grid.Column="0" Grid.Row="6" Text="Exception message" Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
+                                            <TextBox Grid.Column="0" Grid.Row="7" Text="{Binding resultObj.eMessage }" 
+                                                             Style="{StaticResource RowDetailsTextBox}" BorderThickness="0" />
+                                            <TextBlock Grid.Column="0" Grid.Row="8" Text="Notes"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
+                                            <TextBox Grid.Column="0" Grid.Row="9" Text="{Binding note, UpdateSourceTrigger=PropertyChanged}"
+                                                             Style="{StaticResource RowDetailsTextBox}"
+                                                             AcceptsReturn="True" IsReadOnly="False" Background="{x:Static SystemColors.WindowBrushKey}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGrid.RowDetailsTemplate>
+                            </DataGrid>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+
+
+
 
             <TabItem Header="Suite" BorderThickness="0" BorderBrush="Black">
 

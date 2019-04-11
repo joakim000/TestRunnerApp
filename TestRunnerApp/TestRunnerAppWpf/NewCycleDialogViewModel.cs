@@ -65,6 +65,7 @@ namespace TestRunnerAppWpf
             this.mainViewModel = mainViewModel;
             newItem = new CycleModel();
 
+            this.PropertyChanged += ViewModel_PropertyChanged;
 
             if (mainViewModel.jiraCloudMgmt)
             {
@@ -85,7 +86,7 @@ namespace TestRunnerAppWpf
             }
 
 
-            this.PropertyChanged += ViewModel_PropertyChanged;
+            
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -95,23 +96,21 @@ namespace TestRunnerAppWpf
             if (e.PropertyName == "jiraSelectedCycle")
             {
                 Debug.WriteLine($"jiracycle.key: {mainViewModel.gridViewModel.suite.jiraCycle.key}");
-                
-                newItem.jiraCycle = jiraSelectedCycle;
 
-                newItem.id = newItem.jiraCycle.key;
-                newItem.name = newItem.jiraCycle.name;
-                newItem.description = newItem.jiraCycle.description;
+                JiraData2Item();
 
-
-
-                //newItem.key = jiraSelectedCycle.key;
-                //newItem.jiraCycle.key = jiraSelectedCycle.key;
-
-
-                //mainViewModel.gridViewModel.suite.jiraCycle = jiraSelectedCycle;
             }
 
         }
+
+        private void JiraData2Item()
+        {
+            newItem.jiraCycle = jiraSelectedCycle;
+            newItem.id = newItem.jiraCycle.key;
+            newItem.name = newItem.jiraCycle.name;
+            newItem.description = newItem.jiraCycle.description;
+        }
+
     }
 }
 

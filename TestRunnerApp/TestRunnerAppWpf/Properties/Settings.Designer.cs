@@ -247,5 +247,17 @@ namespace TestRunnerAppWpf.Properties {
                 this["JiraAvailableProjects"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool multiCycleView {
+            get {
+                return ((bool)(this["multiCycleView"]));
+            }
+            set {
+                this["multiCycleView"] = value;
+            }
+        }
     }
 }

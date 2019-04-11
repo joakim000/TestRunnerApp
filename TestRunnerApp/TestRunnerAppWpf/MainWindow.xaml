@@ -139,7 +139,7 @@
                 </MenuItem>
                 <MenuItem Header="_Open library dir" Command="{Binding OpenLibDirCmd}"  >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Icons/Import_16x.png" />
+                        <Image Source="pack://application:,,,/Icons/OpenFolder_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
@@ -225,6 +225,11 @@
                         <Image Source="pack://application:,,,/Icons/DarkTheme_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="_Multi cycle view"  IsCheckable="True" IsChecked="{Binding multiCycleView}" Command="{Binding SetCycleViewCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Matrix_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
 
             <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplateCustom}">
@@ -278,7 +283,16 @@
                         <Image Source="pack://application:,,,/Icons/Property_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="_Report3"  Command="{Binding Report3Cmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Property_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                
             </MenuItem>-->
+            
+            
+            
 
         </Menu>
 
@@ -309,9 +323,9 @@
                 <Button Command="{Binding UndoCmd}" ToolTip="Undo">
                     <Image Source="pack://application:,,,/Icons/Undo_16x.png"  Style="{StaticResource ToolBarImage}" />
                 </Button>
-                <Button Command="{Binding RedoCmd}" ToolTip="Redo">
+                <!--<Button Command="{Binding RedoCmd}" ToolTip="Redo">
                     <Image Source="pack://application:,,,/Icons/Redo_16x.png"  Style="{StaticResource ToolBarImage}" />
-                </Button>
+                </Button>-->
             </ToolBar>
             <!--<ToolBar>
                 <Button Command="Cut" ToolTip="Cut">
@@ -356,8 +370,11 @@
                 <Button Command="{Binding EditCycleCmd}" ToolTip="Edit cycle">
                     <Image Source="pack://application:,,,/Icons/Edit_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
-                <Button Command="{Binding ImportCyclesCmd}" ToolTip="Import cycles">
+                <!--<Button Command="{Binding ImportCyclesCmd}" ToolTip="Import cycles">
                     <Image Source="pack://application:,,,/Icons/Import_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>-->
+                <Button Command="{Binding ResetExportedFlagsCmd}" ToolTip="Reset exported-flags for seleted cycle">
+                    <Image Source="pack://application:,,,/Icons/Redo_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
                 <Button Command="{Binding ExportCycleCmd}" ToolTip="Export cycle">
                     <Image Source="pack://application:,,,/Icons/Export_16x.png" Style="{StaticResource ToolBarImage}" />

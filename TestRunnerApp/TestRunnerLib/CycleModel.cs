@@ -44,6 +44,12 @@ namespace TestRunnerLib
             get => Get(() => runUid);
             set => Set(() => runUid, value);
         }
+        public bool exported 
+        {
+            get => Get(() => exported);
+            set => Set(() => exported, value);
+        }
+
     }
 
     [JsonObject(MemberSerialization.OptOut)]
@@ -110,7 +116,8 @@ namespace TestRunnerLib
         }
         public JiraCycle jiraCycle
         {
-            get => Get(() => jiraCycle, new JiraCycle());
+            //get => Get(() => jiraCycle, new JiraCycle());
+            get => Get(() => jiraCycle);
             set => Set(() => jiraCycle, value);
         }
         

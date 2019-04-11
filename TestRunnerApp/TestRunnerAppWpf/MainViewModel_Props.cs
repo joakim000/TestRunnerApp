@@ -55,6 +55,16 @@ namespace TestRunnerAppWpf
             get => Get(() => checkedDarkTheme, false);
             set => Set(() => checkedDarkTheme, value);
         }
+        public bool multiCycleView
+        {
+            get => Get(() => multiCycleView, false);
+            set => Set(() => multiCycleView, value);
+        }
+        public bool singleCycleView
+        {
+            get => Get(() => singleCycleView, true);
+            set => Set(() => singleCycleView, value);
+        }
 
 
         /* Data */
