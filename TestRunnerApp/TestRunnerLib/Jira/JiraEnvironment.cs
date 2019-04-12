@@ -10,7 +10,7 @@ using ViewModelSupport;
 namespace TestRunnerLib.Jira
 {
     [JsonObject(MemberSerialization.OptOut)]
-    public class JiraStatus : ViewModelBase
+    public class JiraEnvironment : ViewModelBase
     {
         /* Properties returned by TMJ */
         public int id
@@ -20,7 +20,6 @@ namespace TestRunnerLib.Jira
         }
         public IdSelf project
         {
-            //get => Get(() => project, new IdSelf());
             get => Get(() => project);
             set => Set(() => project, value);
         }
@@ -39,31 +38,14 @@ namespace TestRunnerLib.Jira
             get => Get(() => index);
             set => Set(() => index, value);
         }
-        public string color
-        {
-            get => Get(() => color);
-            set => Set(() => color, value);
-        }
         public bool archived
         {
             get => Get(() => archived);
             set => Set(() => archived, value);
         }
-        public bool isDefault  // key "default" in API
-        {
-            get => Get(() => isDefault);
-            set => Set(() => isDefault, value);
-        }
+        
 
-
-        public string self
-        {
-            get => Get(() => self);
-            set => Set(() => self, value);
-        }
-
-
-        public JiraStatus() { }
+        public JiraEnvironment() { }
 
 
     }

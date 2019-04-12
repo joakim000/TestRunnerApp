@@ -17,16 +17,16 @@ namespace TestRunnerAppWpf
 {
     public partial class NewTestDialog : Window
     {
-        public TestModel newItem { get; set; }
+        public NewTestDialogViewModel viewModel { get; set; }
+        MainViewModel mainViewModel { get; set; }
 
-        public NewTestDialog()
+        public NewTestDialog(MainViewModel mainViewModel)
         {
             InitializeComponent();
 
-            newItem = new TestModel();
-            DataContext = newItem;
+            viewModel = new NewTestDialogViewModel(mainViewModel);
+            DataContext = viewModel;
 
-            //newItem.PropertyChanged += NewItem_PropertyChanged;
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

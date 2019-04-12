@@ -16,7 +16,7 @@
             <Setter Property="Background" Value="{x:Null}" />
             <Setter Property="Margin" Value="0,0,3,10" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="MaxWidth" Value="{Binding ActualWidth, ElementName=TestSetupGrid, Converter={StaticResource ElementSizeConverter}, ConverterParameter=5#25}" />
+            <Setter Property="MaxWidth" Value="{Binding ActualWidth, ElementName=TestSetupGrid, Converter={StaticResource ElementSizeConverter}, ConverterParameter=4#25}" />
             <Setter Property="IsReadOnly" Value="False" />
             <Setter Property="TextWrapping" Value="NoWrap" />
             <Setter Property="AcceptsReturn" Value="False" />
@@ -52,6 +52,7 @@
                   AlternationCount="2"
                   ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
                   RowHeaderStyle="{DynamicResource DataGridRowHeaderTemplateStyle}"
+                  
         >
 
             <DataGrid.RowHeaderTemplate>
@@ -82,6 +83,25 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding jiraCase.status.name, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Folder" Binding="{Binding jiraCase.folder.name, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                
                 <DataGridTextColumn Header="Name" Binding="{Binding name, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="100">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -106,6 +126,16 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+                <DataGridTextColumn Header="Created" Binding="{Binding jiraCase.createdOn, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                
+                
                 <DataGridTextColumn Header="Runs" Binding="{Binding numberOfRuns}" IsReadOnly="True"  MinWidth="40" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -115,7 +145,18 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn Header="Latest" IsReadOnly="True" SortMemberPath="previousOutcome"  MinWidth="50" >
+
+                <DataGridTextColumn Header="Previous" Binding="{Binding previousDateTime, Converter={StaticResource DateTimeShortConverter}}" IsReadOnly="True"  MinWidth="40" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Latest" IsReadOnly="False" SortMemberPath="previousOutcome"  MinWidth="50" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding previousOutcome, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="0,3,0,3"/>
@@ -127,6 +168,25 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Run time" Binding="{Binding previousRunTime, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Estimate" Binding="{Binding jiraCase.estimatedTime, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                
                 <!--<DataGridTextColumn Header="Last outcome" Binding="{Binding previousOutcome, Converter={StaticResource OutcomeStringConverter}}" IsReadOnly="True" Width="*"/>-->
                 <!--<DataGridTextColumn Header="Param" Binding="{Binding callParam, UpdateSourceTrigger=PropertyChanged}"  Width="*"/>-->
             </DataGrid.Columns>
@@ -153,25 +213,99 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+                                <!--<ColumnDefinition Width="*" />-->
                                 <!--<ColumnDefinition Width="35" />-->
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Assembly" Margin="3,5,0,1"  Style="{StaticResource TBLeft}"/>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="Namespace"  Margin="0,5,0,1"  Style="{StaticResource TBLeft}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="0" Text="Type"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
-                            <TextBlock Grid.Column="3" Grid.Row="0" Text="Test data 3"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
-                            <TextBlock Grid.Column="4" Grid.Row="0" Text="Test data 4"  Margin="0,5,0,1" Style="{StaticResource TBLeft}" />
-                            <!--<TextBlock Grid.Column="3" Grid.Row="0" Text="Web"  Margin="0,5,3,1" Style="{StaticResource TBLeft}" />-->
-                            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding callAss, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" Margin="3,0,3,10" />
-                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
-                            <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding callType, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
-                            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding testData[3], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
-                            <TextBox Grid.Column="4" Grid.Row="1" Text="{Binding testData[4], UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource TestSetupTextBox}" />
-                            <!--<CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding useWebDriver, UpdateSourceTrigger=PropertyChanged}"
-                                      HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,4,3,0"/>-->
+                            <StackPanel Grid.Column="2" Grid.Row="0" Margin="5,0,0,5">
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Assembly"  Style="{StaticResource TBLeft}"/>
+                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding callAss, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}"  />
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="Namespace"   Style="{StaticResource TBLeft}"/>
+                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
+                                <TextBlock Grid.Column="2" Grid.Row="0" Text="Type"  Style="{StaticResource TBLeft}" />
+                                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding callType, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,5">
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Preconditions"   Style="{StaticResource TBLeft}"/>
+                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Execution steps"   Style="{StaticResource TBLeft}"/>
+                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="Expected result"  Style="{StaticResource TBLeft}"/>
+                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding descExpected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
+                                
+                            </StackPanel>
+                            <StackPanel Grid.Column="3" Grid.Row="0" Margin="5,0,0,5">
+                                <TextBlock Grid.Column="3" Grid.Row="0" Text="Test data"  Style="{StaticResource TBLeft}" />
+
+                                <DataGrid
+                                       ItemsSource="{Binding testData, Converter={StaticResource ArrayDictConverter}}"
+                                       AutoGenerateColumns="False"         
+                                        SelectionChanged="DataGrid_SelectionChanged"
+                                        x:Name="testDataGrid"
+                                        IsReadOnly="False"
+                                        CanUserAddRows="True"
+                                        RowDetailsVisibilityMode="Collapsed"
+                                        AlternatingRowBackground="{DynamicResource AlternateColorBrush}" 
+                                        AlternationCount="2"
+                                        ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
+                                        RowHeaderStyle="{DynamicResource DataGridRowHeaderTemplateStyle}"
+                  
+                                       >
+
+                                    <DataGrid.RowHeaderTemplate>
+                                        <DataTemplate>
+                                            
+                                        </DataTemplate>
+                                    </DataGrid.RowHeaderTemplate>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Index" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                    <Setter Property="Margin" Value="5,0,5,0" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Data" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                    <Setter Property="Margin" Value="5,0,5,0" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                
+                                <!--<ListBox Grid.Column="3" Grid.Row="1" ItemsSource="{Binding testData, UpdateSourceTrigger=PropertyChanged}"  
+                                         Background="{DynamicResource MenuBackgroundBrush}"  MaxHeight="200">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            
+                                            <Grid Margin="0,2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding}" />
+                                                <TextBlock Grid.Column="1" Style="{StaticResource TBLeft}"  Text="{Binding}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>-->
+                                
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,0,0,5">
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Objective"  Style="{StaticResource TBLeft}"/>
+                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding objective, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="0" Text="Notes"  Style="{StaticResource TBLeft}" />
+                                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding notes, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
+                            </StackPanel>
+
                         </Grid>
 
-                        <Grid Grid.Row="1"  x:Name="TestDescGrid">
+                        <!--<Grid Grid.Row="1"  x:Name="TestDescGrid">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -182,15 +316,9 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Grid.Row="0" Text="Execution steps"  Margin="3,5,0,1" Style="{StaticResource TBLeft}"/>
-                            <TextBlock Grid.Column="1" Grid.Row="0" Text="Expected result" Margin="3,5,0,1" Style="{StaticResource TBLeft}"/>
-                            <TextBlock Grid.Column="2" Grid.Row="0" Text="Notes" Margin="3,5,0,1" Style="{StaticResource TBLeft}" />
+                            
 
-                            <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
-                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding descExpected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
-                            <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding notes, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" Margin="3,0,3,10"/>
-
-                        </Grid>
+                        </Grid>-->
                     </Grid>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>

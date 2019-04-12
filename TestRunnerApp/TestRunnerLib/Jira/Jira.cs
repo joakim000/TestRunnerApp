@@ -180,6 +180,14 @@ namespace TestRunnerLib.Jira
             await t;
             return t.Result;
         }
+        public static async Task<Tuple<HttpStatusCode, JObject>> GetVersion(JiraConnectInfo info, string versionId)
+        {
+            string path = "/" + versionId;
+
+            var t = JiraCall(info, HttpMethod.Get, "version" + path, null);
+            await t;
+            return t.Result;
+        }
 
 
         public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(JiraConnectInfo info, 
@@ -204,7 +212,7 @@ namespace TestRunnerLib.Jira
                 query += "maxResults=" + maxResults;
             }
 
-            var t = TmjCall(info, HttpMethod.Get, "testcases" + query, null);
+            var t = TmjCall(info, HttpMethod.Get, "folders" + query, null);
             await t;
             return t.Result;
         }

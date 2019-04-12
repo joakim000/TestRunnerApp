@@ -97,11 +97,22 @@ namespace TestRunnerLib
             get => Get(() => description);
             set => Set(() => description, value);
         }
+        public string status
+        {
+            get => Get(() => status);
+            set => Set(() => status, value);
+        }
         public string notes
         {
             get => Get(() => notes);
             set => Set(() => notes, value);
         }
+        public Mgmt mgmt
+        {
+            get => Get(() => mgmt, Mgmt.None);
+            set => Set(() => mgmt, value);
+        }
+
 
         /* Jira integration */
         public bool jiraCloud

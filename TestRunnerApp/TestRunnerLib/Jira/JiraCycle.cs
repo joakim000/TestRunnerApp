@@ -45,22 +45,26 @@ namespace TestRunnerLib.Jira
         }
         public IdSelf project
         {
-            get => Get(() => project, new IdSelf());
+            //get => Get(() => project, new IdSelf());
+            get => Get(() => project);
             set => Set(() => project, value);
         }
-        public IdSelf jiraProjectVersion
+        public JiraVersion jiraProjectVersion
         {
-            get => Get(() => jiraProjectVersion, new IdSelf());
+            //get => Get(() => jiraProjectVersion, new IdSelf());
+            get => Get(() => jiraProjectVersion);
             set => Set(() => jiraProjectVersion, value);
         }
         public JiraStatus status
         {
-            get => Get(() => status, new JiraStatus());
+            //get => Get(() => status, new JiraStatus());
+            get => Get(() => status);
             set => Set(() => status, value);
         }
-        public IdSelf folder
+        public JiraFolder folder
         {
-            get => Get(() => folder, new IdSelf());
+            //get => Get(() => folder, new IdSelf());
+            get => Get(() => folder);
             set => Set(() => folder, value);
         }
 

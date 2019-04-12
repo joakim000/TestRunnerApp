@@ -88,13 +88,57 @@
             <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
         </Style>
 
+        <Style TargetType="{x:Type TextBox}" x:Key="CycleDetailsTextBoxLong">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinWidth" Value="340" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Margin" Value="0,0,10,2" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="MaxHeight" Value="114" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="AutoWordSelection" Value="True" />
+            <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}" x:Key="TabItemStyle">
+            <Setter Property="Foreground" Value="{DynamicResource MenuForegroundBrush}" />
+            <!--<Setter Property="MinWidth" Value="128" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Label Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                              MinWidth="98"
+                                        Margin="10,-3,10,-2" />
+                        </Label>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+                                <Setter TargetName="Panel" Property="BorderThickness" Value="0,0,0,0" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
+                                <Setter TargetName="Panel" Property="BorderBrush" Value="{DynamicResource ProgressBarBackgroundBrush}" />
+                                <Setter TargetName="Panel" Property="BorderThickness" Value="0,0,0,7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
 
         <Grid  >
 
-        <TabControl BorderThickness="0" Padding="0">
-            <TabItem Header="Results" BorderThickness="0">
-                <Grid x:Name="testDetails"  >
+        <TabControl BorderThickness="0" Padding="0" Background="{DynamicResource MenuBackgroundBrush}">
+            
+            <TabItem Header="Results" Style="{StaticResource TabItemStyle}" >
+                <Grid x:Name="testDetails"  Background="{DynamicResource MenuBackgroundBrush}" >
                     <!--Visibility="{Binding testDetailsVisi, Converter={StaticResource BoolToVisi}}"-->
                     <DataGrid Grid.Column="2" x:Name="detailsGrid"
                           ItemsSource="{Binding Path=test.runs, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -201,7 +245,8 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Cycles" Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}">
+            <TabItem Header="Cycles" Style="{StaticResource TabItemStyle}"
+                     Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}">
                 <Grid x:Name="testCyclesMulti" Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}">
                     <DataGrid Grid.Column="2" x:Name="cyclesGrid"
                           ItemsSource="{Binding mainViewModel.gridViewModel.suite.cycles, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -245,7 +290,7 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Header="Folder"  Binding="{Binding folder}" IsReadOnly="True" >
+                            <DataGridTextColumn Header="Folder"  Binding="{Binding jiraCycle.folder.name}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center" />
@@ -254,7 +299,7 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Header="Version"  Binding="{Binding version}" IsReadOnly="True" >
+                            <DataGridTextColumn Header="Version"  Binding="{Binding jiraCycle.jiraProjectVersion.name}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center" />
@@ -263,14 +308,14 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
 
-                            <DataGridTextColumn Header="Progress"  Binding="{Binding version}" IsReadOnly="True" >
+                            <!--<DataGridTextColumn Header="Progress"  Binding="{Binding version}" IsReadOnly="True" >
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="VerticalAlignment" Value="Center" />
                                         <Setter Property="Margin" Value="2,0,3,0" />
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
-                            </DataGridTextColumn>
+                            </DataGridTextColumn>-->
 
                             <DataGridTemplateColumn Header="Description" IsReadOnly="True" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -316,13 +361,13 @@
                                                 </DataGridTextColumn.ElementStyle>
                                             </DataGridTextColumn>
 
-                                            <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
+                                            <!--<DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <Image Source="{Binding run.resultObj.kind, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
-                                            </DataGridTemplateColumn>
+                                            </DataGridTemplateColumn>-->
 
                                             <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
                                                 <DataGridTemplateColumn.CellTemplate>
@@ -399,9 +444,18 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Cycle" Visibility="{Binding mainViewModel.singleCycleView, Converter={StaticResource BoolToVisi}}">
-                <Grid x:Name="testCyclesSingle" Visibility="{Binding mainViewModel.multiCycleView, Converter={StaticResource BoolToVisi}}"
-                      DataContext="{Binding mainViewModel.gridViewModel.suite.currentCycle, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}">
+            <TabItem Header="Cycle" Style="{StaticResource TabItemStyle}"
+                     Visibility="{Binding mainViewModel.singleCycleView, Converter={StaticResource BoolToVisi}}">
+
+                <ScrollViewer x:Name="CycleScroll"  VerticalScrollBarVisibility="Auto"
+                              Background="{DynamicResource MenuBackgroundBrush}"
+                              >
+                <Grid x:Name="testCyclesSingle" 
+                      DataContext="{Binding mainViewModel.gridViewModel.suite.currentCycle, UpdateSourceTrigger=PropertyChanged,
+                                    NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                              Background="{DynamicResource MenuBackgroundBrush}"
+                      
+                      >
                     <StackPanel>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -409,34 +463,43 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <StackPanel Margin="0,0,0,0">
-                                <Label Content="ID" />
+                                 <StackPanel Orientation="Horizontal">
+                                     <Label Content="ID" />
+                                     <Image Source="pack://application:,,,/Icons/Test_16x.png" />
+                                    </StackPanel>
                                 <TextBox Text="{Binding id}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
                                 <Label Content="Status" />
-                                <TextBox Text="{Binding name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <TextBox Text="{Binding jiraCycle.status.name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
                                 <Label Content="Folder" />
-                                <TextBox Text="{Binding status}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <TextBox Text="{Binding jiraCycle.folder.name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
                                 
                             </StackPanel>
                             <StackPanel Grid.Column="1">
                                 <Label Content="Name" />
                                 <TextBox Text="{Binding name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
-                                <Label Content="Progress" />
-                                <TextBox Text="{Binding progress}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
-                                <Label Content="Version" />
-                                <TextBox Text="{Binding version}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
+                                <!--<Label Content="Progress" />
+                                <TextBox Text="{Binding jiraCycle.}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />-->
+                                <Label Content="Project version" />
+                                <TextBox Text="{Binding jiraCycle.jiraProjectVersion.name}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBox}" />
                             </StackPanel>
                            
                         </Grid>
                         <Label Content="Description" />
-                        <TextBox Text="{Binding description}" IsReadOnly="True" Style="{DynamicResource SuiteDetailsTextBox}" />
-                        <Grid x:Name="cyclerunGrid" >
-                            <DataGrid Grid.Column="2" x:Name="cycleRunDataGrid"
+                        <TextBox Text="{Binding description}" IsReadOnly="True" Style="{DynamicResource CycleDetailsTextBoxLong}" />
+                        <Label Content="Notes" />
+                        <TextBox Text="{Binding notes, Mode=TwoWay, NotifyOnSourceUpdated=True, 
+                                        NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
+                                 IsReadOnly="False" Style="{DynamicResource CycleDetailsTextBoxLong}" />
+                        <Grid x:Name="cyclerunGridSingle" Margin="0,4,0,0">
+                            <DataGrid Grid.Column="2" x:Name="cycleRunDataGridSingle"
                                               ItemsSource="{Binding cycleRuns, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                               AutoGenerateColumns="False" 
                                               IsReadOnly="False"
                                               CanUserAddRows="False" SelectionUnit="FullRow"
                                               AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
-                                              ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}">
+                                              ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
+                                              VerticalScrollBarVisibility="Auto"
+                                      >
                                 <DataGrid.RowHeaderStyle>
                                     <Style>
                                         <Setter Property="Control.Width" Value="0"/>
@@ -464,7 +527,7 @@
                                     <DataGridTemplateColumn Header="" Width="32" IsReadOnly="True" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Image Source="{Binding run.resultObj.kind, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>
+                                                <!--<Image Source="{Binding run.resultObj.kind, Converter={StaticResource WebDriverTypeImgConverter}}" Height="20" Margin="5,3,5,0" VerticalAlignment="Center"/>-->
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -539,16 +602,13 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
+                </ScrollViewer>
             </TabItem>
 
 
+            <TabItem Header="Suite" Style="{StaticResource TabItemStyle}">
 
-
-
-            <TabItem Header="Suite" BorderThickness="0" BorderBrush="Black">
-
-                <ScrollViewer x:Name="suiteDetails" 
-                          VerticalScrollBarVisibility="Auto"
+                <ScrollViewer x:Name="suiteDetails"  VerticalScrollBarVisibility="Auto"
                           Background="{DynamicResource MenuBackgroundBrush}"
                           >
                     <!--Visibility="{Binding suiteDetailsVisi, Converter={StaticResource BoolToVisi}}"-->

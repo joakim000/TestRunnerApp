@@ -312,18 +312,15 @@ namespace TestRunnerAppWpf
 
                     undoSuite = FileMgmt.Serialize(gridViewModel.suite);
 
-                    gridViewModel.suite.cycles.Add(d.viewModel.newItem);
-                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Last();
+                    // Don't readd if newItem actuallty is existing (edited) item
+                    if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
+                        gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
 
                     unsavedChanges = true;
                 }
             }
-
-            //CycleModel c = new CycleModel();
-            //c.key = "NewId";
-            //c.name = "New cycle";
-            //gridViewModel.suite.currentCycle = c;
-            //gridViewModel.suite.cycles.Add(c);
+            
         }
         public bool CanExecute_NewCycleCmd()
         {
@@ -332,17 +329,42 @@ namespace TestRunnerAppWpf
 
         public void Execute_DiscardCyclesCmd()
         {
-            Debug.WriteLine("Selected cycles:" + Environment.NewLine);
-            foreach (CycleModel c in detailsViewModel.selectedCycleItems)
-                Debug.WriteLine(c.id + " " + c.name + Environment.NewLine);
+            if (multiCycleView) { 
+                 Debug.WriteLine("Selected cycles:" + Environment.NewLine);
+                 foreach (CycleModel c in detailsViewModel.selectedCycleItems)
+                     Debug.WriteLine(c.id + " " + c.name + Environment.NewLine);
 
-            if (detailsViewModel.selectedCycleItems != null)
-            {
-                undoSuite = FileMgmt.Serialize(gridViewModel.suite);
-                foreach (CycleModel c in detailsViewModel.selectedCycleItems)
-                    gridViewModel.suite.cycles.Remove(c);
-                unsavedChanges = true;
+                 if (detailsViewModel.selectedCycleItems != null)
+                 {
+                     undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                     foreach (CycleModel c in detailsViewModel.selectedCycleItems)
+                         gridViewModel.suite.cycles.Remove(c);
+                     unsavedChanges = true;
+                 }
             }
+
+            else
+            {
+                if (gridViewModel.suite.currentCycle != null)
+                {
+                    Debug.WriteLine("Discarding cycle - current cycle:" + gridViewModel.suite.currentCycle.id);
+                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                    //gridViewModel.suite.cycles.Remove(currentCycle);
+                    gridViewModel.suite.cycles.Remove(gridViewModel.suite.cycles.Where(x => x.uid == gridViewModel.suite.currentCycle.uid).First());
+                    unsavedChanges = true;
+                    if (gridViewModel.suite.cycles.Count > 0)
+                        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.First();
+
+                    if (gridViewModel.suite.currentCycle != null)
+                        Debug.WriteLine("Cycle was discarded - new current cycle:" + gridViewModel.suite.currentCycle.id);
+                    else
+                        Debug.WriteLine("Cycle was discarded - no new current cycle.");
+                }
+                else 
+                    Debug.WriteLine("Discarding cycle - no current cycle.");
+            }
+
+
         }
         public bool CanExecute_DiscardCyclesCmd()
         {
@@ -432,11 +454,11 @@ namespace TestRunnerAppWpf
         // Test management commands
         public void Execute_NewTestCmd()
         {
-            var d = new NewTestDialog();
+            var d = new NewTestDialog(this);
             if (d.ShowDialog() == true)
             {
                 undoSuite = FileMgmt.Serialize(gridViewModel.suite);
-                gridViewModel.suite.tests.Add(d.newItem);
+                gridViewModel.suite.tests.Add(d.viewModel.newItem);
                 unsavedChanges = true;
             }
         }

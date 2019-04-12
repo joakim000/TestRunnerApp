@@ -30,6 +30,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
     <StackPanel>
         <Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
@@ -56,48 +57,69 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label Grid.Column="1" Grid.Row="0" Content="ID" />
-            <TextBox Grid.Column="1" Grid.Row="1" Width="350"
-                     Text="{Binding Path=id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                <StackPanel Grid.Column="1" Grid.Row="0">
+                   
+                    <Label Grid.Column="1" Grid.Row="0" Content="ID" />
+                    <TextBox Grid.Column="1" Grid.Row="1" Width="350"
+                     Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
+                </StackPanel>
+
+
+                
 
             <Label Grid.Column="1" Grid.Row="2" Content="Name" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="4" Content="Priority" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="6" Content="Pre-conditions" />
-            <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=descPrecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Grid.Column="1" Grid.Row="8" Content="Execution steps" />
-            <TextBox Grid.Column="1" Grid.Row="9" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=descExecution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Grid.Column="1" Grid.Row="10" Content="Expected result" />
-            <TextBox Grid.Column="1" Grid.Row="11" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=descExpected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            <StackPanel Grid.Column="1" Grid.Row="6">
+                <Label Grid.Column="1" Grid.Row="6" Content="Objective" />
+                <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
+                     Text="{Binding Path=newItem.objective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                />
+                
+            </StackPanel>
+            
             
             <Label Grid.Column="1" Grid.Row="12" Content="Notes" />
             <TextBox Grid.Column="1" Grid.Row="13" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="50"
-                     Text="{Binding Path=notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
         </Grid>
         </StackPanel>
         <StackPanel Grid.Column="1">
+            <Label Content="Execution" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
+
+            <Label Grid.Column="1" Grid.Row="6" Content="Pre-conditions" />
+            <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.descPrecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                />
+
+            <Label Grid.Column="1" Grid.Row="8" Content="Execution steps" Margin="0,0,0,0"/>
+            <TextBox Grid.Column="1" Grid.Row="9" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.descExecution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Grid.Column="1" Grid.Row="10" Content="Expected result" />
+            <TextBox Grid.Column="1" Grid.Row="11" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.descExpected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="2">
             <Label Content="Test" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
         <Grid Margin="15,0,15,15">
@@ -127,38 +149,38 @@
 
             <Label Grid.Column="1" Grid.Row="0" Content="Assembly" />
             <TextBox Grid.Column="1" Grid.Row="1" Width="350"
-                     Text="{Binding Path=callAss, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.callAss, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="2" Content="Namespace" />
             <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=callSpace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.callSpace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Grid.Column="1" Grid.Row="4" Content="Type" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=callType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.callType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
 
             <Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
             <TextBox Grid.Column="1" Grid.Row="9" Width="350"
-                     Text="{Binding Path=testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="10" Content="Test data 2" />
             <TextBox Grid.Column="1" Grid.Row="11" Width="350"
-                     Text="{Binding Path=testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="12" Content="Test data 3" />
             <TextBox Grid.Column="1" Grid.Row="13" Width="350"
-                     Text="{Binding Path=testData[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.testData[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
             
             <Label Grid.Column="1" Grid.Row="14" Content="Test data 4" />
             <TextBox Grid.Column="1" Grid.Row="15" Width="350"
-                     Text="{Binding Path=testData[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.testData[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
            
             <!--<Label Grid.Column="1" Grid.Row="10" Content="Use Web driver" />-->
@@ -169,8 +191,27 @@
 
 
             <WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" >
-                <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-                <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+                    <StackPanel HorizontalAlignment="Left" Margin="0,0,60,3">
+                        <Label Content="Import Jira case" HorizontalAlignment="Left" />
+                    <ComboBox x:Name="CasesCombo"
+                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
+                                  ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                                               SelectedItem="{Binding jiraSelectedCase, 
+                                                                     Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                         ItemsSource="{Binding jiraProject.cases, 
+                                                                     Mode=OneWay, NotifyOnSourceUpdated=True}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding key}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    </StackPanel>
+                    <Button IsDefault="True" Height="30" VerticalAlignment="Bottom"  Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
+                <Button IsCancel="True" Height="30" VerticalAlignment="Bottom" MinWidth="60">_Cancel</Button>
             </WrapPanel>
         </Grid>
         </StackPanel>

@@ -119,8 +119,7 @@
             />-->
 
         <StackPanel Grid.Column="1" Grid.Row="0">
-             <Label Content="Cycle Key" />
-                    <StackPanel Orientation="Horizontal">
+             <Label Content="Jira Cycle Key" />
                         <ComboBox x:Name="CyclesCombo"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                   ItemContainerStyle="{StaticResource ComboItemStyle}"     
@@ -139,7 +138,6 @@
              </ComboBox>
                         <!--<Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"  Content="Update list" Command="{Binding JiraGetAvailableCyclesCmd}"/>-->
                         </StackPanel> 
-        </StackPanel>
 
                 <StackPanel  Grid.Column="1"  Grid.Row="1">
                         <Label Content="Status" />
@@ -148,16 +146,17 @@
                                 IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
                         />
                 </StackPanel>
-            
-                <Label Grid.Column="1" Grid.Row="2" Content="Folder" />
-            <TextBox Grid.Column="1" Grid.Row="3" Width="350"
-                     Text="{Binding Path=newItem.folder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+
+                <StackPanel Grid.Column="1"  Grid.Row="2">
+            <Label Content="Folder" />
+            <TextBox  Width="350"
+                     Text="{Binding Path=newItem.jiraCycle.folder.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                              IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="4" Content="Version" />
+            <Label Grid.Column="1" Grid.Row="4" Content="Project version" />
             <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=newItem.version, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.jiraCycle.jiraProjectVersion.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                              IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
@@ -167,20 +166,23 @@
                      Text="{Binding Path=newItem.jiraProjectKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <!--<Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
+            <!--<Label Grid.Column="1" Grid.Row="8" Content="Jira Cycle ID" />
             <TextBox Grid.Column="1" Grid.Row="9" Width="350"
-                     Text="{Binding Path=testData[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                    IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.jiraCycle.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />-->
             
-            <!--<Label Grid.Column="1" Grid.Row="10" Content="Test data 2" />
+            <Label Grid.Column="1" Grid.Row="10" Content="Planned start date" />
             <TextBox Grid.Column="1" Grid.Row="11" Width="350"
-                     Text="{Binding Path=testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />-->
+                                           IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.jiraCycle.plannedStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
             
-            <!--<Label Grid.Column="1" Grid.Row="12" Content="Test data 3" />
+            <Label Grid.Column="1" Grid.Row="12" Content="Planned end date" />
             <TextBox Grid.Column="1" Grid.Row="13" Width="350"
-                     Text="{Binding Path=testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />-->
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.jiraCycle.plannedEndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
             
             <!--<Label Grid.Column="1" Grid.Row="14" Content="Test data 4" />
             <TextBox Grid.Column="1" Grid.Row="15" Width="350"
@@ -198,7 +200,9 @@
                 <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
                 <Button IsCancel="True" MinWidth="60">_Cancel</Button>
             </WrapPanel>-->
-        </Grid>
+                </StackPanel>
+            </Grid>
+            
         </StackPanel>
         <WrapPanel Grid.Row="16" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" >
             <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" 

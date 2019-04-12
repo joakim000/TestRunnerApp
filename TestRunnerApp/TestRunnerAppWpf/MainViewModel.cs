@@ -187,8 +187,12 @@ namespace TestRunnerAppWpf
 
                 RunModel r = new RunModel(test, webDriverType);
                 syncContext.Send(x => test.runs.Add(r), null);
-                syncContext.Send(x => test.previousOutcome = r.result, null);
                 syncContext.Send(x => test.numberOfRuns = test.runs.Count(), null);
+                syncContext.Send(x => test.previousOutcome = r.result, null);
+                syncContext.Send(x => test.previousDateTime = r.datetime, null);
+                syncContext.Send(x => test.previousRunTime = r.runTime, null);
+
+                
 
                 if (cycle != null)
                 {

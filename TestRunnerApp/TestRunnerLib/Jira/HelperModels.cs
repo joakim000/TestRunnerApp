@@ -23,24 +23,25 @@ namespace TestRunnerLib.Jira
             get => Get(() => self);
             set => Set(() => self, value);
         }
-        // Status
-        public string name
-        {
-            get => Get(() => name);
-            set => Set(() => name, value);
-        }
-        public string description
-        {
-            get => Get(() => description);
-            set => Set(() => description, value);
-        }
-        public string color
-        {
-            get => Get(() => color);
-            set => Set(() => color, value);
-        }
-
+       
         public IdSelf() { }
+    }
+
+    [JsonObject(MemberSerialization.OptOut)]
+    public class Owner : ViewModelBase
+    {
+        public string accountId
+        {
+            get => Get(() => accountId);
+            set => Set(() => accountId, value);
+        }
+        public string self
+        {
+            get => Get(() => self);
+            set => Set(() => self, value);
+        }
+       
+        public Owner() { }
     }
 
     

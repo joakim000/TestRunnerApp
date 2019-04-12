@@ -23,6 +23,31 @@ namespace TestRunnerLib.Jira
             get => Get(() => statuses, new ObservableCollection<JiraStatus>());
             set => Set(() => statuses, value);
         }
+        public ObservableCollection<JiraFolder> folders
+        {
+            get => Get(() => folders, new ObservableCollection<JiraFolder>());
+            set => Set(() => folders, value);
+        }
+        public ObservableCollection<JiraVersion> versions
+        {
+            get => Get(() => versions, new ObservableCollection<JiraVersion>());
+            set => Set(() => versions, value);
+        }
+        public ObservableCollection<JiraPrio> prios
+        {
+            get => Get(() => prios, new ObservableCollection<JiraPrio>());
+            set => Set(() => prios, value);
+        }
+        public ObservableCollection<JiraCase> cases
+        {
+            get => Get(() => cases, new ObservableCollection<JiraCase>());
+            set => Set(() => cases, value);
+        }
+        public ObservableCollection<JiraEnvironment> environments
+        {
+            get => Get(() => environments, new ObservableCollection<JiraEnvironment>());
+            set => Set(() => environments, value);
+        }
         /* Properties returned by TMJ */
         public int id
         {
@@ -46,6 +71,8 @@ namespace TestRunnerLib.Jira
             set => Set(() => enabled, value);
         }
         /* end: Properties returned by TMJ */
+
+
         public string name
         {
             get => Get(() => name);
@@ -60,6 +87,11 @@ namespace TestRunnerLib.Jira
         {
             get => Get(() => description);
             set => Set(() => description, value);
+        }
+        public JiraVersion version
+        {
+            get => Get(() => version);
+            set => Set(() => version, value);
         }
 
 

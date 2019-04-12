@@ -97,6 +97,14 @@ namespace TestRunnerAppWpf
             {
                 Debug.WriteLine($"jiracycle.key: {mainViewModel.gridViewModel.suite.jiraCycle.key}");
 
+                // Find existing cycles with jiraCycle key
+                var cyclesFromJira = mainViewModel.gridViewModel.suite.cycles.Where(x => x.jiraCycle != null);
+                int existCount = cyclesFromJira.Where(x => x.jiraCycle.key == jiraSelectedCycle.key).Count();
+                if (existCount > 0)
+                    newItem = cyclesFromJira.Where(x => x.jiraCycle.key == jiraSelectedCycle.key).First();
+
+                Debug.WriteLine("Found number of existing cycles with jiraCycleID: " + existCount);
+
                 JiraData2Item();
 
             }
@@ -109,6 +117,7 @@ namespace TestRunnerAppWpf
             newItem.id = newItem.jiraCycle.key;
             newItem.name = newItem.jiraCycle.name;
             newItem.description = newItem.jiraCycle.description;
+            newItem.status = newItem.jiraCycle.status.name;
         }
 
     }
@@ -118,76 +127,3 @@ namespace TestRunnerAppWpf
 
 
 
-
-/*
- 
-         public async void Execute_JiraGetAvailableCyclesCmd()
-        {
-            Tuple<HttpStatusCode, JObject> cycles = await Jira.GetCycles(await JiraConnect.TmjPrep(), jiraProject.key, null, "100");
-            if (cycles.Item1 == HttpStatusCode.OK)
-            {
-                JEnumerable<JToken> tokens = cycles.Item2.GetValue("values").Children();
-                var available = new ObservableCollection<JiraCycle>();
-                foreach (JToken t in tokens)
-                {
-                    var c = new JiraCycle();
-                    available.Add(c);
-
-                    c.id = t.Value<int>("id");
-                    c.key = t.Value<string>("key");
-                    c.name = t.Value<string>("name");
-                    c.description = t.Value<string>("description");
-                    c.plannedStartDate = t.Value<string>("plannedStartDate");
-                    c.plannedEndDate = t.Value<string>("plannedEndDate");
-                    try { c.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                    try { c.jiraProjectVersion = t.Value<JObject>("jiraProjectVersion").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                    try { c.status = t.Value<JObject>("status").ToObject<JiraStatus>(); } catch (NullReferenceException) { }
-                    try { c.folder = t.Value<JObject>("folder").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                }
-                jiraProject.cycles = available;
-                jiraSelectedCycle = jiraProject.cycles.First();
-
-                Tuple<HttpStatusCode, JObject> response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), jiraProject.key, null, "100");
-                if (response.Item1 == HttpStatusCode.OK)
-                {
-                    JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
-                    var statuses = new ObservableCollection<JiraStatus>();
-                    foreach (JToken t in statusTokens)
-                    {
-                        var s = new JiraStatus();
-                        statuses.Add(s);
-
-                        s.id = t.Value<int>("id");
-                        try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                        s.name = t.Value<string>("name");
-                        s.description = t.Value<string>("description");
-                        s.index = t.Value<int>("index");
-                        s.color = t.Value<string>("color");
-                        s.archived = t.Value<bool>("archived");
-                        s.isDefault = t.Value<bool>("default");
-                    }
-                    jiraProject.statuses = statuses;
-
-
-                }
-
-
-                foreach (JiraCycle c in available)
-                {
-                    c.status = jiraProject.statuses.Where(x => x.id == c.status.id).First();
-                }
-
-
-            }
-
-
-        }
-        public bool CanExecute_JiraGetAvailableCyclesCmd()
-        {
-            return true;
-        } 
-
-
-
-
-    */    

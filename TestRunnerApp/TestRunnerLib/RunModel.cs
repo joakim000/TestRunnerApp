@@ -126,7 +126,10 @@ namespace TestRunnerLib
             runTime = (Int64)System.Math.Round(datetimeEnd.Subtract(datetime).TotalMilliseconds);
                 Debug.WriteLine($"Execution time (ms): {runTime.ToString()}");
             if (resultObj != null)
+            {
                 result = resultObj.outcome;
+            }
+             
         }
     }
 }

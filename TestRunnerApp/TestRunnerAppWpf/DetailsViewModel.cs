@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using TestRunnerLib.Jira;
+using System.Windows;
 
 namespace TestRunnerAppWpf
 {
@@ -147,75 +148,32 @@ namespace TestRunnerAppWpf
                 LoadProjectData();
 
             }
-            
+
         }
 
-        public async void LoadProjectData()
+        public void LoadProjectData()
         {
-                Debug.WriteLine($"jiraproject.key: {mainViewModel.gridViewModel.suite.jiraProject.key}");
+            if (jiraSelectedProject == null)
+            {
+                MessageBox.Show("Loading project data: No project selected.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            mainViewModel.gridViewModel.suite.jiraProject = jiraSelectedProject;
 
-                mainViewModel.gridViewModel.suite.jiraProject = jiraSelectedProject;
-                var p = mainViewModel.gridViewModel.suite.jiraProject;
-                Tuple<HttpStatusCode, JObject> response;
 
-                response = await Jira.GetProjJira(await JiraConnect.Preflight(), p.key);
-                if (response.Item1 == HttpStatusCode.OK)
-                {
-                    p.name = response.Item2.Value<string>("name");
-                    p.description = response.Item2.Value<string>("description");
-                    p.self = response.Item2.Value<string>("self");
-                }
+            if (mainViewModel.gridViewModel.suite.jiraProject == null)
+            {
+                MessageBox.Show("Loading project data: No Jira project in suite.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
-                response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), p.key, null, "100");
-                if (response.Item1 == HttpStatusCode.OK)
-                {
-                    JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
-                    var statuses = new ObservableCollection<JiraStatus>();
-                    foreach (JToken t in statusTokens)
-                    {
-                        var s = new JiraStatus();
-                        statuses.Add(s);
+            Debug.WriteLine($"jiraproject.key: {mainViewModel.gridViewModel.suite.jiraProject.key}");
 
-                        s.id = t.Value<int>("id");
-                        try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                        s.name = t.Value<string>("name");
-                        s.description = t.Value<string>("description");
-                        s.index = t.Value<int>("index");
-                        s.color = t.Value<string>("color");
-                        s.archived = t.Value<bool>("archived");
-                        s.isDefault = t.Value<bool>("default");
-                    }
-                    p.statuses = statuses;
-                }
+            var p = mainViewModel.gridViewModel.suite.jiraProject;
 
-                response = await Jira.GetCycles(await JiraConnect.TmjPrep(), p.key, null, "100");
-                if (response.Item1 == HttpStatusCode.OK)
-                {
-                    JEnumerable<JToken> tokens = response.Item2.GetValue("values").Children();
-                    var cycles = new ObservableCollection<JiraCycle>();
-                    foreach (JToken t in tokens)
-                    {
-                        var c = new JiraCycle();
-                        cycles.Add(c);
-
-                        c.id = t.Value<int>("id");
-                        c.key = t.Value<string>("key");
-                        c.name = t.Value<string>("name");
-                        c.description = t.Value<string>("description");
-                        c.plannedStartDate = t.Value<string>("plannedStartDate");
-                        c.plannedEndDate = t.Value<string>("plannedEndDate");
-                        try { c.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                        try { c.jiraProjectVersion = t.Value<JObject>("jiraProjectVersion").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                        try { c.status = t.Value<JObject>("status").ToObject<JiraStatus>(); } catch (NullReferenceException) { }
-                        try { c.folder = t.Value<JObject>("folder").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                    }
-                    p.cycles = cycles;
-                    foreach (JiraCycle c in cycles)
-                    {
-                        c.status = p.statuses.Where(x => x.id == c.status.id).First();
-                    }
-                }
+            JiraConnect.LoadProjectData(p);
 
         }
+
     }
 }

@@ -100,7 +100,12 @@
     <Compile Include="IWebTest.cs" />
     <Compile Include="Jira\Jira.cs" />
     <Compile Include="Jira\HelperModels.cs" />
+    <Compile Include="Jira\JiraEnvironment.cs" />
+    <Compile Include="Jira\JiraVersion.cs" />
+    <Compile Include="Jira\JiraPrio.cs" />
     <Compile Include="Jira\JiraCycle.cs" />
+    <Compile Include="Jira\JiraCase.cs" />
+    <Compile Include="Jira\JiraFolder.cs" />
     <Compile Include="Jira\JiraStatus.cs" />
     <Compile Include="Jira\JiraProject.cs" />
     <Compile Include="Python\PyNetSe.cs">

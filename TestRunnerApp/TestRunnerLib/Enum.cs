@@ -14,4 +14,6 @@ namespace TestRunnerLib
 
     public enum Api { Jira, Tmj }
 
+    public enum Mgmt { None, JiraCloudTmj, ReqTest }
+
 }

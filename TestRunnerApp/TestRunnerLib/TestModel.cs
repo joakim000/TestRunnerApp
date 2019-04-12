@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using TestRunnerLib.Jira;
 using ViewModelSupport;
 
 namespace TestRunnerLib
@@ -36,6 +37,16 @@ namespace TestRunnerLib
             get => Get(() => previousOutcome, Outcome.NotRun);
             set => Set(() => previousOutcome, value);
         }
+        public DateTime previousDateTime
+        {
+            get => Get(() => previousDateTime);
+            set => Set(() => previousDateTime, value);
+        }
+        public Int64 previousRunTime
+        {
+            get => Get(() => previousRunTime);
+            set => Set(() => previousRunTime, value);
+        }
 
 
         /* Description fields */
@@ -53,6 +64,11 @@ namespace TestRunnerLib
         {
             get => Get(() => name);
             set => Set(() => name, value);
+        }
+        public string objective
+        {
+            get => Get(() => objective);
+            set => Set(() => objective, value);
         }
         public string descExecution
         {
@@ -112,31 +128,47 @@ namespace TestRunnerLib
         /* end: Test call */
 
         /* Jira integration */
-        public string jiraTestId
+        public JiraCase jiraCase
         {
-            get => Get(() => jiraTestId);
-            set => Set(() => jiraTestId, value);
+            get => Get(() => jiraCase);
+            set => Set(() => jiraCase, value);
         }
-        public string jiraTestName
+        public bool jiraCloudTmj
         {
-            get => Get(() => jiraTestName);
-            set => Set(() => jiraTestName, value);
+            get => Get(() => jiraCloudTmj, false);
+            set => Set(() => jiraCloudTmj, value);
         }
-        public string jiraPrioId
+        public string jiraProjectKey
         {
-            get => Get(() => jiraPrioId);
-            set => Set(() => jiraPrioId, value);
+            get => Get(() => jiraProjectKey);
+            set => Set(() => jiraProjectKey, value);
         }
-        public string jiraPrioName
-        {
-            get => Get(() => jiraPrioName);
-            set => Set(() => jiraPrioName, value);
-        }
-        public string jiraTestVersion
-        {
-            get => Get(() => jiraTestVersion);
-            set => Set(() => jiraTestVersion, value);
-        }
+
+        //public string jiraTestId
+        //{
+        //    get => Get(() => jiraTestId);
+        //    set => Set(() => jiraTestId, value);
+        //}
+        //public string jiraTestName
+        //{
+        //    get => Get(() => jiraTestName);
+        //    set => Set(() => jiraTestName, value);
+        //}
+        //public string jiraPrioId
+        //{
+        //    get => Get(() => jiraPrioId);
+        //    set => Set(() => jiraPrioId, value);
+        //}
+        //public string jiraPrioName
+        //{
+        //    get => Get(() => jiraPrioName);
+        //    set => Set(() => jiraPrioName, value);
+        //}
+        //public string jiraTestVersion
+        //{
+        //    get => Get(() => jiraTestVersion);
+        //    set => Set(() => jiraTestVersion, value);
+        //}
         /* end: Jira integration */
 
 
@@ -189,7 +221,7 @@ namespace TestRunnerLib
             testData = new string[64];
             runs = new ObservableCollection<RunModel>();
             cycles = new ObservableCollection<CycleModel>();
-            //previousOutcome = Outcome.NotRun;
+            previousOutcome = Outcome.NotRun;
             useWebDriver = true;
 
         }
@@ -220,11 +252,16 @@ namespace TestRunnerLib
             c.prio = StringCopy(prio);
             c.version = StringCopy(version);
 
-            c.jiraPrioId = StringCopy(jiraPrioId);
-            c.jiraPrioName = StringCopy(jiraPrioName);
-            c.jiraTestId = StringCopy(jiraTestId);
-            c.jiraTestName = StringCopy(jiraTestName);
-            c.jiraTestVersion = StringCopy(jiraTestVersion);
+            c.jiraProjectKey = StringCopy(jiraProjectKey);
+            c.jiraCloudTmj = jiraCloudTmj;
+            c.jiraCase = jiraCase;
+
+
+            //c.jiraPrioId = StringCopy(jiraPrioId);
+            //c.jiraPrioName = StringCopy(jiraPrioName);
+            //c.jiraTestId = StringCopy(jiraTestId);
+            //c.jiraTestName = StringCopy(jiraTestName);
+            //c.jiraTestVersion = StringCopy(jiraTestVersion);
 
             return c;
         }

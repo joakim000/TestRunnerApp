@@ -25,8 +25,8 @@
     <SolidColorBrush x:Key="MenuBorderBrush" Color="Black" />
 
     <!--Datagrid column header -->
-    <SolidColorBrush x:Key="DataGridHeaderSortedBackgroundBrush" Color="#FF333333" />
-    <SolidColorBrush x:Key="DataGridHeaderSortedBorderBrush" Color="DarkSlateGray" />
+    <SolidColorBrush x:Key="DataGridHeaderSortedBackgroundBrush" Color="#FF375D5D" />
+    <SolidColorBrush x:Key="DataGridHeaderSortedBorderBrush" Color="#00315252" />    <!-- DarkSlateGray: #FF2F4F4F-->
     <SolidColorBrush x:Key="DataGridHeaderBackgroundBrush" Color="DarkSlateGray" />
     <SolidColorBrush x:Key="DataGridHeaderMouseOverBackgroundBrush" Color="#88FF8C00" />
     <SolidColorBrush x:Key="DataGridHeaderBorderBrush" Color="DarkSlateGray" />
@@ -629,7 +629,7 @@
 
     <!--SystemColors redefined-->
     <!--Light-->
-    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey }" Color="DarkSlateGray" />    <!--DataGrid unused space-->
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey }" Color="#FF333333" />    <!--DataGrid unused space-->
     <SolidColorBrush x:Key="{x:Static SystemColors.ControlLightLightBrushKey }" Color="Black" />
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey }" Color="WhiteSmoke" />    <!--Selected row text-->
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveBorderBrushKey }" Color="Black" />
@@ -663,7 +663,7 @@
     <SolidColorBrush x:Key="{x:Static SystemColors.ActiveCaptionBrushKey }" Color="Blue" />
     <SolidColorBrush x:Key="{x:Static SystemColors.GradientActiveCaptionBrushKey }" Color="Blue" />
     <SolidColorBrush x:Key="{x:Static SystemColors.GradientInactiveCaptionBrushKey }" Color="Blue" />
-    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey }" Color="#FF333333" />    <!-- DataGrid selected row-->
+    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey }" Color="#99550000" />    <!-- DataGrid selected row-->
     <SolidColorBrush x:Key="{x:Static SystemColors.HotTrackBrushKey }" Color="Orange" />
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveCaptionBrushKey }" Color="Blue" />
     <!--end SystemColors redefined-->
