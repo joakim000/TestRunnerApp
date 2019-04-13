@@ -77,11 +77,8 @@ namespace TestRunnerLib
             get => Get(() => jiraProject);
             set => Set(() => jiraProject, value);
         }
-        public string jiraFolder
-        {
-            get => Get(() => jiraFolder);
-            set => Set(() => jiraFolder, value);
-        }
+
+        // deprecated
         public JiraCycle jiraCycle
         {
             get => Get(() => jiraCycle);

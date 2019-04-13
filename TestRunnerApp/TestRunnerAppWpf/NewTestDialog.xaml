@@ -193,7 +193,7 @@
             <WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0" >
                     <StackPanel HorizontalAlignment="Left" Margin="0,0,60,3">
                         <Label Content="Import Jira case" HorizontalAlignment="Left" />
-                    <ComboBox x:Name="CasesCombo"
+                        <ComboBox x:Name="CasesCombo" Style="{StaticResource ComboStyle}"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                   ItemContainerStyle="{StaticResource ComboItemStyle}"     
                                                SelectedItem="{Binding jiraSelectedCase, 

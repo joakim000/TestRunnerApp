@@ -28,6 +28,21 @@ namespace TestRunnerLib.Jira
             get => Get(() => folders, new ObservableCollection<JiraFolder>());
             set => Set(() => folders, value);
         }
+        public ObservableCollection<JiraFolder> caseFolders
+        {
+            get => Get(() => caseFolders, new ObservableCollection<JiraFolder>());
+            set => Set(() => caseFolders, value);
+        }
+        public ObservableCollection<JiraFolder> cycleFolders
+        {
+            get => Get(() => cycleFolders, new ObservableCollection<JiraFolder>());
+            set => Set(() => cycleFolders, value);
+        }
+        public ObservableCollection<JiraFolder> planFolders
+        {
+            get => Get(() => planFolders, new ObservableCollection<JiraFolder>());
+            set => Set(() => planFolders, value);
+        }
         public ObservableCollection<JiraVersion> versions
         {
             get => Get(() => versions, new ObservableCollection<JiraVersion>());
@@ -95,6 +110,24 @@ namespace TestRunnerLib.Jira
         }
 
 
+        /* Selections */
+        public string selectedCaseFolder
+        {
+            get => Get(() => selectedCaseFolder);
+            set => Set(() => selectedCaseFolder, value);
+        }
+        public string selectedCycleFolder
+        {
+            get => Get(() => selectedCycleFolder);
+            set => Set(() => selectedCycleFolder, value);
+        }
+        public JiraCycle selectedCycle
+        {
+            get => Get(() => selectedCycle);
+            set => Set(() => selectedCycle, value);
+        }
+
+
 
         public JiraProject() { }
 
@@ -104,6 +137,21 @@ namespace TestRunnerLib.Jira
             this.jiraProjectId = jiraProjectId;
             this.key = key;
             this.enabled = enabled;
+        }
+
+        public void separateFolders()
+        {
+            foreach (JiraFolder f in folders)
+            {
+                // Valid: "TEST_CASE" "TEST_PLAN" "TEST_CYCLE"
+                caseFolders = new ObservableCollection<JiraFolder>(folders.Where(x => x.folderType == "TEST_CASE"));
+                //caseFolders = (ObservableCollection<JiraFolder>)folders.Where(x => x.folderType == "TEST_CASE");
+
+                cycleFolders = new ObservableCollection<JiraFolder>(folders.Where(x => x.folderType == "TEST_CYCLE"));
+                //cycleFolders = (ObservableCollection<JiraFolder>)folders.Where(x => x.folderType == "TEST_CYCLE");
+
+                //planFolders = (ObservableCollection<JiraFolder>)folders.Where(x => x.folderType == "TEST_PLAN");
+            }
         }
     }
 

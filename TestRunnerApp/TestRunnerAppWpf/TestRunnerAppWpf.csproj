@@ -64,7 +64,7 @@
     <ManifestCertificateThumbprint>0A9E911DC5BF4039F0B316B329D886AC46F583CD</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>sect_CS_bak.pfx</ManifestKeyFile>
+    <ManifestKeyFile>sect_CS_bak.p12</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -165,7 +165,6 @@
     <Compile Include="NewCycleDialogViewModel.cs" />
     <Compile Include="ExportViewModel.cs" />
     <Compile Include="JiraConnect.cs" />
-    <Content Include="Jira.cs.txt" />
     <Compile Include="ExportDialog.xaml.cs">
       <DependentUpon>ExportDialog.xaml</DependentUpon>
     </Compile>
@@ -308,7 +307,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="sect_CS_bak.pfx" />
+    <None Include="sect_CS_bak.p12" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -95,6 +95,11 @@ namespace TestRunnerAppWpf
 
             if (e.PropertyName == "jiraSelectedCycle")
             {
+                if (jiraSelectedCycle == null)
+                    return;
+
+                mainViewModel.gridViewModel.suite.jiraCycle = jiraSelectedCycle;
+
                 Debug.WriteLine($"jiracycle.key: {mainViewModel.gridViewModel.suite.jiraCycle.key}");
 
                 // Find existing cycles with jiraCycle key

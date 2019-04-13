@@ -69,8 +69,6 @@ namespace TestRunnerAppWpf
             Tuple<HttpStatusCode, JObject> projects = await Jira.GetProjects(await JiraConnect.TmjPrep(), "100");
             if (projects.Item1 == HttpStatusCode.OK)
             {
-                //JToken values = projects.Item2.GetValue("values");
-                //JEnumerable<JToken> projTokens = values.Children();
                 JEnumerable<JToken> projTokens = projects.Item2.GetValue("values").Children();
 
                 var jiraProjects = new ObservableCollection<JiraProject>();
@@ -85,19 +83,45 @@ namespace TestRunnerAppWpf
                         jiraProjects.Add(p);
                     }
                 }
-
                 jiraAvailableProjects = jiraProjects;
                 jiraSelectedProject = jiraProjects.First();
                 Properties.Settings.Default.JiraAvailableProjects = FileMgmt.Serialize(jiraAvailableProjects);
-                
             }
-
-
         }
-        public bool CanExecute_EditCycleCmd()
+        public bool CanExecute_JiraGetAvailableProjectsCmd()
         {
             return true;
         }
+
+        public void Execute_JiraReloadProjectCmd()
+        {
+            LoadProjectData();
+        }
+        public bool CanExecute_JiraReloadProjectCmd()
+        {
+            return true;
+        }
+
+        public void Execute_ResetCycleFolderCmd()
+        {
+            suite.jiraProject.selectedCycleFolder = null;
+        }
+        public bool CanExecute_ResetCycleFolderCmd()
+        {
+            return true;
+        }
+
+        public void Execute_ResetCaseFolderCmd()
+        {
+            suite.jiraProject.selectedCaseFolder = null;
+        }
+        public bool CanExecute_ResetCaseFolderCmd()
+        {
+            return true;
+        }
+
+
+
         /* end: Commands */
 
         /* Deprecated */
@@ -119,8 +143,8 @@ namespace TestRunnerAppWpf
             Debug.WriteLine("Creating detailsViewModel");
 
             test = new TestModel();
-            suite = new SuiteModel();
             cycle = new CycleModel();
+            suite = new SuiteModel();
 
             jiraAvailableProjects = Settings.jiraAvailableProjects;
 

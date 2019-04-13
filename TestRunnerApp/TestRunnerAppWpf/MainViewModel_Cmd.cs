@@ -24,6 +24,7 @@ namespace TestRunnerAppWpf
         {
             checkedChrome = true; checkedFirefox = false; checkedIE = false; checkedPhantomJS = false; checkedEdge = false;
             Properties.Settings.Default.WebDriver = "chrome";
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetChromeCmd()
         {
@@ -34,6 +35,7 @@ namespace TestRunnerAppWpf
         {
             checkedChrome = false; checkedFirefox = true; checkedIE = false; checkedPhantomJS = false; checkedEdge = false;
             Properties.Settings.Default.WebDriver = "firefox";
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetFirefoxCmd() 
         {
@@ -44,6 +46,7 @@ namespace TestRunnerAppWpf
         {
             checkedChrome = false; checkedFirefox = false; checkedIE = true; checkedPhantomJS = false; checkedEdge = false;
             Properties.Settings.Default.WebDriver = "ie";
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetIECmd()
         {
@@ -54,6 +57,7 @@ namespace TestRunnerAppWpf
         {
             checkedChrome = false; checkedFirefox = false; checkedIE = false; checkedPhantomJS = true; checkedEdge = false;
             Properties.Settings.Default.WebDriver = "phantomjs";
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetPhantomJSCmd()
         {
@@ -64,6 +68,7 @@ namespace TestRunnerAppWpf
         {
             checkedChrome = false; checkedFirefox = false; checkedIE = false; checkedPhantomJS = false; checkedEdge = true;
             Properties.Settings.Default.WebDriver = "edge";
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetEdgeCmd()
         {
@@ -80,6 +85,8 @@ namespace TestRunnerAppWpf
             {
                 Themes.SetDark();
             }
+            Debug.WriteLine("Saving user-settings");
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetThemeCmd()
         {
@@ -101,6 +108,7 @@ namespace TestRunnerAppWpf
         {
             Properties.Settings.Default.OnTop = !Properties.Settings.Default.OnTop;
             checkedOnTop = Properties.Settings.Default.OnTop;
+            Properties.Settings.Default.Save();
         }
         public bool CanExecute_SetOnTopCmd()
         {
@@ -680,7 +688,8 @@ namespace TestRunnerAppWpf
                 jiraToken = Properties.Settings.Default.JiraToken;
                 tmjIdToken = Properties.Settings.Default.TmjIdToken;
                 tmjKeyToken = Properties.Settings.Default.TmjKeyToken;
-
+                Debug.WriteLine("Saving user-settings");
+                Properties.Settings.Default.Save();
 
                 if (Properties.Settings.Default.MgmtSystem == "None")
                 {

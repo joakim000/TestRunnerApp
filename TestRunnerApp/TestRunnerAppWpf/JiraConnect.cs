@@ -196,6 +196,7 @@ namespace TestRunnerAppWpf
                     try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
                 }
                 p.folders = folders;
+                p.separateFolders();
             }
 
             // Project priorities

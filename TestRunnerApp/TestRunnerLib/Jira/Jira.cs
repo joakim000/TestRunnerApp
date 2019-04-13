@@ -351,25 +351,103 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
+        public static async Task<Tuple<HttpStatusCode, JObject>> CreateCase(JiraConnectInfo info,
+                                                                            string projectKey,
+                                                                            string name,
+                                                                            string objective,
+                                                                            string precondition,
+                                                                            int? estimatedTime,
+                                                                            int? componentId,
+                                                                            string priorityName,
+                                                                            string statusName,
+                                                                            int? folderId,
+                                                                            string ownerId,
+                                                                            string[] labels)
+        {
+            var data = new Dictionary<string, object>();
+
+            // Required
+            if (string.IsNullOrEmpty(projectKey) || string.IsNullOrEmpty(name))
+                return null;
+            data.Add("projectKey", projectKey);
+            data.Add("name", name);
+
+            // Optional
+            if (!string.IsNullOrEmpty(objective))
+                data.Add("objective", objective);
+
+            if (!string.IsNullOrEmpty(precondition))
+                data.Add("precondition", precondition);
+
+            if (estimatedTime != null)
+                data.Add("estimatedTime", estimatedTime);
+
+            if (componentId != null)
+                data.Add("componentId", componentId);
+
+            if (!string.IsNullOrEmpty(priorityName))
+                data.Add("priorityName", priorityName);
+
+            if (!string.IsNullOrEmpty(statusName))
+                data.Add("statusName", statusName);
+
+            if (folderId != null)
+                data.Add("folderId", folderId);
+
+            if (!string.IsNullOrEmpty(ownerId))
+                data.Add("ownerId", ownerId);
+
+            if (labels != null))
+                data.Add("labels", labels);
+
+
+            var t = TmjCall(info, HttpMethod.Post, "testcases", data);
+            await t;
+            return t.Result;
+        }
+
 
 
         public static async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(JiraConnectInfo info,
                                                                              string projectKey,
                                                                              string name, 
-                                                                             string description, 
-                                                                             string folderId, 
-                                                                             bool setOwner)
+                                                                             string description,
+                                                                             string plannedStartDate,
+                                                                             string plannedEndDate,
+                                                                             int? jiraProjectVersion,
+                                                                             string statusName,
+                                                                             int? folderId, 
+                                                                             string ownerId)
         {
             var data = new Dictionary<string, object>();
 
-            if (!string.IsNullOrEmpty(projectKey))
-                data.Add("projectKey", projectKey);
-            if (!string.IsNullOrEmpty(name))
-                data.Add("name", name);
+            // Required
+            if (string.IsNullOrEmpty(projectKey) || string.IsNullOrEmpty(name))
+                return null;
+            data.Add("projectKey", projectKey);
+            data.Add("name", name);
+
+            // Optional
             if (!string.IsNullOrEmpty(description))
                 data.Add("description", description);
-            if (!string.IsNullOrEmpty(folderId))
+
+            if (!string.IsNullOrEmpty(plannedStartDate))
+                data.Add("plannedStartDate", plannedStartDate);
+
+            if (!string.IsNullOrEmpty(plannedEndDate))
+                data.Add("plannedEndDate", plannedEndDate);
+
+            if (jiraProjectVersion != null)
+                data.Add("jiraProjectVersion", jiraProjectVersion);
+
+            if (!string.IsNullOrEmpty(statusName))
+                data.Add("statusName", statusName);
+
+            if (folderId != null)
                 data.Add("folderId", folderId);
+
+            if (!string.IsNullOrEmpty(ownerId))
+                data.Add("ownerId", ownerId);
 
 
             var t = TmjCall(info, HttpMethod.Post, "testcycles", data);
@@ -399,18 +477,12 @@ namespace TestRunnerLib.Jira
             if (!string.IsNullOrEmpty(testCycleKey))
                 data.Add("testCycleKey", testCycleKey);
 
-            //if (!string.IsNullOrEmpty(statusName))
-            //    data.Add("statusName", statusName);
             if (outcome != null)
                 data.Add("statusName", Outcome2string(outcome));
 
-            //if (!string.IsNullOrEmpty(environmentName))
-            //    data.Add("environmentName", environmentName);
             if (webDriverType != null && webDriverType != WebDriverType.None)
                 data.Add("environmentName", WebDriverType2string(webDriverType));
 
-            //if (!string.IsNullOrEmpty(actualEndDate))
-            //    data.Add("actualEndDate", actualEndDate);
             if (endTime != null)
                 data.Add("actualEndDate", JiraDate(endTime));
 

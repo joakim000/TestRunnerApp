@@ -120,7 +120,7 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0">
              <Label Content="Jira Cycle Key" />
-                        <ComboBox x:Name="CyclesCombo"
+                    <ComboBox x:Name="CyclesCombo"  Style="{StaticResource ComboStyle}"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                   ItemContainerStyle="{StaticResource ComboItemStyle}"     
                                                SelectedItem="{Binding jiraSelectedCycle, 

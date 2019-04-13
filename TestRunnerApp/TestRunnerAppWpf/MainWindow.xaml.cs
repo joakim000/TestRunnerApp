@@ -40,6 +40,7 @@ namespace TestRunnerAppWpf
             model.gridViewModel.suite.cycles.CollectionChanged += model.Cycles_CollectionChanged;
 
             model.detailsViewModel.mainViewModel = model;
+            model.gridViewModel.suite = model.detailsViewModel.suite;
             model.detailsViewModel.PropertyChanged += model.DetailsViewModel_PropertyChanged;
 
             // Continue previous session, if not opened by association
