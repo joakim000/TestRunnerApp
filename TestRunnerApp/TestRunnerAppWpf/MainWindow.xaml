@@ -152,13 +152,14 @@
                     <MenuItem.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="5,2,5,2" Text="{Binding id}" />
-                                <TextBlock Margin="5,2,5,2" Text="{Binding name}" />
+                                <TextBlock Margin="5,2,5,2" Text="{Binding id}" FontWeight="Normal" />
+                                <TextBlock Margin="5,2,5,2" Text="{Binding name}" FontWeight="Normal" />
                             </StackPanel>
                         </DataTemplate>
                     </MenuItem.ItemTemplate>
                     <MenuItem.ItemContainerStyle>
                         <Style TargetType="MenuItem">
+                            <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
                             <Setter Property="Command" 
                                     Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectCycleCmd}"/>
                             <Setter Property="CommandParameter" Value="{Binding}" />
