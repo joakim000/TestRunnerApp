@@ -56,7 +56,7 @@
                   AlternationCount="2"
                   ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
                   RowHeaderStyle="{DynamicResource DataGridRowHeaderTemplateStyle}"
-                  
+                  BorderThickness="0,0,2,2"
         >
 
             <DataGrid.RowHeaderTemplate>

@@ -13,7 +13,7 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using System.Net;
-
+using System.Windows.Input;
 
 namespace TestRunnerAppWpf
 {
@@ -381,7 +381,22 @@ namespace TestRunnerAppWpf
 
         public void Execute_EditCycleCmd()
         {
-            
+            var d = new EditCycleDialog(this);
+            if (d.ShowDialog() == true)
+            {
+                if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
+                {
+
+                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+
+                    // Don't readd if newItem actuallty is existing (edited) item
+                    if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
+                        gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
+
+                    unsavedChanges = true;
+                }
+            }
         }
         public bool CanExecute_EditCycleCmd()
         {
@@ -393,6 +408,17 @@ namespace TestRunnerAppWpf
             
         }
         public bool CanExecute_ImportCyclesCmd()
+        {
+            return true;
+        }
+
+        public void Execute_SelectCycleCmd(object parameter)
+        {
+            var cmdParam = parameter as CycleModel;
+            if (cmdParam != null)
+                gridViewModel.suite.currentCycle = cmdParam;
+        }
+        public bool CanExecute_SelectCycleCmd()
         {
             return true;
         }

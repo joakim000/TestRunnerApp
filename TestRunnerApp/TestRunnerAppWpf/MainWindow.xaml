@@ -144,6 +144,58 @@
                 </MenuItem>
             </MenuItem>
 
+            <MenuItem Header="_Cycles" Template="{DynamicResource MenuItemControlTemplateCustom}">
+                <MenuItem Header="_Select" 
+                          ItemsSource="{Binding Path=gridViewModel.suite.cycles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
+                          
+                          >
+                    <MenuItem.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5,2,5,2" Text="{Binding id}" />
+                                <TextBlock Margin="5,2,5,2" Text="{Binding name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </MenuItem.ItemTemplate>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="MenuItem">
+                            <Setter Property="Command" 
+                                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=DataContext.SelectCycleCmd}"/>
+                            <Setter Property="CommandParameter" Value="{Binding}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/MockupComponentGreen_16x.png" />
+                    </MenuItem.Icon>
+
+                </MenuItem>
+                <MenuItem Header="_New" Command="{Binding NewCycleCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/NewFile_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Edit" Command="{Binding EditCycleCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Edit_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Reset exported-flags" Command="{Binding ResetExportedFlagsCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Redo_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Export" Command="{Binding ExportCycleCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Export_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Discard" Command="{Binding DiscardCyclesCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
             <MenuItem Header="_Execution" Template="{DynamicResource MenuItemControlTemplateCustom}">
                 <MenuItem Header="_Run selected"  Command="{Binding RunSelectedCmd}" IsEnabled="{Binding enableRun}" >
                     <MenuItem.Icon>
@@ -311,14 +363,13 @@
                     <Image Source="pack://application:,,,/Icons/SaveAs_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
             </ToolBar>
-            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
-                <!--<Button Command="{Binding SuiteDetailsCmd}" ToolTip="Suite details" >
-                    <Image Source="pack://application:,,,/Icons/TestPlan_16x.png"  Style="{StaticResource ToolBarImage}" />
-                </Button>-->
+            
+            <!--<ToolBar Template="{DynamicResource ToolBarControlTemplate}">
                 <Button ToolTip="Create report" IsEnabled="False" >
                     <Image Source="pack://application:,,,/Icons/Text_16x.png"  Style="{StaticResource ToolBarImage}" />
                 </Button>
-            </ToolBar>
+            </ToolBar>-->
+            
             <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
                 <Button Command="{Binding UndoCmd}" ToolTip="Undo">
                     <Image Source="pack://application:,,,/Icons/Undo_16x.png"  Style="{StaticResource ToolBarImage}" />
@@ -327,6 +378,7 @@
                     <Image Source="pack://application:,,,/Icons/Redo_16x.png"  Style="{StaticResource ToolBarImage}" />
                 </Button>-->
             </ToolBar>
+            
             <!--<ToolBar>
                 <Button Command="Cut" ToolTip="Cut">
                     <Image Source="pack://application:,,,/Icons/Cut_16x.png"  Style="{StaticResource ToolBarImage}  />
@@ -338,6 +390,7 @@
                     <Image Source="pack://application:,,,/Icons/Paste_16x.png"  Style="{StaticResource ToolBarImage} />
                 </Button>
             </ToolBar>-->
+            
             <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
                 <Button Command="{Binding NewTestCmd}" ToolTip="Add test">
                     <Image Source="pack://application:,,,/Icons/AddTest_16x.png" Style="{StaticResource ToolBarImage}" />
@@ -349,6 +402,41 @@
                     <Image Source="pack://application:,,,/Icons/RemoveSingleDriverTest_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
             </ToolBar>
+            
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+                <Button Command="{Binding NewCycleCmd}" ToolTip="New cycle">
+                    <Image Source="pack://application:,,,/Icons/NewFile_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding EditCycleCmd}" ToolTip="Edit cycle">
+                    <Image Source="pack://application:,,,/Icons/Edit_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <!--<Button Command="{Binding ImportCyclesCmd}" ToolTip="Import cycles">
+                    <Image Source="pack://application:,,,/Icons/Import_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>-->
+                <Button Command="{Binding ResetExportedFlagsCmd}" ToolTip="Reset exported-flags for selected cycle">
+                    <Image Source="pack://application:,,,/Icons/Redo_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding ExportCycleCmd}" ToolTip="Export cycle">
+                    <Image Source="pack://application:,,,/Icons/Export_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <Button Command="{Binding DiscardCyclesCmd}" ToolTip="Discard cycles">
+                    <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" Style="{StaticResource ToolBarImage}" />
+                </Button>
+                <ComboBox x:Name="CyclesCombo" MinWidth="150" 
+                          ItemsSource="{Binding Path=gridViewModel.suite.cycles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
+                          SelectedItem="{Binding Path=gridViewModel.suite.currentCycle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          SelectionChanged="CyclesCombo_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="5,2,5,2" Text="{Binding id}" />
+                                <TextBlock Margin="5,2,5,2" Text="{Binding name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </ToolBar>
+
             <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
                 <Button Command="{Binding RunSelectedCmd}" ToolTip="Run selected" IsEnabled="{Binding enableRun}">
                     <Image Source="pack://application:,,,/Icons/RunChecked2_16x.png" Style="{StaticResource ToolBarImage}" />
@@ -363,41 +451,6 @@
                     <Image Source="pack://application:,,,/Icons/StatusStop_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
             </ToolBar>
-            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
-                <Button Command="{Binding NewCycleCmd}" ToolTip="New cycle">
-                    <Image Source="pack://application:,,,/Icons/NewFile_16x.png" Style="{StaticResource ToolBarImage}" />
-                </Button>
-                <Button Command="{Binding EditCycleCmd}" ToolTip="Edit cycle">
-                    <Image Source="pack://application:,,,/Icons/Edit_16x.png" Style="{StaticResource ToolBarImage}" />
-                </Button>
-                <!--<Button Command="{Binding ImportCyclesCmd}" ToolTip="Import cycles">
-                    <Image Source="pack://application:,,,/Icons/Import_16x.png" Style="{StaticResource ToolBarImage}" />
-                </Button>-->
-                <Button Command="{Binding ResetExportedFlagsCmd}" ToolTip="Reset exported-flags for seleted cycle">
-                    <Image Source="pack://application:,,,/Icons/Redo_16x.png" Style="{StaticResource ToolBarImage}" />
-                </Button>
-                <Button Command="{Binding ExportCycleCmd}" ToolTip="Export cycle">
-                    <Image Source="pack://application:,,,/Icons/Export_16x.png" Style="{StaticResource ToolBarImage}" />
-                </Button>
-                <Button Command="{Binding DiscardCyclesCmd}" ToolTip="Discard cycles">
-                    <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" Style="{StaticResource ToolBarImage}" />
-                </Button>
-                <ComboBox x:Name="CyclesCombo" MinWidth="100" 
-                          ItemsSource="{Binding Path=gridViewModel.suite.cycles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
-                          SelectedItem="{Binding Path=gridViewModel.suite.currentCycle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                          SelectionChanged="CyclesCombo_SelectionChanged">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="5,2,5,2" Text="{Binding id}" />
-                                <TextBlock Margin="5,2,5,2" Text="{Binding name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-
-            </ToolBar>
-            
         </ToolBarTray>
         <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
             <Grid>

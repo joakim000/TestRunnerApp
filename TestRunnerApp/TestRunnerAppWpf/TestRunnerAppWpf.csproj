@@ -161,7 +161,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ArrayDictConverter.cs" />
+    <Compile Include="Converters\BoolInverseConverter.cs" />
+    <Compile Include="Converters\BoolFontConverter.cs" />
     <Compile Include="Converters\TestkindImgConverter.cs" />
+    <Compile Include="EditCycleDialog.xaml.cs">
+      <DependentUpon>EditCycleDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NewTestDialogViewModel.cs" />
     <Compile Include="NewCycleDialogViewModel.cs" />
     <Compile Include="ExportViewModel.cs" />
@@ -237,6 +242,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ExportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EditCycleDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

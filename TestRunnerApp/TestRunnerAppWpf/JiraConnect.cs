@@ -155,27 +155,33 @@ namespace TestRunnerAppWpf
             }
 
             // Project statuses
-            response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), p.key, null, maxResults);
-            if (response.Item1 == HttpStatusCode.OK)
-            {
-                JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
-                var statuses = new ObservableCollection<JiraStatus>();
-                foreach (JToken t in statusTokens)
-                {
-                    var s = new JiraStatus();
-                    statuses.Add(s);
+            p.caseStatuses = await LoadStatus(p.key, "TEST_CASE", maxResults);
+            p.cycleStatuses = await LoadStatus(p.key, "TEST_CYCLE", maxResults);
+            p.executionStatuses = await LoadStatus(p.key, "TEST_EXECUTION", maxResults);
+            //p.planStatuses = await LoadStatus(p.key, "TEST_PLAN", maxResults);
 
-                    s.id = t.Value<int>("id");
-                    try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                    s.name = t.Value<string>("name");
-                    s.description = t.Value<string>("description");
-                    s.index = t.Value<int>("index");
-                    s.color = t.Value<string>("color");
-                    s.archived = t.Value<bool>("archived");
-                    s.isDefault = t.Value<bool>("default");
-                }
-                p.statuses = statuses;
-            }
+            
+            //response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), p.key, null, maxResults);
+            //if (response.Item1 == HttpStatusCode.OK)
+            //{
+            //    JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
+            //    var statuses = new ObservableCollection<JiraStatus>();
+            //    foreach (JToken t in statusTokens)
+            //    {
+            //        var s = new JiraStatus();
+            //        statuses.Add(s);
+
+            //        s.id = t.Value<int>("id");
+            //        try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
+            //        s.name = t.Value<string>("name");
+            //        s.description = t.Value<string>("description");
+            //        s.index = t.Value<int>("index");
+            //        s.color = t.Value<string>("color");
+            //        s.archived = t.Value<bool>("archived");
+            //        s.isDefault = t.Value<bool>("default");
+            //    }
+            //    p.statuses = statuses;
+            //}
 
             // Project folders
             response = await Jira.GetFolders(await JiraConnect.TmjPrep(), p.key, null, maxResults);
@@ -273,7 +279,7 @@ namespace TestRunnerAppWpf
                 {
                     
                     if (c.status != null)
-                        try { c.status = p.statuses.Where(x => x.id == c.status.id).First(); } catch (InvalidOperationException) { }
+                        try { c.status = p.cycleStatuses.Where(x => x.id == c.status.id).First(); } catch (InvalidOperationException) { }
                     if (c.folder != null)
                         try { c.folder = p.folders.Where(x => x.id == c.folder.id).First(); } catch (InvalidOperationException) { }
                     if (c.jiraProjectVersion != null)
@@ -326,7 +332,7 @@ namespace TestRunnerAppWpf
                     foreach (JiraCase c in cases)
                     {
                         if (c.status != null)
-                            try { c.status = p.statuses.Where(x => x.id == c.status.id).First(); } catch (InvalidOperationException) { }
+                            try { c.status = p.caseStatuses.Where(x => x.id == c.status.id).First(); } catch (InvalidOperationException) { }
                         if (c.folder != null)
                             try { c.folder = p.folders.Where(x => x.id == c.folder.id).First(); } catch (InvalidOperationException) { }
                         if (c.priority != null)
@@ -339,6 +345,34 @@ namespace TestRunnerAppWpf
 
         }
 
+        private async static Task<ObservableCollection<JiraStatus>> LoadStatus(string projectKey,
+                                                                               string statusType,
+                                                                               string maxResults)
+        {
+            var response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), projectKey, statusType, maxResults);
+            if (response.Item1 == HttpStatusCode.OK)
+            {
+                JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
+                var statuses = new ObservableCollection<JiraStatus>();
+                foreach (JToken t in statusTokens)
+                {
+                    var s = new JiraStatus();
+                    statuses.Add(s);
+
+                    s.id = t.Value<int>("id");
+                    try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
+                    s.name = t.Value<string>("name");
+                    s.description = t.Value<string>("description");
+                    s.index = t.Value<int>("index");
+                    s.color = t.Value<string>("color");
+                    s.archived = t.Value<bool>("archived");
+                    s.isDefault = t.Value<bool>("default");
+                }
+                return statuses;
+            }
+            else
+                return new ObservableCollection<JiraStatus>();
+        }
 
     }
 

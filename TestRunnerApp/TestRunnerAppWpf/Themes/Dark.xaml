@@ -265,7 +265,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Border x:Name="BackgroundBorder" BorderThickness="0,1,0,1" 
+                        <Border x:Name="BackgroundBorder" BorderThickness="0,0,0,1" 
                               Background="{StaticResource DataGridHeaderSortedBackgroundBrush}" 
                               BorderBrush="{StaticResource DataGridHeaderSortedBorderBrush}" 
                               Grid.ColumnSpan="2" />

@@ -16,7 +16,7 @@
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Width" Value="340" /> 
+            <Setter Property="Width" Value="300" /> 
             <Setter Property="Margin" Value="0,0,0,15" />
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
@@ -32,138 +32,108 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-    <StackPanel>
-        <Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="15,10,15,15" Grid.Column="0" >
+            <Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
-        <Grid Margin="15,0,15,15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-                <StackPanel Grid.Column="1" Grid.Row="0">
-                   
-                    <Label Grid.Column="1" Grid.Row="0" Content="ID" />
-                    <TextBox Grid.Column="1" Grid.Row="1" Width="350"
+            <Label Content="ID" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
+            <TextBox 
                      Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
-                </StackPanel>
 
-
-                
-
-            <Label Grid.Column="1" Grid.Row="2" Content="Name" />
-            <TextBox Grid.Column="1" Grid.Row="3" Width="350"
+            <Label Content="Name" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
+            <TextBox 
                      Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
             
-            <Label Grid.Column="1" Grid.Row="4" Content="Priority" />
-            <TextBox Grid.Column="1" Grid.Row="5" Width="350"
-                     Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            <Label Content="Objective" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.objective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
-            <StackPanel Grid.Column="1" Grid.Row="6">
-                <Label Grid.Column="1" Grid.Row="6" Content="Objective" />
-                <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" 
-                     Text="{Binding Path=newItem.objective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                />
-                
-            </StackPanel>
-            
-            
-            <Label Grid.Column="1" Grid.Row="12" Content="Notes" />
-            <TextBox Grid.Column="1" Grid.Row="13" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+            <Label Content="Priority" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
+            <TextBox 
+                     Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />
+            <ComboBox x:Name="PrioCombo" Style="{StaticResource ComboStyle}"
+                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
+                                  ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                                  SelectedItem="{Binding newItem.jiraCase.priority, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  ItemsSource="{Binding jiraProject.prios,  Mode=OneWay, NotifyOnSourceUpdated=True}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Content="Component" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
+            <TextBox 
+                     Text="{Binding Path=newItem.jiraCase.component.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />
+
+            <Label Content="Notes" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
                      Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
-            
-        </Grid>
         </StackPanel>
-        <StackPanel Grid.Column="1">
+        <StackPanel Margin="15,10,15,15" Grid.Column="1">
             <Label Content="Execution" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
 
-            <Label Grid.Column="1" Grid.Row="6" Content="Pre-conditions" />
-            <TextBox Grid.Column="1" Grid.Row="7" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+            <Label Content="Pre-conditions" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
                      Text="{Binding Path=newItem.descPrecond, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                />
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />
 
-            <Label Grid.Column="1" Grid.Row="8" Content="Execution steps" Margin="0,0,0,0"/>
-            <TextBox Grid.Column="1" Grid.Row="9" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+            <Label Content="Execution steps" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
                      Text="{Binding Path=newItem.descExecution, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="10" Content="Expected result" />
-            <TextBox Grid.Column="1" Grid.Row="11" Width="350" AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+            <Label Content="Expected result" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
                      Text="{Binding Path=newItem.descExpected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
-
         </StackPanel>
 
-        <StackPanel Grid.Column="2">
-            <Label Content="Test" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
+        <StackPanel Margin="15,10,15,15" Grid.Column="2">
+            <Label Content="Test" FontSize="16" Margin="3,0,0,0" />
 
-        <Grid Margin="15,0,15,15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="100" />
-            </Grid.RowDefinitions>
-
-            <Label Grid.Column="1" Grid.Row="0" Content="Assembly" />
-            <TextBox Grid.Column="1" Grid.Row="1" Width="350"
+            <Label Content="Assembly" />
+            <TextBox 
                      Text="{Binding Path=newItem.callAss, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="2" Content="Namespace" />
-            <TextBox Grid.Column="1" Grid.Row="3" Width="350"
+            <Label Content="Namespace" />
+            <TextBox 
                      Text="{Binding Path=newItem.callSpace, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-            <Label Grid.Column="1" Grid.Row="4" Content="Type" />
-            <TextBox Grid.Column="1" Grid.Row="5" Width="350"
+            <Label Content="Type" />
+            <TextBox 
                      Text="{Binding Path=newItem.callType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
-                <Button Grid.Column="1" Grid.Row="6" Content="Add test data" Command="{Binding newItem.AddTestDataCmd}" Width="350" />
-                <DataGrid Grid.Column="1" Grid.Row="7" Width="350"  MinHeight="150"
+            <Button Content="Add test data" Command="{Binding newItem.AddTestDataCmd}" Width="299" Margin="0,10,0,0"/>
+            <DataGrid Width="300"  MinHeight="140" MaxHeight="275"
                        ItemsSource="{Binding newItem.testDataColl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                        AutoGenerateColumns="False"         
                        x:Name="testDataGrid"
@@ -174,7 +144,7 @@
                        AlternationCount="2"
                        ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
                        RowHeaderStyle="{DynamicResource DataGridRowHeaderTemplateStyle}"
-              
+                       BorderThickness="2,2,2,2"
             >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Index" Binding="{Binding index, UpdateSourceTrigger=PropertyChanged}" MinWidth="40" IsReadOnly="True">
@@ -198,34 +168,9 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-                <!--<Label Grid.Column="1" Grid.Row="8" Content="Test data 1" />
-            <TextBox Grid.Column="1" Grid.Row="9" Width="350"
-                     Text="{Binding Path=newItem.testData[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-            
-            <Label Grid.Column="1" Grid.Row="10" Content="Test data 2" />
-            <TextBox Grid.Column="1" Grid.Row="11" Width="350"
-                     Text="{Binding Path=newItem.testData[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-            
-            <Label Grid.Column="1" Grid.Row="12" Content="Test data 3" />
-            <TextBox Grid.Column="1" Grid.Row="13" Width="350"
-                     Text="{Binding Path=newItem.testData[3], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-            
-            <Label Grid.Column="1" Grid.Row="14" Content="Test data 4" />
-            <TextBox Grid.Column="1" Grid.Row="15" Width="350"
-                     Text="{Binding Path=newItem.testData[4], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />-->
-           
-            <!--<Label Grid.Column="1" Grid.Row="10" Content="Use Web driver" />-->
-            <!--<TextBox Grid.Column="1" Grid.Row="11" Width="350"
-                    Text="{Binding Path=webDriver, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />-->
-                <!--<CheckBox Grid.Column="1" Grid.Row="11" IsChecked="{Binding useWebDriver}" Margin="15,0,0,0" />-->
-
-
-            <WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,0" >
+        </StackPanel>
+        
+        <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,10" >
                     <StackPanel HorizontalAlignment="Left" Margin="0,0,60,3">
                         <Label Content="Import Jira case" HorizontalAlignment="Left" />
                         <ComboBox x:Name="CasesCombo" Style="{StaticResource ComboStyle}"
@@ -247,7 +192,5 @@
                     <Button IsDefault="True" Height="30" VerticalAlignment="Bottom"  Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
                 <Button IsCancel="True" Height="30" VerticalAlignment="Bottom" MinWidth="60">_Cancel</Button>
             </WrapPanel>
-        </Grid>
-        </StackPanel>
     </Grid>
 </Window>

@@ -18,11 +18,35 @@ namespace TestRunnerLib.Jira
             get => Get(() => cycles, new ObservableCollection<JiraCycle>());
             set => Set(() => cycles, value);
         }
+
+
         public ObservableCollection<JiraStatus> statuses
         {
             get => Get(() => statuses, new ObservableCollection<JiraStatus>());
             set => Set(() => statuses, value);
         }
+        public ObservableCollection<JiraStatus> caseStatuses
+        {
+            get => Get(() => caseStatuses, new ObservableCollection<JiraStatus>());
+            set => Set(() => caseStatuses, value);
+        }
+        public ObservableCollection<JiraStatus> planStatuses
+        {
+            get => Get(() => planStatuses, new ObservableCollection<JiraStatus>());
+            set => Set(() => planStatuses, value);
+        }
+        public ObservableCollection<JiraStatus> cycleStatuses
+        {
+            get => Get(() => cycleStatuses, new ObservableCollection<JiraStatus>());
+            set => Set(() => cycleStatuses, value);
+        }
+        public ObservableCollection<JiraStatus> executionStatuses
+        {
+            get => Get(() => executionStatuses, new ObservableCollection<JiraStatus>());
+            set => Set(() => executionStatuses, value);
+        }
+
+
         public ObservableCollection<JiraFolder> folders
         {
             get => Get(() => folders, new ObservableCollection<JiraFolder>());
@@ -43,6 +67,8 @@ namespace TestRunnerLib.Jira
             get => Get(() => planFolders, new ObservableCollection<JiraFolder>());
             set => Set(() => planFolders, value);
         }
+
+
         public ObservableCollection<JiraVersion> versions
         {
             get => Get(() => versions, new ObservableCollection<JiraVersion>());

@@ -78,7 +78,7 @@ namespace TestRunnerAppWpf
             if (mainViewModel.jiraCloudMgmt)
             {
                 noMgmt = false;
-                managed = true;
+                //managed = true;
 
                 if (mainViewModel.gridViewModel.suite.jiraProject == null)
                     mainViewModel.gridViewModel.suite.jiraProject = new JiraProject();
@@ -115,8 +115,9 @@ namespace TestRunnerAppWpf
                 if (existCount > 0)
                     newItem = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).First();
 
-                Debug.WriteLine("Found number of existing cycles with jiraCaseID: " + existCount);
+                Debug.WriteLine("Found number of existing cases with jiraCaseID: " + existCount);
 
+                managed = true;
                 JiraData2Item();
 
             }
@@ -141,9 +142,6 @@ namespace TestRunnerAppWpf
 
             //if (newItem.jiraCase.owner != null)
             //    newItem.prio = newItem.jiraCase.folder.name;
-
-
-
 
             //newItem.createdOn = newItem.jiraCase.createdOn;           
             //newItem.estimatedTime = newItem.jiraCase.estimatedTime;

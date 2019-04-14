@@ -117,11 +117,44 @@
                         </Label>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
+                                <!--<Setter TargetName="Panel" Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />-->
                                 <Setter TargetName="Panel" Property="BorderThickness" Value="0,0,0,0" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="False">
-                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+                                <!--<Setter TargetName="Panel" Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />-->
+                                <Setter TargetName="Panel" Property="BorderBrush" Value="{DynamicResource ProgressBarBackgroundBrush}" />
+                                <Setter TargetName="Panel" Property="BorderThickness" Value="0,0,0,7" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type TabItem}" x:Key="TabItemDataGridStyle">
+            <Setter Property="Foreground" Value="{DynamicResource MenuForegroundBrush}" />
+            <!--<Setter Property="MinWidth" Value="128" />-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Label Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                              MinWidth="98"
+                                        Margin="10,-3,10,-2" />
+                        </Label>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource DataGridHeaderBackgroundBrush}" />
+                                <!--<Setter TargetName="Panel" Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />-->
+                                <Setter TargetName="Panel" Property="BorderThickness" Value="0,0,0,0" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+                                <!--<Setter TargetName="Panel" Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />-->
                                 <Setter TargetName="Panel" Property="BorderBrush" Value="{DynamicResource ProgressBarBackgroundBrush}" />
                                 <Setter TargetName="Panel" Property="BorderThickness" Value="0,0,0,7" />
                             </Trigger>
@@ -137,7 +170,9 @@
 
         <TabControl BorderThickness="0" Padding="0" Background="{DynamicResource MenuBackgroundBrush}">
             
-            <TabItem Header="Results" Style="{StaticResource TabItemStyle}" >
+            <TabItem Header="Results" Style="{StaticResource TabItemDataGridStyle}" 
+                     
+                     >
                 <Grid x:Name="testDetails"  Background="{DynamicResource MenuBackgroundBrush}" >
                     <!--Visibility="{Binding testDetailsVisi, Converter={StaticResource BoolToVisi}}"-->
                     <DataGrid Grid.Column="2" x:Name="detailsGrid"
@@ -148,6 +183,7 @@
                           AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
                           ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
                           SelectionChanged="ResultsDataGrid_SelectionChanged"
+                          BorderThickness="2,0,2,2"
         >
                         <DataGrid.RowHeaderStyle>
                             <Style>
