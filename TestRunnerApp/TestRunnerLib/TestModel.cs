@@ -62,7 +62,7 @@ namespace TestRunnerLib
             get => Get(() => previousOutcome, Outcome.NotRun);
             set => Set(() => previousOutcome, value);
         }
-        public DateTime previousDateTime
+        public DateTime? previousDateTime
         {
             get => Get(() => previousDateTime);
             set => Set(() => previousDateTime, value);
