@@ -1,7 +1,9 @@
 ﻿using AppDomainToolkit;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace TestRunnerLib
@@ -64,13 +66,21 @@ namespace TestRunnerLib
                        string namespaceName,
                        string typeName,
                        WebDriverType webDriver,
-                       string[] testdata)
+                       ObservableCollection<TestDataItem> testdata)
         {
-            string[] td = new string[testdata.Length];
-            for (int i = 0; i < td.Length; i++) 
+            int highestIndex = 0;
+            if (testdata.Count > 0)
+                highestIndex = testdata.Max<TestDataItem, int>(x => x.index);
+            string[] td = new string[highestIndex + 1];
+            foreach (TestDataItem tdi in testdata)
             {
-                td[i] = string.IsNullOrEmpty(testdata[i]) ? string.Empty : testdata[i];
+                td[tdi.index] = tdi.data;
             }
+            
+            //for (int i = 0; i < td.Length; i++) 
+            //{
+            //    td[i] = string.IsNullOrEmpty(testdata[i]) ? string.Empty : testdata[i];
+            //}
                 
             try
             {

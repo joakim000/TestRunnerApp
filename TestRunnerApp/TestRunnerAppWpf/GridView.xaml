@@ -114,7 +114,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <!--<DataGridTextColumn Header="Test data 1" Binding="{Binding testData[1], UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
+                <DataGridTextColumn Header="Test data 1" Binding="{Binding testData[1], UpdateSourceTrigger=PropertyChanged}" MinWidth="80">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -129,7 +129,7 @@
                             <Setter Property="Margin" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>-->
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Created" Binding="{Binding jiraCase.createdOn, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -222,37 +222,38 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Objective"  Style="{StaticResource TBLeft}"/>
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding objective, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
-                                <TextBlock Grid.Column="2" Grid.Row="0" Text="Notes"  Style="{StaticResource TBLeft}" />
-                                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding notes, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
+                                <TextBlock Text="Objective"  Style="{StaticResource TBLeft}"/>
+                                <TextBox  Text="{Binding objective, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBlock  Text="Notes"  Style="{StaticResource TBLeft}" />
+                                <TextBox  Text="{Binding notes, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Preconditions"   Style="{StaticResource TBLeft}"/>
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Execution steps"   Style="{StaticResource TBLeft}"/>
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
-                                <TextBlock Grid.Column="1" Grid.Row="0" Text="Expected result"  Style="{StaticResource TBLeft}"/>
-                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding descExpected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
+                                <TextBlock  Text="Preconditions"   Style="{StaticResource TBLeft}"/>
+                                <TextBox  Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBlock  Text="Execution steps"   Style="{StaticResource TBLeft}"/>
+                                <TextBox  Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBlock  Text="Expected result"  Style="{StaticResource TBLeft}"/>
+                                <TextBox  Text="{Binding descExpected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
                                 
                             </StackPanel>
                             <StackPanel Grid.Column="2" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="Assembly"  Style="{StaticResource TBLeft}"/>
-                                <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding callAss, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}"  />
-                                <TextBlock Grid.Column="1" Grid.Row="0" Text="Namespace"   Style="{StaticResource TBLeft}"/>
-                                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
-                                <TextBlock Grid.Column="2" Grid.Row="0" Text="Type"  Style="{StaticResource TBLeft}" />
-                                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding callType, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
+                                <TextBlock Text="Assembly"  Style="{StaticResource TBLeft}"/>
+                                <TextBox   Text="{Binding callAss, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}"  />
+                                <TextBlock Text="Namespace"   Style="{StaticResource TBLeft}"/>
+                                <TextBox   Text="{Binding callSpace, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
+                                <TextBlock Text="Type"  Style="{StaticResource TBLeft}" />
+                                <TextBox   Text="{Binding callType, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestSetupTextBox}" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="3" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
-                                <TextBlock Grid.Column="3" Grid.Row="0" Text="Test data"  Style="{StaticResource TBLeft}" />
+                                <!--<TextBlock Text="Test data"  Style="{StaticResource TBLeft}" />-->
+                                <Button Content="Add test data" Command="{Binding AddTestDataCmd}" />
 
                                 <DataGrid
-                                       ItemsSource="{Binding testData, Converter={StaticResource ArrayDictConverter}}"
+                                       ItemsSource="{Binding testDataColl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+
                                        AutoGenerateColumns="False"         
-                                        SelectionChanged="DataGrid_SelectionChanged"
                                         x:Name="testDataGrid"
                                         IsReadOnly="False"
                                         CanUserAddRows="True"
@@ -263,14 +264,8 @@
                                         RowHeaderStyle="{DynamicResource DataGridRowHeaderTemplateStyle}"
                   
                                        >
-
-                                    <DataGrid.RowHeaderTemplate>
-                                        <DataTemplate>
-                                            
-                                        </DataTemplate>
-                                    </DataGrid.RowHeaderTemplate>
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Index" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                                        <DataGridTextColumn Header="Index" Binding="{Binding index, UpdateSourceTrigger=PropertyChanged}" MinWidth="40" IsReadOnly="True">
                                             <DataGridTextColumn.ElementStyle>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="HorizontalAlignment" Value="Center" />
@@ -279,10 +274,10 @@
                                                 </Style>
                                             </DataGridTextColumn.ElementStyle>
                                         </DataGridTextColumn>
-                                        <DataGridTextColumn Header="Data" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                                        <DataGridTextColumn Header="Test data" Binding="{Binding data, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="100">
                                             <DataGridTextColumn.ElementStyle>
                                                 <Style TargetType="TextBlock">
-                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="HorizontalAlignment" Value="Left" />
                                                     <Setter Property="VerticalAlignment" Value="Center" />
                                                     <Setter Property="Margin" Value="5,0,5,0" />
                                                 </Style>
@@ -290,26 +285,7 @@
                                         </DataGridTextColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                                
-                                <!--<ListBox Grid.Column="3" Grid.Row="1" ItemsSource="{Binding testData, UpdateSourceTrigger=PropertyChanged}"  
-                                         Background="{DynamicResource MenuBackgroundBrush}"  MaxHeight="200">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            
-                                            <Grid Margin="0,2">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding}" />
-                                                <TextBlock Grid.Column="1" Style="{StaticResource TBLeft}"  Text="{Binding}" />
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>-->
-                                
                             </StackPanel>
-                            
 
                         </Grid>
 

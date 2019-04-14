@@ -65,12 +65,24 @@ namespace TestRunnerAppWpf
             this.mainViewModel = mainViewModel;
             newItem = new TestModel();
 
+            //newItem.AddTestdata();
+            //newItem.testDataColl.Last().data = "Testdata 1";
+            //newItem.AddTestdata();
+            //newItem.testDataColl.Last().data = "Testdata 2";
+
+            //Debug.WriteLine($"Length of testdatacoll: {newItem.testDataColl.Count()}");
+
+
             this.PropertyChanged += ViewModel_PropertyChanged;
 
             if (mainViewModel.jiraCloudMgmt)
             {
                 noMgmt = false;
                 managed = true;
+
+                if (mainViewModel.gridViewModel.suite.jiraProject == null)
+                    mainViewModel.gridViewModel.suite.jiraProject = new JiraProject();
+
                 jiraProject = mainViewModel.gridViewModel.suite.jiraProject;
 
                 newItem.jiraCloudTmj = true;

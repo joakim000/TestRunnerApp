@@ -108,6 +108,10 @@
     <Compile Include="Jira\JiraFolder.cs" />
     <Compile Include="Jira\JiraStatus.cs" />
     <Compile Include="Jira\JiraProject.cs" />
+    <Compile Include="Lib\JsonAbstractConverter.cs" />
+    <Compile Include="Lib\JsonExtension.cs" />
+    <Compile Include="Lib\ObservableDictionary.cs" />
+    <Compile Include="Lib\StringExtensions.cs" />
     <Compile Include="Python\PyNetSe.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

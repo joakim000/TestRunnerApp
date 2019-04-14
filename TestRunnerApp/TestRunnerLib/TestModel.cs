@@ -1,11 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using TestRunnerLib.Jira;
 using ViewModelSupport;
+using Lib;
+using System.Linq;
 
 namespace TestRunnerLib
 {
+    [JsonObject(MemberSerialization.OptOut)]
+    public class TestDataItem : ViewModelBase
+    {
+        public int index
+        {
+            get => Get(() => index);
+            set => Set(() => index, value);
+        }
+        public string data
+        {
+            get => Get(() => data);
+            set => Set(() => data, value);
+        }
+
+        public TestDataItem(int index, string data)
+        {
+            this.index = index;
+            this.data = data;
+        }
+    }
+
+
     [JsonObject(MemberSerialization.OptOut)]
     public class TestModel : ViewModelBase
     {
@@ -120,10 +145,11 @@ namespace TestRunnerLib
             get => Get(() => callType);
             set => Set(() => callType, value);
         }
-        public string[] testData
+       
+        public ObservableCollection<TestDataItem> testDataColl
         {
-            get => Get(() => testData, new string[64]);
-            set => Set(() => testData, value);
+            get => Get(() => testDataColl);
+            set => Set(() => testDataColl, value);
         }
         /* end: Test call */
 
@@ -209,10 +235,15 @@ namespace TestRunnerLib
             get => Get(() => callParam4);
             set => Set(() => callParam4, value);
         }
-            /* end: For compatibility with v1 .testapp-files */
+        public string[] testData
+        {
+            get => Get(() => testData, new string[64]);
+            set => Set(() => testData, value);
+        }
+        /* end: For compatibility with v1 .testapp-files */
         /* end: Deprecated */
 
-       
+
 
 
         public TestModel()
@@ -221,10 +252,29 @@ namespace TestRunnerLib
             testData = new string[64];
             runs = new ObservableCollection<RunModel>();
             cycles = new ObservableCollection<CycleModel>();
+            testDataColl = new ObservableCollection<TestDataItem>();
             previousOutcome = Outcome.NotRun;
             useWebDriver = true;
 
         }
+
+        public void Execute_AddTestDataCmd()
+        {
+            AddTestdata();
+        }
+        public bool CanExecute_AddTestDataCmd()
+        {
+            return true;
+        }
+
+        public void AddTestdata()
+        {
+            int highestIndex = 0;
+            if (testDataColl.Count > 0)
+                highestIndex = testDataColl.Max<TestDataItem, int>(x => x.index);
+            testDataColl.Add(new TestDataItem(highestIndex + 1, string.Empty));
+        }
+        
 
         private string StringCopy(string s)
         {

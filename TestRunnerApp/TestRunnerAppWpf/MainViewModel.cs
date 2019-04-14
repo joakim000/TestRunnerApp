@@ -241,22 +241,22 @@ namespace TestRunnerAppWpf
             this.unsavedChanges = true;
             Debug.WriteLine($"Async worker result: {e.Result}");
 
-            Debug.WriteLine($"Cycles in suite: {gridViewModel.suite.cycles.Count()}");
-            if (gridViewModel.suite.cycles.Count() > 0)
-            {
+            //Debug.WriteLine($"Cycles in suite: {gridViewModel.suite.cycles.Count()}");
+            //if (gridViewModel.suite.cycles.Count() > 0)
+            //{
 
 
-                Debug.WriteLine($"Testruns in first cycle: {gridViewModel.suite.cycles.First().cycleRuns.Count()}");
-                foreach (CycleRun c in gridViewModel.suite.cycles.First().cycleRuns)
-                {
-                    Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
-                }
-                Debug.WriteLine($"Testruns in previous cycle: {gridViewModel.suite.cycles.Last().cycleRuns.Count()}");
-                foreach (CycleRun c in gridViewModel.suite.cycles.Last().cycleRuns)
-                {
-                    Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
-                }
-            }
+            //    Debug.WriteLine($"Testruns in first cycle: {gridViewModel.suite.cycles.First().cycleRuns.Count()}");
+            //    foreach (CycleRun c in gridViewModel.suite.cycles.First().cycleRuns)
+            //    {
+            //        Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
+            //    }
+            //    Debug.WriteLine($"Testruns in previous cycle: {gridViewModel.suite.cycles.Last().cycleRuns.Count()}");
+            //    foreach (CycleRun c in gridViewModel.suite.cycles.Last().cycleRuns)
+            //    {
+            //        Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
+            //    }
+            //}
         }
 
 

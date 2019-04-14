@@ -7,7 +7,7 @@
         xmlns:testapp="clr-namespace:TestRunnerLib"
         mc:Ignorable="d"
         Title="{Binding windowTitle}" 
-        Height="700" Width="1200"
+        Height="800" Width="1600"
         WindowStyle="SingleBorderWindow"
         WindowState="Normal"
         Icon="pack://application:,,,/Icons/Test_16x.png"

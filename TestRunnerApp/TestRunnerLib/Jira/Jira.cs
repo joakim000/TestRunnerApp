@@ -397,7 +397,7 @@ namespace TestRunnerLib.Jira
             if (!string.IsNullOrEmpty(ownerId))
                 data.Add("ownerId", ownerId);
 
-            if (labels != null))
+            if (labels != null)
                 data.Add("labels", labels);
 
 
