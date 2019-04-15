@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using TestRunnerLib.Jira;
+using System.Windows.Controls;
 
 namespace TestRunnerAppWpf
 {
@@ -51,28 +52,26 @@ namespace TestRunnerAppWpf
             set => Set(() => managed, value);
         }
 
+        public WrapPanel labelsPanel
+        {
+            get => Get(() => labelsPanel);
+            set => Set(() => labelsPanel, value);
+        }
+
+
 
 
         /* Commands */
 
         /* end: Commands */
 
-        
+
 
 
         public NewTestDialogViewModel(MainViewModel mainViewModel)
         {
             this.mainViewModel = mainViewModel;
             newItem = new TestModel();
-
-            //newItem.AddTestdata();
-            //newItem.testDataColl.Last().data = "Testdata 1";
-            //newItem.AddTestdata();
-            //newItem.testDataColl.Last().data = "Testdata 2";
-
-            //Debug.WriteLine($"Length of testdatacoll: {newItem.testDataColl.Count()}");
-
-
             this.PropertyChanged += ViewModel_PropertyChanged;
 
             if (mainViewModel.jiraCloudMgmt)
@@ -87,9 +86,6 @@ namespace TestRunnerAppWpf
 
                 newItem.jiraCloudTmj = true;
                 newItem.jiraProjectKey = jiraProject.key;
-
-                //if (jiraProject.cycles.Count() > 0)
-                //    jiraSelectedCase = jiraProject.cases.First();
 
             }
             if (mainViewModel.reqTestMgmt)
@@ -119,6 +115,20 @@ namespace TestRunnerAppWpf
 
                 managed = true;
                 JiraData2Item();
+
+                labelsPanel.Children.Clear();
+                foreach (string s in newItem.jiraCase.labels)
+                {
+                    Label l = new Label();
+                    //l.BorderThickness = new System.Windows.Thickness(2);
+                    //l.FontWeight = new System.Windows.FontWeight();
+                    //l.Content = s;
+
+                    l.Margin = new System.Windows.Thickness(0,0,5,0);
+                    l.Content = $"[ {s} ]";
+                    labelsPanel.Children.Add(l);
+                }
+                
 
             }
 

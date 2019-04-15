@@ -56,6 +56,12 @@ namespace TestRunnerLib.Jira
         }
 
         // labels
+        public string[] labels
+        {
+            get => Get(() => labels);
+            set => Set(() => labels, value);
+        }
+
 
         public IdSelf component
         {

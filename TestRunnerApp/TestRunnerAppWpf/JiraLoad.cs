@@ -23,133 +23,12 @@ using ViewModelSupport;
 namespace TestRunnerAppWpf
 {
 
-    public static class JiraConnect
-    {
-
-        public static async Task<bool> SetAccountId()
-        {
-            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await Preflight());
-            if (user.Item1 == HttpStatusCode.OK)
-            {
-                if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
-                {
-                    Properties.Settings.Default.JiraAccountId = accountIdToken.ToString();
-                    Settings.accountIdSet = true;
-                    return true;
-                }
-            }
-            //MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-            return false;
-        }
-
-        public static async Task<JiraConnectInfo> Preflight()
-        {
-            var info = new JiraConnectInfo();
-            string message = string.Empty;
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraUser))
-            {
-                info.jiraUser = Properties.Settings.Default.JiraUser;
-            }
-            else
-                message += "Jira user not set." + Environment.NewLine;
-
-            if (Settings.accountIdSet)
-            {
-                if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
-                {
-                    info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
-                }
-                else
-                {
-                    //message += "Jira Account ID not set." + Environment.NewLine;
-                    Settings.accountIdSet = false;
-                    if (!await JiraConnect.SetAccountId())
-                        message += "Error retrieving Account ID." + Environment.NewLine;
-                    else
-                        info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraToken))
-            {
-                info.jiraToken = Properties.Settings.Default.JiraToken;
-            }
-            else
-                message += "Jira API Token not set." + Environment.NewLine;
-
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
-            {
-                info.jiraInstance = Properties.Settings.Default.JiraInstance;
-                info.baseURL = @"https://" + Properties.Settings.Default.JiraInstance + @"/rest/api/3/";
-            }
-            else
-                message += "Jira instance not set." + Environment.NewLine;
-
-            if (!string.IsNullOrEmpty(message))
-            {
-                MessageBox.Show(message, "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else
-                info.ready = true;
-
-            return info;
-        }
-
-
-        public async static Task<JiraConnectInfo> TmjPrep()
-        {
-            var info = new JiraConnectInfo();
-            string message = string.Empty;
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjIdToken))
-            {
-                info.tmjIdToken = Properties.Settings.Default.TmjIdToken;
-            }
-            else
-            // Not used as of now
-            //message += "TM4J Id Token not set." + Environment.NewLine;
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjKeyToken))
-            {
-                info.tmjKeyToken = Properties.Settings.Default.TmjKeyToken;
-            }
-            else
-                message += "TM4J Key Token not set." + Environment.NewLine;
-
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
-            {
-                info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
-            }
-            else
-            {
-                if (!await SetAccountId())
-                    message += "Error retrieving Account ID." + Environment.NewLine;
-                else
-                    info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
-            }
-
-            if (!string.IsNullOrEmpty(message))
-            {
-                MessageBox.Show(message, "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else
-                info.ready = true;
-
-            return info;
-        }
-    }
-
-    /*
+    
     public class JiraLoad
     {
 
-        public async void LoadProjectData(JiraProject p, MainViewModel mainViewModel)
+        public async void LoadProjectData(JiraProject p)
         {
-            mainViewModel.enableProjectLoad = false;
-
-            string maxResults = "100";
             Tuple<HttpStatusCode, JObject> response;
 
             // Get basic project data
@@ -161,37 +40,14 @@ namespace TestRunnerAppWpf
                 p.self = response.Item2.Value<string>("self");
             }
 
-            // Project statuses
-            p.caseStatuses = await LoadStatus(p.key, "TEST_CASE", maxResults);
-            p.cycleStatuses = await LoadStatus(p.key, "TEST_CYCLE", maxResults);
-            p.executionStatuses = await LoadStatus(p.key, "TEST_EXECUTION", maxResults);
-            //p.planStatuses = await LoadStatus(p.key, "TEST_PLAN", maxResults);
+        }
 
-
-            //response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), p.key, null, maxResults);
-            //if (response.Item1 == HttpStatusCode.OK)
-            //{
-            //    JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
-            //    var statuses = new ObservableCollection<JiraStatus>();
-            //    foreach (JToken t in statusTokens)
-            //    {
-            //        var s = new JiraStatus();
-            //        statuses.Add(s);
-
-            //        s.id = t.Value<int>("id");
-            //        try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-            //        s.name = t.Value<string>("name");
-            //        s.description = t.Value<string>("description");
-            //        s.index = t.Value<int>("index");
-            //        s.color = t.Value<string>("color");
-            //        s.archived = t.Value<bool>("archived");
-            //        s.isDefault = t.Value<bool>("default");
-            //    }
-            //    p.statuses = statuses;
-            //}
-
-            // Project folders
-            response = await Jira.GetFolders(await JiraConnect.TmjPrep(), p.key, null, maxResults);
+        // Project folders
+        public async Task<ObservableCollection<JiraFolder>> LoadFolders(string projectKey,
+                                                                         string folderType,
+                                                                             string maxResults)
+        {
+            var response = await Jira.GetFolders(await JiraConnect.TmjPrep(), projectKey, folderType, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -208,33 +64,45 @@ namespace TestRunnerAppWpf
                     s.folderType = t.Value<string>("folderType");
                     try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
                 }
-                p.folders = folders;
-                p.separateFolders();
-            }
+                return folders;
 
-            // Project priorities
-            response = await Jira.GetPrios(await JiraConnect.TmjPrep(), p.key, maxResults);
+            }
+            else
+                return new ObservableCollection<JiraFolder>();
+        }
+
+        // Project priorities
+        public async Task<ObservableCollection<JiraPrio>> LoadPrios(string projectKey,
+                                                                              string maxResults)
+        {
+            var response = await Jira.GetPrios(await JiraConnect.TmjPrep(), projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
-                JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
-                var prios = new ObservableCollection<JiraPrio>();
-                foreach (JToken t in statusTokens)
-                {
-                    var s = new JiraPrio();
-                    prios.Add(s);
+                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
+                 var prios = new ObservableCollection<JiraPrio>();
+                 foreach (JToken t in statusTokens)
+                 {
+                     var s = new JiraPrio();
+                     prios.Add(s);
 
-                    s.id = t.Value<int>("id");
-                    try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
-                    s.name = t.Value<string>("name");
-                    s.description = t.Value<string>("description");
-                    s.index = t.Value<int>("index");
-                    s.isDefault = t.Value<bool>("default");
-                }
-                p.prios = prios;
+                     s.id = t.Value<int>("id");
+                     try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
+                     s.name = t.Value<string>("name");
+                     s.description = t.Value<string>("description");
+                     s.index = t.Value<int>("index");
+                     s.isDefault = t.Value<bool>("default");
+                 }
+                 return prios;
             }
+            else
+                return new ObservableCollection<JiraPrio>();
+        }
 
-            // Project environments
-            response = await Jira.GetEnvirons(await JiraConnect.TmjPrep(), p.key, maxResults);
+        // Project environments
+        public async Task<ObservableCollection<JiraEnvironment>> LoadEnvirons(string projectKey,
+                                                                              string maxResults)
+        {
+            var response = await Jira.GetEnvirons(await JiraConnect.TmjPrep(), projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -251,11 +119,19 @@ namespace TestRunnerAppWpf
                     s.index = t.Value<int>("index");
                     s.archived = t.Value<bool>("archived");
                 }
-                p.environments = environs;
+                return environs;
             }
+            else
+                return new ObservableCollection<JiraEnvironment>();
+        }       
 
-            // Project test cycles
-            response = await Jira.GetCycles(await JiraConnect.TmjPrep(), p.key, null, maxResults);
+        // Project test cycles
+        public async Task<ObservableCollection<JiraCycle>> LoadCycles(JiraProject p,
+                                                                      string projectKey,
+                                                                      string folderId,
+                                                                      string maxResults)
+        {
+            var response = await Jira.GetCycles(await JiraConnect.TmjPrep(), projectKey, folderId, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> tokens = response.Item2.GetValue("values").Children();
@@ -281,7 +157,6 @@ namespace TestRunnerAppWpf
                     if (t.Value<JObject>("folder") != null)
                         c.folder = t.Value<JObject>("folder").ToObject<JiraFolder>();
                 }
-                p.cycles = cycles;
                 foreach (JiraCycle c in cycles)
                 {
 
@@ -303,10 +178,20 @@ namespace TestRunnerAppWpf
                         }
                     }
                 }
+                return cycles;
             }
+            else
+                return new ObservableCollection<JiraCycle>();
+        }
 
-            // Project test cases
-            response = await Jira.GetCases(await JiraConnect.TmjPrep(), p.key, null, maxResults);
+
+        // Project test cases
+        public async Task<ObservableCollection<JiraCase>> LoadCases(JiraProject p,
+                                                                    string projectKey, 
+                                                                    string folderId,                              
+                                                                    string maxResults)
+        { 
+            var response = await Jira.GetCases(await JiraConnect.TmjPrep(), projectKey, folderId, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> caseTokens = response.Item2.GetValue("values").Children();
@@ -344,7 +229,7 @@ namespace TestRunnerAppWpf
                     if (t.Value<JObject>("owner") != null)
                         c.owner = t.Value<JObject>("owner").ToObject<Owner>();
                 }
-                p.cases = cases;
+
                 foreach (JiraCase c in cases)
                 {
                     if (c.status != null)
@@ -355,13 +240,14 @@ namespace TestRunnerAppWpf
                         try { c.priority = p.prios.Where(x => x.id == c.priority.id).First(); } catch (InvalidOperationException) { }
 
                     Debug.WriteLine(c.labels);
-
                 }
+                return cases;
             }
-            mainViewModel.enableProjectLoad = true;
+            else
+                return new ObservableCollection<JiraCase>();
         }
 
-        private async Task<ObservableCollection<JiraStatus>> LoadStatus(string projectKey,
+        public async Task<ObservableCollection<JiraStatus>> LoadStatus(string projectKey,
                                                                                string statusType,
                                                                                string maxResults)
         {
@@ -391,6 +277,5 @@ namespace TestRunnerAppWpf
         }
 
     }
-    */
 }
 

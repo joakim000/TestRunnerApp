@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ViewModelSupport;
 using TestRunnerLib;
+using TestRunnerLib.Jira;
 
 namespace TestRunnerAppWpf
 {
@@ -138,7 +139,7 @@ namespace TestRunnerAppWpf
        
 
         /* Run tests */ // Should be moved to lib? Has view updates...
-        private void CancelJob() => worker.CancelAsync();
+        private void CancelRunJob() => runTestWorker.CancelAsync();
 
         private void StartAsyncRunner(ObservableCollection<TestModel> tests)
         {
@@ -151,35 +152,27 @@ namespace TestRunnerAppWpf
             runSlash = "/";
             runCurrent = "1";
 
-            
-
-            worker = new BackgroundWorker
+            runTestWorker = new BackgroundWorker
             {
                 WorkerReportsProgress = true,
                 WorkerSupportsCancellation = true
             };
-            worker.DoWork += worker_DoWork;
-            worker.ProgressChanged += worker_ProgressChanged;
-            worker.RunWorkerCompleted += worker_RunWorkerCompleted;
+            runTestWorker.DoWork += runTestWorker_DoWork;
+            runTestWorker.ProgressChanged += runTestWorker_ProgressChanged;
+            runTestWorker.RunWorkerCompleted += runTestworker_RunWorkerCompleted;
 
             syncContext = SynchronizationContext.Current;
-            worker.RunWorkerAsync(tests);
+            runTestWorker.RunWorkerAsync(tests);
         }
 
-        void worker_DoWork(object sender, DoWorkEventArgs e)
+        void runTestWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             WebDriverType webDriverType = Settings.GetWebDriverType();
 
             var tests = (ObservableCollection<TestModel>)e.Argument;
             int testsRun = 0;
             int testsToRun = tests.Count();
-
-            //CycleModel cycle = new CycleModel();
-            //cycle.name = "Cycle name";
-            //cycle.description = "Cycle description";
-            //syncContext.Send(x => gridViewModel.suite.cycles.Add(cycle), null);
             CycleModel cycle = gridViewModel.suite.currentCycle;
-            
 
             foreach (TestModel test in tests)
             {
@@ -201,7 +194,7 @@ namespace TestRunnerAppWpf
                 }
 
                 testsRun++;
-                if (worker.CancellationPending == true)
+                if (runTestWorker.CancellationPending == true)
                 {
                     syncContext.Send(x => runStatus = "Cancelled", null);
                     e.Cancel = true;
@@ -216,7 +209,7 @@ namespace TestRunnerAppWpf
 
         }
 
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        void runTestWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBarValue = e.ProgressPercentage;
             if (e.UserState != null)
@@ -228,7 +221,7 @@ namespace TestRunnerAppWpf
             }
         }
 
-        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        void runTestworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             topMost = false;
             appWindow.Activate();
@@ -239,25 +232,122 @@ namespace TestRunnerAppWpf
                 runCurrent = runTotal;
             }
             this.unsavedChanges = true;
-            Debug.WriteLine($"Async worker result: {e.Result}");
-
-            //Debug.WriteLine($"Cycles in suite: {gridViewModel.suite.cycles.Count()}");
-            //if (gridViewModel.suite.cycles.Count() > 0)
-            //{
-
-
-            //    Debug.WriteLine($"Testruns in first cycle: {gridViewModel.suite.cycles.First().cycleRuns.Count()}");
-            //    foreach (CycleRun c in gridViewModel.suite.cycles.First().cycleRuns)
-            //    {
-            //        Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
-            //    }
-            //    Debug.WriteLine($"Testruns in previous cycle: {gridViewModel.suite.cycles.Last().cycleRuns.Count()}");
-            //    foreach (CycleRun c in gridViewModel.suite.cycles.Last().cycleRuns)
-            //    {
-            //        Debug.WriteLine($"Current testname: {c.test.name} Name at run time: {c.run.test.name} Outcome: {c.run.result.ToString()}");
-            //    }
-            //}
+            Debug.WriteLine($"Async runTestWorker result: {e.Result}");
         }
+
+        public void LoadJiraProjectAsync(JiraProject p)
+        {
+            StartAsyncLoader(p);
+        }
+
+
+        /* Load project data */ // Should be moved to lib? Has view updates...
+        private void CancelLoadJob() => projectLoadWorker.CancelAsync();
+
+        private void StartAsyncLoader(JiraProject p)
+        {
+            enableProjectLoad = false;
+            progressBarValue = 0;
+            runStatus = "Loading";
+            runTotal = "9"; //Steps in load
+            runSlash = "/";
+            runCurrent = "1";
+
+            projectLoadWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
+            projectLoadWorker.DoWork += projectLoadWorker_DoWork;
+            projectLoadWorker.ProgressChanged += projectLoadWorker_ProgressChanged;
+            projectLoadWorker.RunWorkerCompleted += projectLoadWorker_RunWorkerCompleted;
+
+            syncContext = SynchronizationContext.Current;
+            projectLoadWorker.RunWorkerAsync(p);
+        }
+
+        void projectLoadWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            JiraProject p = (JiraProject)e.Argument;
+            string maxResults = "100";
+            JiraLoad load = new JiraLoad();
+            int done = 0;
+            int total = 9;
+
+            //syncContext.Send(x => test.previousOutcome = r.result, null);
+
+            load.LoadProjectData(p);
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.folders = load.LoadFolders(p.key, null, maxResults).Result;
+            p.separateFolders();
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.prios = load.LoadPrios(p.key, maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.environments = load.LoadEnvirons(p.key, maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            // Project statuses
+            p.caseStatuses = load.LoadStatus(p.key, "TEST_CASE", maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.cycleStatuses = load.LoadStatus(p.key, "TEST_CYCLE", maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.executionStatuses = load.LoadStatus(p.key, "TEST_EXECUTION", maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+            //p.planStatuses = await LoadStatus(p.key, "TEST_PLAN", maxResults);
+
+            p.cycles = load.LoadCycles(p, p.key, null, maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.cases = load.LoadCases(p, p.key, null, maxResults).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+
+
+        }
+
+        void projectLoadUpdate(object sender, DoWorkEventArgs e, int done, int total)
+        {
+            if (projectLoadWorker.CancellationPending == true)
+            {
+                syncContext.Send(x => runStatus = "Cancelled", null);
+                e.Cancel = true;
+                return;
+            }
+            int progressPercentage = Convert.ToInt32(((double)done / total) * 100);
+            Tuple<int, string> report = new Tuple<int, string>(done, $"Parts loaded: {done}");
+            (sender as BackgroundWorker).ReportProgress(progressPercentage, report);
+        }
+
+        void projectLoadWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBarValue = e.ProgressPercentage;
+            if (e.UserState != null)
+            {
+                // Update UI
+                var t = (Tuple<int, string>)e.UserState;
+                Debug.WriteLine(t.Item2);
+                runCurrent = (t.Item1 + 1).ToString();
+            }
+        }
+
+        void projectLoadWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            enableProjectLoad = true;
+            if (runStatus != "Cancelled")
+            {
+                runStatus = "Done";
+                runCurrent = runTotal;
+            }
+            this.unsavedChanges = true;
+            Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
+        }
+
+
 
 
     } // MainViewModel

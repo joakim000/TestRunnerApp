@@ -81,7 +81,8 @@ namespace TestRunnerAppWpf
 
 
         /* Threading */
-        private BackgroundWorker worker = null;
+        private BackgroundWorker runTestWorker = null;
+        private BackgroundWorker projectLoadWorker = null;
         SynchronizationContext syncContext = SynchronizationContext.Current;
         public int progressBarValue
         {
@@ -108,11 +109,18 @@ namespace TestRunnerAppWpf
             get => Get(() => runSlash);
             set => Set(() => runSlash, value);
         }
+
         public bool enableRun
         {
             get => Get(() => enableRun);
             set => Set(() => enableRun, value);
         }
+        public bool enableProjectLoad
+        {
+            get => Get(() => enableProjectLoad);
+            set => Set(() => enableProjectLoad, value);
+        }
+
 
 
         /* ViewModels */

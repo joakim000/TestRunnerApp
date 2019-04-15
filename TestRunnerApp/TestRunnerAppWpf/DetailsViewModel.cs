@@ -66,6 +66,7 @@ namespace TestRunnerAppWpf
         /* Commands */
         public async void Execute_JiraGetAvailableProjectsCmd()
         {
+            mainViewModel.enableProjectLoad = false;
             Tuple<HttpStatusCode, JObject> projects = await Jira.GetProjects(await JiraConnect.TmjPrep(), "100");
             if (projects.Item1 == HttpStatusCode.OK)
             {
@@ -87,6 +88,7 @@ namespace TestRunnerAppWpf
                 jiraSelectedProject = jiraProjects.First();
                 Properties.Settings.Default.JiraAvailableProjects = FileMgmt.Serialize(jiraAvailableProjects);
             }
+            mainViewModel.enableProjectLoad = true;
         }
         public bool CanExecute_JiraGetAvailableProjectsCmd()
         {
@@ -195,7 +197,13 @@ namespace TestRunnerAppWpf
 
             var p = mainViewModel.gridViewModel.suite.jiraProject;
 
-            JiraConnect.LoadProjectData(p);
+            //JiraConnect.LoadProjectData(p);
+
+            var load = new JiraLoad();
+            mainViewModel.LoadJiraProjectAsync(p);
+            
+
+            
 
         }
 

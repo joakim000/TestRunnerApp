@@ -127,7 +127,7 @@ namespace TestRunnerAppWpf
 
         public void Execute_AboutCmd()
         {
-            string versionString = "2.0 beta 2";
+            string versionString = "2.0 rc1";
             string aboutString = $"TestApp v{versionString}{Environment.NewLine}{Environment.NewLine}Joakim Odermalm{Environment.NewLine}Unicus Sverige{Environment.NewLine}2019";
             MessageBox.Show(aboutString);
         }
@@ -381,22 +381,26 @@ namespace TestRunnerAppWpf
 
         public void Execute_EditCycleCmd()
         {
-            var d = new EditCycleDialog(this);
-            if (d.ShowDialog() == true)
-            {
-                if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
-                {
 
-                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+            MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
+                MessageBoxButton.OK, MessageBoxImage.Information);
 
-                    // Don't readd if newItem actuallty is existing (edited) item
-                    if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
-                        gridViewModel.suite.cycles.Add(d.viewModel.newItem);
-                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
+            //var d = new EditCycleDialog(this);
+            //if (d.ShowDialog() == true)
+            //{
+            //    if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
+            //    {
 
-                    unsavedChanges = true;
-                }
-            }
+            //        undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+
+            //        // Don't readd if newItem actuallty is existing (edited) item
+            //        if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
+            //            gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+            //        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
+
+            //        unsavedChanges = true;
+            //    }
+            //}
         }
         public bool CanExecute_EditCycleCmd()
         {
@@ -478,7 +482,7 @@ namespace TestRunnerAppWpf
 
         public void Execute_StopCmd()
         {
-            CancelJob();
+            CancelRunJob();
         }
         public bool CanExecute_StopCmd()
         {

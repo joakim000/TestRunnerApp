@@ -63,7 +63,7 @@
                      Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
-            <ComboBox x:Name="PrioCombo" Style="{StaticResource ComboStyle}"
+            <!--<ComboBox x:Name="PrioCombo" Style="{StaticResource ComboStyle}"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
                                   ItemContainerStyle="{StaticResource ComboItemStyle}"     
                                   SelectedItem="{Binding newItem.jiraCase.priority, 
@@ -77,7 +77,7 @@
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
-            </ComboBox>
+            </ComboBox>-->
 
             <Label Content="Component" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
             <TextBox 
@@ -85,14 +85,21 @@
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
-            <Label Content="Notes" />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Content="Labels" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" VerticalAlignment="Top" Width="45"/>
+                <!--<ListBox ItemsSource="{Binding Path=newItem.jiraCase.labels}" />-->
+                <WrapPanel Grid.Column="1" x:Name="LabelsPanel" MaxWidth="250">
+                    <!--<Label Content="None"></Label>-->
+                </WrapPanel>
+            </Grid>
+           
         </StackPanel>
         <StackPanel Margin="15,10,15,15" Grid.Column="1">
-            <Label Content="Execution" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
+            <Label Content="Execution" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />
 
             <Label Content="Pre-conditions" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
             <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
@@ -169,8 +176,16 @@
             </DataGrid>
 
         </StackPanel>
-        
-        <WrapPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,10" >
+
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="15,0,15,0">
+            <Label Content="Notes" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+        </StackPanel>
+
+        <WrapPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,10" >
                     <StackPanel HorizontalAlignment="Left" Margin="0,0,60,3">
                         <Label Content="Import Jira case" HorizontalAlignment="Left" />
                         <ComboBox x:Name="CasesCombo" Style="{StaticResource ComboStyle}"

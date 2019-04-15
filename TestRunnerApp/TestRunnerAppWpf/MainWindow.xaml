@@ -9,7 +9,7 @@
         Title="{Binding windowTitle}" 
         Height="800" Width="1600"
         WindowStyle="SingleBorderWindow"
-        WindowState="Normal"
+        WindowState="Maximized"
         Icon="pack://application:,,,/Icons/Test_16x.png"
         Closing="Window_Closing"      
         Topmost="{Binding topMost}"
@@ -291,7 +291,7 @@
                         <Image Source="pack://application:,,,/Icons/StatusHelp_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_How to write tests"  Command="{Binding HowToCmd}" >
+                <MenuItem Header="_How to write tests"  Command="{Binding HowToCmd}" IsEnabled="False">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/Property_16x.png" />
                     </MenuItem.Icon>

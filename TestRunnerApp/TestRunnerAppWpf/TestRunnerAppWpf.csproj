@@ -34,7 +34,7 @@
     <SuiteName>TestApp by Unicus</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -167,6 +167,8 @@
     <Compile Include="EditCycleDialog.xaml.cs">
       <DependentUpon>EditCycleDialog.xaml</DependentUpon>
     </Compile>
+    <None Include="JiraLoad_old Async.cs,txt" />
+    <Compile Include="JiraLoad.cs" />
     <Compile Include="NewTestDialogViewModel.cs" />
     <Compile Include="NewCycleDialogViewModel.cs" />
     <Compile Include="ExportViewModel.cs" />

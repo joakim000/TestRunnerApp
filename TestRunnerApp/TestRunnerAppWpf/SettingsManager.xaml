@@ -37,14 +37,13 @@
         <StackPanel>
             <!--<Label Content="Management integration" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
             <Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system" />
-            <ComboBox x:Name="OptionsCombo" Margin="15,0,0,0" Width="200" HorizontalAlignment="Left"
+            <ComboBox x:Name="OptionsCombo"  Style="{StaticResource ComboStyle}"
+                      Margin="15,0,0,0" Width="200" HorizontalAlignment="Left"
                       ItemsSource="{Binding Path=mgmtOptions}"
                       IsEditable="False" IsReadOnly="True"
                       SelectionChanged="OptionsCombo_SelectionChanged"
+                      ItemContainerStyle="{StaticResource ComboItemStyle}"     
                       >
-                <!--<ComboBoxItem Content="None" IsEnabled="True" />
-                <ComboBoxItem Content="Jira Cloud with TM4J" />
-                <ComboBoxItem Content="ReqTest"  />-->
             </ComboBox>
             
             <Grid Margin="15,15,15,15" x:Name="JiraCloudGrid" 

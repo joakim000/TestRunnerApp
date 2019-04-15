@@ -14,10 +14,15 @@ namespace TestRunnerAppWpf
             if (value is DateTime)
             {
                 DateTime dt = (DateTime)value;
-                return $"{dt.ToShortDateString()} {dt.ToShortTimeString()}";
+                string dtString = $"{dt.ToShortDateString()} {dt.ToShortTimeString()}";
+                if (String.Equals(dtString, "0001-01-01 00:00"))
+                    return string.Empty;
+                else
+                    return dtString;
             }
             else
-                return "No date";
+                //return "No date";
+                return string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
