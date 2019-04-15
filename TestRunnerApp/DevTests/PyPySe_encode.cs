@@ -83,6 +83,10 @@ namespace PythonTest
             Outcome outcome = Outcome.NotRun;
             Exception rex = null;
 
+            byte[] bytes = Encoding.Default.GetBytes(testData[2]);
+            testData[2] = Encoding.UTF8.GetString(bytes);
+
+
             /* Access from script */
             // Make sure we can get these later
             scope.SetVariable("outcome", outcome);
@@ -92,6 +96,9 @@ namespace PythonTest
             // Actual input params
             scope.SetVariable("webdrivertype", webDriverType);
             scope.SetVariable("testData", testData);
+
+
+            
 
             try
             {

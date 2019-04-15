@@ -169,32 +169,6 @@ namespace TestRunnerLib
             get => Get(() => jiraProjectKey);
             set => Set(() => jiraProjectKey, value);
         }
-
-        //public string jiraTestId
-        //{
-        //    get => Get(() => jiraTestId);
-        //    set => Set(() => jiraTestId, value);
-        //}
-        //public string jiraTestName
-        //{
-        //    get => Get(() => jiraTestName);
-        //    set => Set(() => jiraTestName, value);
-        //}
-        //public string jiraPrioId
-        //{
-        //    get => Get(() => jiraPrioId);
-        //    set => Set(() => jiraPrioId, value);
-        //}
-        //public string jiraPrioName
-        //{
-        //    get => Get(() => jiraPrioName);
-        //    set => Set(() => jiraPrioName, value);
-        //}
-        //public string jiraTestVersion
-        //{
-        //    get => Get(() => jiraTestVersion);
-        //    set => Set(() => jiraTestVersion, value);
-        //}
         /* end: Jira integration */
 
 
@@ -215,31 +189,31 @@ namespace TestRunnerLib
             set => Set(() => useWebDriver, value);
         }
             /* For compatibility with v1 .testapp-files */
-        public string callParam
-        {
-            get => Get(() => callParam);
-            set => Set(() => callParam, value);
-        }
-        public string callParam2
-        {
-            get => Get(() => callParam2);
-            set => Set(() => callParam2, value);
-        }
-        public string callParam3
-        {
-            get => Get(() => callParam3);
-            set => Set(() => callParam3, value);
-        }
-        public string callParam4
-        {
-            get => Get(() => callParam4);
-            set => Set(() => callParam4, value);
-        }
-        public string[] testData
-        {
-            get => Get(() => testData, new string[64]);
-            set => Set(() => testData, value);
-        }
+        //public string callParam
+        //{
+        //    get => Get(() => callParam);
+        //    set => Set(() => callParam, value);
+        //}
+        //public string callParam2
+        //{
+        //    get => Get(() => callParam2);
+        //    set => Set(() => callParam2, value);
+        //}
+        //public string callParam3
+        //{
+        //    get => Get(() => callParam3);
+        //    set => Set(() => callParam3, value);
+        //}
+        //public string callParam4
+        //{
+        //    get => Get(() => callParam4);
+        //    set => Set(() => callParam4, value);
+        //}
+        //public string[] testData
+        //{
+        //    get => Get(() => testData, new string[64]);
+        //    set => Set(() => testData, value);
+        //}
         /* end: For compatibility with v1 .testapp-files */
         /* end: Deprecated */
 
@@ -249,7 +223,7 @@ namespace TestRunnerLib
         public TestModel()
         {
             //uid = Guid.NewGuid();
-            testData = new string[64];
+            //testData = new string[64];
             runs = new ObservableCollection<RunModel>();
             cycles = new ObservableCollection<CycleModel>();
             testDataColl = new ObservableCollection<TestDataItem>();
@@ -288,16 +262,26 @@ namespace TestRunnerLib
             c.callAss = StringCopy(callAss);
             c.callSpace = StringCopy(callSpace);
             c.callType = StringCopy(callType);
-            c.testData = new string[testData.Length];
-            Array.Copy(testData, c.testData, testData.Length);
+
+            //c.testData = new string[testData.Length];
+            //Array.Copy(testData, c.testData, testData.Length);
+            c.testDataColl = new ObservableCollection<TestDataItem>();
+            foreach (TestDataItem tdi in testDataColl)
+            {
+                TestDataItem toAdd = new TestDataItem(tdi.index, tdi.data);
+                c.testDataColl.Add(toAdd);
+            }
+
 
             c.kind = kind; // ref
             c.id = StringCopy(id);
             c.name = StringCopy(name);
+            c.objective = StringCopy(objective);
 
             c.descExecution = StringCopy(descExecution);
             c.descPrecond = StringCopy(descPrecond);
             c.descExpected = StringCopy(descExpected);
+
             c.notes = StringCopy(notes);
             c.prio = StringCopy(prio);
             c.version = StringCopy(version);

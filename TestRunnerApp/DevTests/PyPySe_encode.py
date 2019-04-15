@@ -1,4 +1,5 @@
-﻿import time
+﻿# -- coding: utf-8 --
+import time
 import sys
 import clr
 
@@ -36,18 +37,23 @@ def GetDriver(webdrivertype):
 
 # Test runner
 def Run(driver, testData):
-      server = testData[1]; 
-      input = testData[2];
+      server = testData[1]
+      #input = testData[2].decode("utf-8");
+      input = testData[2]
 
-      step = 1;
+      step = 1
       try:
           driver.get(server)
-          el = driver.find_element_by_name("q");    
+          el = driver.find_element_by_name("q")
+          step = 2
           el.send_keys(input)
+          step = 3
           el.submit()
-          WebDriverWait(driver, 10).until(expected_conditions.title_contains(input))
-          
-          return TestResult(Outcome.Pass, "Page title is: {title}".format(title=driver.title))
+          step = 4
+          #WebDriverWait(driver, 10).until(expected_conditions.title_contains(input))
+          WebDriverWait(driver, 20)
+          step = 5
+          return TestResult(Outcome.Pass, "Page title is: {title}".format(title=driver.title) + "Funny letter: " + input)
 
        # Selenium exception during action
       except WebDriverException as ex:
@@ -62,4 +68,6 @@ def Run(driver, testData):
              driver.quit()
 
 # Execution
+reload(sys)  
+sys.setdefaultencoding('utf8')
 result = Run(GetDriver(webdrivertype), testData)

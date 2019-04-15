@@ -120,7 +120,7 @@ namespace TestRunnerLib
             test = t.DeepCopy();
             rerun = t.numberOfRuns > 0 ? true : false;
             datetime = DateTime.Now;
-                Debug.WriteLine($"Invoke: driverType=[{webDriverType}]  param=[{t.testData[0]}, {t.testData[1]}, {t.testData[2]}, {t.testData[3]}, ]");
+                //Debug.WriteLine($"Invoke: driverType=[{webDriverType}]  param=[{t.testData[0]}, {t.testData[1]}, {t.testData[2]}, {t.testData[3]}, ]");
             resultObj = Runner9.InvokeTest(t.callAss, t.callSpace, t.callType, webDriverType, t.testDataColl);
             datetimeEnd = DateTime.Now;
             runTime = (Int64)System.Math.Round(datetimeEnd.Subtract(datetime).TotalMilliseconds);

@@ -56,7 +56,7 @@ namespace TestRunnerAppWpf
             t.callAss = "SeExperiments";
             t.callSpace = "SeExperiments";
             t.callType = "Ex5";
-            t.callParam = string.Empty;
+            //t.callParam = string.Empty;
 
             td.tests.Add(t);
 

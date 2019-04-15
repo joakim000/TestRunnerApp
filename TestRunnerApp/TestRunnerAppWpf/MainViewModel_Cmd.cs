@@ -127,7 +127,7 @@ namespace TestRunnerAppWpf
 
         public void Execute_AboutCmd()
         {
-            string versionString = "2.0 rc1";
+            string versionString = "2.0 rc2";
             string aboutString = $"TestApp v{versionString}{Environment.NewLine}{Environment.NewLine}Joakim Odermalm{Environment.NewLine}Unicus Sverige{Environment.NewLine}2019";
             MessageBox.Show(aboutString);
         }
@@ -205,6 +205,9 @@ namespace TestRunnerAppWpf
                 if (fileopen.Item1 != null)
                     gridViewModel.suite.filename = fileopen.Item1;
 
+                // Reset views
+                detailsViewModel.test = new TestModel();
+                detailsViewModel.cycle = new CycleModel();
 
                 if (gridViewModel.suite.currentCycle != null)
                 {
