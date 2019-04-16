@@ -89,6 +89,13 @@ namespace TestRunnerLib.Jira
             get => Get(() => environments, new ObservableCollection<JiraEnvironment>());
             set => Set(() => environments, value);
         }
+        public ObservableCollection<JiraComponent> components
+        {
+            get => Get(() => components, new ObservableCollection<JiraComponent>());
+            set => Set(() => components, value);
+        }
+
+
         /* Properties returned by TMJ */
         public int id
         {

@@ -645,24 +645,24 @@ namespace TestRunnerAppWpf
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetServerInfo();
 
             // Current user
-            Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser(await JiraConnect.Preflight());
+            //Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser(await JiraConnect.Preflight());
 
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses(null, "TEST_EXECUTION", "100");
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses(null, "TEST_EXECUTION", "100");
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
 
 
 
-            Debug.WriteLine(r.Item2);
+            //Debug.WriteLine(r.Item2);
 
-            if (r.Item2.TryGetValue("accountId", out JToken accountId)) {
-                Debug.WriteLine(accountId.ToString());
-            }
-            else
-                Debug.WriteLine("accountId not found");
+            //if (r.Item2.TryGetValue("accountId", out JToken accountId)) {
+            //    Debug.WriteLine(accountId.ToString());
+            //}
+            //else
+            //    Debug.WriteLine("accountId not found");
 
         }
         public bool CanExecute_Report1Cmd()
@@ -675,28 +675,28 @@ namespace TestRunnerAppWpf
         {
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateCycle("TEM", "First cycle", "My very first cycle", null, false);
 
-            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await JiraConnect.Preflight());
-            string accountId = null;
-            if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
-                accountId = accountIdToken.ToString();
+            //Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await JiraConnect.Preflight());
+            //string accountId = null;
+            //if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
+            //    accountId = accountIdToken.ToString();
 
 
-            CycleModel c = gridViewModel.suite.cycles.Last();
-            foreach (CycleRun cr in c.cycleRuns)
-            {
-                RunModel r = cr.run;
-                Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec(await JiraConnect.Preflight(),
-                                                                                "TEM",
-                                                                                "TEM-R2",
-                                                                                r.test.id,
-                                                                                r.result,
-                                                                                r.webDriverType,
-                                                                                r.datetimeEnd, 
-                                                                                r.runTime,
-                                                                                Properties.Settings.Default.JiraAccountId, 
-                                                                                r.resultObj.message);
-                Debug.WriteLine(response.Item2);
-            }
+            //CycleModel c = gridViewModel.suite.cycles.Last();
+            //foreach (CycleRun cr in c.cycleRuns)
+            //{
+            //    RunModel r = cr.run;
+            //    Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec(await JiraConnect.Preflight(),
+            //                                                                    "TEM",
+            //                                                                    "TEM-R2",
+            //                                                                    r.test.id,
+            //                                                                    r.result,
+            //                                                                    r.webDriverType,
+            //                                                                    r.datetimeEnd, 
+            //                                                                    r.runTime,
+            //                                                                    Properties.Settings.Default.JiraAccountId, 
+            //                                                                    r.resultObj.message);
+            //    Debug.WriteLine(response.Item2);
+            //}
 
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM", "First cycle", "My very first cycle", null, false);
             //Debug.WriteLine(r.Item2);

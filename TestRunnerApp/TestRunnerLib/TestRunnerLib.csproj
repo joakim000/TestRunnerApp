@@ -98,9 +98,14 @@
     <Compile Include="ImageTools.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="IWebTest.cs" />
-    <Compile Include="Jira\Jira.cs" />
+    <Compile Include="Jira\Jira_Convert.cs" />
+    <Compile Include="Jira\Jira_Create.cs" />
+    <Compile Include="Jira\Jira_Get.cs" />
+    <Compile Include="Jira\JiraConnectInfo.cs" />
+    <Compile Include="Jira\Jira_Call.cs" />
     <Compile Include="Jira\HelperModels.cs" />
     <Compile Include="Jira\JiraEnvironment.cs" />
+    <Compile Include="Jira\JiraComponent.cs" />
     <Compile Include="Jira\JiraVersion.cs" />
     <Compile Include="Jira\JiraPrio.cs" />
     <Compile Include="Jira\JiraCycle.cs" />

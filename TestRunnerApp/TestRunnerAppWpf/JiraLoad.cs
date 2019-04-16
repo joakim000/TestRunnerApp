@@ -29,23 +29,92 @@ namespace TestRunnerAppWpf
 
         public async void LoadProjectData(JiraProject p)
         {
-            Tuple<HttpStatusCode, JObject> response;
-
             // Get basic project data
-            response = await Jira.GetProjJira(await JiraConnect.Preflight(), p.key);
+            var response = await Jira.GetProjJira(await JiraConnect.Preflight(), p.key);
             if (response.Item1 == HttpStatusCode.OK)
             {
-                p.name = response.Item2.Value<string>("name");
-                p.description = response.Item2.Value<string>("description");
-                p.self = response.Item2.Value<string>("self");
+                JObject j = response.Item2 as JObject; 
+                p.name = j.Value<string>("name");
+                p.description = j.Value<string>("description");
+                p.self = j.Value<string>("self");
             }
 
         }
 
+        // Project components
+        public async Task<ObservableCollection<JiraComponent>> LoadComponents(string projectIdOrKey)
+        {
+            var response = await Jira.GetComponents(await JiraConnect.Preflight(), projectIdOrKey);
+            if (response.Item1 == HttpStatusCode.OK)
+            {
+                JArray j = response.Item2 as JArray;
+                JEnumerable<JToken> statusTokens = j.Children();
+                var components = new ObservableCollection<JiraComponent>();
+                foreach (JToken t in statusTokens)
+                {
+                    var s = new JiraComponent();
+                    components.Add(s);
+
+                    s.projectKey = t.Value<string>("project"); 
+                    s.projectId = t.Value<int>("projectId");
+
+                    s.self = t.Value<string>("self");
+                    s.id = t.Value<int>("id");
+                    s.name = t.Value<string>("name");
+                    s.description = t.Value<string>("description");
+                    if (t.Value<JObject>("lead") != null)
+                        s.lead = t.Value<JObject>("lead").ToObject<JiraUser>();
+                    s.assigneeType = t.Value<string>("assigneeType");
+                    // assignee
+                    s.realAssigneeType = t.Value<string>("realAssigneeType");
+                    // realAssignee
+                    s.isAssigneeTypeValid = t.Value<bool>("isAssigneeTypeValid");
+                    
+                }
+                return components;
+
+            }
+            else
+                return new ObservableCollection<JiraComponent>();
+        }
+
+        // Project versions
+        public async Task<ObservableCollection<JiraVersion>> LoadVersions(string projectIdOrKey)
+        {
+            var response = await Jira.GetVersions(await JiraConnect.Preflight(), projectIdOrKey);
+            if (response.Item1 == HttpStatusCode.OK)
+            {
+                JArray j = response.Item2 as JArray;
+                JEnumerable<JToken> statusTokens = j.Children();
+                var coll = new ObservableCollection<JiraVersion>();
+                foreach (JToken t in statusTokens)
+                {
+                    var s = new JiraVersion();
+                    coll.Add(s);
+
+                    s.self = t.Value<string>("self");
+                    s.id = t.Value<int>("id");
+                    s.name = t.Value<string>("name");
+                    s.description = t.Value<string>("description");
+                    s.archived = t.Value<bool>("archived");
+                    s.released = t.Value<bool>("released");
+                    s.releaseDate = t.Value<string>("releaseDate");
+                    s.overdue = t.Value<bool>("overdue");
+                    s.userReleaseDate = t.Value<string>("userReleaseDate");
+                    s.projectId = t.Value<int>("projectId");
+                    //issuesStatusForFixVersion
+                }
+                return coll;
+            }
+            else
+                return new ObservableCollection<JiraVersion>();
+        }
+
+
         // Project folders
         public async Task<ObservableCollection<JiraFolder>> LoadFolders(string projectKey,
-                                                                         string folderType,
-                                                                             string maxResults)
+                                                                        string folderType,
+                                                                        string maxResults)
         {
             var response = await Jira.GetFolders(await JiraConnect.TmjPrep(), projectKey, folderType, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
@@ -165,18 +234,8 @@ namespace TestRunnerAppWpf
                     if (c.folder != null)
                         try { c.folder = p.folders.Where(x => x.id == c.folder.id).First(); } catch (InvalidOperationException) { }
                     if (c.jiraProjectVersion != null)
-                    {
-                        response = await Jira.GetVersion(await JiraConnect.Preflight(), c.jiraProjectVersion.id.ToString());
-                        if (response.Item1 == HttpStatusCode.OK)
-                        {
-                            c.jiraProjectVersion.name = response.Item2.Value<string>("name");
-                            c.jiraProjectVersion.description = response.Item2.Value<string>("description");
-                            c.jiraProjectVersion.releaseDate = response.Item2.Value<string>("releaseDate");
-                            c.jiraProjectVersion.released = response.Item2.Value<bool>("released");
-                            c.jiraProjectVersion.overdue = response.Item2.Value<bool>("overdue");
-                            c.jiraProjectVersion.archived = response.Item2.Value<bool>("archived");
-                        }
-                    }
+                        try { c.jiraProjectVersion = p.versions.Where(x => x.id == c.jiraProjectVersion.id).First(); } catch (InvalidOperationException) { }
+                    
                 }
                 return cycles;
             }
@@ -227,7 +286,7 @@ namespace TestRunnerAppWpf
                     if (t.Value<JObject>("folder") != null)
                         c.folder = t.Value<JObject>("folder").ToObject<JiraFolder>();
                     if (t.Value<JObject>("owner") != null)
-                        c.owner = t.Value<JObject>("owner").ToObject<Owner>();
+                        c.owner = t.Value<JObject>("owner").ToObject<JiraUser>();
                 }
 
                 foreach (JiraCase c in cases)

@@ -167,7 +167,6 @@
     <Compile Include="EditCycleDialog.xaml.cs">
       <DependentUpon>EditCycleDialog.xaml</DependentUpon>
     </Compile>
-    <None Include="JiraLoad_old Async.cs,txt" />
     <Compile Include="JiraLoad.cs" />
     <Compile Include="NewTestDialogViewModel.cs" />
     <Compile Include="NewCycleDialogViewModel.cs" />
