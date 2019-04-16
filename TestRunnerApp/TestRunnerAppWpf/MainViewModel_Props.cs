@@ -14,7 +14,7 @@ namespace TestRunnerAppWpf
     {
         public bool unsavedChanges
         {
-            get => Get(() => unsavedChanges);
+            get => Get(() => unsavedChanges, false);
             set => Set(() => unsavedChanges, value);
         }
 
@@ -227,6 +227,10 @@ namespace TestRunnerAppWpf
             get => Get(() => tmjKeyToken);
             set => Set(() => tmjKeyToken, value);
         }
+
+
+       
+
 
     }
 }

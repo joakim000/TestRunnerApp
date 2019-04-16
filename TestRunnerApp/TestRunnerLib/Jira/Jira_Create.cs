@@ -169,7 +169,7 @@ namespace TestRunnerLib.Jira
             if (!string.IsNullOrEmpty(comment))
                 data.Add("comment", comment);
 
-            /* Not sure how to work with JArray */
+            /* Not sure how to work with array */
             //            data.Add("testScriptResults", new Array({
             //"statusName": "Pass",
             //"actualEndDate": "2019-04-06T12:49:03Z",

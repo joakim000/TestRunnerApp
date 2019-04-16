@@ -45,8 +45,7 @@ namespace TestRunnerAppWpf
         {
             if (e.PropertyName == "suite")
                 AttachChildEvents();
-                FileMgmt.unsavedChanges = false;
-                mainViewModel.unsavedChanges = false;
+                mainViewModel.unsavedChanges = true;
         }
         
         private void AttachChildEvents()

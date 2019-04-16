@@ -161,6 +161,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ArrayDictConverter.cs" />
+    <Compile Include="Converters\BoolToVisiInverse.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
     <Compile Include="Converters\BoolFontConverter.cs" />
     <Compile Include="Converters\TestkindImgConverter.cs" />

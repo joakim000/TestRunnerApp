@@ -110,20 +110,13 @@ namespace TestRunnerAppWpf
 
                 Debug.WriteLine("Found number of existing cycles with jiraCycleID: " + existCount);
 
-                JiraData2Item();
+                newItem.jiraCycle = jiraSelectedCycle;
 
             }
 
         }
 
-        private void JiraData2Item()
-        {
-            newItem.jiraCycle = jiraSelectedCycle;
-            newItem.id = newItem.jiraCycle.key;
-            newItem.name = newItem.jiraCycle.name;
-            newItem.description = newItem.jiraCycle.description;
-            newItem.status = newItem.jiraCycle.status.name;
-        }
+       
 
     }
 }

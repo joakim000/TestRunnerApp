@@ -199,29 +199,28 @@ namespace TestRunnerAppWpf
                 {
                     gridViewModel.suite = fileopen.Item2;
                     SelectedItems_PropertyChanged(null, null);
+
+                    if (fileopen.Item1 != null)
+                        gridViewModel.suite.filename = fileopen.Item1;
+
+                    // Reset views
+                    detailsViewModel.test = new TestModel();
+                    detailsViewModel.cycle = new CycleModel();
+
+                    if (gridViewModel.suite.currentCycle != null)
+                    {
+                        Guid cc = gridViewModel.suite.currentCycle.uid;
+                        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
+                    }
+
+                    if (gridViewModel.suite.jiraProject != null)
+                    {
+                        string key = gridViewModel.suite.jiraProject.key;
+                        detailsViewModel.jiraSelectedProject = detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
+                        detailsViewModel.LoadProjectData();
+                    }
                     this.unsavedChanges = false;
                 }
-
-                if (fileopen.Item1 != null)
-                    gridViewModel.suite.filename = fileopen.Item1;
-
-                // Reset views
-                detailsViewModel.test = new TestModel();
-                detailsViewModel.cycle = new CycleModel();
-
-                if (gridViewModel.suite.currentCycle != null)
-                {
-                    Guid cc = gridViewModel.suite.currentCycle.uid;
-                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
-                }
-
-                if (gridViewModel.suite.jiraProject != null)
-                {
-                    string key = gridViewModel.suite.jiraProject.key;
-                    detailsViewModel.jiraSelectedProject = detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
-                    detailsViewModel.LoadProjectData();
-                }
-
 
             }
         }
@@ -385,25 +384,25 @@ namespace TestRunnerAppWpf
         public void Execute_EditCycleCmd()
         {
 
-            MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
+            //    MessageBoxButton.OK, MessageBoxImage.Information);
 
-            //var d = new EditCycleDialog(this);
-            //if (d.ShowDialog() == true)
-            //{
-            //    if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
-            //    {
+            var d = new EditCycleDialog(this);
+            if (d.ShowDialog() == true)
+            {
+                if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
+                {
 
-            //        undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
 
-            //        // Don't readd if newItem actuallty is existing (edited) item
-            //        if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
-            //            gridViewModel.suite.cycles.Add(d.viewModel.newItem);
-            //        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
+                    // Don't readd if newItem actuallty is existing (edited) item
+                    if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
+                        gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
 
-            //        unsavedChanges = true;
-            //    }
-            //}
+                    unsavedChanges = true;
+                }
+            }
         }
         public bool CanExecute_EditCycleCmd()
         {

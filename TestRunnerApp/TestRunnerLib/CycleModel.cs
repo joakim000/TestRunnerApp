@@ -14,9 +14,6 @@ namespace TestRunnerLib
             test = t;
             run = r;
 
-            //testUid = t.uid;
-            //runUid = r.uid;
-            //testVersion = t.version;
         }
 
         public TestModel test
@@ -55,13 +52,7 @@ namespace TestRunnerLib
     [JsonObject(MemberSerialization.OptOut)]
     public class CycleModel : ViewModelBase
     {
-        public CycleModel()
-        {
-            uid = Guid.NewGuid();
-            tests = new ObservableCollection<TestModel>();
-            runs = new ObservableCollection<RunModel>();
-            cycleRuns = new ObservableCollection<CycleRun>();
-        }
+        
         public ObservableCollection<TestModel> tests
         {
             get => Get(() => tests);
@@ -112,6 +103,11 @@ namespace TestRunnerLib
             get => Get(() => mgmt, Mgmt.None);
             set => Set(() => mgmt, value);
         }
+        public string projectVersion
+        {
+            get => Get(() => projectVersion);
+            set => Set(() => projectVersion, value);
+        }
 
 
         /* Jira integration */
@@ -131,33 +127,43 @@ namespace TestRunnerLib
             get => Get(() => jiraCycle);
             set => Set(() => jiraCycle, value);
         }
-        
 
+        public CycleModel()
+        {
+            uid = Guid.NewGuid();
+            tests = new ObservableCollection<TestModel>();
+            runs = new ObservableCollection<RunModel>();
+            cycleRuns = new ObservableCollection<CycleRun>();
 
-        
-        //public string key
-        //{
-        //    get => Get(() => key);
-        //    set => Set(() => key, value);
-        //}
-      
-        //public string folder
-        //{
-        //    get => Get(() => folder);
-        //    set => Set(() => folder, value);
-        //}
-        //public string status
-        //{
-        //    get => Get(() => status);
-        //    set => Set(() => status, value);
-        //}
-        //public string version // Version of what? Test probably
-        //{
-        //    get => Get(() => version);
-        //    set => Set(() => version, value);
-        //}
-        /* end: Jira integration */
+            this.PropertyChanged += CycleModel_PropertyChanged;
+        }
 
+        private void CycleModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "jiraCycle")
+            {
+                jiraCycle.PropertyChanged += JiraCycle_PropertyChanged;
+                CopyFromJiraCycle();
+            }
+        }
+
+        private void JiraCycle_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            CopyFromJiraCycle();
+        }
+
+        private void CopyFromJiraCycle()
+        {
+            if (jiraCycle != null)
+            {
+                id = jiraCycle.key;
+                name = jiraCycle.name;
+                description = jiraCycle.description;
+                status = jiraCycle.status.name;
+                if (jiraCycle.jiraProjectVersion != null)
+                    projectVersion = jiraCycle.jiraProjectVersion.name;
+            }
+        }
 
 
 

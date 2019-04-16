@@ -55,25 +55,25 @@ namespace TestRunnerAppWpf
                 if (fileopen.Item2 != null)
                 {
                     model.gridViewModel.suite = fileopen.Item2;
-                    model.SelectedItems_PropertyChanged(null, null);
-                    FileMgmt.unsavedChanges = false;
+                    //model.SelectedItems_PropertyChanged(null, null);
+
+
+                    if (fileopen.Item1 != null)
+                        model.gridViewModel.suite.filename = fileopen.Item1;
+
+                    if (model.gridViewModel.suite.currentCycle != null)
+                    {
+                        Guid cc = model.gridViewModel.suite.currentCycle.uid;
+                        model.gridViewModel.suite.currentCycle = model.gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
+                    }
+
+                    if (model.gridViewModel.suite.jiraProject != null)
+                    {
+                        string key = model.gridViewModel.suite.jiraProject.key;
+                        model.detailsViewModel.jiraSelectedProject = model.detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
+                    }
                     model.unsavedChanges = false;
                 }
-                if (fileopen.Item1 != null)
-                    model.gridViewModel.suite.filename = fileopen.Item1;
-
-                if (model.gridViewModel.suite.currentCycle != null)
-                {
-                    Guid cc = model.gridViewModel.suite.currentCycle.uid;
-                    model.gridViewModel.suite.currentCycle = model.gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
-                }
-
-                if (model.gridViewModel.suite.jiraProject != null)
-                {
-                    string key = model.gridViewModel.suite.jiraProject.key;
-                    model.detailsViewModel.jiraSelectedProject = model.detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
-                }
-
 
             }
         }

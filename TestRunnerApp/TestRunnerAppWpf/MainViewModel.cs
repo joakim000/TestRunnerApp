@@ -27,17 +27,21 @@ namespace TestRunnerAppWpf
             topMost = false;
             enableRun = true;
 
-            this.unsavedChanges = false;
-
             Settings.GetSettings(this);
             CheckWebDriverAvailibility();
 
+            this.PropertyChanged += MainViewModel_PropertyChanged;
+
         }
 
+        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "unsavedChanges")
+                Debug.WriteLine("unsavedChanges changed to: " + unsavedChanges.ToString());
+        }
         /* Events */
         public void GridViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            unsavedChanges = true;
             if (e.PropertyName == "suite")
             {
                 unsavedChanges = true;
@@ -353,7 +357,7 @@ namespace TestRunnerAppWpf
                 runStatus = "Done";
                 runCurrent = runTotal;
             }
-            this.unsavedChanges = true;
+            //this.unsavedChanges = true;
             Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
         }
 

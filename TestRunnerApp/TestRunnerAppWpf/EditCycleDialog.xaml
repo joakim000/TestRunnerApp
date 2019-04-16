@@ -41,12 +41,13 @@
 
             <Label Content="ID" />
             <TextBox x:Name="idTB"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
                      Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
             <Label Content="Name" />
             <TextBox 
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     
                      Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
 
@@ -64,9 +65,26 @@
 
             <Label Content="Project version" />
             <TextBox 
-                     Text="{Binding Path=newItem.jiraCycle.jiraProjectVersion.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.ProjectVersion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
             />
+            <!--Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisiInverse}}"-->
+
+            <ComboBox x:Name="JiraProjVersionCombo"  Style="{StaticResource ComboStyle}"
+                          Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"
+                          Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
+                          ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                          SelectedItem="{Binding newItem.jiraCycle.jiraProjectVersion, 
+                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          ItemsSource="{Binding jiraProject.versions, 
+                                                 Mode=OneWay, NotifyOnSourceUpdated=True}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             
             <Label Content="Notes" />
             <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
@@ -136,6 +154,7 @@
                        IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />-->
             <ComboBox x:Name="JiraStatusCombo"  Style="{StaticResource ComboStyle}"
+                          Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
                           ItemContainerStyle="{StaticResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.status, 
