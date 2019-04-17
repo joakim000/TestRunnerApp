@@ -15,13 +15,26 @@ using ViewModelSupport;
 
 namespace TestRunnerLib.Jira
 {
-    public static partial class Jira
+    public partial class Jira
     {
         public enum FolderType { All, Case, Plan, Cycle }
 
+        private JiraConnectInfo jiraCloudInfo { get; set; }
+        private JiraConnectInfo tmjCloudInfo { get; set; }
+        public JiraLoad load { get; set; }
 
-        private static async Task<Tuple<HttpStatusCode, object>> JiraCall(JiraConnectInfo info, HttpMethod method, string api, Dictionary<string, string> data)
+        public Jira(JiraConnectInfo jiraCloud, JiraConnectInfo tmjCloud)
         {
+            jiraCloudInfo = jiraCloud;
+            tmjCloudInfo = tmjCloud;
+            load = new JiraLoad(this);
+        }
+
+
+        private async Task<Tuple<HttpStatusCode, object>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
+        {
+            JiraConnectInfo info = jiraCloudInfo;
+
             if (!info.ready)
             {
                 return null;
@@ -75,8 +88,10 @@ namespace TestRunnerLib.Jira
         }
 
 
-        private static async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(JiraConnectInfo info, HttpMethod method, string api, Dictionary<string, object> data)
+        private async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(JiraConnectInfo info_notused, HttpMethod method, string api, Dictionary<string, object> data)
         {
+            JiraConnectInfo info = tmjCloudInfo;
+
             if (!info.ready)
             {
                 return null;
@@ -135,7 +150,7 @@ namespace TestRunnerLib.Jira
         }
 
 
-        private static HttpClient GetClientByUserPw(HttpMethod method, Uri uri, string user, string pw)
+        private  HttpClient GetClientByUserPw(HttpMethod method, Uri uri, string user, string pw)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(method, uri);
@@ -146,7 +161,7 @@ namespace TestRunnerLib.Jira
             return client;
         }
 
-        private static HttpClient GetClient(HttpMethod method, Uri uri, string authType, string authToken)
+        private  HttpClient GetClient(HttpMethod method, Uri uri, string authType, string authToken)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(method, uri);
@@ -171,7 +186,7 @@ namespace TestRunnerLib.Jira
 
 /* PreFlight / Prep is in app for the time being, needs to access user settings */
 
-//private async static Task<bool> JiraPreflight(string JiraUser, bool accountIdSet, string JiraAccountId, string JiraToken, string JiraInstance)
+//private async  Task<bool> JiraPreflight(string JiraUser, bool accountIdSet, string JiraAccountId, string JiraToken, string JiraInstance)
 //{
 //    string message = string.Empty;
 

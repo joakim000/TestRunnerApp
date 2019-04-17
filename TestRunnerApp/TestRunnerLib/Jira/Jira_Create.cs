@@ -18,14 +18,14 @@ using ViewModelSupport;
 
 namespace TestRunnerLib.Jira
 {
-    public static partial class Jira
+    public  partial class Jira
     {
-        private static Dictionary<string, object> BuildData(Dictionary<string, object> data, object obj, string name)
+        private  Dictionary<string, object> BuildData(Dictionary<string, object> data, object obj, string name)
         {
             return null;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> CreateCase(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> CreateCase(JiraConnectInfo info,
                                                                             string projectKey,
                                                                             string name,
                                                                             string objective,
@@ -82,7 +82,7 @@ namespace TestRunnerLib.Jira
 
 
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(JiraConnectInfo info,
                                                                              string projectKey,
                                                                              string name, 
                                                                              string description,
@@ -129,7 +129,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> CreateExec(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> CreateExec(JiraConnectInfo info,
                                                                             string projectKey,
                                                                             string testCycleKey,
                                                                             string testCaseKey,

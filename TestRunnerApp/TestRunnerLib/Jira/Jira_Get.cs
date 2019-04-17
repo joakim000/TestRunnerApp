@@ -18,27 +18,27 @@ using ViewModelSupport;
 
 namespace TestRunnerLib.Jira
 {
-    public static partial class Jira
+    public  partial class Jira
     {
         /* Special purpose */
 
-        public static async Task<Tuple<HttpStatusCode, object>> GetServerInfo(JiraConnectInfo info)
+        public async Task<Tuple<HttpStatusCode, object>> GetServerInfo(JiraConnectInfo info)
         {
-            var t = JiraCall(info, HttpMethod.Get, "serverInfo", null);
+            var t = JiraCall(HttpMethod.Get, "serverInfo", null);
             await t;
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, object>> CurrentUser(JiraConnectInfo info)
+        public async Task<Tuple<HttpStatusCode, object>> CurrentUser()
         {
-            var t = JiraCall(info, HttpMethod.Get, "myself", null);
+            var t = JiraCall(HttpMethod.Get, "myself", null);
             await t;
             return t.Result;
         }
 
         /* Get single item */
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetCase(JiraConnectInfo info, string testCaseKey)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetCase(JiraConnectInfo info, string testCaseKey)
         {
             string path = "/" + testCaseKey;
 
@@ -47,7 +47,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetCycle(JiraConnectInfo info, string testCycleIdOrKey)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetCycle(JiraConnectInfo info, string testCycleIdOrKey)
         {
             string path = "/" + testCycleIdOrKey;
 
@@ -56,7 +56,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetProjTmj(JiraConnectInfo info, string projectIdOrKey)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetProjTmj(JiraConnectInfo info, string projectIdOrKey)
         {
             string path = "/" + projectIdOrKey;
 
@@ -65,20 +65,20 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, object>> GetProjJira(JiraConnectInfo info, string projectIdOrKey)
+        public async Task<Tuple<HttpStatusCode, object>> GetProjJira(string projectIdOrKey)
         {
             string path = "/" + projectIdOrKey;
 
-            var t = JiraCall(info, HttpMethod.Get, "project" + path, null);
+            var t = JiraCall(HttpMethod.Get, "project" + path, null);
             await t;
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, object>> GetVersion(JiraConnectInfo info, string versionId)
+        public async Task<Tuple<HttpStatusCode, object>> GetVersion(JiraConnectInfo info, string versionId)
         {
             string path = "/" + versionId;
 
-            var t = JiraCall(info, HttpMethod.Get, "version" + path, null);
+            var t = JiraCall(HttpMethod.Get, "version" + path, null);
             await t;
             return t.Result;
         }
@@ -86,7 +86,7 @@ namespace TestRunnerLib.Jira
 
         /* Get collections */
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetCases(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetCases(JiraConnectInfo info,
                                                                          string projectKey, string folderId, string maxResults)
         {
             string query = string.Empty;
@@ -112,16 +112,15 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, object>> GetComponents(JiraConnectInfo info,
-                                                                               string projectIdOrKey)
+        public async Task<Tuple<HttpStatusCode, object>> GetComponents(string projectIdOrKey)
         {
-            var t = JiraCall(info, HttpMethod.Get, "project/" + projectIdOrKey + "/components", null);
+            var t = JiraCall(HttpMethod.Get, "project/" + projectIdOrKey + "/components", null);
             await t;
             return t.Result;
         }
 
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetCycles(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetCycles(JiraConnectInfo info,
                                                                            string projectKey,
                                                                            string folderId,
                                                                            string maxResults)
@@ -149,7 +148,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetEnvirons(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetEnvirons(JiraConnectInfo info,
                                                                              string projectKey,
                                                                              string maxResults)
         {
@@ -170,7 +169,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetExecs(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetExecs(JiraConnectInfo info,
                                                                           string projectKey,
                                                                           string testCase, 
                                                                           string testCycle, 
@@ -209,9 +208,9 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(JiraConnectInfo info,
+        public async Task<Tuple<HttpStatusCode, JObject>> GetFolders(JiraConnectInfo info,
                                                                            string projectKey, string folderType, string maxResults)
-        //public static async Task<Tuple<HttpStatusCode, JObject>> GetFolders(JiraConnectInfo info, string projectKey, FolderType folderType, string maxResults )
+        //public  async Task<Tuple<HttpStatusCode, JObject>> GetFolders(JiraConnectInfo info, string projectKey, FolderType folderType, string maxResults )
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -236,7 +235,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetPrios(JiraConnectInfo info, string projectKey, string maxResults)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetPrios(JiraConnectInfo info, string projectKey, string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -255,7 +254,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetProjects(JiraConnectInfo info, string maxResults)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetProjects(JiraConnectInfo info, string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(maxResults))
@@ -271,7 +270,7 @@ namespace TestRunnerLib.Jira
 
         
 
-        public static async Task<Tuple<HttpStatusCode, JObject>> GetStatuses(JiraConnectInfo info,
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetStatuses(JiraConnectInfo info,
                                                                              string projectKey,
                                                                              string statusType,
                                                                              string maxResults)
@@ -298,8 +297,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public static async Task<Tuple<HttpStatusCode, object>> GetVersions(JiraConnectInfo info,
-                                                                                string projectIdOrKey)
+        public async Task<Tuple<HttpStatusCode, object>> GetVersions(string projectIdOrKey)
         {
             //GET issue/ JRACLOUD - 34423 ? expand = names,renderedFields
             //operations Returns actions that can be performed on the specified version.
@@ -307,7 +305,7 @@ namespace TestRunnerLib.Jira
             //string query = "?operations";
             string query = string.Empty;
 
-            var t = JiraCall(info, HttpMethod.Get, "project/" + projectIdOrKey + "/versions" + query, null);
+            var t = JiraCall(HttpMethod.Get, "project/" + projectIdOrKey + "/versions" + query, null);
             await t;
             return t.Result;
         }
