@@ -26,8 +26,6 @@ namespace TestRunnerAppWpf
 
         public async Task<bool> SetAccountId()
         {
-            //Tuple<HttpStatusCode, object> user = await jira.CurrentUser(await Preflight());
-
             Tuple<HttpStatusCode, object> user = await mainViewModel.jira.CurrentUser();
             if (user.Item1 == HttpStatusCode.OK)
             {

@@ -113,7 +113,7 @@ namespace TestRunnerLib.Jira
                                                                         string folderType,
                                                                         string maxResults)
         {
-            var response = await Jira.GetFolders(null, projectKey, folderType, maxResults);
+            var response = await Jira.GetFolders(projectKey, folderType, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -141,7 +141,7 @@ namespace TestRunnerLib.Jira
         public async Task<ObservableCollection<JiraPrio>> LoadPrios(string projectKey,
                                                                               string maxResults)
         {
-            var response = await Jira.GetPrios(null, projectKey, maxResults);
+            var response = await Jira.GetPrios(projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                  JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -168,7 +168,7 @@ namespace TestRunnerLib.Jira
         public async Task<ObservableCollection<JiraEnvironment>> LoadEnvirons(string projectKey,
                                                                               string maxResults)
         {
-            var response = await Jira.GetEnvirons(null, projectKey, maxResults);
+            var response = await Jira.GetEnvirons(projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -197,7 +197,7 @@ namespace TestRunnerLib.Jira
                                                                       string folderId,
                                                                       string maxResults)
         {
-            var response = await Jira.GetCycles(null, projectKey, folderId, maxResults);
+            var response = await Jira.GetCycles(projectKey, folderId, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> tokens = response.Item2.GetValue("values").Children();
@@ -247,7 +247,7 @@ namespace TestRunnerLib.Jira
                                                                     string folderId,                              
                                                                     string maxResults)
         { 
-            var response = await Jira.GetCases(null, projectKey, folderId, maxResults);
+            var response = await Jira.GetCases(projectKey, folderId, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> caseTokens = response.Item2.GetValue("values").Children();
@@ -307,7 +307,7 @@ namespace TestRunnerLib.Jira
                                                                                string statusType,
                                                                                string maxResults)
         {
-            var response = await Jira.GetStatuses(null, projectKey, statusType, maxResults);
+            var response = await Jira.GetStatuses(projectKey, statusType, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();

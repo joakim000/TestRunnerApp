@@ -88,7 +88,7 @@ namespace TestRunnerLib.Jira
         }
 
 
-        private async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(JiraConnectInfo info_notused, HttpMethod method, string api, Dictionary<string, object> data)
+        private async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method, string api, Dictionary<string, object> data)
         {
             JiraConnectInfo info = tmjCloudInfo;
 

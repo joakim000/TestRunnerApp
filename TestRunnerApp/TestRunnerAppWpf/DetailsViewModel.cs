@@ -67,7 +67,7 @@ namespace TestRunnerAppWpf
         public async void Execute_JiraGetAvailableProjectsCmd()
         {
             mainViewModel.enableProjectLoad = false;
-            Tuple<HttpStatusCode, JObject> projects = await mainViewModel.jira.GetProjects(null, "100");
+            Tuple<HttpStatusCode, JObject> projects = await mainViewModel.jira.GetProjects("100");
             if (projects.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> projTokens = projects.Item2.GetValue("values").Children();

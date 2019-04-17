@@ -752,7 +752,7 @@ namespace TestRunnerAppWpf
 
 
                     RunModel r = cr.run;
-                    Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(null,
+                    Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(
                                                                                     c.jiraProjectKey,
                                                                                     c.jiraCycle.key,
                                                                                     r.test.id,

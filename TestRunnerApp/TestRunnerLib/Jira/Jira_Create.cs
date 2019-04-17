@@ -25,8 +25,7 @@ namespace TestRunnerLib.Jira
             return null;
         }
 
-        public  async Task<Tuple<HttpStatusCode, JObject>> CreateCase(JiraConnectInfo info,
-                                                                            string projectKey,
+        public  async Task<Tuple<HttpStatusCode, JObject>> CreateCase(string projectKey,
                                                                             string name,
                                                                             string objective,
                                                                             string precondition,
@@ -75,15 +74,14 @@ namespace TestRunnerLib.Jira
                 data.Add("labels", labels);
 
 
-            var t = TmjCall(info, HttpMethod.Post, "testcases", data);
+            var t = TmjCall(HttpMethod.Post, "testcases", data);
             await t;
             return t.Result;
         }
 
 
 
-        public  async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(JiraConnectInfo info,
-                                                                             string projectKey,
+        public  async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(string projectKey,
                                                                              string name, 
                                                                              string description,
                                                                              string plannedStartDate,
@@ -124,13 +122,12 @@ namespace TestRunnerLib.Jira
                 data.Add("ownerId", ownerId);
 
 
-            var t = TmjCall(info, HttpMethod.Post, "testcycles", data);
+            var t = TmjCall(HttpMethod.Post, "testcycles", data);
             await t;
             return t.Result;
         }
 
-        public  async Task<Tuple<HttpStatusCode, JObject>> CreateExec(JiraConnectInfo info,
-                                                                            string projectKey,
+        public  async Task<Tuple<HttpStatusCode, JObject>> CreateExec(string projectKey,
                                                                             string testCycleKey,
                                                                             string testCaseKey,
                                                                             Outcome? outcome,              //string statusName, 
@@ -178,7 +175,7 @@ namespace TestRunnerLib.Jira
 
 
 
-            var t = TmjCall(info, HttpMethod.Post, "testexecutions", data);
+            var t = TmjCall(HttpMethod.Post, "testexecutions", data);
             await t;
             return t.Result;
         }
