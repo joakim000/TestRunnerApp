@@ -653,7 +653,7 @@
                         <StackPanel >
                             <Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
                             <!--<Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">-->
-                            <Grid Margin="15,0,5,15" DataContext="{Binding suite}">
+                            <Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -710,7 +710,7 @@
                                          Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
                                 <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />
 
-                                <Grid Margin="15,0,5,15" DataContext="{Binding suite}" >
+                                <Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}" >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />

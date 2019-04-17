@@ -29,7 +29,7 @@ namespace TestRunnerAppWpf
         }
         public static string PreviousDir(string filename)
         {
-            return filename.Substring(0,  filename.LastIndexOf(@"\"));
+            return filename.Substring(0, filename.LastIndexOf(@"\"));
         }
 
         public static SuiteModel LoadTestingSuite()
@@ -76,7 +76,7 @@ namespace TestRunnerAppWpf
             {
                 Debug.WriteLine($"Error opening file: {e}");
                 MessageBox.Show($"Error opening file: {e.Message}");
-                return new Tuple<string, SuiteModel>(null, null);
+                return new Tuple<string, SuiteModel>(fileToOpen, null);
             }
             if (serialized.Length > 0)
             {
@@ -90,22 +90,22 @@ namespace TestRunnerAppWpf
                 {
                     Debug.WriteLine($"Error reading file: {e}");
                     MessageBox.Show($"Error reading file: {e.Message}");
-                    return new Tuple<string, SuiteModel>(null, null);
+                    return new Tuple<string, SuiteModel>(fileToOpen, null);
                 }
             }
             else
             {
                 Debug.WriteLine($"Error reading file: File empty.");
                 MessageBox.Show($"Error reading file: File empty.");
-                return new Tuple<string, SuiteModel>(null, null);
+                return new Tuple<string, SuiteModel>(fileToOpen, null);
             }
-            //return new Tuple<string, SuiteModel>(fileToOpen, openSuite);
         }
 
-        public static Tuple<string, SuiteModel> OpenSuiteFrom()
+        //public static Tuple<string, SuiteModel> OpenSuiteFrom()
+        public static string OpenSuiteFrom()
         {
-            string serialized = string.Empty;
-            SuiteModel openSuite = null;
+            //string serialized = string.Empty;
+            //SuiteModel openSuite = null;
             var picker = new OpenFileDialog
             {
                 Filter = "Test suites (*.testapp)|*.testapp|All files (*.*)|*.*",
@@ -123,45 +123,47 @@ namespace TestRunnerAppWpf
             }
             if (picker.ShowDialog() == true)
             {
-                try
-                {
-                    serialized = File.ReadAllText(picker.FileName);
+                return picker.FileName;
+                //try
+                //{
+                //    serialized = File.ReadAllText(picker.FileName);
 
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"Error opening file: {e}");
-                    MessageBox.Show($"Error opening file: {e.Message}");
-                    return new Tuple<string, SuiteModel>(null, null);
-                }
-                Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
-                Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
-                if (serialized.Length > 0)
-                {
-                    try
-                    {
-                        openSuite = JsonConvert.DeserializeObject<SuiteModel>(serialized);
-                    }
-                    catch (JsonSerializationException e)
-                    {
-                        Debug.WriteLine($"Error reading file: {e}");
-                        MessageBox.Show($"Error reading file: {e.Message}");
-                        return new Tuple<string, SuiteModel>(null, null);
-                    }
-                }
-                else
-                {
-                    Debug.WriteLine($"Error reading file: File empty.");
-                    MessageBox.Show($"Error reading file: File empty.");
-                    return new Tuple<string, SuiteModel>(null, null);
-                }
+                //}
+                //catch (Exception e)
+                //{
+                //    Debug.WriteLine($"Error opening file: {e}");
+                //    MessageBox.Show($"Error opening file: {e.Message}");
+                //    return new Tuple<string, SuiteModel>(null, null);
+                //}
+                //Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
+                //Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
+                //if (serialized.Length > 0)
+                //{
+                //    try
+                //    {
+                //        openSuite = JsonConvert.DeserializeObject<SuiteModel>(serialized);
+                //    }
+                //    catch (JsonSerializationException e)
+                //    {
+                //        Debug.WriteLine($"Error reading file: {e}");
+                //        MessageBox.Show($"Error reading file: {e.Message}");
+                //        return new Tuple<string, SuiteModel>(null, null);
+                //    }
+                //}
+                //else
+                //{
+                //    Debug.WriteLine($"Error reading file: File empty.");
+                //    MessageBox.Show($"Error reading file: File empty.");
+                //    return new Tuple<string, SuiteModel>(null, null);
+                //}
             }
             else
             {
                 Debug.WriteLine("Open file cancelled");
+                return null;
             }
-            filename = picker.FileName;
-            return new Tuple<string, SuiteModel>(picker.FileName, openSuite);
+            //filename = picker.FileName;
+            //return new Tuple<string, SuiteModel>(picker.FileName, openSuite);
         }
 
         public static Tuple<bool, string> SaveSuite(SuiteModel suite)
@@ -232,7 +234,7 @@ namespace TestRunnerAppWpf
         }
         public static SuiteModel DeserialSuite(string serialized)
         {
-            SuiteModel openSuite = new SuiteModel(); 
+            SuiteModel openSuite = new SuiteModel();
             try
             {
                 openSuite = JsonConvert.DeserializeObject<SuiteModel>(serialized);
@@ -247,7 +249,7 @@ namespace TestRunnerAppWpf
         }
 
 
-public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
+        public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
         {
             string serialized = null;
             try
@@ -308,7 +310,7 @@ public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
                 Debug.WriteLine("Serialization failed");
                 return new Tuple<bool, string>(false, null);
             }
-    
+
         }
 
         public static string CopyTestLibraryFrom()
@@ -358,7 +360,106 @@ public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
         }
 
 
+        public static void OpenFileSetup(string fileToOpen,
+                                         MainViewModel mvm)
+        {
+            DetailsViewModel dvm = mvm.detailsViewModel;
+            SuiteModel suite;
+
+            Tuple<string, SuiteModel> openResult = FileMgmt.OpenSuite(fileToOpen);
+
+            if (openResult.Item2 != null)
+            {
+                // Load the suite
+                suite = openResult.Item2;
+                
+                if (openResult.Item1 != null)
+                    suite.filename = openResult.Item1;
+
+                // Reset views
+                dvm.test = new TestModel();
+                dvm.cycle = new CycleModel();
+
+                dvm.PropertyChanged -= dvm.DetailsViewModel_PropertyChanged;
+                dvm.jiraSelectedProject = null;
+                dvm.PropertyChanged += dvm.DetailsViewModel_PropertyChanged;
+
+                // More?
+
+                if (suite.currentCycle != null)
+                {
+                    Guid cc = suite.currentCycle.uid;
+                    suite.currentCycle = suite.cycles.Where(x => x.uid == cc).First();
+                }
+
+                // Test managment handling (depending on usersetting) - Jira Cloud with TM4J
+                if (mvm.jiraCloudMgmt)
+                {
+                    if (suite.jiraProject != null && suite.jiraProject.key != null)
+                    {
+                        string key = suite.jiraProject.key;
+                        if (dvm.jiraAvailableProjects.Where(x => x.key == key).Count() > 0)
+                        {
+                            dvm.jiraSelectedProject = dvm.jiraAvailableProjects.Where(x => x.key == key).First();
+                        }
+                        else
+                        {
+                            if (dvm.CanExecute_JiraGetAvailableProjectsCmd() )
+                            {
+                                dvm.Execute_JiraGetAvailableProjectsCmd();
+                            }
+                        }
+                        MessageBox.Show("Project selected in Suite not available from Jira.", "TestRunnerApp with Jira",
+                                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+                    }
+                }
+                // Test managment handling (depending on usersetting) - ReqTest
+                if (mvm.reqTestMgmt)
+                {
+                    // TODO: Reqtest-support
+                }
 
 
-    }
-}
+                // Load file into mainViewModel and reset unsaved changes
+                mvm.gridViewModel.suite = suite;
+                mvm.unsavedChanges = false;
+
+                // Copy matching libfile in same dir as opened suitefile
+                if (fileToOpen != null)
+                {
+                    string file = FileMgmt.ShortFilename(fileToOpen);
+                    string libFile = FileMgmt.PreviousDir(fileToOpen) + @"\" + file.Substring(0, file.LastIndexOf(".")) + ".dll";
+                    if (File.Exists(libFile))
+                    {
+                        Debug.WriteLine("Found matching libfile opening file: " + libFile);
+                        try
+                        {
+                            string testsDir = AppDomain.CurrentDomain.BaseDirectory + "Tests";
+
+                            if (!Directory.Exists(testsDir))
+                                Directory.CreateDirectory(testsDir);
+
+                            File.Copy(libFile,
+                                testsDir + @"\" + FileMgmt.ShortFilename(libFile),
+                                true);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Error copying file: {ex}");
+                            MessageBox.Show($"Error copying file: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            else // returned suite was null
+            {
+                if (openResult.Item1 != null)
+                    Debug.WriteLine("Failure opening suite from: unknown file");
+                else
+                    Debug.WriteLine($"Failure opening suite from: {openResult.Item1}");
+            }
+
+        }
+    } // class FileMgmt
+} // Namespace

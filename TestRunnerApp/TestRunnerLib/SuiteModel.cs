@@ -77,6 +77,17 @@ namespace TestRunnerLib
             get => Get(() => jiraProject);
             set => Set(() => jiraProject, value);
         }
+        public JiraProject jiraSelectedCyclesFolder
+        {
+            get => Get(() => jiraSelectedCyclesFolder);
+            set => Set(() => jiraSelectedCyclesFolder, value);
+        }
+        public JiraProject jiraSelectedTestsFolder
+        {
+            get => Get(() => jiraSelectedTestsFolder);
+            set => Set(() => jiraSelectedTestsFolder, value);
+        }
+
 
         // deprecated
         public JiraCycle jiraCycle

@@ -85,8 +85,16 @@ namespace TestRunnerAppWpf
                     }
                 }
                 jiraAvailableProjects = jiraProjects;
-                jiraSelectedProject = jiraProjects.First();
                 Properties.Settings.Default.JiraAvailableProjects = FileMgmt.Serialize(jiraAvailableProjects);
+
+                // Select a project
+                suite = mainViewModel.gridViewModel.suite;
+                if (suite.jiraProject != null && suite.jiraProject.key != null)
+                    if (jiraAvailableProjects.Where(x => x.key == suite.jiraProject.key).Count() > 0)
+                    {
+                        jiraSelectedProject = jiraAvailableProjects.Where(x => x.key == suite.jiraProject.key).First();
+                    }
+                //jiraSelectedProject = jiraProjects.First();
             }
             mainViewModel.enableProjectLoad = true;
         }
@@ -149,17 +157,6 @@ namespace TestRunnerAppWpf
             suite = new SuiteModel();
 
             jiraAvailableProjects = Settings.jiraAvailableProjects;
-
-
-
-            //if (mainViewModel.gridViewModel.suite.jiraProject != null)
-            //{
-            //    string key = mainViewModel.gridViewModel.suite.jiraProject.key;
-            //    jiraSelectedProject = jiraAvailableProjects.Where(x => x.key == key).First();
-            //}
-
-
-
 
             this.PropertyChanged += DetailsViewModel_PropertyChanged;
 

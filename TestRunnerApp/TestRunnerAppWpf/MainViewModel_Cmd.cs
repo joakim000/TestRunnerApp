@@ -193,34 +193,8 @@ namespace TestRunnerAppWpf
         {
             if (unsavedChangesHelper())
             {
-
-                Tuple<string, SuiteModel> fileopen = FileMgmt.OpenSuiteFrom();
-                if (fileopen.Item2 != null)
-                {
-                    gridViewModel.suite = fileopen.Item2;
-                    SelectedItems_PropertyChanged(null, null);
-
-                    if (fileopen.Item1 != null)
-                        gridViewModel.suite.filename = fileopen.Item1;
-
-                    // Reset views
-                    detailsViewModel.test = new TestModel();
-                    detailsViewModel.cycle = new CycleModel();
-
-                    if (gridViewModel.suite.currentCycle != null)
-                    {
-                        Guid cc = gridViewModel.suite.currentCycle.uid;
-                        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
-                    }
-
-                    if (gridViewModel.suite.jiraProject != null)
-                    {
-                        string key = gridViewModel.suite.jiraProject.key;
-                        detailsViewModel.jiraSelectedProject = detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
-                        detailsViewModel.LoadProjectData();
-                    }
-                    this.unsavedChanges = false;
-                }
+                string fileToOpen = FileMgmt.OpenSuiteFrom();
+                FileMgmt.OpenFileSetup(fileToOpen, this);
 
             }
         }
@@ -638,7 +612,7 @@ namespace TestRunnerAppWpf
         //    await t;
         //}
 
-        public async void Execute_Report1Cmd()
+        public  void Execute_Report1Cmd()
         {
             // Serverinfo
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetServerInfo();
@@ -670,7 +644,7 @@ namespace TestRunnerAppWpf
         }
 
 
-        public async void Execute_Report2Cmd()
+        public  void Execute_Report2Cmd()
         {
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateCycle("TEM", "First cycle", "My very first cycle", null, false);
 
