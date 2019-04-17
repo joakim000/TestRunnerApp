@@ -76,6 +76,7 @@ namespace TestRunnerLib
             {
                 td[tdi.index] = tdi.data;
             }
+            td[0] = string.Empty;
             
             //for (int i = 0; i < td.Length; i++) 
             //{
