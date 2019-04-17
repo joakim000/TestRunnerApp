@@ -28,10 +28,11 @@ namespace TestRunnerAppWpf
 
         public static async Task<bool> SetAccountId()
         {
-            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await Preflight());
+            Tuple<HttpStatusCode, object> user = await Jira.CurrentUser(await Preflight());
             if (user.Item1 == HttpStatusCode.OK)
             {
-                if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
+                JObject j = user.Item2 as JObject;
+                if (j.TryGetValue("accountId", out JToken accountIdToken))
                 {
                     Properties.Settings.Default.JiraAccountId = accountIdToken.ToString();
                     Settings.accountIdSet = true;

@@ -27,17 +27,21 @@ namespace TestRunnerAppWpf
             topMost = false;
             enableRun = true;
 
-            this.unsavedChanges = false;
-
             Settings.GetSettings(this);
             CheckWebDriverAvailibility();
 
+            this.PropertyChanged += MainViewModel_PropertyChanged;
+
         }
 
+        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "unsavedChanges")
+                Debug.WriteLine("unsavedChanges changed to: " + unsavedChanges.ToString());
+        }
         /* Events */
         public void GridViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            unsavedChanges = true;
             if (e.PropertyName == "suite")
             {
                 unsavedChanges = true;
@@ -249,7 +253,7 @@ namespace TestRunnerAppWpf
             enableProjectLoad = false;
             progressBarValue = 0;
             runStatus = "Loading";
-            runTotal = "9"; //Steps in load
+            runTotal = "11"; //Steps in load
             runSlash = "/";
             runCurrent = "1";
 
@@ -272,7 +276,7 @@ namespace TestRunnerAppWpf
             string maxResults = "100";
             JiraLoad load = new JiraLoad();
             int done = 0;
-            int total = 9;
+            int total = 11;
 
             //syncContext.Send(x => test.previousOutcome = r.result, null);
 
@@ -282,6 +286,16 @@ namespace TestRunnerAppWpf
             p.folders = load.LoadFolders(p.key, null, maxResults).Result;
             p.separateFolders();
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+
+            p.versions = load.LoadVersions(p.key).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.components = load.LoadComponents(p.key).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            
+
 
             p.prios = load.LoadPrios(p.key, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
@@ -343,7 +357,7 @@ namespace TestRunnerAppWpf
                 runStatus = "Done";
                 runCurrent = runTotal;
             }
-            this.unsavedChanges = true;
+            //this.unsavedChanges = true;
             Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
         }
 

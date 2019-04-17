@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using TestRunnerLib.Jira;
 using ViewModelSupport;
 using Lib;
 using System.Linq;
+using System.ComponentModel;
 
 namespace TestRunnerLib
 {
@@ -125,9 +125,14 @@ namespace TestRunnerLib
             get => Get(() => version, "1.0");
             set => Set(() => version, value);
         }
+        public int? estimatedTime
+        {
+            get => Get(() => estimatedTime);
+            set => Set(() => estimatedTime, value);
+        }
         /* end: Description fields */
 
-        
+
 
         /* Test call */
         public string callAss
@@ -145,7 +150,6 @@ namespace TestRunnerLib
             get => Get(() => callType);
             set => Set(() => callType, value);
         }
-       
         public ObservableCollection<TestDataItem> testDataColl
         {
             get => Get(() => testDataColl);
@@ -173,64 +177,78 @@ namespace TestRunnerLib
 
 
         /* Deprecated */
-        public string callMeth
-        {
-            get => Get(() => callMeth);
-            set => Set(() => callMeth, value);
-        }
-        public string webDriver
-        {
-            get => Get(() => webDriver);
-            set => Set(() => webDriver, value);
-        }
-        public bool useWebDriver
-        {
-            get => Get(() => useWebDriver);
-            set => Set(() => useWebDriver, value);
-        }
-            /* For compatibility with v1 .testapp-files */
-        //public string callParam
+        //public string callMeth
         //{
-        //    get => Get(() => callParam);
-        //    set => Set(() => callParam, value);
+        //    get => Get(() => callMeth);
+        //    set => Set(() => callMeth, value);
         //}
-        //public string callParam2
+        //public string webDriver
         //{
-        //    get => Get(() => callParam2);
-        //    set => Set(() => callParam2, value);
+        //    get => Get(() => webDriver);
+        //    set => Set(() => webDriver, value);
         //}
-        //public string callParam3
+        //public bool useWebDriver
         //{
-        //    get => Get(() => callParam3);
-        //    set => Set(() => callParam3, value);
+        //    get => Get(() => useWebDriver);
+        //    set => Set(() => useWebDriver, value);
         //}
-        //public string callParam4
-        //{
-        //    get => Get(() => callParam4);
-        //    set => Set(() => callParam4, value);
-        //}
-        //public string[] testData
-        //{
-        //    get => Get(() => testData, new string[64]);
-        //    set => Set(() => testData, value);
-        //}
-        /* end: For compatibility with v1 .testapp-files */
-        /* end: Deprecated */
-
-
+        
 
 
         public TestModel()
         {
-            //uid = Guid.NewGuid();
-            //testData = new string[64];
             runs = new ObservableCollection<RunModel>();
             cycles = new ObservableCollection<CycleModel>();
             testDataColl = new ObservableCollection<TestDataItem>();
             previousOutcome = Outcome.NotRun;
-            useWebDriver = true;
+            this.PropertyChanged += TestModel_PropertyChanged;
+        }
+
+        private void TestModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "jiraCase")
+            {
+                if (jiraCase != null)
+                {
+                    jiraCase.PropertyChanged += JiraCase_PropertyChanged;
+                    CopyFromJiraCase();
+                }
+            }
+        }
+
+        private void JiraCase_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            CopyFromJiraCase();
+        }
+
+
+        private void CopyFromJiraCase()
+        {
+            id = jiraCase.key;
+            name = jiraCase.name;
+            objective = jiraCase.objective;
+            descPrecond = jiraCase.precondition;
+
+            if (jiraCase.priority != null)
+                prio = jiraCase.priority.name;
+
+            estimatedTime = jiraCase.estimatedTime;
+
+            //if (jiraCase.status != null)
+            //    status = jiraCase.status.name;
+
+            //if (jiraCase.folder != null)
+            //    prio = jiraCase.folder.name;
+
+            //if (jiraCase.owner != null)
+            //    owner = jiraCase.owner.displayName
+
+            //createdOn = jiraCase.createdOn;       
+
 
         }
+
+
 
         public void Execute_AddTestDataCmd()
         {

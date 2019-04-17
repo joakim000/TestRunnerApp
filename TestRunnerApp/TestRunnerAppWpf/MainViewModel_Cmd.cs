@@ -127,7 +127,7 @@ namespace TestRunnerAppWpf
 
         public void Execute_AboutCmd()
         {
-            string versionString = "2.0 rc2";
+            string versionString = Properties.Settings.Default.versionString;
             string aboutString = $"TestApp v{versionString}{Environment.NewLine}{Environment.NewLine}Joakim Odermalm{Environment.NewLine}Unicus Sverige{Environment.NewLine}2019";
             MessageBox.Show(aboutString);
         }
@@ -193,35 +193,8 @@ namespace TestRunnerAppWpf
         {
             if (unsavedChangesHelper())
             {
-
-                Tuple<string, SuiteModel> fileopen = FileMgmt.OpenSuiteFrom();
-                if (fileopen.Item2 != null)
-                {
-                    gridViewModel.suite = fileopen.Item2;
-                    SelectedItems_PropertyChanged(null, null);
-                    this.unsavedChanges = false;
-                }
-
-                if (fileopen.Item1 != null)
-                    gridViewModel.suite.filename = fileopen.Item1;
-
-                // Reset views
-                detailsViewModel.test = new TestModel();
-                detailsViewModel.cycle = new CycleModel();
-
-                if (gridViewModel.suite.currentCycle != null)
-                {
-                    Guid cc = gridViewModel.suite.currentCycle.uid;
-                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
-                }
-
-                if (gridViewModel.suite.jiraProject != null)
-                {
-                    string key = gridViewModel.suite.jiraProject.key;
-                    detailsViewModel.jiraSelectedProject = detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
-                    detailsViewModel.LoadProjectData();
-                }
-
+                string fileToOpen = FileMgmt.OpenSuiteFrom();
+                FileMgmt.OpenFileSetup(fileToOpen, this);
 
             }
         }
@@ -385,25 +358,25 @@ namespace TestRunnerAppWpf
         public void Execute_EditCycleCmd()
         {
 
-            MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
+            //    MessageBoxButton.OK, MessageBoxImage.Information);
 
-            //var d = new EditCycleDialog(this);
-            //if (d.ShowDialog() == true)
-            //{
-            //    if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
-            //    {
+            var d = new EditCycleDialog(this);
+            if (d.ShowDialog() == true)
+            {
+                if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
+                {
 
-            //        undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
 
-            //        // Don't readd if newItem actuallty is existing (edited) item
-            //        if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
-            //            gridViewModel.suite.cycles.Add(d.viewModel.newItem);
-            //        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
+                    // Don't readd if newItem actuallty is existing (edited) item
+                    if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
+                        gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
 
-            //        unsavedChanges = true;
-            //    }
-            //}
+                    unsavedChanges = true;
+                }
+            }
         }
         public bool CanExecute_EditCycleCmd()
         {
@@ -639,30 +612,30 @@ namespace TestRunnerAppWpf
         //    await t;
         //}
 
-        public async void Execute_Report1Cmd()
+        public  void Execute_Report1Cmd()
         {
             // Serverinfo
             //Tuple<HttpStatusCode, JObject> r = await Jira.GetServerInfo();
 
             // Current user
-            Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser(await JiraConnect.Preflight());
+            //Tuple<HttpStatusCode, JObject> r = await Jira.CurrentUser(await JiraConnect.Preflight());
 
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses(null, "TEST_EXECUTION", "100");
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
-            //Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetFolders("JOAK", "TEST_CASE", null);
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetPrios("JOAK", null);      
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetStatuses(null, "TEST_EXECUTION", "100");
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetEnvirons(null, null);
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetProj("5301");
+            ////Tuple<HttpStatusCode, JObject> r = await Jira.GetCycles("UT", null, null);
 
 
 
-            Debug.WriteLine(r.Item2);
+            //Debug.WriteLine(r.Item2);
 
-            if (r.Item2.TryGetValue("accountId", out JToken accountId)) {
-                Debug.WriteLine(accountId.ToString());
-            }
-            else
-                Debug.WriteLine("accountId not found");
+            //if (r.Item2.TryGetValue("accountId", out JToken accountId)) {
+            //    Debug.WriteLine(accountId.ToString());
+            //}
+            //else
+            //    Debug.WriteLine("accountId not found");
 
         }
         public bool CanExecute_Report1Cmd()
@@ -671,32 +644,32 @@ namespace TestRunnerAppWpf
         }
 
 
-        public async void Execute_Report2Cmd()
+        public  void Execute_Report2Cmd()
         {
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateCycle("TEM", "First cycle", "My very first cycle", null, false);
 
-            Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await JiraConnect.Preflight());
-            string accountId = null;
-            if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
-                accountId = accountIdToken.ToString();
+            //Tuple<HttpStatusCode, JObject> user = await Jira.CurrentUser(await JiraConnect.Preflight());
+            //string accountId = null;
+            //if (user.Item2.TryGetValue("accountId", out JToken accountIdToken))
+            //    accountId = accountIdToken.ToString();
 
 
-            CycleModel c = gridViewModel.suite.cycles.Last();
-            foreach (CycleRun cr in c.cycleRuns)
-            {
-                RunModel r = cr.run;
-                Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec(await JiraConnect.Preflight(),
-                                                                                "TEM",
-                                                                                "TEM-R2",
-                                                                                r.test.id,
-                                                                                r.result,
-                                                                                r.webDriverType,
-                                                                                r.datetimeEnd, 
-                                                                                r.runTime,
-                                                                                Properties.Settings.Default.JiraAccountId, 
-                                                                                r.resultObj.message);
-                Debug.WriteLine(response.Item2);
-            }
+            //CycleModel c = gridViewModel.suite.cycles.Last();
+            //foreach (CycleRun cr in c.cycleRuns)
+            //{
+            //    RunModel r = cr.run;
+            //    Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec(await JiraConnect.Preflight(),
+            //                                                                    "TEM",
+            //                                                                    "TEM-R2",
+            //                                                                    r.test.id,
+            //                                                                    r.result,
+            //                                                                    r.webDriverType,
+            //                                                                    r.datetimeEnd, 
+            //                                                                    r.runTime,
+            //                                                                    Properties.Settings.Default.JiraAccountId, 
+            //                                                                    r.resultObj.message);
+            //    Debug.WriteLine(response.Item2);
+            //}
 
             //Tuple<HttpStatusCode, JObject> r = await Jira.CreateExec("TEM", "First cycle", "My very first cycle", null, false);
             //Debug.WriteLine(r.Item2);

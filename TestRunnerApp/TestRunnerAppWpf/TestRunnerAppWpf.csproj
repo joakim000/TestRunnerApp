@@ -34,7 +34,7 @@
     <SuiteName>TestApp by Unicus</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -161,13 +161,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ArrayDictConverter.cs" />
+    <Compile Include="Converters\BoolToVisiInverse.cs" />
     <Compile Include="Converters\BoolInverseConverter.cs" />
     <Compile Include="Converters\BoolFontConverter.cs" />
     <Compile Include="Converters\TestkindImgConverter.cs" />
     <Compile Include="EditCycleDialog.xaml.cs">
       <DependentUpon>EditCycleDialog.xaml</DependentUpon>
     </Compile>
-    <None Include="JiraLoad_old Async.cs,txt" />
     <Compile Include="JiraLoad.cs" />
     <Compile Include="NewTestDialogViewModel.cs" />
     <Compile Include="NewCycleDialogViewModel.cs" />

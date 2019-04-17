@@ -110,11 +110,10 @@ namespace TestRunnerAppWpf
                 int existCount = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).Count();
                 if (existCount > 0)
                     newItem = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).First();
-
                 Debug.WriteLine("Found number of existing cases with jiraCaseID: " + existCount);
 
                 managed = true;
-                JiraData2Item();
+                newItem.jiraCase = jiraSelectedCase;
 
                 labelsPanel.Children.Clear();
                 foreach (string s in newItem.jiraCase.labels)
@@ -134,28 +133,6 @@ namespace TestRunnerAppWpf
 
         }
 
-        private void JiraData2Item()
-        {
-            newItem.jiraCase = jiraSelectedCase;
-            newItem.id = newItem.jiraCase.key;
-            newItem.name = newItem.jiraCase.name;
-            newItem.objective = newItem.jiraCase.objective;
-            newItem.descPrecond = newItem.jiraCase.precondition;
-            if (newItem.jiraCase.priority != null)
-                newItem.prio = newItem.jiraCase.priority.name;
-
-            //if (newItem.jiraCase.status != null)
-            //    newItem.status = newItem.jiraCase.status.name;
-
-            //if (newItem.jiraCase.folder != null)
-            //    newItem.prio = newItem.jiraCase.folder.name;
-
-            //if (newItem.jiraCase.owner != null)
-            //    newItem.prio = newItem.jiraCase.folder.name;
-
-            //newItem.createdOn = newItem.jiraCase.createdOn;           
-            //newItem.estimatedTime = newItem.jiraCase.estimatedTime;
-        }
 
     }
 }

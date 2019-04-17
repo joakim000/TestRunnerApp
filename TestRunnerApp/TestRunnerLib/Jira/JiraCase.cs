@@ -62,6 +62,13 @@ namespace TestRunnerLib.Jira
             set => Set(() => labels, value);
         }
 
+        // Test version, is this not in TMJ API?
+        public string version
+        {
+            get => Get(() => version);
+            set => Set(() => version, value);
+        }
+
 
         public IdSelf component
         {
@@ -83,7 +90,7 @@ namespace TestRunnerLib.Jira
             get => Get(() => folder);
             set => Set(() => folder, value);
         }
-        public Owner owner
+        public JiraUser owner
         {
             get => Get(() => owner);
             set => Set(() => owner, value);

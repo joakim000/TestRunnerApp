@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Diagnostics;
 using TestRunnerLib;
 
@@ -48,32 +39,10 @@ namespace TestRunnerAppWpf
                 !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousDir) &&
                 !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
             {
-                Tuple<string, SuiteModel> fileopen =
-                    FileMgmt.OpenSuite(Properties.Settings.Default.PreviousDir + @"\" +
-                    Properties.Settings.Default.PreviousFile);
+                string fileToOpen = Properties.Settings.Default.PreviousDir + @"\" +
+                    Properties.Settings.Default.PreviousFile;
 
-                if (fileopen.Item2 != null)
-                {
-                    model.gridViewModel.suite = fileopen.Item2;
-                    model.SelectedItems_PropertyChanged(null, null);
-                    FileMgmt.unsavedChanges = false;
-                    model.unsavedChanges = false;
-                }
-                if (fileopen.Item1 != null)
-                    model.gridViewModel.suite.filename = fileopen.Item1;
-
-                if (model.gridViewModel.suite.currentCycle != null)
-                {
-                    Guid cc = model.gridViewModel.suite.currentCycle.uid;
-                    model.gridViewModel.suite.currentCycle = model.gridViewModel.suite.cycles.Where(x => x.uid == cc).First();
-                }
-
-                if (model.gridViewModel.suite.jiraProject != null)
-                {
-                    string key = model.gridViewModel.suite.jiraProject.key;
-                    model.detailsViewModel.jiraSelectedProject = model.detailsViewModel.jiraAvailableProjects.Where(x => x.key == key).First();
-                }
-
+                FileMgmt.OpenFileSetup(fileToOpen, model);
 
             }
         }

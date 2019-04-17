@@ -259,5 +259,14 @@ namespace TestRunnerAppWpf.Properties {
                 this["multiCycleView"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("v2.0 rc3")]
+        public string versionString {
+            get {
+                return ((string)(this["versionString"]));
+            }
+        }
     }
 }
