@@ -123,39 +123,10 @@ namespace TestRunnerAppWpf
             }
             if (picker.ShowDialog() == true)
             {
+                Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
+                Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
                 return picker.FileName;
-                //try
-                //{
-                //    serialized = File.ReadAllText(picker.FileName);
-
-                //}
-                //catch (Exception e)
-                //{
-                //    Debug.WriteLine($"Error opening file: {e}");
-                //    MessageBox.Show($"Error opening file: {e.Message}");
-                //    return new Tuple<string, SuiteModel>(null, null);
-                //}
-                //Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
-                //Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
-                //if (serialized.Length > 0)
-                //{
-                //    try
-                //    {
-                //        openSuite = JsonConvert.DeserializeObject<SuiteModel>(serialized);
-                //    }
-                //    catch (JsonSerializationException e)
-                //    {
-                //        Debug.WriteLine($"Error reading file: {e}");
-                //        MessageBox.Show($"Error reading file: {e.Message}");
-                //        return new Tuple<string, SuiteModel>(null, null);
-                //    }
-                //}
-                //else
-                //{
-                //    Debug.WriteLine($"Error reading file: File empty.");
-                //    MessageBox.Show($"Error reading file: File empty.");
-                //    return new Tuple<string, SuiteModel>(null, null);
-                //}
+             
             }
             else
             {
@@ -409,7 +380,8 @@ namespace TestRunnerAppWpf
                                 dvm.Execute_JiraGetAvailableProjectsCmd();
                             }
                         }
-                        MessageBox.Show("Project selected in Suite not available from Jira.", "TestRunnerApp with Jira",
+                        if (dvm.jiraSelectedProject == null)
+                            MessageBox.Show("Project selected in Suite not available from Jira.", "TestRunnerApp with Jira",
                                         MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                     }

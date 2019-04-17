@@ -127,7 +127,7 @@ namespace TestRunnerAppWpf
 
         public void Execute_AboutCmd()
         {
-            string versionString = "2.0 rc2";
+            string versionString = Properties.Settings.Default.versionString;
             string aboutString = $"TestApp v{versionString}{Environment.NewLine}{Environment.NewLine}Joakim Odermalm{Environment.NewLine}Unicus Sverige{Environment.NewLine}2019";
             MessageBox.Show(aboutString);
         }
