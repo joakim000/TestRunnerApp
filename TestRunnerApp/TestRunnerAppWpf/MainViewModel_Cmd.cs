@@ -358,25 +358,25 @@ namespace TestRunnerAppWpf
         public void Execute_EditCycleCmd()
         {
 
-            //MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
-            //    MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Upcoming feature for v2.1", "TestRunnerApp with Jira",
+                MessageBoxButton.OK, MessageBoxImage.Information);
 
-            var d = new EditCycleDialog(this);
-            if (d.ShowDialog() == true)
-            {
-                if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
-                {
+            //var d = new EditCycleDialog(this);
+            //if (d.ShowDialog() == true)
+            //{
+            //    if (!string.IsNullOrEmpty(d.viewModel.newItem.id) && !string.IsNullOrEmpty(d.viewModel.newItem.name))
+            //    {
 
-                    undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+            //        undoSuite = FileMgmt.Serialize(gridViewModel.suite);
 
-                    // Don't readd if newItem actuallty is existing (edited) item
-                    if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
-                        gridViewModel.suite.cycles.Add(d.viewModel.newItem);
-                    gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
+            //        // Don't readd if newItem actuallty is existing (edited) item
+            //        if (!gridViewModel.suite.cycles.Contains(d.viewModel.newItem))
+            //            gridViewModel.suite.cycles.Add(d.viewModel.newItem);
+            //        gridViewModel.suite.currentCycle = gridViewModel.suite.cycles.Where(x => x.uid == d.viewModel.newItem.uid).First();
 
-                    unsavedChanges = true;
-                }
-            }
+            //        unsavedChanges = true;
+            //    }
+            //}
         }
         public bool CanExecute_EditCycleCmd()
         {
