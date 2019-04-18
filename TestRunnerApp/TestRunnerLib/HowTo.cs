@@ -67,53 +67,88 @@ namespace MyTestSuite
     using OpenQA.Selenium;
     using OpenQA.Selenium.Support.UI;
 
+
+    /* WebTest with Selenium */
     public class MyWebTest : IWebTest
     {
         public TestResult Test(WebDriverType webDriverType, string[] testdata)
         {
+            // Init variables for use with TestResult
             int testStep = 0;
+            string nonCriticalMessages = string.Empty;
+
+            // Assign testdata, return warning if missing
+            string expectedTitle;
+            try
+            {
+                expectedTitle = testdata[1];
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                return new TestResult(Outcome.Warning, testStep, "Missing test data", ex);
+            }
 
             try
             {
                 using (IWebDriver driver = WebDriver.Get(webDriverType))
                 {
-                    // Go somewhere
+                    // Increment when starting new step in test
                     testStep++;
+
+                    // Go somewhere
                     driver.Navigate().GoToUrl("http://www.sitetotest.com/");
 
-                    // Test something & return result
+                    // Test something & return fail if it failed
                     testStep++;
-                    if (driver.Title.Contains(testdata[1], StringComparison.OrdinalIgnoreCase))
-                        return new TestResult(Outcome.Pass, $"Page title is: {driver.Title}");
-                    else
-                        return new TestResult(Outcome.Fail, $"Page title is: {driver.Title}");
+                    if (!driver.Title.Contains(expectedTitle, StringComparison.OrdinalIgnoreCase))
+                        return new TestResult(Outcome.Fail, testStep, $"Page title is: {driver.Title}");
+
+                    // All tests passed
+                    return new TestResult(Outcome.Pass, nonCriticalMessages);
                 }
             }
             // Web driver error
-            catch (OpenQA.Selenium.DriverServiceNotFoundException e)
+            catch (OpenQA.Selenium.DriverServiceNotFoundException ex)
             {
-                return new TestResult(Outcome.Warning, testStep, e);
+                return new TestResult(Outcome.Warning, testStep, ex);
             }
             // Selenium exception during action
-            catch (OpenQA.Selenium.WebDriverException e)
+            catch (OpenQA.Selenium.WebDriverException ex)
             {
-                return new TestResult(Outcome.Fail, testStep, e);
+                return new TestResult(Outcome.Fail, testStep, ex);
             }
             // Other errors
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return new TestResult(Outcome.Warning, testStep, e);
+                return new TestResult(Outcome.Warning, testStep, ex);
             }
         }
-    } // class
+    } 
 
+
+
+    /* General test */
     public class MyGeneralTest : ITest
     {
         public TestKind Kind { get; } = TestKind.Other;
 
         public TestResult Test(string[] testdata)
         {
+            // Init variables for use with TestResult
             int testStep = 0;
+            string nonCriticalMessages = string.Empty;
+
+            // Assign testdata, return warning if missing
+            string expected;
+            try
+            {
+                expected = testdata[1];
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                return new TestResult(Outcome.Warning, testStep, "Missing test data", ex);
+            }
+
 
             try
             {
@@ -121,20 +156,24 @@ namespace MyTestSuite
                 testStep++;
                 string testReturn = "Something my test returns";
                 bool MyParameterTest =
-                    testReturn.Contains(testdata[1], StringComparison.OrdinalIgnoreCase) ? true : false;
+                    testReturn.Contains(expected, StringComparison.OrdinalIgnoreCase) ? true : false;
 
                 // Return result
-                if (MyParameterTest)
-                    return new TestResult(Outcome.Pass);
-                else
+                if (!MyParameterTest)
                     return new TestResult(Outcome.Fail, testReturn);
+
+                // All tests passed
+                return new TestResult(Outcome.Pass, nonCriticalMessages);
             }
-            // Exception while testing
-            catch (Exception e)
+
+            // Unexpected errors while testing
+            catch (Exception ex)
             {
-                return new TestResult(Outcome.Warning, testStep, e);
+                return new TestResult(Outcome.Warning, testStep, ex);
             }
         }
-    }  // class
+    }  
+
+
 
 } 
