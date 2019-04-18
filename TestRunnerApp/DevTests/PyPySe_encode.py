@@ -38,8 +38,12 @@ def GetDriver(webdrivertype):
 # Test runner
 def Run(driver, testData):
       server = testData[1]
-      #input = testData[2].decode("utf-8");
-      input = testData[2]
+      #server = testData[1].encode("utf7", "strict");
+      #input = testData[2].encode("utf7", "strict");
+      #input = input.replace("+APY-", "ö");
+      #input = testData[2]
+
+      input = "ö".encode('UTF-8')
 
       step = 1
       try:
@@ -68,6 +72,6 @@ def Run(driver, testData):
              driver.quit()
 
 # Execution
-reload(sys)  
-sys.setdefaultencoding('utf8')
+#reload(sys)  
+#sys.setdefaultencoding('utf8')
 result = Run(GetDriver(webdrivertype), testData)

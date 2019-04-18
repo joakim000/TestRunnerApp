@@ -18,7 +18,7 @@ using ViewModelSupport;
 
 namespace TestRunnerLib.Jira
 {
-    public static partial class Jira
+    public  partial class Jira
     {
         
         private static string Outcome2string(Outcome o)

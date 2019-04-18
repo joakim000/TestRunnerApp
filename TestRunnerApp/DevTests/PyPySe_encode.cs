@@ -54,7 +54,8 @@ namespace PythonTest
            // IronPython lib
             searchPaths.Add(@"C:\Program Files\IronPython 2.7\Lib");
             // Selenium module
-            searchPaths.Add(@"C:\Users\joakim\AppData\Local\Programs\Python\Python37-32\Lib\site-packages");
+            searchPaths.Add(@"C:\Program Files\IronPython 2.7\Lib\site-packages");
+            //searchPaths.Add(@"C:\Users\joakim\AppData\Local\Programs\Python\Python37-32\Lib\site-packages");
             engine.SetSearchPaths(searchPaths);
 
             // Create python module that contains Outcome, WebDriverType, TestResult
@@ -83,8 +84,18 @@ namespace PythonTest
             Outcome outcome = Outcome.NotRun;
             Exception rex = null;
 
-            byte[] bytes = Encoding.Default.GetBytes(testData[2]);
-            testData[2] = Encoding.UTF8.GetString(bytes);
+            var los = new List<string>();
+            foreach (string s in testData)
+            {
+                Debug.WriteLine("string: " + s);
+                byte[] bytes = Encoding.Default.GetBytes(s);
+                los.Add(Encoding.UTF7.GetString(bytes));
+                Debug.WriteLine("handled string: " + los.Last());
+            }
+            testData = los.ToArray();
+
+            //byte[] bytes = Encoding.Unicode.GetBytes(testData[2]);
+            //testData[2] = Encoding.UTF8.GetString(bytes);
 
 
             /* Access from script */

@@ -706,7 +706,8 @@ namespace TestRunnerAppWpf
                 {
                     jiraCloudMgmt = true;
                     reqTestMgmt = false;
-                    if (!await JiraConnect.SetAccountId())
+                    JiraConnect jc = new JiraConnect(this);
+                    if (!await jc.SetAccountId())
                         MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
@@ -751,7 +752,7 @@ namespace TestRunnerAppWpf
 
 
                     RunModel r = cr.run;
-                    Tuple<HttpStatusCode, JObject> response = await Jira.CreateExec(await JiraConnect.TmjPrep(),
+                    Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(
                                                                                     c.jiraProjectKey,
                                                                                     c.jiraCycle.key,
                                                                                     r.test.id,

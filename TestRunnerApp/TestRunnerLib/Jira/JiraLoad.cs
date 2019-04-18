@@ -13,17 +13,21 @@ using TestRunnerLib.Jira;
 using System.Collections.ObjectModel;
 using ViewModelSupport;
 
-namespace TestRunnerAppWpf
+namespace TestRunnerLib.Jira
 {
-
-    
     public class JiraLoad
     {
+        private Jira Jira { get; set; }
+
+        public JiraLoad(Jira jira)
+        {
+            Jira = jira;
+        }
 
         public async void LoadProjectData(JiraProject p)
         {
             // Get basic project data
-            var response = await Jira.GetProjJira(await JiraConnect.Preflight(), p.key);
+            var response = await Jira.GetProjJira(p.key);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JObject j = response.Item2 as JObject; 
@@ -37,7 +41,7 @@ namespace TestRunnerAppWpf
         // Project components
         public async Task<ObservableCollection<JiraComponent>> LoadComponents(string projectIdOrKey)
         {
-            var response = await Jira.GetComponents(await JiraConnect.Preflight(), projectIdOrKey);
+            var response = await Jira.GetComponents(projectIdOrKey);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JArray j = response.Item2 as JArray;
@@ -74,7 +78,7 @@ namespace TestRunnerAppWpf
         // Project versions
         public async Task<ObservableCollection<JiraVersion>> LoadVersions(string projectIdOrKey)
         {
-            var response = await Jira.GetVersions(await JiraConnect.Preflight(), projectIdOrKey);
+            var response = await Jira.GetVersions(projectIdOrKey);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JArray j = response.Item2 as JArray;
@@ -109,7 +113,7 @@ namespace TestRunnerAppWpf
                                                                         string folderType,
                                                                         string maxResults)
         {
-            var response = await Jira.GetFolders(await JiraConnect.TmjPrep(), projectKey, folderType, maxResults);
+            var response = await Jira.GetFolders(projectKey, folderType, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -137,7 +141,7 @@ namespace TestRunnerAppWpf
         public async Task<ObservableCollection<JiraPrio>> LoadPrios(string projectKey,
                                                                               string maxResults)
         {
-            var response = await Jira.GetPrios(await JiraConnect.TmjPrep(), projectKey, maxResults);
+            var response = await Jira.GetPrios(projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                  JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -164,7 +168,7 @@ namespace TestRunnerAppWpf
         public async Task<ObservableCollection<JiraEnvironment>> LoadEnvirons(string projectKey,
                                                                               string maxResults)
         {
-            var response = await Jira.GetEnvirons(await JiraConnect.TmjPrep(), projectKey, maxResults);
+            var response = await Jira.GetEnvirons(projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -193,7 +197,7 @@ namespace TestRunnerAppWpf
                                                                       string folderId,
                                                                       string maxResults)
         {
-            var response = await Jira.GetCycles(await JiraConnect.TmjPrep(), projectKey, folderId, maxResults);
+            var response = await Jira.GetCycles(projectKey, folderId, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> tokens = response.Item2.GetValue("values").Children();
@@ -243,7 +247,7 @@ namespace TestRunnerAppWpf
                                                                     string folderId,                              
                                                                     string maxResults)
         { 
-            var response = await Jira.GetCases(await JiraConnect.TmjPrep(), projectKey, folderId, maxResults);
+            var response = await Jira.GetCases(projectKey, folderId, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> caseTokens = response.Item2.GetValue("values").Children();
@@ -303,7 +307,7 @@ namespace TestRunnerAppWpf
                                                                                string statusType,
                                                                                string maxResults)
         {
-            var response = await Jira.GetStatuses(await JiraConnect.TmjPrep(), projectKey, statusType, maxResults);
+            var response = await Jira.GetStatuses(projectKey, statusType, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();

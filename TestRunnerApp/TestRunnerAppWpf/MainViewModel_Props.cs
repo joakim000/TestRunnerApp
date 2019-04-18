@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TestRunnerLib;
+using TestRunnerLib.Jira;
 using ViewModelSupport;
 
 namespace TestRunnerAppWpf
@@ -194,6 +195,13 @@ namespace TestRunnerAppWpf
         {
             get => Get(() => reqTestMgmt, false);
             set => Set(() => reqTestMgmt, value);
+        }
+
+        // Functions
+        public Jira jira
+        {
+            get => Get(() => jira);
+            set => Set(() => jira, value);
         }
 
         // Jira settings

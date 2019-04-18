@@ -67,7 +67,7 @@ namespace TestRunnerAppWpf
         public async void Execute_JiraGetAvailableProjectsCmd()
         {
             mainViewModel.enableProjectLoad = false;
-            Tuple<HttpStatusCode, JObject> projects = await Jira.GetProjects(await JiraConnect.TmjPrep(), "100");
+            Tuple<HttpStatusCode, JObject> projects = await mainViewModel.jira.GetProjects("100");
             if (projects.Item1 == HttpStatusCode.OK)
             {
                 JEnumerable<JToken> projTokens = projects.Item2.GetValue("values").Children();
@@ -196,7 +196,7 @@ namespace TestRunnerAppWpf
 
             //JiraConnect.LoadProjectData(p);
 
-            var load = new JiraLoad();
+            //var load = new JiraLoad();
             mainViewModel.LoadJiraProjectAsync(p);
             
 

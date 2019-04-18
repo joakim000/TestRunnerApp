@@ -94,6 +94,9 @@
     <Content Include="PyNetSe_encode.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="PyPySe_encode2.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Python\PyNetSe.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -105,4 +108,9 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetPath) C:\Users\joakim\Source\Repos\joakim000\TestRunnerApp\TestRunnerApp\TestRunnerAppWpf\bin\Debug\Tests;
+copy $(ProjectDir)PyPySe_encode2.py C:\Users\joakim\Source\Repos\joakim000\TestRunnerApp\TestRunnerApp\TestRunnerAppWpf\bin\Debug\Tests;
+copy $(ProjectDir)PyPySe_encode.py C:\Users\joakim\Source\Repos\joakim000\TestRunnerApp\TestRunnerApp\TestRunnerAppWpf\bin\Debug\Tests</PostBuildEvent>
+  </PropertyGroup>
 </Project>

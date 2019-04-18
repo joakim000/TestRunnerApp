@@ -30,9 +30,18 @@ namespace TestRunnerAppWpf
             Settings.GetSettings(this);
             CheckWebDriverAvailibility();
 
-            this.PropertyChanged += MainViewModel_PropertyChanged;
+            JiraSetup();
 
+            this.PropertyChanged += MainViewModel_PropertyChanged;
         }
+
+        private async void JiraSetup()
+        {
+            JiraConnect jc = new JiraConnect(this);
+
+            jira = new Jira(await jc.Preflight(), await jc.TmjPrep());
+        }
+
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -274,50 +283,52 @@ namespace TestRunnerAppWpf
         {
             JiraProject p = (JiraProject)e.Argument;
             string maxResults = "100";
-            JiraLoad load = new JiraLoad();
+            //JiraLoad load = new JiraLoad();
             int done = 0;
             int total = 11;
 
             //syncContext.Send(x => test.previousOutcome = r.result, null);
 
-            load.LoadProjectData(p);
+            jira.load.LoadProjectData(p);
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
-            p.folders = load.LoadFolders(p.key, null, maxResults).Result;
+            p.versions = jira.load.LoadVersions(p.key).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+            p.components = jira.load.LoadComponents(p.key).Result;
+            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+
+
+            p.folders = jira.load.LoadFolders(p.key, null, maxResults).Result;
             p.separateFolders();
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
 
-            p.versions = load.LoadVersions(p.key).Result;
-            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
-
-            p.components = load.LoadComponents(p.key).Result;
-            done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
-
+            
             
 
 
-            p.prios = load.LoadPrios(p.key, maxResults).Result;
+            p.prios = jira.load.LoadPrios(p.key, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
-            p.environments = load.LoadEnvirons(p.key, maxResults).Result;
+            p.environments = jira.load.LoadEnvirons(p.key, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
             // Project statuses
-            p.caseStatuses = load.LoadStatus(p.key, "TEST_CASE", maxResults).Result;
+            p.caseStatuses = jira.load.LoadStatus(p.key, "TEST_CASE", maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
-            p.cycleStatuses = load.LoadStatus(p.key, "TEST_CYCLE", maxResults).Result;
+            p.cycleStatuses = jira.load.LoadStatus(p.key, "TEST_CYCLE", maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
-            p.executionStatuses = load.LoadStatus(p.key, "TEST_EXECUTION", maxResults).Result;
+            p.executionStatuses = jira.load.LoadStatus(p.key, "TEST_EXECUTION", maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
             //p.planStatuses = await LoadStatus(p.key, "TEST_PLAN", maxResults);
 
-            p.cycles = load.LoadCycles(p, p.key, null, maxResults).Result;
+            p.cycles = jira.load.LoadCycles(p, p.key, null, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
-            p.cases = load.LoadCases(p, p.key, null, maxResults).Result;
+            p.cases = jira.load.LoadCases(p, p.key, null, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
 
