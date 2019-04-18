@@ -452,13 +452,14 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
+        
+        <!--<StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Background="BurlyWood">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="250" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>   
@@ -477,28 +478,81 @@
                              Foreground="{DynamicResource ProgressBarForegroundBrush}"
                              BorderBrush="{DynamicResource ProgressBarBorderBrush}"
                              Template="{DynamicResource ProgressBarControlTemplateCustom}"/>
-                <!--<ProgressBar Grid.Column="2" x:Name="progressBar" Value="{Binding progressBarValue}" 
-                             Background="{DynamicResource ProgressBarBackgroundBrush}" Foreground="{DynamicResource ProgressBarForegroundBrush}"
-                             BorderBrush="{DynamicResource ProgressBarBorderdBrush}" Template="{DynamicResource ProgressBarControlTemplate1}"/>-->
-                <StatusBarItem Grid.Column="5" HorizontalAlignment="Right" Margin="100,0,0,0">
-                     <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}"
-                                />
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="4" HorizontalAlignment="Right" Margin="100,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.key, NotifyOnSourceUpdated=True, Mode=OneWay}" />
-                        <TextBlock Text=" " />
-                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
-                    </StackPanel>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="3" HorizontalAlignment="Right" Margin="100,0,0,0">
+
+                <StatusBarItem Grid.Column="4" HorizontalAlignment="Right" Margin="50,0,0,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="{Binding gridViewModel.suite.currentCycle.id, NotifyOnSourceUpdated=True, Mode=OneWay}" />
                         <TextBlock Text=" " />
                         <TextBlock Text="{Binding gridViewModel.suite.currentCycle.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
                     </StackPanel>
                 </StatusBarItem>
+                
+                <StatusBarItem Grid.Column="5" HorizontalAlignment="Right" Margin="50,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.key, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                    </StackPanel>
+                </StatusBarItem>
+
+                <StatusBarItem Grid.Column="3" HorizontalAlignment="Right" Margin="50,0,0,0">
+                    <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}"
+                                Foreground="Red"/>
+                </StatusBarItem>
+
             </Grid>
+        </StatusBar>-->
+        
+        <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" >
+            <!--<Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="Auto" Background="Black">-->
+                <StatusBarItem Margin="10,0,0,0" MinWidth="100">
+                    <TextBlock Text="{Binding runStatus}" />
+                </StatusBarItem>
+
+                <StatusBarItem MinWidth="50">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding runCurrent}" />
+                        <TextBlock Text="{Binding runSlash}" />
+                        <TextBlock Text="{Binding runTotal}" />
+                    </StackPanel>
+                </StatusBarItem>
+                <ProgressBar x:Name="progressBar" Value="{Binding progressBarValue}" 
+                             Background="{DynamicResource ProgressBarBackgroundBrush}" 
+                             Foreground="{DynamicResource ProgressBarForegroundBrush}"
+                             BorderBrush="{DynamicResource ProgressBarBorderBrush}"
+                             Template="{DynamicResource ProgressBarControlTemplateCustom}"/>
+
+                <StatusBarItem  Margin="30,0,0,0" MinWidth="200">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding gridViewModel.suite.currentCycle.id, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding gridViewModel.suite.currentCycle.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                    </StackPanel>
+                </StatusBarItem>
+
+                <StatusBarItem  Margin="30,0,0,0" MinWidth="200">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.key, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
+                    </StackPanel>
+                </StatusBarItem>
+
+                <!--<StatusBarItem  HorizontalAlignment="Right" Margin="10,0,10,0">
+                    <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}"
+                                Foreground="Red"/>
+                </StatusBarItem>-->
+
+            <!--</StackPanel>
+            </Grid>-->
         </StatusBar>
+        <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
+            <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}"
+                       Foreground="#FFD61515"
+                       HorizontalAlignment="Right"
+                       Margin="10,3,10,4"/>
+        </Grid>
+
     </Grid>
 </Window>

@@ -20,7 +20,7 @@ namespace TestRunnerAppWpf
             Debug.WriteLine("Creating mainViewModel");
 
 
-            runStatus = "Idle";
+            runStatus = "Ready";
             runTotal = string.Empty;
             runCurrent = string.Empty;
             runSlash = string.Empty;
@@ -107,8 +107,27 @@ namespace TestRunnerAppWpf
 
 
 
-            private void setWindowTitle() => 
-            windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? Properties.Settings.Default.AppTitle : $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
+        //private void setWindowTitle() => 
+        //    windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? 
+        //        Properties.Settings.Default.AppTitle :
+        //        $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
+
+
+        private void setWindowTitle()
+        {
+            string s = string.Empty;
+            if (!string.IsNullOrWhiteSpace(gridViewModel.suite.name))
+                s += gridViewModel.suite.name;
+            else
+                s += "Untitled suite";
+            s += " ";
+            if (!string.IsNullOrWhiteSpace(gridViewModel.suite.filename))
+                s += $"[{gridViewModel.suite.filename}] ";
+            s += $"- {Properties.Settings.Default.AppTitle}";
+
+            windowTitle = s;
+
+        }
 
         public void CheckWebDriverAvailibility()
         {
@@ -261,10 +280,16 @@ namespace TestRunnerAppWpf
         {
             enableProjectLoad = false;
             progressBarValue = 0;
-            runStatus = "Loading";
+            runStatus = "Loading project";
+
+            runTotal = string.Empty; runSlash = string.Empty; runCurrent = string.Empty;
+
+            #if DEBUG
             runTotal = "11"; //Steps in load
             runSlash = "/";
             runCurrent = "1";
+            #endif
+
 
             projectLoadWorker = new BackgroundWorker
             {
@@ -354,9 +379,11 @@ namespace TestRunnerAppWpf
             if (e.UserState != null)
             {
                 // Update UI
+                #if DEBUG
                 var t = (Tuple<int, string>)e.UserState;
                 Debug.WriteLine(t.Item2);
                 runCurrent = (t.Item1 + 1).ToString();
+                #endif
             }
         }
 
@@ -367,12 +394,22 @@ namespace TestRunnerAppWpf
             {
                 runStatus = "Done";
                 runCurrent = runTotal;
+                ResetProgress();
+
             }
             //this.unsavedChanges = true;
             Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
         }
 
-
+        async void ResetProgress()
+        {
+            await Task.Delay(10000); // Wait before resetting
+            runStatus = "Ready";
+            runCurrent = string.Empty;
+            runSlash = string.Empty;
+            runTotal = string.Empty;
+            progressBarValue = 0;
+        }
 
 
     } // MainViewModel
