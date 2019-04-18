@@ -124,6 +124,7 @@
     <Compile Include="Python\PyPySe.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Content Include="Runner9 - Copy.cs.txt" />
     <Compile Include="Runner9.cs" />
     <Compile Include="RunModel.cs" />
     <Compile Include="StringExtensions.cs" />

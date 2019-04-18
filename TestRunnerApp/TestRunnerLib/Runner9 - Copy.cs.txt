@@ -78,7 +78,14 @@ namespace TestRunnerLib
             }
             td[0] = string.Empty;
 
+            //for (int i = 0; i < td.Length; i++) 
+            //{
+            //    td[i] = string.IsNullOrEmpty(testdata[i]) ? string.Empty : testdata[i];
+            //}
 
+            TestResult result = new TestResult();
+
+            AppDomainContext<AssemblyTargetLoader, PathBasedAssemblyResolver> context = AppDomainContext.Create();
             try
             {
                 string assFile = AppDomain.CurrentDomain.BaseDirectory + @"Tests\" + assName + ".dll";
@@ -92,11 +99,11 @@ namespace TestRunnerLib
                     ShadowCopyFiles = "true",
                     ShadowCopyDirectories = rootDir + @"Tests\",
                     CachePath = rootDir + @"Cache\"
+
                 };
 
-                using (var context = AppDomainContext.Create(setupInfo))
-                {
-                    context.LoadAssembly(LoadMethod.LoadFrom, assFile);
+                context = AppDomainContext.Create(setupInfo);
+                context.LoadAssembly(LoadMethod.LoadFrom, assFile);
 
                     var remote = RemoteFunc.Invoke(
                         context.Domain,
@@ -104,13 +111,21 @@ namespace TestRunnerLib
                         namespaceName,
                         typeName,
                         (_assName, _namespaceName, _typeName) =>
-                        {
+                        {   
                             return new Caller(_assName, _namespaceName, _typeName);
                         });
 
                     // Executes in the remote domain.
-                    return remote.RunTest(webDriver, td);
-                }
+                    var callResult = remote.RunTest(webDriver, td);
+
+                    // Get the result out
+                    CloneTestResult(callResult, result);
+
+                    // Force unload (needed if there was an exception)
+                    //AppDomain.Unload(context.Domain);
+
+                    //return callResult;
+                    //return remote.RunTest(webDriver, td);
             }
             catch (System.TypeLoadException ex)
             {
@@ -124,8 +139,36 @@ namespace TestRunnerLib
             {
                 return new TestResult(Outcome.Warning, ex);
             }
+            finally
+            {
+                //AppDomain.Unload(context.Domain);
+                
+            }
+            //context.Dispose();
+            AppDomain.Unload(context.Domain);
+            return result;
+        }
 
+        public static void CloneTestResult(TestResult resultIn, TestResult resultOut)
+        {
+            //TestResult r = new TestResult();
+            resultOut.outcome = resultIn.outcome;
+            resultOut.message = resultIn.message == null ? null : string.Copy(resultIn.message);
+            resultOut.failStep = resultIn.failStep;
+
+            resultOut.eType = resultIn.eType == null ? null : string.Copy(resultIn.eType);
+            resultOut.eMessage = resultIn.eMessage == null ? null : string.Copy(resultIn.eMessage);
+
+            resultOut.kind = resultIn.kind;
+            resultOut.webDriver = resultIn.webDriver;
+
+
+            //r.eData = resultIn.eData;
+            //r.e = resultIn.e;
+
+            //return resultOut;
         }
 
     }
 }
+

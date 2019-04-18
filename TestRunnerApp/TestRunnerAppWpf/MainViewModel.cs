@@ -264,7 +264,7 @@ namespace TestRunnerAppWpf
                 runCurrent = runTotal;
             }
             this.unsavedChanges = true;
-            Debug.WriteLine($"Async runTestWorker result: {e.Result}");
+            //Debug.WriteLine($"Async runTestWorker result: {e.Result}");
         }
 
         public void LoadJiraProjectAsync(JiraProject p)

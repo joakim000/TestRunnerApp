@@ -19,12 +19,23 @@ namespace TestRunnerAppWpf
         {
             MainWindow w = new MainWindow();
 
-            // Always want to have this dir available
+            // Always want to have these dirs available
             try
             {
                 string testsDir = AppDomain.CurrentDomain.BaseDirectory + "Tests";
                 if (!Directory.Exists(testsDir))
                     Directory.CreateDirectory(testsDir);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error creating dir: {ex}");
+                MessageBox.Show($"Error creating dir: {ex.Message}");
+            }
+            try
+            {
+                string cacheDir = AppDomain.CurrentDomain.BaseDirectory + "Cache";
+                if (!Directory.Exists(cacheDir))
+                    Directory.CreateDirectory(cacheDir);
             }
             catch (Exception ex)
             {
