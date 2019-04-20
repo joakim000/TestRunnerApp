@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestRunnerAppWpf"
         mc:Ignorable="d"
-        Title="Management integration" Height="450" Width="600"
+        Title="Test management settings" Height="450" Width="600"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         Icon="pack://application:,,,/Icons/Test_16x.png"
@@ -34,20 +34,42 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel>
+        <StackPanel Margin="15,15,0,0">
             <!--<Label Content="Management integration" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
-            <Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system" />
-            <ComboBox x:Name="OptionsCombo"  Style="{StaticResource ComboStyle}"
-                      Margin="15,0,0,0" Width="200" HorizontalAlignment="Left"
+            <!--<Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system" />-->
+            <ComboBox x:Name="OptionsCombo"  
+                      Template="{DynamicResource ComboBoxControlCustom}"
+                      Margin="15,0,0,0" MinWidth="200" HorizontalAlignment="Left"
                       ItemsSource="{Binding Path=mgmtOptions}"
                       IsEditable="False" IsReadOnly="True"
                       SelectionChanged="OptionsCombo_SelectionChanged"
-                      ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                      ItemContainerStyle="{DynamicResource ComboItemStyle}"     
+                      SelectedItem="{Binding Path=mgmt}"
                       >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
-            
+
+            <!--<Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system _old" />
+            <ComboBox x:Name="OptionsCombo_old"  Style="{DynamicResource ComboStyle}"
+                      Margin="15,0,0,0" Width="200" HorizontalAlignment="Left"
+                      ItemsSource="{Binding Path=mgmtOptions_old}"
+                      IsEditable="False" IsReadOnly="True"
+                      SelectionChanged="OptionsCombo_SelectionChanged_old"
+                      ItemContainerStyle="{DynamicResource ComboItemStyle}"     
+                      >
+            </ComboBox>-->
+
             <Grid Margin="15,15,15,15" x:Name="JiraCloudGrid" 
-                  Visibility="{Binding jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
+                  Visibility="{Binding mgmt, Converter={StaticResource VisiJiraCloudTmj}}"
+                  
+                  >
+                <!--Visibility="{Binding jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -95,7 +117,10 @@
 
             </Grid>
 
-            <Grid Margin="15,15,15,15" x:Name="ReqTestGrid" Visibility="{Binding reqTestMgmt, Converter={StaticResource BoolToVisi}}">
+            <Grid Margin="15,15,15,15" x:Name="ReqTestGrid" 
+                  Visibility="{Binding mgmt, Converter={StaticResource VisiReqTest}}"
+                  >
+                <!--Visibility="{Binding reqTestMgmt, Converter={StaticResource BoolToVisi}}"-->
                 <Image Grid.Column="1" Grid.Row="1" Width="300" HorizontalAlignment="Left"
                     Source="pack://application:,,,/Help/soonHorse.jpg" />
 

@@ -141,6 +141,27 @@ namespace TestRunnerLib.Jira
             get => Get(() => version);
             set => Set(() => version, value);
         }
+        public JiraAvatar avatar
+        {
+            get => Get(() => avatar);
+            set => Set(() => avatar, value);
+        }
+        public bool simplified
+        {
+            get => Get(() => simplified);
+            set => Set(() => simplified, value);
+        }
+        public string style
+        {
+            get => Get(() => style);
+            set => Set(() => style, value);
+        }
+        public JiraProjectCategory projectCategory
+        {
+            get => Get(() => projectCategory);
+            set => Set(() => projectCategory, value);
+        }
+
 
 
         /* Selections */

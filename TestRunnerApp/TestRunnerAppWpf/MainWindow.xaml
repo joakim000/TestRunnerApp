@@ -423,6 +423,7 @@
                     <Image Source="pack://application:,,,/Icons/TestCoveredFailing_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
                 <ComboBox x:Name="CyclesCombo" MinWidth="150" 
+                          Template="{DynamicResource ComboBoxControlCustom}"
                           ItemsSource="{Binding Path=gridViewModel.suite.cycles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
                           SelectedItem="{Binding Path=gridViewModel.suite.currentCycle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           SelectionChanged="CyclesCombo_SelectionChanged">
@@ -453,56 +454,7 @@
             </ToolBar>
         </ToolBarTray>
         
-        <!--<StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Background="BurlyWood">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="100" />
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>   
-                <StatusBarItem Grid.Column="0" >
-                    <TextBlock Text="{Binding runStatus}" />
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="1">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding runCurrent}" />
-                        <TextBlock Text="{Binding runSlash}" />
-                        <TextBlock Text="{Binding runTotal}" />
-                    </StackPanel>
-                </StatusBarItem>
-                <ProgressBar Grid.Column="2" x:Name="progressBar" Value="{Binding progressBarValue}" 
-                             Background="{DynamicResource ProgressBarBackgroundBrush}" 
-                             Foreground="{DynamicResource ProgressBarForegroundBrush}"
-                             BorderBrush="{DynamicResource ProgressBarBorderBrush}"
-                             Template="{DynamicResource ProgressBarControlTemplateCustom}"/>
-
-                <StatusBarItem Grid.Column="4" HorizontalAlignment="Right" Margin="50,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding gridViewModel.suite.currentCycle.id, NotifyOnSourceUpdated=True, Mode=OneWay}" />
-                        <TextBlock Text=" " />
-                        <TextBlock Text="{Binding gridViewModel.suite.currentCycle.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
-                    </StackPanel>
-                </StatusBarItem>
-                
-                <StatusBarItem Grid.Column="5" HorizontalAlignment="Right" Margin="50,0,0,0">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.key, NotifyOnSourceUpdated=True, Mode=OneWay}" />
-                        <TextBlock Text=" " />
-                        <TextBlock Text="{Binding gridViewModel.suite.jiraProject.name, NotifyOnSourceUpdated=True, Mode=OneWay}" />
-                    </StackPanel>
-                </StatusBarItem>
-
-                <StatusBarItem Grid.Column="3" HorizontalAlignment="Right" Margin="50,0,0,0">
-                    <TextBlock Text="{Binding unsavedChanges, Converter={StaticResource BoolToChanges}}"
-                                Foreground="Red"/>
-                </StatusBarItem>
-
-            </Grid>
-        </StatusBar>-->
-        
+      
         <StatusBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" >
             <!--<Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="Auto" Background="Black">-->

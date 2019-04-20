@@ -275,7 +275,7 @@ namespace TestRunnerLib.Jira
                         c.labels = labelList.ToArray();
                     }
                     if (t.Value<JObject>("component") != null)
-                        c.component = t.Value<JObject>("component").ToObject<IdSelf>();
+                        c.component = t.Value<JObject>("component").ToObject<JiraComponent>();
                     if (t.Value<JObject>("priority") != null)
                         c.priority = t.Value<JObject>("priority").ToObject<JiraPrio>();
                     if (t.Value<JObject>("status") != null)
@@ -294,6 +294,8 @@ namespace TestRunnerLib.Jira
                         try { c.folder = p.folders.Where(x => x.id == c.folder.id).First(); } catch (InvalidOperationException) { }
                     if (c.priority != null)
                         try { c.priority = p.prios.Where(x => x.id == c.priority.id).First(); } catch (InvalidOperationException) { }
+                    if (c.component != null)
+                        try { c.component = p.components.Where(x => x.id == c.component.id).First(); } catch (InvalidOperationException) { }
 
                     Debug.WriteLine(c.labels);
                 }

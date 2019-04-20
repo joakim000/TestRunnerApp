@@ -22,12 +22,17 @@ namespace TestRunnerLib.Jira
         private JiraConnectInfo jiraCloudInfo { get; set; }
         private JiraConnectInfo tmjCloudInfo { get; set; }
         public JiraLoad load { get; set; }
+        public JiraImport import { get; set; }
+        public JiraExport export { get; set; }
 
         public Jira(JiraConnectInfo jiraCloud, JiraConnectInfo tmjCloud)
         {
             jiraCloudInfo = jiraCloud;
             tmjCloudInfo = tmjCloud;
             load = new JiraLoad(this);
+            import = new JiraImport(this);
+            export = new JiraExport(this);
+
         }
 
 
@@ -65,7 +70,8 @@ namespace TestRunnerLib.Jira
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
                     Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
-                     return new Tuple<HttpStatusCode, object>(response.StatusCode, jsonObj);
+                    Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                    return new Tuple<HttpStatusCode, object>(response.StatusCode, jsonObj);
                 }
                 else
                 {

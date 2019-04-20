@@ -80,15 +80,15 @@
             <!--<Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
 
             <StackPanel x:Name="jiraPanel"
-                        Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"
+                        Visibility="{Binding Path=mainViewModel.gridViewModel.suite.mgmt, Converter={StaticResource VisiJiraCloudTmj}}"
                         >
                 <Label Content="Jira Cycle" />
-                <ComboBox x:Name="CyclesCombo"  Style="{StaticResource ComboStyle}"
+                <ComboBox x:Name="CyclesCombo"  Template="{DynamicResource ComboBoxControlCustom}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding jiraSelectedCycle, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                          ItemsSource="{Binding jiraProject.cycles, 
+                          ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.cycles, 
                                                  Mode=OneWay, NotifyOnSourceUpdated=True}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -104,9 +104,9 @@
                          Text="{Binding Path=newItem.jiraCycle.folder.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                                  IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
                 />
-                <!--<ComboBox x:Name="FolderCombo"  Style="{StaticResource ComboStyle}"
+                <!--<ComboBox x:Name="FolderCombo" Template="{DynamicResource ComboBoxControlCustom}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.folder, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.cycleFolders, 
@@ -134,9 +134,9 @@
                        Text="{Binding Path=newItem.jiraCycle.status.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                        IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
-            <!--<ComboBox x:Name="JiraStatusCombo"  Style="{StaticResource ComboStyle}"
+            <!--<ComboBox x:Name="JiraStatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.status, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.cycleStatuses, 

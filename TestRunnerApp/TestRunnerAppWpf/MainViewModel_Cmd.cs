@@ -194,7 +194,8 @@ namespace TestRunnerAppWpf
             if (unsavedChangesHelper())
             {
                 string fileToOpen = FileMgmt.OpenSuiteFrom();
-                FileMgmt.OpenFileSetup(fileToOpen, this);
+                if (fileToOpen != null)
+                    FileMgmt.OpenFileSetup(fileToOpen, this);
 
             }
         }
@@ -697,6 +698,30 @@ namespace TestRunnerAppWpf
                 Debug.WriteLine("Saving user-settings");
                 Properties.Settings.Default.Save();
 
+                
+
+                // Check if JiraCloudTmj should be enabled
+                bool JiraCloudTmj_enabled = true;
+                if (string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
+                    JiraCloudTmj_enabled = false;
+                if (string.IsNullOrEmpty(Properties.Settings.Default.JiraUser))
+                    JiraCloudTmj_enabled = false;
+                //if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+                //{
+                //    caller.jiraAccountId = Properties.Settings.Default.JiraAccountId;
+                //    Settings.accountIdSet = true;
+                //}
+                // else JiraCloudTmj_enabled = false; // Enable anyway and try to get accountid in preflight
+                if (string.IsNullOrEmpty(Properties.Settings.Default.JiraToken))
+                    JiraCloudTmj_enabled = false;
+                //if (string.IsNullOrEmpty(Properties.Settings.Default.TmjIdToken))
+                //    JiraCloudTmj_enabled = false;
+                if (string.IsNullOrEmpty(Properties.Settings.Default.TmjKeyToken))
+                    JiraCloudTmj_enabled = false;
+                Enums.Mgmt.Find(x => x.key == "JiraCloudTmj").enabled = JiraCloudTmj_enabled;
+
+
+                /* Deprecated */
                 if (Properties.Settings.Default.MgmtSystem == "None")
                 {
                     jiraCloudMgmt = false;
@@ -715,6 +740,9 @@ namespace TestRunnerAppWpf
                     jiraCloudMgmt = false;
                     reqTestMgmt = true;
                 }
+                /* Deprecated */
+
+
             }
         }
         public bool CanExecute_MgmtSettingsCmd()

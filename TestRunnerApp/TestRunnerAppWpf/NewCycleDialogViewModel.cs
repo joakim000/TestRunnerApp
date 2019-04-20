@@ -71,9 +71,14 @@ namespace TestRunnerAppWpf
             {
                 noMgmt = false;
                 managed = true;
+
+                if (mainViewModel.gridViewModel.suite.jiraProject == null)
+                    mainViewModel.gridViewModel.suite.jiraProject = new JiraProject();
+
                 jiraProject = mainViewModel.gridViewModel.suite.jiraProject;
 
                 newItem.jiraCloud = true;
+
                 newItem.jiraProjectKey = jiraProject.key;
 
                 if (jiraProject.cycles.Count() > 0)

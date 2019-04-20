@@ -249,7 +249,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public  async Task<Tuple<HttpStatusCode, JObject>> GetProjects(string maxResults)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetProjectsTmj(string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(maxResults))
@@ -263,7 +263,25 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        
+        public async Task<Tuple<HttpStatusCode, object>> GetProjectsJira(string expand, int? recent)
+        {
+            string query = string.Empty;
+            if (!string.IsNullOrEmpty(expand))
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "expand=" + expand;
+            }
+            if (recent != null)
+            {
+                query += string.IsNullOrEmpty(query) ? "?" : "&";
+                query += "recent=" + recent.ToString();
+            }
+
+            var t = JiraCall(HttpMethod.Get, "project" + query, null);
+            await t;
+            return t.Result;
+        }
+
 
         public  async Task<Tuple<HttpStatusCode, JObject>> GetStatuses( string projectKey,
                                                                              string statusType,

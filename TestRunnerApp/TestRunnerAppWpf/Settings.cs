@@ -105,28 +105,40 @@ namespace TestRunnerAppWpf
                 }
 
 
+                bool JiraCloudTmj_enabled = true;
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
                     caller.jiraInstance = Properties.Settings.Default.JiraInstance;
+                else JiraCloudTmj_enabled = false;
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraUser))
                     caller.jiraUser = Properties.Settings.Default.JiraUser;
+                else JiraCloudTmj_enabled = false;
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
                 {
                     caller.jiraAccountId = Properties.Settings.Default.JiraAccountId;
                     Settings.accountIdSet = true;
                 }
+                // else JiraCloudTmj_enabled = false; // Enable anyway and try to get accountid in preflight
+
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraToken))
                     caller.jiraToken = Properties.Settings.Default.JiraToken;
+                else JiraCloudTmj_enabled = false;
 
-                if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjIdToken))
-                    caller.tmjIdToken = Properties.Settings.Default.TmjIdToken;
+                //if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjIdToken))
+                //    caller.tmjIdToken = Properties.Settings.Default.TmjIdToken;
+                //else JiraCloudTmj_enabled = false;
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.TmjKeyToken))
                     caller.tmjKeyToken = Properties.Settings.Default.TmjKeyToken;
+                else JiraCloudTmj_enabled = false;
+
+                Enums.Mgmt.Find(x => x.key == "JiraCloudTmj").enabled = JiraCloudTmj_enabled;
 
 
+
+                /* Deprecated - Mgmt now set per suite */
                 if (Properties.Settings.Default.MgmtSystem == "None")
                 {
                     caller.jiraCloudMgmt = false;
@@ -147,17 +159,13 @@ namespace TestRunnerAppWpf
                     caller.jiraCloudMgmt = false;
                     caller.reqTestMgmt = true;
                 }
+                /* Deprecated - Mgmt now set per suite */
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAvailableProjects))
                 {
-                    //var c = new ObservableCollection<JiraProject>();
                     var tokenArray = (JArray)FileMgmt.Deserialize(Properties.Settings.Default.JiraAvailableProjects);
                     foreach (JToken t in tokenArray)
                         jiraAvailableProjects.Add(t.ToObject<JiraProject>());
-
-                    //caller.detailsViewModel.jiraAvailableProjects.Add(t.ToObject<JiraProject>());
-                    //caller.detailsViewModel.jiraAvailableProjects = c;
-                    
                 }
 
 

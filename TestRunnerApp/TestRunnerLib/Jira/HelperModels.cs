@@ -120,5 +120,44 @@ namespace TestRunnerLib.Jira
             public JiraAvatar()
             {
             }
+
+            public JiraAvatar(string u16, string u24, string u32, string u48)
+            {
+                url16x16 = u16;
+                url24x24 = u24;
+                url32x32 = u32;
+                url48x48 = u48;
+            }
         }
+
+        [JsonObject(MemberSerialization.OptOut)]
+        public class JiraProjectCategory : ViewModelBase
+        {
+            public string id
+            {
+                get => Get(() => id);
+                set => Set(() => id, value);
+            }
+            public string self
+            {
+                get => Get(() => self);
+                set => Set(() => self, value);
+            }
+            public string description
+            {
+                get => Get(() => description);
+                set => Set(() => description, value);
+            }
+            public string name
+            {
+                get => Get(() => name);
+                set => Set(() => name, value);
+            }
+            
+
+            public JiraProjectCategory()
+            {
+            }
+        }
+
 }

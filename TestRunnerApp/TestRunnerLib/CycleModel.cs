@@ -98,11 +98,16 @@ namespace TestRunnerLib
             get => Get(() => notes);
             set => Set(() => notes, value);
         }
-        public Mgmt mgmt
+        public int mgmt
         {
-            get => Get(() => mgmt, Mgmt.None);
+            get => Get(() => mgmt);
             set => Set(() => mgmt, value);
         }
+        //public Managment mgmt
+        //{
+        //    get => Get(() => mgmt, Enums.Mgmt.Find(x => x.key == "None"));
+        //    set => Set(() => mgmt, value);
+        //}
         public string projectVersion
         {
             get => Get(() => projectVersion);

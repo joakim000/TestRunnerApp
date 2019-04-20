@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using TestRunnerLib.Jira;
@@ -18,6 +19,16 @@ namespace TestRunnerLib
         {
             get => Get(() => cycles);
             set => Set(() => cycles, value);
+        }
+        public ObservableCollection<JiraStatus> statuses
+        {
+            get => Get(() => statuses);
+            set => Set(() => statuses, value);
+        }
+        public ObservableCollection<JiraPrio> prios
+        {
+            get => Get(() => prios);
+            set => Set(() => prios, value);
         }
         public CycleModel currentCycle
         {
@@ -66,6 +77,25 @@ namespace TestRunnerLib
             set => Set(() => notes, value);
         }
 
+
+
+
+        //public Mgmt mgmt
+        //{
+        //    get => Get(() => mgmt, Mgmt.None);
+        //    set => Set(() => mgmt, value);
+        //}
+        public Managment mgmt
+        {
+            get => Get(() => mgmt);
+            set => Set(() => mgmt, value);
+        }
+        //public List<Managment> mgmtOptions
+        //{
+        //    get => Get(() => mgmtOptions, Enums.Mgmt);
+        //    set => Set(() => mgmtOptions, value);
+        //}
+
         /* Jira */
         public string jiraInstance
         {
@@ -89,6 +119,7 @@ namespace TestRunnerLib
         }
 
 
+
         // deprecated
         public JiraCycle jiraCycle
         {
@@ -102,6 +133,9 @@ namespace TestRunnerLib
             uid = Guid.NewGuid();
             tests = new ObservableCollection<TestModel>();
             cycles = new ObservableCollection<CycleModel>();
+
+            //if (mgmt == null)
+            //    mgmt = Enums.Mgmt.Find(x => x.key == "None");
 
             //currentCycle = new CycleModel();
             //currentCycle.key = "R1";

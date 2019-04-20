@@ -98,6 +98,8 @@
     <Compile Include="ImageTools.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="IWebTest.cs" />
+    <Compile Include="Jira\JiraExport.cs" />
+    <Compile Include="Jira\JiraImport.cs" />
     <Compile Include="Jira\JiraLoad.cs" />
     <Compile Include="Jira\Jira_Convert.cs" />
     <Compile Include="Jira\Jira_Create.cs" />

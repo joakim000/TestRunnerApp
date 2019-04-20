@@ -168,7 +168,7 @@
 
         <Grid  >
 
-        <TabControl BorderThickness="0" Padding="0" Background="{DynamicResource MenuBackgroundBrush}">
+        <TabControl x:Name="DetailsTabs"  BorderThickness="0" Padding="0" Background="{DynamicResource MenuBackgroundBrush}">
             
             <TabItem Header="Results" Style="{StaticResource TabItemDataGridStyle}" 
                      
@@ -651,9 +651,10 @@
 
                     <Grid >
                         <StackPanel >
-                            <Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>
+                            
+                            <!--<Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>-->
                             <!--<Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">-->
-                            <Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">
+                            <Grid Margin="15,5,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -706,58 +707,70 @@
 
 
                             </Grid>
-                            <StackPanel Orientation="Vertical"
-                                         Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}">
-                                <Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />
+                            <StackPanel Orientation="Vertical" DataContext="{Binding mainViewModel.gridViewModel.suite}">
+                                <Label Content="Test management" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />
+                                <ComboBox x:Name="MgmtCombo"  
+                                          Template="{DynamicResource ComboBoxControlCustom}"
+                                                Margin="15,0,0,0" MinWidth="200" HorizontalAlignment="Left"
+                                                ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.mgmtOptions, 
+                                                                            Mode=OneWay, NotifyOnSourceUpdated=True }"
+                                                IsEditable="False" IsReadOnly="True"
+                                                SelectedItem="{Binding mgmt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
+                                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
+                                        >
+                                    <!--Style="{DynamicResource ComboBoxCustomTemplate}"-->
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate >
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding name}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
 
-                                <Grid Margin="15,0,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-
-                                   
-                                    <StackPanel Grid.Column="1" Grid.Row="2">
-                                        <Label Content="Project" />
-                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,10" Padding="10,2,10,2"
-                                                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.mainViewModel.enableProjectLoad}"
-                                                Content="Update list" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.JiraGetAvailableProjectsCmd}"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <ComboBox x:Name="ProjectsCombo" Style="{StaticResource ComboStyle}" 
-                                                      Foreground="Black"
-                                                 ItemContainerStyle="{StaticResource ComboItemStyle}"     
-                                                      Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
+                                    <StackPanel x:Name="JiraCloudTmjPanel" Margin="15,0,5,15"
+                                                Visibility="{Binding mgmt, Converter={StaticResource VisiJiraCloudTmj}}"
+                                                >
+                                  
+                                        <Label Content="Project" Margin="0,15,0,0" />
+                                        
+                                       
+                                            <ComboBox x:Name="ProjectsCombo" Style="{DynamicResource ComboStyle}" 
+                                                      Template="{DynamicResource ComboBoxControlCustom}"
+                                                      ItemContainerStyle="{DynamicResource ComboItemStyle}"     
+                                                      MinWidth="200" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                                       SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.jiraSelectedProject, 
                                                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                                ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.jiraAvailableProjects, 
-                                                                            Mode=OneWay, NotifyOnSourceUpdated=True }">
+                                                      ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.jiraAvailableProjects, 
+                                                                            Mode=OneWay, NotifyOnSourceUpdated=True }"
+                                                      IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.mainViewModel.enableProjectLoad}"
+                                                      IsEditable="False" IsReadOnly="True"
+                                                      >
                                                  
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding key}" />
+                                                       
+                                                        <TextBlock Text="{Binding key}"  Margin="0,0,5,0" MinWidth="40"/>
+                                                            <TextBlock Text="{Binding name}" />
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
-                                            <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                                     IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.mainViewModel.enableProjectLoad}"
-                                                Content="Reload" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.JiraReloadProjectCmd}"/>
-                                        </StackPanel>
+                                                Content="Reload project" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.JiraReloadProjectCmd}"/>
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                                                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.mainViewModel.enableProjectLoad}"
+                                                Content="Update list" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.JiraGetAvailableProjectsCmd}"/>
+                                    </StackPanel>
 
-                                        <Label Grid.Column="1" Grid.Row="4" Content="Cycles folder" />
+                                        <Label Grid.Column="1" Grid.Row="4" Content="Cycles folder" Margin="0,10,0,0" />
                                         <StackPanel Orientation="Horizontal">
-                                            <ComboBox x:Name="CycleFolderCombo" Style="{StaticResource ComboStyle}" 
-                                                      Foreground="Black"
-                                                 ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                                            <ComboBox x:Name="CycleFolderCombo" Style="{DynamicResource ComboStyle}" 
+                                                      Template="{DynamicResource ComboBoxControlCustom}"
+                                                 ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                                       Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                                       SelectedItem="{Binding jiraProject.selectedCycleFolder, 
                                                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -774,13 +787,15 @@
                                             </ComboBox>
                                             <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                                 Content="All" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ResetCycleFolderCmd}"/>
-                                        </StackPanel>
+                                            <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                                                Content="Batch import" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCyclesCmd}"/>
+                                    </StackPanel>
                                         
                                         <Label Grid.Column="1" Grid.Row="4" Content="Test cases folder" />
                                         <StackPanel Orientation="Horizontal">
-                                            <ComboBox x:Name="CaseFolderCombo" Style="{StaticResource ComboStyle}" 
-                                                      Foreground="Black"
-                                                 ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                                            <ComboBox x:Name="CaseFolderCombo" Style="{DynamicResource ComboStyle}" 
+                                                      Template="{DynamicResource ComboBoxControlCustom}"
+                                                 ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                                       Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                                       SelectedItem="{Binding jiraProject.selectedCaseFolder, 
                                                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -797,9 +812,10 @@
                                             </ComboBox>
                                             <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                                 Content="All" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ResetCaseFolderCmd}"/>
-                                        </StackPanel>
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                                                Content="Batch import" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCasesCmd}"/>
                                     </StackPanel>
-                                </Grid>
+                                    </StackPanel>
                             </StackPanel>    
                         </StackPanel>
                     </Grid>

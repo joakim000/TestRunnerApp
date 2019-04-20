@@ -90,6 +90,11 @@ namespace TestRunnerLib
             get => Get(() => name);
             set => Set(() => name, value);
         }
+        public string status
+        {
+            get => Get(() => status);
+            set => Set(() => status, value);
+        }
         public string objective
         {
             get => Get(() => objective);
@@ -202,6 +207,12 @@ namespace TestRunnerLib
             testDataColl = new ObservableCollection<TestDataItem>();
             previousOutcome = Outcome.NotRun;
             this.PropertyChanged += TestModel_PropertyChanged;
+
+            if (jiraCase == null)
+                jiraCase = new JiraCase();
+
+            jiraCase.PropertyChanged += JiraCase_PropertyChanged;
+
         }
 
         private void TestModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -218,7 +229,13 @@ namespace TestRunnerLib
 
         private void JiraCase_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            CopyFromJiraCase();
+            if (e.PropertyName == "status")
+                if (jiraCase.status != null)
+                    status = jiraCase.status.name;
+            if (e.PropertyName == "priority")
+                if (jiraCase.priority != null)
+                    prio = jiraCase.priority.name;
+
         }
 
 
@@ -234,8 +251,8 @@ namespace TestRunnerLib
 
             estimatedTime = jiraCase.estimatedTime;
 
-            //if (jiraCase.status != null)
-            //    status = jiraCase.status.name;
+            if (jiraCase.status != null)
+                status = jiraCase.status.name;
 
             //if (jiraCase.folder != null)
             //    prio = jiraCase.folder.name;

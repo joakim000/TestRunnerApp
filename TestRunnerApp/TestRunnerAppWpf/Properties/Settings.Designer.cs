@@ -268,5 +268,17 @@ namespace TestRunnerAppWpf.Properties {
                 return ((string)(this["versionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Mgmt {
+            get {
+                return ((string)(this["Mgmt"]));
+            }
+            set {
+                this["Mgmt"] = value;
+            }
+        }
     }
 }

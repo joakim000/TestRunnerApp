@@ -24,7 +24,7 @@ namespace TestRunnerAppWpf
         {
             InitializeComponent();
 
-
+            DetailsTabs.SelectedIndex = 3;
 
 
         }

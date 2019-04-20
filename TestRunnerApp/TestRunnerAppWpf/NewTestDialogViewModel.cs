@@ -103,32 +103,32 @@ namespace TestRunnerAppWpf
 
             if (e.PropertyName == "jiraSelectedCase")
             {
-                Debug.WriteLine($"jiracase.key: {mainViewModel.gridViewModel.suite.jiraCycle.key}");
-
-                // Find existing tests with jiraTest key
-                var casesFromJira = mainViewModel.gridViewModel.suite.tests.Where(x => x.jiraCase != null);
-                int existCount = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).Count();
-                if (existCount > 0)
-                    newItem = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).First();
-                Debug.WriteLine("Found number of existing cases with jiraCaseID: " + existCount);
-
-                managed = true;
-                newItem.jiraCase = jiraSelectedCase;
-
-                labelsPanel.Children.Clear();
-                foreach (string s in newItem.jiraCase.labels)
+                if (jiraSelectedCase != null)
                 {
-                    Label l = new Label();
-                    //l.BorderThickness = new System.Windows.Thickness(2);
-                    //l.FontWeight = new System.Windows.FontWeight();
-                    //l.Content = s;
+                    // Find existing tests with jiraTest key
+                    var casesFromJira = mainViewModel.gridViewModel.suite.tests.Where(x => x.jiraCase != null);
+                    int existCount = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).Count();
+                    if (existCount > 0)
+                        newItem = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).First();
+                    Debug.WriteLine("Found number of existing cases with jiraCaseID: " + existCount);
 
-                    l.Margin = new System.Windows.Thickness(0,0,5,0);
-                    l.Content = $"[ {s} ]";
-                    labelsPanel.Children.Add(l);
+                    managed = true;
+                    newItem.jiraCase = jiraSelectedCase;
+
+                    labelsPanel.Children.Clear();
+                    foreach (string s in newItem.jiraCase.labels)
+                    {
+                        Label l = new Label();
+                        //l.BorderThickness = new System.Windows.Thickness(2);
+                        //l.FontWeight = new System.Windows.FontWeight();
+                        //l.Content = s;
+
+                        l.Margin = new System.Windows.Thickness(0, 0, 5, 0);
+                        l.Content = $"[ {s} ]";
+                        labelsPanel.Children.Add(l);
+                    }
+
                 }
-                
-
             }
 
         }

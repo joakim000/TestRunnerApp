@@ -335,17 +335,17 @@ namespace TestRunnerAppWpf
                                          MainViewModel mvm)
         {
             DetailsViewModel dvm = mvm.detailsViewModel;
-            SuiteModel suite;
+            GridViewModel gvm = mvm.gridViewModel;
 
             Tuple<string, SuiteModel> openResult = FileMgmt.OpenSuite(fileToOpen);
 
             if (openResult.Item2 != null)
             {
                 // Load the suite
-                suite = openResult.Item2;
+                gvm.suite = openResult.Item2;
                 
                 if (openResult.Item1 != null)
-                    suite.filename = openResult.Item1;
+                    gvm.suite.filename = openResult.Item1;
 
                 // Reset views
                 dvm.test = new TestModel();
@@ -354,21 +354,27 @@ namespace TestRunnerAppWpf
                 dvm.PropertyChanged -= dvm.DetailsViewModel_PropertyChanged;
                 dvm.jiraSelectedProject = null;
                 dvm.PropertyChanged += dvm.DetailsViewModel_PropertyChanged;
-
                 // More?
 
-                if (suite.currentCycle != null)
+                if (gvm.suite.currentCycle != null)
                 {
-                    Guid cc = suite.currentCycle.uid;
-                    suite.currentCycle = suite.cycles.Where(x => x.uid == cc).First();
+                    Guid cc = gvm.suite.currentCycle.uid;
+                    gvm.suite.currentCycle = gvm.suite.cycles.Where(x => x.uid == cc).First();
                 }
 
+                if (gvm.suite.mgmt == null)
+                    gvm.suite.mgmt = Enums.Mgmt.Find(x => x.key == "None");
+                else
+                    gvm.suite.mgmt = Enums.Mgmt.Find(x => x.key == gvm.suite.mgmt.key);
                 // Test managment handling (depending on usersetting) - Jira Cloud with TM4J
-                if (mvm.jiraCloudMgmt)
+                if (gvm.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
                 {
-                    if (suite.jiraProject != null && suite.jiraProject.key != null)
+                    // Select matching mgmt option in detailsview
+                    gvm.suite.mgmt = dvm.mgmtOptions.Find(x => x.key == gvm.suite.mgmt.key); 
+
+                    if (gvm.suite.jiraProject != null && gvm.suite.jiraProject.key != null)
                     {
-                        string key = suite.jiraProject.key;
+                        string key = gvm.suite.jiraProject.key;
                         if (dvm.jiraAvailableProjects.Where(x => x.key == key).Count() > 0)
                         {
                             dvm.jiraSelectedProject = dvm.jiraAvailableProjects.Where(x => x.key == key).First();
@@ -387,14 +393,13 @@ namespace TestRunnerAppWpf
                     }
                 }
                 // Test managment handling (depending on usersetting) - ReqTest
-                if (mvm.reqTestMgmt)
+                if (gvm.suite.mgmt == Enums.Mgmt.Find(x => x.key == "ReqTest"))
                 {
                     // TODO: Reqtest-support
                 }
 
 
-                // Load file into mainViewModel and reset unsaved changes
-                mvm.gridViewModel.suite = suite;
+                // Reset unsaved changes
                 mvm.unsavedChanges = false;
 
                 // Copy matching libfile in same dir as opened suitefile

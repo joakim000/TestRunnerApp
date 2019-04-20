@@ -70,7 +70,7 @@ namespace TestRunnerLib.Jira
         }
 
 
-        public IdSelf component
+        public JiraComponent component
         {
             get => Get(() => component);
             set => Set(() => component, value);

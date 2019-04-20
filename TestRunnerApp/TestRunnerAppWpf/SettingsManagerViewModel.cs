@@ -12,9 +12,16 @@ namespace TestRunnerAppWpf
     {
         public string[] optionsArray = { "None", "Jira Cloud with TM4J", "ReqTest" };
 
-        public string[] mgmtOptions
+        public string[] mgmtOptions_old
         {
-            get => Get(() => mgmtOptions, optionsArray );
+            get => Get(() => mgmtOptions_old, optionsArray);
+            set => Set(() => mgmtOptions_old, value);
+        }
+
+
+        public List<Managment> mgmtOptions
+        {
+            get => Get(() => mgmtOptions, Enums.Mgmt);
             set => Set(() => mgmtOptions, value);
         }
         public bool jiraCloudMgmt
@@ -27,7 +34,16 @@ namespace TestRunnerAppWpf
             get => Get(() => reqTestMgmt, false);
             set => Set(() => reqTestMgmt, value);
         }
-
+        //public Mgmt mgmt
+        //{
+        //    get => Get(() => mgmt, Mgmt.None);
+        //    set => Set(() => mgmt, value);
+        //}
+        public Managment mgmt
+        {
+            get => Get(() => mgmt, Enums.Mgmt.Find(x => x.key == "None"));
+            set => Set(() => mgmt, value);
+        }
 
 
 
@@ -70,7 +86,7 @@ namespace TestRunnerAppWpf
         //    return true;
         //}
 
-
+        
 
     }
 }

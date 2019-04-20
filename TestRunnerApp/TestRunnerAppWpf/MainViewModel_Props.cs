@@ -118,7 +118,7 @@ namespace TestRunnerAppWpf
         }
         public bool enableProjectLoad
         {
-            get => Get(() => enableProjectLoad);
+            get => Get(() => enableProjectLoad, true);
             set => Set(() => enableProjectLoad, value);
         }
 

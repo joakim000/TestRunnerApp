@@ -63,12 +63,12 @@
                      Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
-            <!--<ComboBox x:Name="PrioCombo" Style="{StaticResource ComboStyle}"
+            <ComboBox x:Name="PrioCombo" Template="{DynamicResource ComboBoxControlCustom}"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                                  ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                   SelectedItem="{Binding newItem.jiraCase.priority, 
                                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                  ItemsSource="{Binding jiraProject.prios,  Mode=OneWay, NotifyOnSourceUpdated=True}">
+                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.prios,  Mode=OneWay, NotifyOnSourceUpdated=True}">
 
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -77,11 +77,33 @@
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
-            </ComboBox>-->
+            </ComboBox>
+
+            <Label Content="Status" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
+            <TextBox 
+                     Text="{Binding Path=newItem.jiraCase.status.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />
+            <ComboBox x:Name="StatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
+                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
+                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
+                                  SelectedItem="{Binding newItem.jiraCase.status, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.caseStatuses,  Mode=OneWay, NotifyOnSourceUpdated=True}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
 
             <Label Content="Component" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
             <TextBox 
-                     Text="{Binding Path=newItem.jiraCase.component.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.jiraCase.component.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
@@ -185,27 +207,30 @@
             />
         </StackPanel>
 
-        <WrapPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,10" >
+        <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,10" >
                     <StackPanel HorizontalAlignment="Left" Margin="0,0,60,3">
                         <Label Content="Import Jira case" HorizontalAlignment="Left" />
-                        <ComboBox x:Name="CasesCombo" Style="{StaticResource ComboStyle}"
-                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
-                                  ItemContainerStyle="{StaticResource ComboItemStyle}"     
+                        <ComboBox x:Name="CasesCombo" Template="{DynamicResource ComboBoxControlCustom}"
+                                  MinWidth="150" MaxWidth="350"
+                                  HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
+                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                   SelectedItem="{Binding jiraSelectedCase, 
                                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                  ItemsSource="{Binding jiraProject.cases,  Mode=OneWay, NotifyOnSourceUpdated=True}">
+                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.cases,  Mode=OneWay, NotifyOnSourceUpdated=True}">
 
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding key}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding key}" Margin="0,0,5,0" MinWidth="60" />
+                                        <TextBlock Text="{Binding labels[0]}" Margin="0,0,5,0" MinWidth="40"/>
+                                        <TextBlock Text="{Binding name}" MaxWidth="240"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                     <Button IsDefault="True" Height="30" VerticalAlignment="Bottom"  Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-                <Button IsCancel="True" Height="30" VerticalAlignment="Bottom" MinWidth="60">_Cancel</Button>
+                    <Button IsCancel="True" Height="30" VerticalAlignment="Bottom" MinWidth="60">_Cancel</Button>
             </WrapPanel>
     </Grid>
 </Window>
