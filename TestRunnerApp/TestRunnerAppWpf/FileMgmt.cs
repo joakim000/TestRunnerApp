@@ -356,6 +356,7 @@ namespace TestRunnerAppWpf
                 dvm.PropertyChanged += dvm.DetailsViewModel_PropertyChanged;
                 // More?
 
+                // Set selected cycle
                 if (gvm.suite.currentCycle != null)
                 {
                     Guid cc = gvm.suite.currentCycle.uid;
@@ -366,6 +367,8 @@ namespace TestRunnerAppWpf
                     gvm.suite.mgmt = Enums.Mgmt.Find(x => x.key == "None");
                 else
                     gvm.suite.mgmt = Enums.Mgmt.Find(x => x.key == gvm.suite.mgmt.key);
+
+
                 // Test managment handling (depending on usersetting) - Jira Cloud with TM4J
                 if (gvm.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
                 {
@@ -390,8 +393,18 @@ namespace TestRunnerAppWpf
                             MessageBox.Show("Project selected in Suite not available from Jira.", "TestRunnerApp with Jira",
                                         MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
+                        // Set SelectedItems on tests
+                        foreach (TestModel t in gvm.suite.tests)
+                        {
+                            t.SetSelectedItems(gvm.suite.jiraProject);
+                        }
+
                     }
+
                 }
+
+                
+
                 // Test managment handling (depending on usersetting) - ReqTest
                 if (gvm.suite.mgmt == Enums.Mgmt.Find(x => x.key == "ReqTest"))
                 {

@@ -6,6 +6,7 @@ using ViewModelSupport;
 using Lib;
 using System.Linq;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace TestRunnerLib
 {
@@ -62,17 +63,19 @@ namespace TestRunnerLib
             get => Get(() => previousOutcome, Outcome.NotRun);
             set => Set(() => previousOutcome, value);
         }
+            // Last datetime: runs.Last().datetime
         public DateTime? previousDateTime
         {
             get => Get(() => previousDateTime);
             set => Set(() => previousDateTime, value);
         }
+            // Last runTime: runs.Last().runTime
         public Int64 previousRunTime
         {
             get => Get(() => previousRunTime);
             set => Set(() => previousRunTime, value);
         }
-
+        // end: Duplicates child data
 
         /* Description fields */
         public TestKind kind
@@ -181,24 +184,6 @@ namespace TestRunnerLib
         /* end: Jira integration */
 
 
-        /* Deprecated */
-        //public string callMeth
-        //{
-        //    get => Get(() => callMeth);
-        //    set => Set(() => callMeth, value);
-        //}
-        //public string webDriver
-        //{
-        //    get => Get(() => webDriver);
-        //    set => Set(() => webDriver, value);
-        //}
-        //public bool useWebDriver
-        //{
-        //    get => Get(() => useWebDriver);
-        //    set => Set(() => useWebDriver, value);
-        //}
-        
-
 
         public TestModel()
         {
@@ -211,10 +196,24 @@ namespace TestRunnerLib
             if (jiraCase == null)
                 jiraCase = new JiraCase();
 
-            jiraCase.PropertyChanged += JiraCase_PropertyChanged;
+            // Make current status selected in GridView
+            try
+            {
 
+            }
+            catch (NullReferenceException ex)
+            {
+                
+            }
+       
+
+            jiraCase.PropertyChanged += JiraCase_PropertyChanged;
         }
 
+        
+
+
+        /* Event handlers */
         private void TestModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "jiraCase")
@@ -237,7 +236,37 @@ namespace TestRunnerLib
                     prio = jiraCase.priority.name;
 
         }
+        /* end: Event handlers */
 
+        public void SetSelectedItems(JiraProject jiraProject)
+        {
+            if (jiraProject.key != jiraProjectKey)
+            {
+                Debug.WriteLine($"Settings selectedItems for test {id}: current project key {jiraProject.key} does not match test project key {jiraProjectKey}.");
+            }
+
+            if (jiraCase != null)
+            {
+                if (jiraCase.priority != null)
+                {
+                    if (jiraProject.prios.Where(x => x.id == jiraCase.priority.id).Count() > 0)
+                        jiraCase.priority = jiraProject.prios.Where(x => x.id == jiraCase.priority.id).First();
+                }
+
+                if (jiraCase.status != null)
+                {
+                    if (jiraProject.caseStatuses.Where(x => x.id == jiraCase.status.id).Count() > 0)
+                        jiraCase.status = jiraProject.caseStatuses.Where(x => x.id == jiraCase.status.id).First();
+                }
+
+                if (jiraCase.folder != null)
+                {
+                    if (jiraProject.caseFolders.Where(x => x.id == jiraCase.folder.id).Count() > 0)
+                        jiraCase.folder = jiraProject.caseFolders.Where(x => x.id == jiraCase.folder.id).First();
+
+                }
+            }
+        }
 
         private void CopyFromJiraCase()
         {
@@ -261,12 +290,9 @@ namespace TestRunnerLib
             //    owner = jiraCase.owner.displayName
 
             //createdOn = jiraCase.createdOn;       
-
-
         }
 
-
-
+        /* Commands */
         public void Execute_AddTestDataCmd()
         {
             AddTestdata();
@@ -283,7 +309,7 @@ namespace TestRunnerLib
                 highestIndex = testDataColl.Max<TestDataItem, int>(x => x.index);
             testDataColl.Add(new TestDataItem(highestIndex + 1, string.Empty));
         }
-        
+        /* end: Commands */
 
         private string StringCopy(string s)
         {
@@ -294,9 +320,9 @@ namespace TestRunnerLib
         {
             var c = new TestModel();
 
-            c.callAss = StringCopy(callAss);
-            c.callSpace = StringCopy(callSpace);
-            c.callType = StringCopy(callType);
+            c.callAss = callAss.SafeCopy();
+            c.callSpace = callSpace.SafeCopy();
+            c.callType = callType.SafeCopy();
 
             //c.testData = new string[testData.Length];
             //Array.Copy(testData, c.testData, testData.Length);
@@ -309,28 +335,28 @@ namespace TestRunnerLib
 
 
             c.kind = kind; // ref
-            c.id = StringCopy(id);
-            c.name = StringCopy(name);
-            c.objective = StringCopy(objective);
+            c.id = id.SafeCopy();
+            c.name = name.SafeCopy();
+            c.objective = objective.SafeCopy();
 
-            c.descExecution = StringCopy(descExecution);
-            c.descPrecond = StringCopy(descPrecond);
-            c.descExpected = StringCopy(descExpected);
+            c.descExecution = descExecution.SafeCopy();
+            c.descPrecond = descPrecond.SafeCopy();
+            c.descExpected = descExpected.SafeCopy();
 
-            c.notes = StringCopy(notes);
-            c.prio = StringCopy(prio);
-            c.version = StringCopy(version);
+            c.notes = notes.SafeCopy();
+            c.prio = prio.SafeCopy();
+            c.version = version.SafeCopy();
 
-            c.jiraProjectKey = StringCopy(jiraProjectKey);
+            c.jiraProjectKey = jiraProjectKey.SafeCopy();
             c.jiraCloudTmj = jiraCloudTmj;
             c.jiraCase = jiraCase;
 
 
-            //c.jiraPrioId = StringCopy(jiraPrioId);
-            //c.jiraPrioName = StringCopy(jiraPrioName);
-            //c.jiraTestId = StringCopy(jiraTestId);
-            //c.jiraTestName = StringCopy(jiraTestName);
-            //c.jiraTestVersion = StringCopy(jiraTestVersion);
+            //c.jiraPrioId = jiraPrioId.SafeCopy();
+            //c.jiraPrioName = jiraPrioName.SafeCopy();
+            //c.jiraTestId = jiraTestId.SafeCopy();
+            //c.jiraTestName = jiraTestName.SafeCopy();
+            //c.jiraTestVersion = jiraTestVersion.SafeCopy();
 
             return c;
         }

@@ -396,8 +396,14 @@ namespace TestRunnerAppWpf
                 runCurrent = runTotal;
                 ResetProgress();
 
+
+                // Set SelectedItems on tests
+                foreach (TestModel t in gridViewModel.suite.tests)
+                {
+                    t.SetSelectedItems(gridViewModel.suite.jiraProject);
+                }
+
             }
-            //this.unsavedChanges = true;
             Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
         }
 

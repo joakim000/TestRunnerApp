@@ -14,29 +14,40 @@
                 <ResourceDictionary Source="/Themes/Dark.xaml" />
                 <ResourceDictionary Source="/Themes/ProgressBar.xaml" />
                 <ResourceDictionary Source="/Themes/ToolBar.xaml" />
-                <!--<ResourceDictionary Source="/Themes/ComboBoxCustom.xaml" />-->
             </ResourceDictionary.MergedDictionaries>
 
-
-            <BooleanToVisibilityConverter x:Key="BoolToVisi" />
+            <!--Converters-->
             <local:BoolStringConverter x:Key="BoolToString" />
-            <local:BoolChangesConverter x:Key="BoolToChanges" />
+            <local:BoolInverseConverter x:Key="BoolInverseConverter"/>
             <local:IntStringConverter x:Key="IntStringConverter" />
             <local:IntStringNoZeroConverter x:Key="IntStringNoZeroConverter" />
-            <local:DateTimeForceShortConverter x:Key="DateTimeForceShortConverter" />
+            
+            <!--UI specific converters-->
+            <local:ElementSizeConverter x:Key="ElementSizeConverter"/>
+            <local:BoolChangesConverter x:Key="BoolToChanges" />
+            <local:BoolFontConverter x:Key="BoolFontConverter"/>
+
+             <!--DateTime converters-->   
             <local:DateTimeShortConverter x:Key="DateTimeShortConverter" />
-            <local:OutcomeStringConverter x:Key="OutcomeStringConverter" />
+            <local:DateTimeForceShortConverter x:Key="DateTimeForceShortConverter" />
+
+            <!--Icon selectors-->
             <local:OutcomeImgConverter x:Key="OutcomeImgConverter" />
             <local:WebDriverTypeImgConverter x:Key="WebDriverTypeImgConverter" />
-            <local:ElementSizeConverter x:Key="ElementSizeConverter"/>
-            <local:ArrayDictConverter x:Key="ArrayDictConverter"/>
-            <local:BoolFontConverter x:Key="BoolFontConverter"/>
-            <local:BoolInverseConverter x:Key="BoolInverseConverter"/>
             <local:TestkindImgConverter x:Key="TestkindImgConverter"/>
+            
+            <!--Visibility converters-->
+            <BooleanToVisibilityConverter x:Key="BoolToVisi" />
             <local:BoolToVisiInverse x:Key="BoolToVisiInverse"/>
             <local:VisiJiraCloudTmj x:Key="VisiJiraCloudTmj"/>
             <local:VisiReqTest x:Key="VisiReqTest"/>
+            <local:VisiNone x:Key="VisiNone"/>
 
+            <!--Deprecated-->
+            <local:ArrayDictConverter x:Key="ArrayDictConverter"/>
+            <local:OutcomeStringConverter x:Key="OutcomeStringConverter" />
+            <!--end: Converters-->
+            
             <Style TargetType="{x:Type DataGridRow}" >
                 <Setter Property="FontSize" Value="14" />
             </Style>

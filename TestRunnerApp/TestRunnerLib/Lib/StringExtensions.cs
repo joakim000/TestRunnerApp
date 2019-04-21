@@ -32,5 +32,12 @@
 
             return str.IndexOf(substring, comp) >= 0;
         }
+
+        public static string SafeCopy(this string s)
+        {
+            return s == null ? null : string.Copy(s);
+        }
+
     }
+
 }

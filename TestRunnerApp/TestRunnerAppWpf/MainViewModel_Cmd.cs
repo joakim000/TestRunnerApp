@@ -265,6 +265,7 @@ namespace TestRunnerAppWpf
                 SuiteModel restoredSuite = (SuiteModel)FileMgmt.DeserialSuite(undoSuite);
                 if (restoredSuite != null)
                     gridViewModel.suite = restoredSuite;
+                    //TODO BUG: Restore selectedItems
             }
         }
         public bool CanExecute_UndoCmd()

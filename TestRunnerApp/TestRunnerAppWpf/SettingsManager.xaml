@@ -34,9 +34,12 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <StackPanel Margin="15,15,0,0">
             <!--<Label Content="Management integration" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
-            <!--<Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system" />-->
             <ComboBox x:Name="OptionsCombo"  
                       Template="{DynamicResource ComboBoxControlCustom}"
                       Margin="15,0,0,0" MinWidth="200" HorizontalAlignment="Left"
@@ -55,21 +58,9 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <!--<Label Margin="15,0,0,0" Grid.Column="1" Grid.Row="0" Content="Management system _old" />
-            <ComboBox x:Name="OptionsCombo_old"  Style="{DynamicResource ComboStyle}"
-                      Margin="15,0,0,0" Width="200" HorizontalAlignment="Left"
-                      ItemsSource="{Binding Path=mgmtOptions_old}"
-                      IsEditable="False" IsReadOnly="True"
-                      SelectionChanged="OptionsCombo_SelectionChanged_old"
-                      ItemContainerStyle="{DynamicResource ComboItemStyle}"     
-                      >
-            </ComboBox>-->
-
             <Grid Margin="15,15,15,15" x:Name="JiraCloudGrid" 
                   Visibility="{Binding mgmt, Converter={StaticResource VisiJiraCloudTmj}}"
-                  
                   >
-                <!--Visibility="{Binding jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -126,16 +117,41 @@
 
             </Grid>
 
-            <Grid Margin="15,15,15,15" x:Name="NoneGrid">
-                
+            <Grid Margin="15,15,15,15" x:Name="NoneGrid"
+                  Visibility="{Binding mgmt, Converter={StaticResource VisiNone}}"
+                  >
+                <StackPanel>
+                    <Label Content="Test prio options" />
+                    <StackPanel Orientation="Horizontal" >
+                        <ListBox MinWidth="150" Background="{DynamicResource ButtonBackgroundBrush}">
+                            <ListBoxItem Content="High"/>
+                            <ListBoxItem Content="Low"/>
+                        </ListBox>
+                        <StackPanel Margin="15,0,0,0">
+                            <Button Content="Add option" Margin="0,0,0,10" Padding="5,3,5,3"/>
+                            <Button Content="Remove option" Padding="5,3,5,3"/>
+                        </StackPanel>
+                    </StackPanel >
+                    <Label Content="Test status options" Margin="0,15,0,0"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ListBox MinWidth="150" Background="{DynamicResource ButtonBackgroundBrush}">
+                            <ListBoxItem Content="Approved"/>
+                            <ListBoxItem Content="Draft"/>
+                        </ListBox>
+                        <StackPanel Margin="15,0,0,0">
+                            <Button Content="Add option" Margin="0,0,0,10" Padding="5,3,5,3"/>
+                            <Button Content="Remove option" Padding="5,3,5,3"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
             
         </StackPanel>
         
-                <WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" >
-                    <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
-                    <Button IsCancel="True" MinWidth="60">_Cancel</Button>
-                </WrapPanel>
+        <WrapPanel Grid.Row="16" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" >
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">_Ok</Button>
+            <Button IsCancel="True" MinWidth="60">_Cancel</Button>
+        </WrapPanel>
            
     </Grid>
 </Window>

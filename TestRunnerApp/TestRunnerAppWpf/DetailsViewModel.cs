@@ -286,8 +286,8 @@ namespace TestRunnerAppWpf
                 MessageBox.Show("Loading project data: No project selected.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            mainViewModel.gridViewModel.suite.jiraProject = jiraSelectedProject;
 
+            mainViewModel.gridViewModel.suite.jiraProject = jiraSelectedProject;
 
             if (mainViewModel.gridViewModel.suite.jiraProject == null)
             {
@@ -299,9 +299,6 @@ namespace TestRunnerAppWpf
 
             var p = mainViewModel.gridViewModel.suite.jiraProject;
 
-            //JiraConnect.LoadProjectData(p);
-
-            //var load = new JiraLoad();
             mainViewModel.LoadJiraProjectAsync(p);
             
 

@@ -185,6 +185,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ArrayDictConverter.cs" />
+    <Compile Include="Converters\VisiNone.cs" />
     <Compile Include="Converters\VisiReqTest.cs" />
     <Compile Include="Converters\VisiJiraCloudTmj.cs" />
     <Compile Include="Converters\BoolToVisiInverse.cs" />
