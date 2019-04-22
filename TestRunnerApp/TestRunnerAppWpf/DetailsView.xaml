@@ -730,7 +730,6 @@
                                     <Label Content="Project" Margin="0,15,0,0" />
                                     <ComboBox x:Name="ProjectsCombo" 
                                                       Template="{DynamicResource ComboBoxControlCustom}"
-                                                      ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                                       MinWidth="200" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                                       SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.jiraSelectedProject, 
                                                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -761,7 +760,6 @@
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox x:Name="CycleFolderCombo" 
                                                   Template="{DynamicResource ComboBoxControlCustom}"
-                                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                                   SelectedItem="{Binding jiraProject.selectedCycleFolder, 
                                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
@@ -787,7 +785,6 @@
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox x:Name="CaseFolderCombo" 
                                                   Template="{DynamicResource ComboBoxControlCustom}"
-                                             ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
                                                   SelectedItem="{Binding jiraProject.selectedCaseFolder, 
                                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"

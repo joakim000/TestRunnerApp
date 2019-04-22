@@ -69,7 +69,7 @@
                 </DataTemplate>
             </DataGrid.RowHeaderTemplate>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding id, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                <DataGridTextColumn Header="ID" Binding="{Binding id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -79,7 +79,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 
-                <DataGridTextColumn Header="Prio" Binding="{Binding prio, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                <!--<DataGridTextColumn Header="Prio" Binding="{Binding prio, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -87,14 +87,10 @@
                             <Setter Property="Margin" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                </DataGridTextColumn>-->
 
 
-                <!--<DataGridComboBoxColumn MinWidth="100" Header="Prio"
-                                        ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.suite.jiraProject.prios, Mode=OneWay, NotifyOnSourceUpdated=true}" 
-                                        SelectedItemBinding="{Binding jiraCase.prio, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                        TextBinding="{Binding name}"
-                                        />-->
+               
 
                 <DataGridTemplateColumn Header="Prio" IsReadOnly="False"  MinWidth="50" 
                                         Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}, AncestorLevel=1},  Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource BoolToVisiInverse}}">
@@ -126,17 +122,6 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <!--<DataGridTextColumn Header="Prio" 
-                                    Binding="{Binding jiraCase.prio.name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                                      NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" MinWidth="40">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="Margin" Value="5,0,5,0" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>-->
 
 
 
@@ -177,9 +162,40 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <!--<DataGridTextColumn Header="Status" 
-                                    Binding="{Binding jiraCase.status.name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay,
-                                                      NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" MinWidth="40">
+
+                <DataGridTemplateColumn Header="Folder" IsReadOnly="False"  MinWidth="50" 
+                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}, AncestorLevel=1},  Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource BoolToVisiInverse}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="FolderCombo" 
+                                      IsEnabled="True"
+                                      Template="{DynamicResource ComboBoxControlDataGrid}"
+                                      IsEditable="False" IsReadOnly="True"
+                                      Width="Auto" 
+                                      HorizontalAlignment="Stretch" Margin="0,0,0,0" Padding="4,4,0,4"
+                                  SelectedItem="{Binding jiraCase.folder, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.suite.jiraProject.caseFolders, Mode=OneWay, NotifyOnSourceUpdated=true}">
+
+                                <!--ItemContainerStyle="{DynamicResource ComboItemStyle}"-->
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center" Margin="3,2,1,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+
+                <!--<DataGridTextColumn Header="Folder" Binding="{Binding jiraCase.folder.name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -188,19 +204,12 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>-->
-
                 
-                <DataGridTextColumn Header="Folder" Binding="{Binding jiraCase.folder.name, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="Margin" Value="5,0,5,0" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
                 
-                <DataGridTextColumn Header="Name" Binding="{Binding name, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="100">
+                
+                
+                
+                <DataGridTextColumn Header="Name" Binding="{Binding name, UpdateSourceTrigger=LostFocus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, ValidatesOnNotifyDataErrors=True}" Width="*" MinWidth="100">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -209,7 +218,16 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
  
-                <DataGridTextColumn Header="Created" Binding="{Binding jiraCase.createdOn, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                <!--<DataGridTextColumn Header="Created" Binding="{Binding jiraCase.createdOn, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>-->
+
+                <DataGridTextColumn Header="Created" Binding="{Binding jiraCase.createdOnDT, Converter={StaticResource DateTimeShortConverter}, NotifyOnSourceUpdated=True}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -217,8 +235,8 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                
-                
+
+
                 <DataGridTextColumn Header="Runs" Binding="{Binding numberOfRuns}" IsReadOnly="True"  MinWidth="40" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -251,8 +269,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTextColumn Header="Run time" Binding="{Binding previousRunTime, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+
+                <DataGridTextColumn Header="Run time" Binding="{Binding previousRunTime, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />

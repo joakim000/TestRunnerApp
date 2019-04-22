@@ -250,16 +250,29 @@ namespace TestRunnerAppWpf
                 {
                     picker.InitialDirectory = Properties.Settings.Default.PreviousDir;
                 }
-                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
+
+                //if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
+                //{
+                //    picker.FileName = Properties.Settings.Default.PreviousFile;
+                //}
+                if (!string.IsNullOrWhiteSpace(suite.filename))
                 {
-                    picker.FileName = Properties.Settings.Default.PreviousFile;
+                    picker.FileName = ShortFilename(suite.filename);
                 }
+                else if (!string.IsNullOrWhiteSpace(suite.name))
+                {
+                    picker.FileName = suite.name;
+                }
+                else
+                    picker.FileName = "Untitled suite";
+
                 if (picker.ShowDialog() == true)
                 {
                     try
                     {
                         File.WriteAllText(picker.FileName, serialized);
-                        filename = picker.FileName;
+                        suite.filename = picker.FileName;
+                        filename = picker.FileName; // ?
                         Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
                         Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
                         return new Tuple<bool, string>(true, picker.FileName);

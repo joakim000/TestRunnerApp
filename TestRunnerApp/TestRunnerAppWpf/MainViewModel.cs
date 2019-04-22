@@ -129,12 +129,6 @@ namespace TestRunnerAppWpf
 
 
 
-        //private void setWindowTitle() => 
-        //    windowTitle = string.IsNullOrWhiteSpace(gridViewModel.suite.name) ? 
-        //        Properties.Settings.Default.AppTitle :
-        //        $"{gridViewModel.suite.name}  - {Properties.Settings.Default.AppTitle}";
-
-
         private void setWindowTitle()
         {
             string s = string.Empty;
@@ -426,9 +420,12 @@ namespace TestRunnerAppWpf
             }
             Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
 
+            UpdateJiraCasesInTests();
+
             // Reenable stuff after work done
             enableProjectLoad = true;
             ToggleJiraCaseUpdates(true);
+
         }
 
         async void ResetProgress()
@@ -439,6 +436,19 @@ namespace TestRunnerAppWpf
             runSlash = string.Empty;
             runTotal = string.Empty;
             progressBarValue = 0;
+        }
+
+        void UpdateJiraCasesInTests()
+        {
+            var s = gridViewModel.suite;
+            foreach (TestModel t in s.tests)
+            {
+                if (t.jiraCase != null && t.jiraCase.project != null)
+                {
+                    if (s.jiraProject.cases.Where(x => x.id == t.jiraCase.id).Count() > 0)
+                        t.jiraCase = s.jiraProject.cases.Where(x => x.id == t.jiraCase.id).First();
+                } 
+            }
         }
 
 

@@ -85,7 +85,6 @@
                 <Label Content="Jira Cycle" />
                 <ComboBox x:Name="CyclesCombo"  Template="{DynamicResource ComboBoxControlCustom}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding jiraSelectedCycle, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.cycles, 

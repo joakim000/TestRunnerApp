@@ -65,7 +65,6 @@
             />
             <ComboBox x:Name="PrioCombo" Template="{DynamicResource ComboBoxControlCustom}"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                   SelectedItem="{Binding newItem.jiraCase.priority, 
                                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                   ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.prios,  Mode=OneWay, NotifyOnSourceUpdated=True}">
@@ -86,7 +85,6 @@
             />
             <ComboBox x:Name="StatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
                                   Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                   SelectedItem="{Binding newItem.jiraCase.status, 
                                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                   ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.caseStatuses,  Mode=OneWay, NotifyOnSourceUpdated=True}">
@@ -213,7 +211,6 @@
                         <ComboBox x:Name="CasesCombo" Template="{DynamicResource ComboBoxControlCustom}"
                                   MinWidth="150" MaxWidth="350"
                                   HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
-                                  ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                                   SelectedItem="{Binding jiraSelectedCase, 
                                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                   ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.cases,  Mode=OneWay, NotifyOnSourceUpdated=True}">

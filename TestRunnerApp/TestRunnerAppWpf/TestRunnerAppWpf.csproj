@@ -297,14 +297,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\ComboBoxCustom.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Dark - Copy.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Themes\Dark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -316,10 +308,6 @@
     <Page Include="Themes\Light.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Light_bak.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\MenuItem.xaml">
       <SubType>Designer</SubType>
@@ -499,8 +487,6 @@
     <Content Include="geckodriver.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Themes\ComboBoxItem_defaultTemplate.xml" />
-    <Resource Include="Themes\ComboBox.xml" />
     <Resource Include="Icons\F1Help_16x.png" />
     <Resource Include="Icons\Log_16x.png" />
     <Resource Include="Icons\TestJob_16x.png" />

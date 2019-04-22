@@ -41,6 +41,11 @@ namespace TestRunnerLib.Jira
             get => Get(() => createdOn);
             set => Set(() => createdOn, value);
         }
+        public DateTime createdOnDT
+        {
+            get => Get(() => createdOnDT);
+            set => Set(() => createdOnDT, value);
+        }
         public string objective
         {
             get => Get(() => objective);
@@ -156,7 +161,9 @@ namespace TestRunnerLib.Jira
                                                                     folder,
                                                                     owner);
 
-                if (response.Item1 == HttpStatusCode.OK)
+                if (response == null)
+                   Debug.WriteLine($"JiraCase updated failed early: {key}");
+                else if (response.Item1 == HttpStatusCode.OK)
                 {
                     Debug.WriteLine($"JiraCase successfully updated: {key}");
                 }

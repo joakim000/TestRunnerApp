@@ -122,8 +122,11 @@ namespace TestRunnerLib.Jira
             data.Add("status", IdSelfDict(status));
 
             // Optional
+
             //if (!string.IsNullOrEmpty(createdOn))
             //    data.Add("createdOn", createdOn);
+            // Required format:  "createdOn": "2018-05-15T13:15:13.000+0000"
+
 
             if (!string.IsNullOrEmpty(objective))
                 data.Add("objective", objective);

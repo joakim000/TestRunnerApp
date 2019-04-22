@@ -49,7 +49,7 @@
             <!--end: Converters-->
             
             <Style TargetType="{x:Type DataGridRow}" >
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="12" />
             </Style>
             <Style TargetType="{x:Type DataGridCell}"  >
                 <Setter Property="BorderThickness" Value="0"/>
@@ -69,6 +69,7 @@
             <Style TargetType="{x:Type Label}" >
                 <Setter Property="Margin" Value="0,0,0,0" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="FontWeight" Value="Bold" />
             </Style>
 
             <Style TargetType="{x:Type TextBox}" >
@@ -81,7 +82,7 @@
 
             <Style TargetType="{x:Type TextBlock }"  >
                 <Setter Property="FontSize" Value="12" />
-                <Setter Property="FontWeight" Value="Bold" />
+                <!--<Setter Property="FontWeight" Value="Bold" />-->
                 <Setter Property="VerticalAlignment" Value="Bottom" />
                 <Setter Property="HorizontalAlignment" Value="Center" />
             </Style>

@@ -46,7 +46,6 @@
                       ItemsSource="{Binding Path=mgmtOptions}"
                       IsEditable="False" IsReadOnly="True"
                       SelectionChanged="OptionsCombo_SelectionChanged"
-                      ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                       SelectedItem="{Binding Path=mgmt}"
                       >
                 <ComboBox.ItemTemplate>

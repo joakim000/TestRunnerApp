@@ -178,9 +178,14 @@ namespace TestRunnerAppWpf
                 if (d.ShowDialog() == true)
                 {
                     undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+
+                    if (string.IsNullOrEmpty(d.newItem.name))
+                        d.newItem.name = "Untitled suite";
                     gridViewModel.suite = d.newItem;
+
                     SelectedItems_PropertyChanged(null, null);
                     FileMgmt.filename = null;
+
                 }
             }
         }
@@ -208,7 +213,10 @@ namespace TestRunnerAppWpf
         {
             Tuple<bool, string> saveResult = FileMgmt.SaveAsSuite(gridViewModel.suite);
             if (saveResult.Item1)
+            {
+                gridViewModel.suite.filename = saveResult.Item2;
                 this.unsavedChanges = false;
+            }
         }
         public bool CanExecute_FileSaveAsCmd()
         {
@@ -219,7 +227,10 @@ namespace TestRunnerAppWpf
         {
             Tuple<bool, string> saveResult = FileMgmt.SaveSuite(gridViewModel.suite);
             if (saveResult.Item1)
+            {
+                gridViewModel.suite.filename = saveResult.Item2;
                 this.unsavedChanges = false;
+            }
         }
         public bool CanExecute_FileSaveCmd()
         {

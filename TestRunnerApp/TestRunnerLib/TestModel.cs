@@ -196,16 +196,6 @@ namespace TestRunnerLib
             if (jiraCase == null)
                 jiraCase = new JiraCase();
 
-            // Make current status selected in GridView
-            //try
-            //{
-
-            //}
-            //catch (NullReferenceException ex)
-            //{
-                
-            //}
-       
 
             jiraCase.PropertyChanged += JiraCase_PropertyChanged;
         }
@@ -224,6 +214,25 @@ namespace TestRunnerLib
                     CopyFromJiraCase();
                 }
             }
+
+            if (jiraCase != null) {
+                if (e.PropertyName == "name")
+                    jiraCase.name = name;
+
+                if (e.PropertyName == "objective")
+                    jiraCase.objective = objective;
+
+                if (e.PropertyName == "descPrecond")
+                    jiraCase.precondition = descPrecond;
+
+                if (e.PropertyName == "estimatedTime")
+                    jiraCase.estimatedTime = estimatedTime;
+
+                // Can't be updated with TM4J
+                if (e.PropertyName == "version")
+                    jiraCase.version = version;
+            }
+
         }
 
         private void JiraCase_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -234,6 +243,22 @@ namespace TestRunnerLib
             if (e.PropertyName == "priority")
                 if (jiraCase.priority != null)
                     prio = jiraCase.priority.name;
+
+            if (e.PropertyName == "name")
+                name = jiraCase.name;
+
+            if (e.PropertyName == "objective")
+                objective = jiraCase.objective;
+
+            if (e.PropertyName == "descPrecond")
+                descPrecond = jiraCase.precondition;
+
+            if (e.PropertyName == "estimatedTime")
+                estimatedTime = jiraCase.estimatedTime;
+
+            if (e.PropertyName == "version")
+                version = jiraCase.version;
+
 
         }
         /* end: Event handlers */

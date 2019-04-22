@@ -72,7 +72,6 @@
             <ComboBox x:Name="JiraProjVersionCombo"  Style="{DynamicResource ComboStyle}"
                           Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.jiraProjectVersion, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.versions, 
@@ -103,7 +102,6 @@
                 <Label Content="Jira Cycle" />
                 <ComboBox x:Name="CyclesCombo"  Style="{DynamicResource ComboStyle}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding jiraSelectedCycle, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.cycles, 
@@ -124,7 +122,6 @@
                 />-->
                 <ComboBox x:Name="FolderCombo"  Style="{DynamicResource ComboStyle}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.folder, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.cycleFolders, 
@@ -156,7 +153,6 @@
             <ComboBox x:Name="JiraStatusCombo"  Style="{DynamicResource ComboStyle}"
                           Visibility="{Binding Path=mainViewModel.jiraCloudMgmt, Converter={StaticResource BoolToVisi}}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.status, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.cycleStatuses, 

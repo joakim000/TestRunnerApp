@@ -303,7 +303,14 @@ namespace TestRunnerLib.Jira
                     c.name = t.Value<string>("name");
                     if (t.Value<JObject>("project") != null)
                         c.project = t.Value<JObject>("project").ToObject<IdSelf>();
+
                     c.createdOn = t.Value<string>("createdOn");
+                    DateTime dt;
+                    if (DateTime.TryParse(c.createdOn, out dt))
+                        c.createdOnDT = dt;
+                    else
+                        Debug.WriteLine($"Unable to parse createdOn {c.createdOn} for {c.key}");
+
                     c.objective = t.Value<string>("objective");
                     c.precondition = t.Value<string>("precondition");
                     c.estimatedTime = t.Value<int?>("estimatedTime");
