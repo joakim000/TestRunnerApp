@@ -197,14 +197,14 @@ namespace TestRunnerLib
                 jiraCase = new JiraCase();
 
             // Make current status selected in GridView
-            try
-            {
+            //try
+            //{
 
-            }
-            catch (NullReferenceException ex)
-            {
+            //}
+            //catch (NullReferenceException ex)
+            //{
                 
-            }
+            //}
        
 
             jiraCase.PropertyChanged += JiraCase_PropertyChanged;
@@ -247,6 +247,7 @@ namespace TestRunnerLib
 
             if (jiraCase != null)
             {
+                jiraCase.PropertyChanged -= jiraCase.JiraCase_PropertyChanged;
                 if (jiraCase.priority != null)
                 {
                     if (jiraProject.prios.Where(x => x.id == jiraCase.priority.id).Count() > 0)
@@ -265,6 +266,7 @@ namespace TestRunnerLib
                         jiraCase.folder = jiraProject.caseFolders.Where(x => x.id == jiraCase.folder.id).First();
 
                 }
+                jiraCase.PropertyChanged += jiraCase.JiraCase_PropertyChanged;
             }
         }
 

@@ -25,6 +25,11 @@ namespace TestRunnerLib.Jira
         }
        
         public IdSelf() { }
+        public IdSelf(int id, string self)
+        {
+            this.id = id;
+            this.self = self;
+        }
     }
 
     //[JsonObject(MemberSerialization.OptOut)]

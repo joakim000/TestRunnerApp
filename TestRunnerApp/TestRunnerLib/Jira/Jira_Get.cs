@@ -111,6 +111,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
+
         public async Task<Tuple<HttpStatusCode, object>> GetComponents(string projectIdOrKey)
         {
             var t = JiraCall(HttpMethod.Get, "project/" + projectIdOrKey + "/components", null);
@@ -230,7 +231,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public  async Task<Tuple<HttpStatusCode, JObject>> GetPrios(string projectKey, string maxResults)
+        public  async Task<Tuple<HttpStatusCode, JObject>> GetPriosTmj(string projectKey, string maxResults)
         {
             string query = string.Empty;
             if (!string.IsNullOrEmpty(projectKey))
@@ -245,6 +246,14 @@ namespace TestRunnerLib.Jira
             }
 
             var t = TmjCall(HttpMethod.Get, "priorities" + query, null);
+            await t;
+            return t.Result;
+        }
+
+        public async Task<Tuple<HttpStatusCode, object>> GetPriosJira()
+        {
+            string query = string.Empty;
+            var t = JiraCall(HttpMethod.Get, "priority" + query, null);
             await t;
             return t.Result;
         }

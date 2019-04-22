@@ -49,6 +49,16 @@ namespace TestRunnerLib.Jira
             get => Get(() => self);
             set => Set(() => self, value);
         }
+        public string statusColor
+        {
+            get => Get(() => statusColor);
+            set => Set(() => statusColor, value);
+        }
+        public string iconUrl
+        {
+            get => Get(() => iconUrl);
+            set => Set(() => iconUrl, value);
+        }
 
 
         public JiraPrio() { }

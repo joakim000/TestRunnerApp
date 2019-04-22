@@ -99,7 +99,7 @@ namespace TestRunnerLib.Jira
                     s.overdue = t.Value<bool>("overdue");
                     s.userReleaseDate = t.Value<string>("userReleaseDate");
                     s.projectId = t.Value<int>("projectId");
-                    //issuesStatusForFixVersion
+                    //issues, StatusForFix, Version
                 }
                 return coll;
             }
@@ -129,6 +129,9 @@ namespace TestRunnerLib.Jira
                     s.index = t.Value<int>("index");
                     s.folderType = t.Value<string>("folderType");
                     try { s.project = t.Value<JObject>("project").ToObject<IdSelf>(); } catch (NullReferenceException) { }
+
+                    // Kludge because TM4J 
+                    s.self = @"https://api.adaptavist.io/tm4j/v2/folders/" + s.id.ToString();
                 }
                 return folders;
 
@@ -137,11 +140,11 @@ namespace TestRunnerLib.Jira
                 return new ObservableCollection<JiraFolder>();
         }
 
-        // Project priorities
+        // Project priorities 
         public async Task<ObservableCollection<JiraPrio>> LoadPrios(string projectKey,
                                                                               string maxResults)
         {
-            var response = await Jira.GetPrios(projectKey, maxResults);
+            var response = await Jira.GetPriosTmj(projectKey, maxResults);
             if (response.Item1 == HttpStatusCode.OK)
             {
                  JEnumerable<JToken> statusTokens = response.Item2.GetValue("values").Children();
@@ -157,12 +160,50 @@ namespace TestRunnerLib.Jira
                      s.description = t.Value<string>("description");
                      s.index = t.Value<int>("index");
                      s.isDefault = t.Value<bool>("default");
+
+                     // Kludge because TM4J 
+                     s.self = @"https://api.adaptavist.io/tm4j/v2/priorities/" + s.id.ToString();
+
                  }
                  return prios;
             }
             else
                 return new ObservableCollection<JiraPrio>();
         }
+
+        // Project priorites
+        public async Task<ObservableCollection<JiraPrio>> LoadPriosJira()
+        {
+            var response = await Jira.GetPriosJira();
+            if (response.Item1 == HttpStatusCode.OK)
+            {
+                JArray j = response.Item2 as JArray;
+                JEnumerable<JToken> statusTokens = j.Children();
+                var coll = new ObservableCollection<JiraPrio>();
+                foreach (JToken t in statusTokens)
+                {
+                    var s = new JiraPrio();
+                    coll.Add(s);
+
+                    s.self = t.Value<string>("self");
+                    s.statusColor = t.Value<string>("statusColor");
+                    s.description = t.Value<string>("description");
+                    s.iconUrl = t.Value<string>("iconUrl");
+                    s.name = t.Value<string>("name");
+                    s.id = t.Value<int>("id");
+                    
+                    // Returned from TMJ but not Jira
+                    // IdSelf project
+                    // int index
+                    // bool default
+
+                }
+                return coll;
+            }
+            else
+                return new ObservableCollection<JiraPrio>();
+        }
+
 
         // Project environments
         public async Task<ObservableCollection<JiraEnvironment>> LoadEnvirons(string projectKey,
@@ -289,15 +330,24 @@ namespace TestRunnerLib.Jira
                 foreach (JiraCase c in cases)
                 {
                     if (c.status != null)
+                    {
                         try { c.status = p.caseStatuses.Where(x => x.id == c.status.id).First(); } catch (InvalidOperationException) { }
+                    }
                     if (c.folder != null)
+                    {
                         try { c.folder = p.folders.Where(x => x.id == c.folder.id).First(); } catch (InvalidOperationException) { }
+                    }
                     if (c.priority != null)
-                        try { c.priority = p.prios.Where(x => x.id == c.priority.id).First(); } catch (InvalidOperationException) { }
+                    {
+                        try { c.priority = p.prios.Where(x => x.id == c.priority.id).First(); } catch (InvalidOperationException ex)
+                        {
+                            Debug.WriteLine(ex);
+                        }
+                    }
+
                     if (c.component != null)
                         try { c.component = p.components.Where(x => x.id == c.component.id).First(); } catch (InvalidOperationException) { }
 
-                    Debug.WriteLine(c.labels);
                 }
                 return cases;
             }
@@ -327,6 +377,10 @@ namespace TestRunnerLib.Jira
                     s.color = t.Value<string>("color");
                     s.archived = t.Value<bool>("archived");
                     s.isDefault = t.Value<bool>("default");
+
+
+                    // Kludge because TM4J 
+                    s.self = @"https://api.adaptavist.io/tm4j/v2/statuses/" + s.id.ToString();
                 }
                 return statuses;
             }

@@ -152,7 +152,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="StatusCombo" 
-                                      IsEnabled="False"
+                                      IsEnabled="True"
                                       Template="{DynamicResource ComboBoxControlDataGrid}"
                                       IsEditable="False" IsReadOnly="True"
                                       Width="Auto" 

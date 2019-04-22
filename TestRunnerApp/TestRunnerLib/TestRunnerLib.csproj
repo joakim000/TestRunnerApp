@@ -102,6 +102,7 @@
     <Compile Include="Jira\JiraImport.cs" />
     <Compile Include="Jira\JiraLoad.cs" />
     <Compile Include="Jira\Jira_Convert.cs" />
+    <Compile Include="Jira\Jira_Update.cs" />
     <Compile Include="Jira\Jira_Create.cs" />
     <Compile Include="Jira\Jira_Get.cs" />
     <Compile Include="Jira\JiraConnectInfo.cs" />

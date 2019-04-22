@@ -15,12 +15,21 @@ using ViewModelSupport;
 
 namespace TestRunnerLib.Jira
 {
+    public class JiraAccessor
+    {
+        public static Jira jiraObj { get; set; }
+
+    }
+
+
     public partial class Jira
     {
         public enum FolderType { All, Case, Plan, Cycle }
 
-        private JiraConnectInfo jiraCloudInfo { get; set; }
-        private JiraConnectInfo tmjCloudInfo { get; set; }
+        public static JiraConnectInfo jiraCloudInfo { get; set; }
+        public static JiraConnectInfo tmjCloudInfo { get; set; }
+        //private JiraConnectInfo jiraCloudInfo { get; set; }
+        //private JiraConnectInfo tmjCloudInfo { get; set; }
         public JiraLoad load { get; set; }
         public JiraImport import { get; set; }
         public JiraExport export { get; set; }
@@ -33,6 +42,7 @@ namespace TestRunnerLib.Jira
             import = new JiraImport(this);
             export = new JiraExport(this);
 
+            JiraAccessor.jiraObj = this;
         }
 
 
@@ -65,12 +75,11 @@ namespace TestRunnerLib.Jira
                     response = await client.DeleteAsync(uri);
                 else return new Tuple<HttpStatusCode, object>(HttpStatusCode.MethodNotAllowed, null);
 
-                var jsonObj = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
-
                 if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
-                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}Query: {JsonConvert.SerializeObject(data)}");
+                    Debug.WriteLine($"Call OK: {uri}{Environment.NewLine}");
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                    var jsonObj = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
                     return new Tuple<HttpStatusCode, object>(response.StatusCode, jsonObj);
                 }
                 else
@@ -79,6 +88,7 @@ namespace TestRunnerLib.Jira
                     Debug.WriteLine("Request message: " + response.RequestMessage);
                     Debug.WriteLine("Query: " + query.ToString());
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                    var jsonObj = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result.ToString());
                     return new Tuple<HttpStatusCode, object>(response.StatusCode, jsonObj);
                 }
             }
@@ -94,7 +104,9 @@ namespace TestRunnerLib.Jira
         }
 
 
-        private async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method, string api, Dictionary<string, object> data)
+        private async Task<Tuple<HttpStatusCode, Newtonsoft.Json.Linq.JObject>> TmjCall(HttpMethod method,
+                                                                                string api,
+                                                                                Dictionary<string, object> data)
         {
             JiraConnectInfo info = tmjCloudInfo;
 
@@ -110,8 +122,25 @@ namespace TestRunnerLib.Jira
             StringContent query = null;
             if (data != null)
             {
-                var itemAsJson = JsonConvert.SerializeObject(data);
-                query = new StringContent(itemAsJson, System.Text.Encoding.UTF8, "application/json");
+                string itemAsJson = null;
+
+                if (data.ContainsKey("JiraCase"))
+                    itemAsJson = JsonConvert.SerializeObject(data["JiraCase"], Formatting.Indented);
+                else if (data.ContainsKey("JiraCycle"))
+                    itemAsJson = JsonConvert.SerializeObject(data["JiraCycle"], Formatting.Indented);
+                else
+                    itemAsJson = JsonConvert.SerializeObject(data, Formatting.Indented);
+
+                if (itemAsJson != null)
+                {
+#if DEBUG
+                    Debug.WriteLine("Query:");
+                    Debug.WriteLine(itemAsJson);
+                    Debug.WriteLine("==============================================================================");
+#endif
+                    query = new StringContent(itemAsJson, System.Text.Encoding.UTF8, "application/json");
+                }
+
             }
 
             var response = new HttpResponseMessage();
@@ -139,8 +168,10 @@ namespace TestRunnerLib.Jira
                 {
                     Debug.WriteLine("Call failed. Statuscode: " + response.StatusCode);
                     Debug.WriteLine("Request message: " + response.RequestMessage);
-                    Debug.WriteLine("Query: " + JsonConvert.SerializeObject(data));
+                    Debug.WriteLine("Response reason: " + response.ReasonPhrase);
                     Debug.WriteLine("Response content: " + response.Content.ReadAsStringAsync().Result.ToString());
+                    //var queryString = await query.ReadAsStringAsync();
+                    //Debug.WriteLine("Query: " + await query.ReadAsStringAsync());
                     return new Tuple<HttpStatusCode, JObject>(response.StatusCode, jsonObj);
                 }
             }

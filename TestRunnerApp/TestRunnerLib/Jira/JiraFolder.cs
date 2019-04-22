@@ -18,6 +18,11 @@ namespace TestRunnerLib.Jira
             get => Get(() => id);
             set => Set(() => id, value);
         }
+        public string self
+        {
+            get => Get(() => self);
+            set => Set(() => self, value);
+        }
         public int? parentId
         {
             get => Get(() => parentId);

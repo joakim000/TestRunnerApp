@@ -42,6 +42,28 @@ namespace TestRunnerAppWpf
             jira = new Jira(await jc.Preflight(), await jc.TmjPrep());
         }
 
+        private void ToggleJiraCaseUpdates(bool toggleOn)
+        {
+            if (toggleOn)
+            {
+                foreach (TestModel t in gridViewModel.suite.tests)
+                {
+                    if (t.jiraCase != null)
+                    {
+                        t.jiraCase.PropertyChanged -= t.jiraCase.JiraCase_PropertyChanged;
+                        t.jiraCase.PropertyChanged += t.jiraCase.JiraCase_PropertyChanged;
+                    }
+                }
+            }
+            else
+            {
+                foreach (TestModel t in gridViewModel.suite.tests)
+                {
+                    if (t.jiraCase != null)
+                        t.jiraCase.PropertyChanged -= t.jiraCase.JiraCase_PropertyChanged;
+                }
+            }
+        }
 
         private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -278,12 +300,14 @@ namespace TestRunnerAppWpf
 
         private void StartAsyncLoader(JiraProject p)
         {
+            // Disable stuff while working
             enableProjectLoad = false;
+            ToggleJiraCaseUpdates(false);
+
+            // Setup status bar
             progressBarValue = 0;
             runStatus = "Loading project";
-
             runTotal = string.Empty; runSlash = string.Empty; runCurrent = string.Empty;
-
             #if DEBUG
             runTotal = "11"; //Steps in load
             runSlash = "/";
@@ -328,13 +352,10 @@ namespace TestRunnerAppWpf
             p.separateFolders();
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
-
-            
-            
-
-
             p.prios = jira.load.LoadPrios(p.key, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
+            //p.prios = jira.load.LoadPriosJira().Result;
+            //done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
             p.environments = jira.load.LoadEnvirons(p.key, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
@@ -381,7 +402,7 @@ namespace TestRunnerAppWpf
                 // Update UI
                 #if DEBUG
                 var t = (Tuple<int, string>)e.UserState;
-                Debug.WriteLine(t.Item2);
+                //Debug.WriteLine(t.Item2);
                 runCurrent = (t.Item1 + 1).ToString();
                 #endif
             }
@@ -389,7 +410,6 @@ namespace TestRunnerAppWpf
 
         void projectLoadWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            enableProjectLoad = true;
             if (runStatus != "Cancelled")
             {
                 runStatus = "Done";
@@ -405,6 +425,10 @@ namespace TestRunnerAppWpf
 
             }
             Debug.WriteLine($"Async projectLoadWorker result: {e.Result}");
+
+            // Reenable stuff after work done
+            enableProjectLoad = true;
+            ToggleJiraCaseUpdates(true);
         }
 
         async void ResetProgress()
