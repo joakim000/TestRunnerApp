@@ -777,7 +777,7 @@
                                         </ComboBox>
                                         <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                             Content="All" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ResetCycleFolderCmd}"/>
-                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2" IsEnabled="False"
                                             Content="Batch import" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCyclesCmd}"/>
                                     </StackPanel>
                                         
@@ -801,7 +801,7 @@
                                         </ComboBox>
                                         <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                             Content="All" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ResetCaseFolderCmd}"/>
-                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2" IsEnabled="False"
                                             Content="Batch import" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCasesCmd}"/>
                                     </StackPanel>
                                 </StackPanel>
