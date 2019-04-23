@@ -110,7 +110,9 @@ namespace TestRunnerAppWpf
             if (gridViewModel.selectedItems.selectedItems == null)
                 Debug.WriteLine("selectedItems is null");
             else if (gridViewModel.selectedItems.selectedItems.Count() == 0)
+            {
                 //Debug.WriteLine("selectedItems count is 0" + " - sender: " + sender.ToString());
+            }
             else
             {
                 foreach (TestModel test in gridViewModel.selectedItems.selectedItems)
