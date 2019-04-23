@@ -42,7 +42,7 @@ namespace TestRunnerAppWpf
             jira = new Jira(await jc.Preflight(), await jc.TmjPrep());
         }
 
-        private void ToggleJiraCaseUpdates(bool toggleOn)
+        public void ToggleJiraCaseUpdates(bool toggleOn)
         {
             if (toggleOn)
             {

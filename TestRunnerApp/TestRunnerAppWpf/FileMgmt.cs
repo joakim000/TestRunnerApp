@@ -354,6 +354,9 @@ namespace TestRunnerAppWpf
 
             if (openResult.Item2 != null)
             {
+                // Avoid jira updates while loading
+                mvm.ToggleJiraCaseUpdates(false);
+
                 // Load the suite
                 gvm.suite = openResult.Item2;
                 
@@ -454,6 +457,10 @@ namespace TestRunnerAppWpf
                         }
                     }
                 }
+
+                // Enable jira updates after loading
+                mvm.ToggleJiraCaseUpdates(true);
+
             }
             else // returned suite was null
             {

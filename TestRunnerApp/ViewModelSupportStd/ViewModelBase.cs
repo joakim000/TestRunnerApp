@@ -49,13 +49,13 @@ namespace ViewModelSupport
             //#endif
         }
 
-        public bool IsInDesignMode
-        {
-            get
-            {
-                return _isInDesignMode;
-            }
-        }
+        //public bool IsInDesignMode
+        //{
+        //    get
+        //    {
+        //        return _isInDesignMode;
+        //    }
+        //}
 
         public ViewModelBase()
         {

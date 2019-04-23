@@ -68,8 +68,9 @@
                               />
                 </DataTemplate>
             </DataGrid.RowHeaderTemplate>
+            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding id, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">
+                <DataGridTextColumn Header="ID" Binding="{Binding id, UpdateSourceTrigger=LostFocus}" IsReadOnly="True" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -78,8 +79,8 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                
-                <!--<DataGridTextColumn Header="Prio" Binding="{Binding prio, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+
+                <DataGridTextColumn Header="ID" Binding="{Binding jiraCase.labels[0], UpdateSourceTrigger=LostFocus}"  MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -87,7 +88,28 @@
                             <Setter Property="Margin" Value="5,0,5,0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>-->
+                </DataGridTextColumn>
+
+
+                <DataGridTextColumn Header="Jira" Binding="{Binding jiraCase.key, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">
+                   <DataGridTextColumn.ElementStyle>
+                       <Style TargetType="TextBlock">
+                           <Setter Property="HorizontalAlignment" Value="Center" />
+                           <Setter Property="VerticalAlignment" Value="Center" />
+                           <Setter Property="Margin" Value="5,0,5,0" />
+                       </Style>
+                   </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                    
+                 <!--<DataGridTextColumn Header="Prio" Binding="{Binding prio, UpdateSourceTrigger=PropertyChanged}" MinWidth="40">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Margin" Value="5,0,5,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                  </DataGridTextColumn>-->
 
 
                
@@ -227,7 +249,9 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>-->
 
-                <DataGridTextColumn Header="Created" Binding="{Binding jiraCase.createdOnDT, Converter={StaticResource DateTimeShortConverter}, NotifyOnSourceUpdated=True}" MinWidth="80" >
+                <DataGridTextColumn Header="Created" MinWidth="80" 
+                                    Binding="{Binding jiraCase.createdOnDT, Converter={StaticResource DateTimeShortConverter},
+                                              UpdateSourceTrigger=LostFocus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, ValidatesOnNotifyDataErrors=True}" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -257,10 +281,10 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="Latest" IsReadOnly="False" SortMemberPath="previousOutcome"  MinWidth="50" >
+                <DataGridTemplateColumn Header="Latest" IsReadOnly="True" SortMemberPath="previousOutcome"  MinWidth="50" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding previousOutcome, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="0,3,0,3"/>
+                            <Image Source="{Binding previousOutcome, Converter={StaticResource OutcomeImgConverter}}"  Height="20" Margin="0,3,0,3"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                     <DataGridTemplateColumn.CellEditingTemplate>
@@ -280,7 +304,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 
-                <DataGridTextColumn Header="Estimate" Binding="{Binding jiraCase.estimatedTime, UpdateSourceTrigger=PropertyChanged}" MinWidth="80" >
+                <DataGridTextColumn Header="Estimate" Binding="{Binding jiraCase.estimatedTime, UpdateSourceTrigger=LostFocus}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -322,21 +346,21 @@
 
                             <StackPanel Grid.Column="0" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
                                 <TextBlock Text="Objective"  Style="{StaticResource TBLeft}"/>
-                                <TextBox  Text="{Binding objective, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBox  Text="{Binding objective, UpdateSourceTrigger=LostFocus}" Style="{StaticResource TestDescTextBox}"/>
                                 <TextBlock  Text="Notes"  Style="{StaticResource TBLeft}" />
                                 <TextBox  Text="{Binding notes, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
                                 <TextBlock  Text="Preconditions"   Style="{StaticResource TBLeft}"/>
-                                <TextBox  Text="{Binding descPrecond, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBox  Text="{Binding descPrecond, UpdateSourceTrigger=LostFocus}" Style="{StaticResource TestDescTextBox}"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
                                 <TextBlock  Text="Execution steps"   Style="{StaticResource TBLeft}"/>
-                                <TextBox  Text="{Binding descExecution, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}"/>
+                                <TextBox  Text="{Binding descExecution, UpdateSourceTrigger=LostFocus}" Style="{StaticResource TestDescTextBox}"/>
                             </StackPanel>
                             
                             <StackPanel Grid.Column="2" Grid.Row="0" Margin="5,0,0,5" Style="{StaticResource RowDetailsPanel}">
                                 <TextBlock  Text="Expected result"  Style="{StaticResource TBLeft}"/>
-                                <TextBox  Text="{Binding descExpected, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TestDescTextBox}" />
+                                <TextBox  Text="{Binding descExpected, UpdateSourceTrigger=LostFocus}" Style="{StaticResource TestDescTextBox}" />
                             </StackPanel>
 
                             <StackPanel Grid.Column="3" Grid.Row="0" Margin="5,0,7,5" Style="{StaticResource RowDetailsPanel}">

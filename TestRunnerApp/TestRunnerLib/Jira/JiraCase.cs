@@ -103,20 +103,52 @@ namespace TestRunnerLib.Jira
             set => Set(() => owner, value);
         }
 
+        [JsonIgnore]
+        public bool delayUpdate
+        {
+            get => Get(() => delayUpdate, false);
+            set => Set(() => delayUpdate, value);
+        }
+
+        public bool queuedUpdate
+        {
+            get => Get(() => queuedUpdate, false);
+            set => Set(() => queuedUpdate, value);
+        }
+
+
 
 
 
         public JiraCase()
         {
             //this.PropertyChanged += JiraCase_PropertyChanged;
-
         }
 
-        public void JiraCase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public async void JiraCase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            Debug.WriteLine($"JiraCase property changed: key {key}  property {e.PropertyName}");
-
-            Update();
+            if (e.PropertyName != "delayUpdate" && e.PropertyName != "queuedUpdate")
+            {
+                Debug.WriteLine($"JiraCase property changed: key {key}  property {e.PropertyName}");
+                if (delayUpdate)
+                {
+                    Debug.WriteLine("JiraCase update delayed");
+                    queuedUpdate = true;
+                }
+                else
+                {
+                    Update();
+                    delayUpdate = true;
+                    await Task.Delay(10000);
+                    delayUpdate = false;
+                    if (queuedUpdate)
+                    {
+                        Debug.WriteLine("JiraCase running queued update ");
+                        queuedUpdate = false;
+                        Update();
+                    }
+                }
+            }
         }
 
         //public void TogglePropertyChanged(bool toggleOn)
@@ -132,20 +164,6 @@ namespace TestRunnerLib.Jira
                 Debug.WriteLine("JiraAccessor.jiraObj was null");
             else
             {
-                //var updateObj = new UpdateCase();
-                //updateObj.id = id;
-                //updateObj.key = key;
-                //updateObj.name = name;
-                ////updateObj.project = new IdSelf(project.id, project.self);
-                ////updateObj.priority = new IdSelf(priority.id, priority.self);
-                ////updateObj.status = new IdSelf(status.id, status.self);
-                //updateObj.project = new UpdateCase.SelfId(project.id, project.self);
-                //updateObj.priority = new UpdateCase.SelfId(priority.id, priority.self);
-                //updateObj.status = new UpdateCase.SelfId(status.id, status.self);
-
-
-                //var response = await JiraAccessor.jiraObj.UpdateCase(key, updateObj);
-
                 var response = await JiraAccessor.jiraObj.UpdateCase(id,
                                                                     key,
                                                                     name,
@@ -162,7 +180,7 @@ namespace TestRunnerLib.Jira
                                                                     owner);
 
                 if (response == null)
-                   Debug.WriteLine($"JiraCase updated failed early: {key}");
+                   Debug.WriteLine($"JiraCase update failed early: {key}");
                 else if (response.Item1 == HttpStatusCode.OK)
                 {
                     Debug.WriteLine($"JiraCase successfully updated: {key}");
@@ -174,45 +192,7 @@ namespace TestRunnerLib.Jira
 
         }
 
-        //public class UpdateCase
-        //{
-        //    //public int id, estimatedTime;
-        //    //public string key, name, createdOn, objective, precondition;
-        //    //public string[] labels;
-        //    //public SelfUrl project, component, priority, status, folder, owner;
-        //    public int id; //, estimatedTime;
-        //    public string key, name; //, createdOn, objective, precondition;
-        //    // public string[] labels;
-        //    public SelfId project, priority, status; //, component, folder, owner;
-        //    //public SelfUrl project, priority, status; //, component, folder, owner;
-
-
-        //    public class SelfUrl
-        //    {
-        //       public string self;
-
-        //        public SelfUrl(string self)
-        //        {
-        //            this.self = self;
-        //        }
-
-        //    }
-
-        //    public class SelfId
-        //    {
-        //        public string self;
-        //        public int id;
-
-        //        public SelfId(int id, string self)
-        //        {
-        //            this.self = self;
-        //            this.id = id;
-        //        }
-
-        //    }
-
-        //}
-
+        
 
     }
 

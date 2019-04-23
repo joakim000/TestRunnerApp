@@ -485,6 +485,10 @@ namespace TestRunnerAppWpf
             if (d.ShowDialog() == true)
             {
                 undoSuite = FileMgmt.Serialize(gridViewModel.suite);
+
+                if (d.viewModel.newItem.jiraCase != null)
+                    d.viewModel.newItem.jiraCase.PropertyChanged += d.viewModel.newItem.jiraCase.JiraCase_PropertyChanged;
+                
                 gridViewModel.suite.tests.Add(d.viewModel.newItem);
                 unsavedChanges = true;
             }
