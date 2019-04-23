@@ -183,7 +183,7 @@ namespace TestRunnerAppWpf
                         d.newItem.name = "Untitled suite";
                     gridViewModel.suite = d.newItem;
 
-                    SelectedItems_PropertyChanged(null, null);
+                    //SelectedItems_PropertyChanged(null, null);
                     FileMgmt.filename = null;
 
                 }
@@ -497,6 +497,24 @@ namespace TestRunnerAppWpf
         {
             return true;
         }
+
+        public void Execute_EditTestCmd()
+        {
+            if (gridViewModel.selectedItems.selectedItems.Count() == 1)
+            {
+                var d = new NewTestDialog(this, gridViewModel.selectedItems.selectedItems[0]);
+                if (d.ShowDialog() == true)
+                {
+                    gridViewModel.selectedItems.selectedItems[0] = d.viewModel.newItem;
+                    unsavedChanges = true;
+                }
+            }
+        }
+        public bool CanExecute_EditTestCmd()
+        {
+            return true;
+        }
+
 
         public void Execute_CopyTestCmd()
         {

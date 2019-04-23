@@ -51,13 +51,16 @@ namespace TestRunnerAppWpf
             get => Get(() => managed, false);
             set => Set(() => managed, value);
         }
-
-        public WrapPanel labelsPanel
+        public bool editing
         {
-            get => Get(() => labelsPanel);
-            set => Set(() => labelsPanel, value);
+            get => Get(() => editing, false);
+            set => Set(() => editing, value);
         }
-
+        public string windowTitle
+        {
+            get => Get(() => windowTitle);
+            set => Set(() => windowTitle, value);
+        }
 
 
 
@@ -70,15 +73,14 @@ namespace TestRunnerAppWpf
 
         public NewTestDialogViewModel(MainViewModel mainViewModel)
         {
+            windowTitle = "Add new test";
             this.mainViewModel = mainViewModel;
             newItem = new TestModel();
             this.PropertyChanged += ViewModel_PropertyChanged;
 
             if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "None"))
             {
-
             }
-
 
             if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
             {
@@ -97,17 +99,45 @@ namespace TestRunnerAppWpf
                 //newItem.jiraProjectKey = jiraProject.key;
 
             }
-
             if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "ReqTest"))
             {
                 noMgmt = false;
             }
-
-            
-
-
-
         }
+
+        public NewTestDialogViewModel(MainViewModel mainViewModel, TestModel t)
+        {
+            windowTitle = "Edit test";
+            editing = true;
+            this.mainViewModel = mainViewModel;
+            newItem = t;
+            this.PropertyChanged += ViewModel_PropertyChanged;
+
+            if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "None"))
+            {
+            }
+
+            if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
+            {
+                noMgmt = false;
+
+                newItem.jiraLabelToId = mainViewModel.gridViewModel.suite.jiraLabelToId;
+                newItem.jiraLabelToIdToken = mainViewModel.gridViewModel.suite.jiraLabelToIdToken;
+
+                if (mainViewModel.gridViewModel.suite.jiraProject == null)
+                    mainViewModel.gridViewModel.suite.jiraProject = new JiraProject();
+
+                jiraProject = mainViewModel.gridViewModel.suite.jiraProject;
+
+
+            }
+            if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "ReqTest"))
+            {
+                noMgmt = false;
+            }
+        }
+
+
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -118,28 +148,16 @@ namespace TestRunnerAppWpf
                 if (jiraSelectedCase != null)
                 {
                     // Find existing tests with jiraTest key
-                    var casesFromJira = mainViewModel.gridViewModel.suite.tests.Where(x => x.jiraCase != null);
-                    int existCount = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).Count();
-                    if (existCount > 0)
-                        newItem = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).First();
-                    Debug.WriteLine("Found number of existing cases with jiraCaseID: " + existCount);
+                    //var casesFromJira = mainViewModel.gridViewModel.suite.tests.Where(x => x.jiraCase != null);
+                    //int existCount = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).Count();
+                    //if (existCount > 0)
+                    //    newItem = casesFromJira.Where(x => x.jiraCase.key == jiraSelectedCase.key).First();
+                    //Debug.WriteLine("Found number of existing cases with jiraCaseID: " + existCount);
 
-                    managed = true;
+                    if (!editing)
+                        managed = true;
                     newItem.jiraCase = jiraSelectedCase;
 
-
-                    //labelsPanel.Children.Clear();
-                    //foreach (string s in newItem.jiraCase.labels)
-                    //{
-                    //    Label l = new Label();
-                    //    //l.BorderThickness = new System.Windows.Thickness(2);
-                    //    //l.FontWeight = new System.Windows.FontWeight();
-                    //    //l.Content = s;
-
-                    //    l.Margin = new System.Windows.Thickness(0, 0, 5, 0);
-                    //    l.Content = $"[ {s} ]";
-                    //    labelsPanel.Children.Add(l);
-                    //}
 
                 }
             }

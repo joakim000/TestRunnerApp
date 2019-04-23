@@ -325,7 +325,7 @@ namespace TestRunnerLib
 
             if (jiraCase != null)
             {
-                if (jiraProject.key != jiraProjectKey)
+                if (!string.Equals(jiraProject.key, jiraCase.projectKey))
                 {
                     Debug.WriteLine($"Settings selectedItems on Jira props for test {id}: Current project key {jiraProject.key} does not match test project key {jiraCase.projectKey}.");
                 }

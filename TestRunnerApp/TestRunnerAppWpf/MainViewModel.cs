@@ -110,7 +110,7 @@ namespace TestRunnerAppWpf
             if (gridViewModel.selectedItems.selectedItems == null)
                 Debug.WriteLine("selectedItems is null");
             else if (gridViewModel.selectedItems.selectedItems.Count() == 0)
-                Debug.WriteLine("selectedItems count is 0");
+                //Debug.WriteLine("selectedItems count is 0" + " - sender: " + sender.ToString());
             else
             {
                 foreach (TestModel test in gridViewModel.selectedItems.selectedItems)
@@ -348,7 +348,8 @@ namespace TestRunnerAppWpf
 
             p.prios = jira.load.LoadPrios(p.key, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
-            //p.prios = jira.load.LoadPriosJira().Result;
+
+            //p.instancePrios = jira.load.LoadPriosJira().Result;
             //done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
             p.environments = jira.load.LoadEnvirons(p.key, maxResults).Result;

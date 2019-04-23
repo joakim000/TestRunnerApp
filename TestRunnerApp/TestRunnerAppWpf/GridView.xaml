@@ -126,7 +126,8 @@
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center"  Margin="3,2,1,0" />
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center"  Margin="3,2,1,0" FontWeight="Black"
+                                                       Foreground="{Binding statusColor}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
@@ -166,7 +167,8 @@
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center" Margin="3,2,1,0" />
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center" Margin="3,2,1,0" FontWeight="Black"
+                                                       Foreground="{Binding color}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>

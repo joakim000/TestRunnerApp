@@ -21,7 +21,7 @@ namespace TestRunnerAppWpf
             model.appWindow = this; // For Activate()
 
             model.gridViewModel.selectedItems.PropertyChanged += model.SelectedItems_PropertyChanged;
-            model.SelectedItems_PropertyChanged(null, null);
+            //model.SelectedItems_PropertyChanged(null, null);
 
             // Need to set these here first time to avoid NullReferenceException
             model.gridViewModel.mainViewModel = model;

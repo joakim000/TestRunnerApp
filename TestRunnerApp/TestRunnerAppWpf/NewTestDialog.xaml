@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestRunnerAppWpf"
         mc:Ignorable="d"
-        Title="Add new test" Height="450" Width="800"
+        Title="{Binding windowTitle}" 
+        Height="450" Width="800"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         Icon="pack://application:,,,/Icons/Test_16x.png"
@@ -70,7 +71,7 @@
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding name}" />
+                                    <TextBlock Text="{Binding name}" Foreground="{Binding color}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
@@ -92,7 +93,7 @@
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding name}" />
+                                    <TextBlock Text="{Binding name}" Foreground="{Binding statusColor}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -215,14 +216,14 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Center">
+            <!--<StackPanel Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Center">
                 <CheckBox x:Name="LabelToIdCheckBox" VerticalAlignment="Center" IsChecked="{Binding newItem.jiraLabelToId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock Text="Token" Margin="10,0,0,0" VerticalAlignment="Center"/>
                 <TextBox Margin="5,0,0,0" MinWidth="100" MaxWidth="100"
                                             Text="{Binding newItem.jiraLabelToIdToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                  IsEnabled="{Binding IsChecked, ElementName=LabelToIdCheckBox}"
                                                  />
-            </StackPanel>
+            </StackPanel>-->
 
         </StackPanel>
 

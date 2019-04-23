@@ -161,8 +161,22 @@ namespace TestRunnerLib.Jira
                      s.index = t.Value<int>("index");
                      s.isDefault = t.Value<bool>("default");
 
-                     // Kludge because TM4J 
-                     s.self = @"https://api.adaptavist.io/tm4j/v2/priorities/" + s.id.ToString();
+                    // Kludge because TM4J 
+                    switch (s.name)
+                    {
+                        case "Low":
+                            s.statusColor = "Green";
+                            break;
+                        case "Normal":
+                            s.statusColor = "DarkGoldenrod";
+                            break;
+                        case "High":
+                            s.statusColor = "Red";
+                            break;
+                    }
+
+                    // Kludge because TM4J 
+                    s.self = @"https://api.adaptavist.io/tm4j/v2/priorities/" + s.id.ToString();
 
                  }
                  return prios;

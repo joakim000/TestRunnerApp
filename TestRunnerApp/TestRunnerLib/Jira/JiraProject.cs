@@ -67,8 +67,11 @@ namespace TestRunnerLib.Jira
             get => Get(() => planFolders, new ObservableCollection<JiraFolder>());
             set => Set(() => planFolders, value);
         }
-
-
+        public ObservableCollection<JiraPrio> instancePrios
+        {
+            get => Get(() => instancePrios, new ObservableCollection<JiraPrio>());
+            set => Set(() => instancePrios, value);
+        }
         public ObservableCollection<JiraVersion> versions
         {
             get => Get(() => versions, new ObservableCollection<JiraVersion>());

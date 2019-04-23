@@ -28,9 +28,18 @@ namespace TestRunnerAppWpf
 
             viewModel = new NewTestDialogViewModel(mainViewModel);
             DataContext = viewModel;
-            //viewModel.labelsPanel = LabelsPanel;
 
         }
+
+        public NewTestDialog(MainViewModel mainViewModel, TestModel t)
+        {
+            InitializeComponent();
+
+            viewModel = new NewTestDialogViewModel(mainViewModel, t);
+            DataContext = viewModel;
+
+        }
+
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
@@ -39,8 +48,6 @@ namespace TestRunnerAppWpf
 
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-           
-
             this.DialogResult = true;
         }
 

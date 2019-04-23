@@ -115,12 +115,17 @@
             </MenuItem>
 
             <MenuItem Header="_Tests" Template="{DynamicResource MenuItemControlTemplateCustom}">
-                <MenuItem Header="_Add test" Command="{Binding NewTestCmd}"  >
+                <MenuItem Header="_Add" Command="{Binding NewTestCmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/AddTest_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Copy selected" Command="{Binding CopyTestCmd}"  >
+                <MenuItem Header="_Edit" Command="{Binding EditTestCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Edit_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Clone selected" Command="{Binding CopyTestCmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/TestGroupMirror_16x.png" />
                     </MenuItem.Icon>
@@ -277,11 +282,11 @@
                         <Image Source="pack://application:,,,/Icons/DarkTheme_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Multi cycle view"  IsCheckable="True" IsChecked="{Binding multiCycleView}" Command="{Binding SetCycleViewCmd}"  >
+                <!--<MenuItem Header="_Multi cycle view"  IsCheckable="True" IsChecked="{Binding multiCycleView}" Command="{Binding SetCycleViewCmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/Matrix_16x.png" />
                     </MenuItem.Icon>
-                </MenuItem>
+                </MenuItem>-->
             </MenuItem>
 
             <MenuItem Header="_Help" Template="{DynamicResource MenuItemControlTemplateCustom}">
