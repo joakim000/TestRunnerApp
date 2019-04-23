@@ -652,7 +652,7 @@
                     <Grid >
                         <StackPanel >
                             <!--<Label Content="Suite details" FontSize="16" FontWeight="Bold" Margin="3,5,0,0"/>-->
-                            <Grid Margin="15,5,5,15" DataContext="{Binding mainViewModel.gridViewModel.suite}">
+                            <Grid Margin="15,5,5,0" DataContext="{Binding mainViewModel.gridViewModel.suite}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -727,7 +727,7 @@
                                                 Visibility="{Binding mgmt, Converter={StaticResource VisiJiraCloudTmj}}"
                                                 >
                                   
-                                    <Label Content="Project" Margin="0,15,0,0" />
+                                    <Label Content="Project" Margin="0,5,0,0" />
                                     <ComboBox x:Name="ProjectsCombo" 
                                                       Template="{DynamicResource ComboBoxControlCustom}"
                                                       MinWidth="200" HorizontalAlignment="Left" Margin="0,0,10,0" Padding="10,2,10,2"
@@ -777,11 +777,12 @@
                                         </ComboBox>
                                         <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                             Content="All" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ResetCycleFolderCmd}"/>
-                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2" IsEnabled="False"
-                                            Content="Batch import" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCyclesCmd}"/>
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2" 
+                                                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.mainViewModel.enableProjectLoad}"
+                                            Content="Import cycles" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCyclesCmd}"/>
                                     </StackPanel>
-                                        
-                                    <Label Grid.Column="1" Grid.Row="4" Content="Test cases folder" />
+
+                                    <Label Grid.Column="1" Grid.Row="4" Content="Test cases folder" Margin="0,5,0,0" />
                                     <StackPanel Orientation="Horizontal">
                                         <ComboBox x:Name="CaseFolderCombo" 
                                                   Template="{DynamicResource ComboBoxControlCustom}"
@@ -801,9 +802,21 @@
                                         </ComboBox>
                                         <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2"
                                             Content="All" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.ResetCaseFolderCmd}"/>
-                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2" IsEnabled="False"
-                                            Content="Batch import" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCasesCmd}"/>
+                                        <Button Width="Auto" HorizontalAlignment="Stretch" Margin="10,0,10,0" Padding="10,2,10,2" 
+                                                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.mainViewModel.enableProjectLoad}"
+                                            Content="Import cases" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Path=DataContext.BatchImportCasesCmd}"/>
                                     </StackPanel>
+
+                                    <Label Content="Label to ID" VerticalAlignment="Center" Margin="0,5,0,0"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Center">
+                                        <CheckBox x:Name="LabelToIdCheckBox" VerticalAlignment="Center" IsChecked="{Binding jiraLabelToId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <TextBlock Text="Token" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBox Margin="5,0,0,0" MinWidth="100" MaxWidth="100"
+                                            Text="{Binding jiraLabelToIdToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 IsEnabled="{Binding IsChecked, ElementName=LabelToIdCheckBox}"
+                                                 Style="{DynamicResource CycleDetailsTextBox}"/>
+                                    </StackPanel>
+                                    
                                 </StackPanel>
                             </StackPanel>    
                         </StackPanel>

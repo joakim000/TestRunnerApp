@@ -74,27 +74,39 @@ namespace TestRunnerAppWpf
             newItem = new TestModel();
             this.PropertyChanged += ViewModel_PropertyChanged;
 
-            if (mainViewModel.jiraCloudMgmt)
+            if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "None"))
+            {
+
+            }
+
+
+            if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
             {
                 noMgmt = false;
-                //managed = true;
+
+                newItem.jiraLabelToId = mainViewModel.gridViewModel.suite.jiraLabelToId;
+                newItem.jiraLabelToIdToken = mainViewModel.gridViewModel.suite.jiraLabelToIdToken;
 
                 if (mainViewModel.gridViewModel.suite.jiraProject == null)
                     mainViewModel.gridViewModel.suite.jiraProject = new JiraProject();
 
                 jiraProject = mainViewModel.gridViewModel.suite.jiraProject;
 
-                newItem.jiraCloudTmj = true;
-                newItem.jiraProjectKey = jiraProject.key;
+                // Deprecated                
+                //newItem.jiraCloudTmj = true;
+                //newItem.jiraProjectKey = jiraProject.key;
 
             }
-            if (mainViewModel.reqTestMgmt)
+
+            if (mainViewModel.gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "ReqTest"))
             {
                 noMgmt = false;
             }
 
-
             
+
+
+
         }
 
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -115,18 +127,19 @@ namespace TestRunnerAppWpf
                     managed = true;
                     newItem.jiraCase = jiraSelectedCase;
 
-                    labelsPanel.Children.Clear();
-                    foreach (string s in newItem.jiraCase.labels)
-                    {
-                        Label l = new Label();
-                        //l.BorderThickness = new System.Windows.Thickness(2);
-                        //l.FontWeight = new System.Windows.FontWeight();
-                        //l.Content = s;
 
-                        l.Margin = new System.Windows.Thickness(0, 0, 5, 0);
-                        l.Content = $"[ {s} ]";
-                        labelsPanel.Children.Add(l);
-                    }
+                    //labelsPanel.Children.Clear();
+                    //foreach (string s in newItem.jiraCase.labels)
+                    //{
+                    //    Label l = new Label();
+                    //    //l.BorderThickness = new System.Windows.Thickness(2);
+                    //    //l.FontWeight = new System.Windows.FontWeight();
+                    //    //l.Content = s;
+
+                    //    l.Margin = new System.Windows.Thickness(0, 0, 5, 0);
+                    //    l.Content = $"[ {s} ]";
+                    //    labelsPanel.Children.Add(l);
+                    //}
 
                 }
             }

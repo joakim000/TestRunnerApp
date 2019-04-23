@@ -298,6 +298,7 @@ namespace TestRunnerLib.Jira
                     var c = new JiraCase();
                     cases.Add(c);
 
+                    c.projectKey = projectKey;
                     c.id = t.Value<int>("id");
                     c.key = t.Value<string>("key");
                     c.name = t.Value<string>("name");

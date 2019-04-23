@@ -36,6 +36,11 @@ namespace TestRunnerLib.Jira
             get => Get(() => project);
             set => Set(() => project, value);
         }
+        public string projectKey
+        {
+            get => Get(() => projectKey);
+            set => Set(() => projectKey, value);
+        }
         public string createdOn
         {
             get => Get(() => createdOn);
@@ -61,15 +66,18 @@ namespace TestRunnerLib.Jira
             get => Get(() => estimatedTime);
             set => Set(() => estimatedTime, value);
         }
-
-        // labels
         public string[] labels
         {
             get => Get(() => labels);
             set => Set(() => labels, value);
         }
-
-        // Test version, is this not in TMJ API?
+        // Have to get these with separate api-call
+        public ObservableCollection<JiraTestVersion> versions
+        {
+            get => Get(() => versions);
+            set => Set(() => versions, value);
+        }
+        // Version is not a property of a TM4J-case, instead "get version" gets a particular version of the case
         public string version
         {
             get => Get(() => version);
@@ -109,7 +117,7 @@ namespace TestRunnerLib.Jira
             get => Get(() => delayUpdate, false);
             set => Set(() => delayUpdate, value);
         }
-
+        [JsonIgnore]
         public bool queuedUpdate
         {
             get => Get(() => queuedUpdate, false);

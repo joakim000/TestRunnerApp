@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+
+using System;
 using System.Collections.ObjectModel;
-using Newtonsoft.Json;
+
 using TestRunnerLib.Jira;
+
 using ViewModelSupport;
 
 namespace TestRunnerLib
@@ -117,7 +119,16 @@ namespace TestRunnerLib
             get => Get(() => jiraSelectedTestsFolder);
             set => Set(() => jiraSelectedTestsFolder, value);
         }
-
+        public bool jiraLabelToId
+        {
+            get => Get(() => jiraLabelToId);
+            set => Set(() => jiraLabelToId, value);
+        }
+        public string jiraLabelToIdToken
+        {
+            get => Get(() => jiraLabelToIdToken);
+            set => Set(() => jiraLabelToIdToken, value);
+        }
 
 
         // deprecated
@@ -141,6 +152,23 @@ namespace TestRunnerLib
             //currentCycle.key = "R1";
             //currentCycle.name = "New cycle";
             //cycles.Add(currentCycle);
+
+            this.PropertyChanged += SuiteModel_PropertyChanged;
+
+        }
+
+        private void SuiteModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "jiraLabelToId")
+            {
+                foreach (TestModel t in tests)
+                    t.jiraLabelToId = jiraLabelToId;
+            }
+            if (e.PropertyName == "jiraLabelToIdToken")
+            {
+                foreach (TestModel t in tests)
+                    t.jiraLabelToIdToken = jiraLabelToIdToken;
+            }
         }
     }
 }

@@ -165,4 +165,29 @@ namespace TestRunnerLib.Jira
             }
         }
 
+    [JsonObject(MemberSerialization.OptOut)]
+    public class JiraTestVersion : ViewModelBase
+    {
+        public string id
+        {
+            get => Get(() => id);
+            set => Set(() => id, value);
+        }
+        public string self
+        {
+            get => Get(() => self);
+            set => Set(() => self, value);
+        }
+        public string name
+        {
+            get => Get(() => name);
+            set => Set(() => name, value);
+        }
+
+
+        public JiraTestVersion()
+        {
+        }
+    }
+
 }

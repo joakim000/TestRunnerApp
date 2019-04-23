@@ -28,7 +28,7 @@ namespace TestRunnerAppWpf
 
             viewModel = new NewTestDialogViewModel(mainViewModel);
             DataContext = viewModel;
-            viewModel.labelsPanel = LabelsPanel;
+            //viewModel.labelsPanel = LabelsPanel;
 
         }
 

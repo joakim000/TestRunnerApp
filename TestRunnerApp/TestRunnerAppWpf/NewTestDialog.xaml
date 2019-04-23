@@ -37,7 +37,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Margin="15,10,15,15" Grid.Column="0" >
-            <Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>
+            <!--<Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
 
             <Label Content="ID" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
             <TextBox 
@@ -51,43 +51,43 @@
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
             
-            <Label Content="Objective" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=newItem.objective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-            />
 
-            <Label Content="Priority" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
-            <TextBox 
-                     Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-            />
-            <ComboBox x:Name="PrioCombo" Template="{DynamicResource ComboBoxControlCustom}"
-                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                                  SelectedItem="{Binding newItem.jiraCase.priority, 
-                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.prios,  Mode=OneWay, NotifyOnSourceUpdated=True}">
-
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <Label Content="Status" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
-            <TextBox 
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                <StackPanel>
+                    <Label Content="Status" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
+                    <!--<TextBox 
                      Text="{Binding Path=newItem.jiraCase.status.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-            />
-            <ComboBox x:Name="StatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
-                                  Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
+            />-->
+                    <ComboBox x:Name="StatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
+                                  Width="140" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="5,2,5,2"
                                   SelectedItem="{Binding newItem.jiraCase.status, 
                                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.caseStatuses,  Mode=OneWay, NotifyOnSourceUpdated=True}">
+                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.caseStatuses,  Mode=OneWay, NotifyOnSourceUpdated=True}"
+                              IsEnabled="{Binding managed, Converter={StaticResource BoolInverseConverter}}"
+                              >
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Margin="20,0,0,0">
+            <Label Content="Priority" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
+            <!--<TextBox 
+                     Text="{Binding Path=newItem.prio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />-->
+            <ComboBox x:Name="PrioCombo" Template="{DynamicResource ComboBoxControlCustom}"
+                                  Width="140" HorizontalAlignment="Left" Margin="0,0,0,0" Padding="5,2,5,2"
+                                  SelectedItem="{Binding newItem.jiraCase.priority, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  ItemsSource="{Binding mainViewModel.gridViewModel.suite.jiraProject.prios,  Mode=OneWay, NotifyOnSourceUpdated=True}"
+                                                    IsEnabled="{Binding managed, Converter={StaticResource BoolInverseConverter}}">
 
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -97,7 +97,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            </StackPanel>
 
+            
+            </StackPanel>
 
             <Label Content="Component" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
             <TextBox 
@@ -105,22 +108,39 @@
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
             />
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Content="Labels" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" VerticalAlignment="Top" Width="45"/>
-                <!--<ListBox ItemsSource="{Binding Path=newItem.jiraCase.labels}" />-->
-                <WrapPanel Grid.Column="1" x:Name="LabelsPanel" MaxWidth="250">
-                    <!--<Label Content="None"></Label>-->
-                </WrapPanel>
-            </Grid>
-           
+            
+                <Label Content="Labels" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
+                <ListBox ItemsSource="{Binding Path=newItem.jiraCase.labels}" Grid.Row="1" Background="{DynamicResource ButtonBackgroundBrush}"
+                         >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" MaxWidth="300"  Height="79"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+                
+                <!--<WrapPanel Grid.Column="1" x:Name="LabelsPanel" MaxWidth="250">
+                    <Label Content="None"></Label>
+                </WrapPanel>-->
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,15,0,0">
+                <Label Content="Notes" />
+                <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+            </StackPanel>
+
+
         </StackPanel>
         <StackPanel Margin="15,10,15,15" Grid.Column="1">
-            <Label Content="Execution" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />
+            <!--<Label Content="Execution" FontSize="16" FontWeight="Bold" Margin="3,0,0,0" />-->
 
+            <Label Content="Objective" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.objective, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />
             <Label Content="Pre-conditions" FontStyle="{Binding managed, Converter={StaticResource BoolFontConverter}}"  />
             <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
@@ -142,7 +162,7 @@
         </StackPanel>
 
         <StackPanel Margin="15,10,15,15" Grid.Column="2">
-            <Label Content="Test" FontSize="16" Margin="3,0,0,0" />
+            <!--<Label Content="Test" FontSize="16" Margin="3,0,0,0" />-->
 
             <Label Content="Assembly" />
             <TextBox 
@@ -195,15 +215,18 @@
                 </DataGrid.Columns>
             </DataGrid>
 
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Center">
+                <CheckBox x:Name="LabelToIdCheckBox" VerticalAlignment="Center" IsChecked="{Binding newItem.jiraLabelToId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="Token" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                <TextBox Margin="5,0,0,0" MinWidth="100" MaxWidth="100"
+                                            Text="{Binding newItem.jiraLabelToIdToken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 IsEnabled="{Binding IsChecked, ElementName=LabelToIdCheckBox}"
+                                                 />
+            </StackPanel>
+
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="15,0,15,0">
-            <Label Content="Notes" />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-        </StackPanel>
+       
 
         <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,10" >
                     <StackPanel HorizontalAlignment="Left" Margin="0,0,60,3">
@@ -219,7 +242,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding key}" Margin="0,0,5,0" MinWidth="60" />
-                                        <TextBlock Text="{Binding labels[0]}" Margin="0,0,5,0" MinWidth="40"/>
+                                        <!--<TextBlock Text="{Binding labels[0]}" Margin="0,0,5,0" MinWidth="40"/>-->
                                         <TextBlock Text="{Binding name}" MaxWidth="240"/>
                                     </StackPanel>
                                 </DataTemplate>

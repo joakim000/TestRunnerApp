@@ -176,6 +176,19 @@ namespace TestRunnerLib
             get => Get(() => jiraCloudTmj, false);
             set => Set(() => jiraCloudTmj, value);
         }
+        [JsonIgnore]
+        public bool jiraLabelToId
+        {
+            get => Get(() => jiraLabelToId);
+            set => Set(() => jiraLabelToId, value);
+        }
+        [JsonIgnore]
+        public string jiraLabelToIdToken
+        {
+            get => Get(() => jiraLabelToIdToken);
+            set => Set(() => jiraLabelToIdToken, value);
+        }
+        // Deprecated
         public string jiraProjectKey
         {
             get => Get(() => jiraProjectKey);
@@ -191,12 +204,11 @@ namespace TestRunnerLib
             cycles = new ObservableCollection<CycleModel>();
             testDataColl = new ObservableCollection<TestDataItem>();
             previousOutcome = Outcome.NotRun;
+
             this.PropertyChanged += TestModel_PropertyChanged;
 
             if (jiraCase == null)
                 jiraCase = new JiraCase();
-
-
             jiraCase.PropertyChanged += JiraCase_PropertyChanged;
         }
 
@@ -216,6 +228,7 @@ namespace TestRunnerLib
             }
 
             if (jiraCase != null) {
+
                 if (e.PropertyName == "name")
                     jiraCase.name = name;
 
@@ -228,6 +241,8 @@ namespace TestRunnerLib
                 if (e.PropertyName == "estimatedTime")
                     jiraCase.estimatedTime = estimatedTime;
 
+
+
                 // Can't be updated with TM4J
                 if (e.PropertyName == "version")
                     jiraCase.version = version;
@@ -235,14 +250,46 @@ namespace TestRunnerLib
 
         }
 
+        private void CopyFromJiraCase()
+        {
+            if (jiraLabelToId)
+            {
+                foreach (string label in jiraCase.labels)
+                    if (label.StartsWith(jiraLabelToIdToken, StringComparison.OrdinalIgnoreCase))
+                        id = label.Substring(jiraLabelToIdToken.Length);
+            }
+
+            name = jiraCase.name;
+            objective = jiraCase.objective;
+            descPrecond = jiraCase.precondition;
+            estimatedTime = jiraCase.estimatedTime;
+
+            if (jiraCase.priority != null)
+                prio = jiraCase.priority.name;
+
+            if (jiraCase.status != null)
+                status = jiraCase.status.name;
+
+            //if (jiraCase.folder != null)
+            //    folder = jiraCase.folder.name;
+
+            //if (jiraCase.owner != null)
+            //    owner = jiraCase.owner.displayName
+
+            //createdOn = jiraCase.createdOn;       
+        }
+
         private void JiraCase_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "status")
-                if (jiraCase.status != null)
-                    status = jiraCase.status.name;
-            if (e.PropertyName == "priority")
-                if (jiraCase.priority != null)
-                    prio = jiraCase.priority.name;
+            if (e.PropertyName == "labels")
+                if (jiraLabelToId)
+                {
+                    foreach(string label in jiraCase.labels)
+                        if(label.StartsWith(jiraLabelToIdToken, StringComparison.OrdinalIgnoreCase))
+                        {
+                            id = label.Substring(jiraLabelToIdToken.Length);
+                        }
+                }
 
             if (e.PropertyName == "name")
                 name = jiraCase.name;
@@ -256,22 +303,33 @@ namespace TestRunnerLib
             if (e.PropertyName == "estimatedTime")
                 estimatedTime = jiraCase.estimatedTime;
 
+            // Special
             if (e.PropertyName == "version")
                 version = jiraCase.version;
 
+            if (e.PropertyName == "status")
+                if (jiraCase.status != null)
+                    status = jiraCase.status.name;
+
+            if (e.PropertyName == "priority")
+                if (jiraCase.priority != null)
+                    prio = jiraCase.priority.name;
 
         }
         /* end: Event handlers */
 
+       
+
         public void SetSelectedItems(JiraProject jiraProject)
         {
-            if (jiraProject.key != jiraProjectKey)
-            {
-                Debug.WriteLine($"Settings selectedItems for test {id}: current project key {jiraProject.key} does not match test project key {jiraProjectKey}.");
-            }
 
             if (jiraCase != null)
             {
+                if (jiraProject.key != jiraProjectKey)
+                {
+                    Debug.WriteLine($"Settings selectedItems on Jira props for test {id}: Current project key {jiraProject.key} does not match test project key {jiraCase.projectKey}.");
+                }
+
                 jiraCase.PropertyChanged -= jiraCase.JiraCase_PropertyChanged;
                 if (jiraCase.priority != null)
                 {
@@ -293,31 +351,11 @@ namespace TestRunnerLib
                 }
                 jiraCase.PropertyChanged += jiraCase.JiraCase_PropertyChanged;
             }
+            else
+                Debug.WriteLine($"Settings selectedItems on Jira props for test {id}: No jiraCase found.");
         }
 
-        private void CopyFromJiraCase()
-        {
-            id = jiraCase.key;
-            name = jiraCase.name;
-            objective = jiraCase.objective;
-            descPrecond = jiraCase.precondition;
-
-            if (jiraCase.priority != null)
-                prio = jiraCase.priority.name;
-
-            estimatedTime = jiraCase.estimatedTime;
-
-            if (jiraCase.status != null)
-                status = jiraCase.status.name;
-
-            //if (jiraCase.folder != null)
-            //    prio = jiraCase.folder.name;
-
-            //if (jiraCase.owner != null)
-            //    owner = jiraCase.owner.displayName
-
-            //createdOn = jiraCase.createdOn;       
-        }
+       
 
         /* Commands */
         public void Execute_AddTestDataCmd()

@@ -80,15 +80,7 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Header="ID" Binding="{Binding jiraCase.labels[0], UpdateSourceTrigger=LostFocus}"  MinWidth="40">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="Margin" Value="5,0,5,0" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                
 
 
                 <DataGridTextColumn Header="Jira" Binding="{Binding jiraCase.key, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">

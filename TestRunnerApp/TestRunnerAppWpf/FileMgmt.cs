@@ -461,6 +461,12 @@ namespace TestRunnerAppWpf
                 // Enable jira updates after loading
                 mvm.ToggleJiraCaseUpdates(true);
 
+                // Propagate LabelToIdSettings
+                foreach (TestModel t in gvm.suite.tests)
+                    t.jiraLabelToId = gvm.suite.jiraLabelToId;
+                foreach (TestModel t in gvm.suite.tests)
+                    t.jiraLabelToIdToken = gvm.suite.jiraLabelToIdToken;
+
             }
             else // returned suite was null
             {

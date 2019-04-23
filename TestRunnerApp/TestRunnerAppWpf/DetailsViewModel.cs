@@ -196,9 +196,9 @@ namespace TestRunnerAppWpf
             foreach (JiraCycle jc in suite.jiraProject.cycles)
             {
                 CycleModel c;
-                if (suite.cycles.Where(x => x.jiraCycle.key == jc.key).Count() > 0)
+                if (suite.cycles.Where(x => x.jiraCycle != null && x.jiraCycle.key == jc.key).Count() > 0)
                 {
-                    c = suite.cycles.Where(x => x.jiraCycle.key == jc.key).First();
+                    c = suite.cycles.Where(x => x.jiraCycle != null && x.jiraCycle.key == jc.key).First();
                 }
                 else
                 {
@@ -219,13 +219,16 @@ namespace TestRunnerAppWpf
             foreach (JiraCase jc in suite.jiraProject.cases)
             {
                 TestModel t;
-                if (suite.tests.Where(x => x.jiraCase.key == jc.key).Count() > 0)
+                
+                if (suite.tests.Where(x => x.jiraCase != null && x.jiraCase.key == jc.key).Count() > 0)
                 {
-                    t = suite.tests.Where(x => x.jiraCase.key == jc.key).First();
+                    t = suite.tests.Where(x => x.jiraCase != null && x.jiraCase.key == jc.key).First();
                 }
                 else
                 {
                     t = new TestModel();
+                    t.jiraLabelToId = suite.jiraLabelToId;
+                    t.jiraLabelToIdToken = suite.jiraLabelToIdToken;
                     suite.tests.Add(t);
                 }
                 t.jiraCase = jc; // TestModel copies data on jiraCase propertychange
@@ -239,16 +242,16 @@ namespace TestRunnerAppWpf
         /* end: Commands */
 
         /* Deprecated */
-        public bool testDetailsVisi
-        {
-            get => Get(() => testDetailsVisi);
-            set => Set(() => testDetailsVisi, value);
-        }
-        public bool suiteDetailsVisi
-        {
-            get => Get(() => suiteDetailsVisi);
-            set => Set(() => suiteDetailsVisi, value);
-        }
+        //public bool testDetailsVisi
+        //{
+        //    get => Get(() => testDetailsVisi);
+        //    set => Set(() => testDetailsVisi, value);
+        //}
+        //public bool suiteDetailsVisi
+        //{
+        //    get => Get(() => suiteDetailsVisi);
+        //    set => Set(() => suiteDetailsVisi, value);
+        //}
         /* end: Deprecated */
 
 
@@ -274,8 +277,9 @@ namespace TestRunnerAppWpf
             if (e.PropertyName == "jiraSelectedProject")
             {
                 LoadProjectData();
-
             }
+           
+
 
         }
 
