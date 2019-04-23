@@ -752,28 +752,37 @@ namespace TestRunnerAppWpf
                 //    JiraCloudTmj_enabled = false;
                 if (string.IsNullOrEmpty(Properties.Settings.Default.TmjKeyToken))
                     JiraCloudTmj_enabled = false;
+
                 Enums.Mgmt.Find(x => x.key == "JiraCloudTmj").enabled = JiraCloudTmj_enabled;
 
+                if (Enums.Mgmt.Find(x => x.key == "JiraCloudTmj").enabled)
+                {
+                    if (gridViewModel.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
+                    {
+                        JiraSetup();
+
+                    }
+                }
 
                 /* Deprecated */
-                if (Properties.Settings.Default.MgmtSystem == "None")
-                {
-                    jiraCloudMgmt = false;
-                    reqTestMgmt = false;
-                }
-                else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
-                {
-                    jiraCloudMgmt = true;
-                    reqTestMgmt = false;
-                    JiraConnect jc = new JiraConnect(this);
-                    if (!await jc.SetAccountId())
-                        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
-                {
-                    jiraCloudMgmt = false;
-                    reqTestMgmt = true;
-                }
+                //if (Properties.Settings.Default.MgmtSystem == "None")
+                //{
+                //    jiraCloudMgmt = false;
+                //    reqTestMgmt = false;
+                //}
+                //else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
+                //{
+                //    jiraCloudMgmt = true;
+                //    reqTestMgmt = false;
+                //    JiraConnect jc = new JiraConnect(this);
+                //    if (!await jc.SetAccountId())
+                //        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                //}
+                //else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
+                //{
+                //    jiraCloudMgmt = false;
+                //    reqTestMgmt = true;
+                //}
                 /* Deprecated */
 
 
@@ -812,6 +821,24 @@ namespace TestRunnerAppWpf
                         continue;
                     }
 
+                    string accountIdForCreateExec = null;
+                    if (string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+                    {
+                        var jc = new JiraConnect(this);
+                        if (await jc.SetAccountId())
+                        {
+                            Debug.WriteLine("CreateExec: Got accountId");
+                            accountIdForCreateExec = Properties.Settings.Default.JiraAccountId;
+                        }
+                        else
+                        {
+                            Debug.WriteLine("CreateExec: Failed to get accountId, exec will be created with null user");
+                        }
+
+                    }
+
+                        
+
 
                     RunModel r = cr.run;
                     Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(
@@ -822,7 +849,7 @@ namespace TestRunnerAppWpf
                                                                                     r.webDriverType,
                                                                                     r.datetimeEnd,
                                                                                     r.runTime,
-                                                                                    Properties.Settings.Default.JiraAccountId,
+                                                                                    accountIdForCreateExec,
                                                                                     r.resultObj.message);
                     Debug.WriteLine(response.Item2);
                     if (response.Item1 == HttpStatusCode.Created)

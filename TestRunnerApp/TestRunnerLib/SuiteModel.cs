@@ -144,6 +144,7 @@ namespace TestRunnerLib
             uid = Guid.NewGuid();
             tests = new ObservableCollection<TestModel>();
             cycles = new ObservableCollection<CycleModel>();
+            //name = "Untitled suite";
 
             //if (mgmt == null)
             //    mgmt = Enums.Mgmt.Find(x => x.key == "None");
@@ -152,6 +153,8 @@ namespace TestRunnerLib
             //currentCycle.key = "R1";
             //currentCycle.name = "New cycle";
             //cycles.Add(currentCycle);
+
+
 
             this.PropertyChanged += SuiteModel_PropertyChanged;
 

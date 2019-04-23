@@ -46,6 +46,7 @@ namespace TestRunnerAppWpf
             }
 
             w.Show();
+            w.model.ContinueSession();
         }
 
     }

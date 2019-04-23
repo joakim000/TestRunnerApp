@@ -30,16 +30,37 @@ namespace TestRunnerAppWpf
             Settings.GetSettings(this);
             CheckWebDriverAvailibility();
 
-            JiraSetup();
+            //JiraSetup();
 
             this.PropertyChanged += MainViewModel_PropertyChanged;
+
+
+            //ContinueSession();
         }
 
-        private async void JiraSetup()
+        public async void JiraSetup()
         {
             JiraConnect jc = new JiraConnect(this);
+            JiraConnectInfo jiraCloud = await jc.Preflight();
+            JiraConnectInfo tmjCloud = await jc.TmjPrep();
 
-            jira = new Jira(await jc.Preflight(), await jc.TmjPrep());
+            //if (!jiraCloud.ready || !tmjCloud.ready)
+            //    if (CanExecute_MgmtSettingsCmd())
+            //        Execute_MgmtSettingsCmd();
+            //else
+            //    //jira = new Jira(await jc.Preflight(), await jc.TmjPrep());
+            //    jira = new Jira(jiraCloud, tmjCloud);
+
+            if (jiraCloud.ready && tmjCloud.ready)
+                jira = new Jira(jiraCloud, tmjCloud);
+
+            else
+            {
+                if (CanExecute_MgmtSettingsCmd())
+                    Execute_MgmtSettingsCmd();
+            }
+
+
         }
 
         public void ToggleJiraCaseUpdates(bool toggleOn)
@@ -130,6 +151,26 @@ namespace TestRunnerAppWpf
             /* end: Events */
 
 
+        public void ContinueSession()
+        {
+            // Continue previous session, if not opened by association
+            if (string.IsNullOrEmpty(gridViewModel.suite.filename) &&
+                !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousDir) &&
+                !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
+            {
+                if (!Properties.Settings.Default.LoadFailure)
+                {
+                    Properties.Settings.Default.LoadFailure = true;
+
+                    string fileToOpen = Properties.Settings.Default.PreviousDir + @"\" +
+                        Properties.Settings.Default.PreviousFile;
+
+                     FileMgmt.OpenFileSetup(fileToOpen, this);
+
+                    Properties.Settings.Default.LoadFailure = false;
+                }
+            }
+        }
 
         private void setWindowTitle()
         {
@@ -287,7 +328,13 @@ namespace TestRunnerAppWpf
 
         public void LoadJiraProjectAsync(JiraProject p)
         {
-            StartAsyncLoader(p);
+            if (jira != null)
+                StartAsyncLoader(p);
+            else
+            {
+                Debug.WriteLine("StartAsyncLoader: jira was null");
+                JiraSetup();
+            }
         }
 
 
@@ -333,6 +380,9 @@ namespace TestRunnerAppWpf
             int total = 11;
 
             //syncContext.Send(x => test.previousOutcome = r.result, null);
+
+            
+                
 
             jira.load.LoadProjectData(p);
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);

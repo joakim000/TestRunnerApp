@@ -262,7 +262,7 @@ namespace TestRunnerAppWpf.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("v2.1 rc2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("v2.1 rc6")]
         public string versionString {
             get {
                 return ((string)(this["versionString"]));
@@ -278,6 +278,18 @@ namespace TestRunnerAppWpf.Properties {
             }
             set {
                 this["Mgmt"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LoadFailure {
+            get {
+                return ((bool)(this["LoadFailure"]));
+            }
+            set {
+                this["LoadFailure"] = value;
             }
         }
     }

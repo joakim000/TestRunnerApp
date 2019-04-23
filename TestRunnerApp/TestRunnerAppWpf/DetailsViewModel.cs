@@ -303,8 +303,12 @@ namespace TestRunnerAppWpf
 
             var p = mainViewModel.gridViewModel.suite.jiraProject;
 
-            mainViewModel.LoadJiraProjectAsync(p);
-            
+            if (Enums.Mgmt.Find(x => x.key == "JiraCloudTmj").enabled)
+            {
+                mainViewModel.LoadJiraProjectAsync(p);
+            }
+            else
+                mainViewModel.Execute_MgmtSettingsCmd();
 
             
 

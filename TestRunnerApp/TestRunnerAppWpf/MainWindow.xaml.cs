@@ -26,6 +26,7 @@ namespace TestRunnerAppWpf
             // Need to set these here first time to avoid NullReferenceException
             model.gridViewModel.mainViewModel = model;
             model.gridViewModel.PropertyChanged += model.GridViewModel_PropertyChanged;
+            model.unsavedChanges = false;
             model.gridViewModel.suite.PropertyChanged += model.Suite_PropertyChanged;
             model.gridViewModel.suite.tests.CollectionChanged += model.Tests_CollectionChanged;
             model.gridViewModel.suite.cycles.CollectionChanged += model.Cycles_CollectionChanged;
@@ -34,17 +35,23 @@ namespace TestRunnerAppWpf
             model.gridViewModel.suite = model.detailsViewModel.suite;
             model.detailsViewModel.PropertyChanged += model.DetailsViewModel_PropertyChanged;
 
-            // Continue previous session, if not opened by association
-            if (string.IsNullOrEmpty(model.gridViewModel.suite.filename) &&
-                !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousDir) &&
-                !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
-            {
-                string fileToOpen = Properties.Settings.Default.PreviousDir + @"\" +
-                    Properties.Settings.Default.PreviousFile;
+            //// Continue previous session, if not opened by association
+            //if (string.IsNullOrEmpty(model.gridViewModel.suite.filename) &&
+            //    !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousDir) &&
+            //    !string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
+            //{
+            //    if (!Properties.Settings.Default.LoadFailure)
+            //    {
+            //        Properties.Settings.Default.LoadFailure = true;
 
-                FileMgmt.OpenFileSetup(fileToOpen, model);
+            //        string fileToOpen = Properties.Settings.Default.PreviousDir + @"\" +
+            //            Properties.Settings.Default.PreviousFile;
 
-            }
+            //        FileMgmt.OpenFileSetup(fileToOpen, model);
+
+            //        Properties.Settings.Default.LoadFailure = false;
+            //    }
+            //}
         }
 
 

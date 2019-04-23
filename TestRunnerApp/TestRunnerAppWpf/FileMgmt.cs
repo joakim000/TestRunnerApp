@@ -92,6 +92,12 @@ namespace TestRunnerAppWpf
                     MessageBox.Show($"Error reading file: {e.Message}");
                     return new Tuple<string, SuiteModel>(fileToOpen, null);
                 }
+                catch (JsonReaderException e)
+                {
+                    Debug.WriteLine($"Error reading file: {e}");
+                    MessageBox.Show($"Error reading file: {e.Message}");
+                    return new Tuple<string, SuiteModel>(fileToOpen, null);
+                }
             }
             else
             {
@@ -388,6 +394,8 @@ namespace TestRunnerAppWpf
                 // Test managment handling (depending on usersetting) - Jira Cloud with TM4J
                 if (gvm.suite.mgmt == Enums.Mgmt.Find(x => x.key == "JiraCloudTmj"))
                 {
+                    mvm.JiraSetup();
+
                     // Select matching mgmt option in detailsview
                     gvm.suite.mgmt = dvm.mgmtOptions.Find(x => x.key == gvm.suite.mgmt.key); 
 
@@ -406,8 +414,8 @@ namespace TestRunnerAppWpf
                             }
                         }
                         if (dvm.jiraSelectedProject == null)
-                            MessageBox.Show("Project selected in Suite not available from Jira.", "TestRunnerApp with Jira",
-                                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                            //MessageBox.Show("Project selected in Suite not available from Jira.", "TestRunnerApp with Jira",
+                                        //MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                         // Set SelectedItems on tests
                         foreach (TestModel t in gvm.suite.tests)

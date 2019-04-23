@@ -119,17 +119,24 @@ namespace TestRunnerAppWpf
             else
                 message += "TM4J Key Token not set." + Environment.NewLine;
 
-            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+            if (Settings.accountIdSet)
             {
-                info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
-            }
-            else
-            {
-                if (!await SetAccountId())
-                    message += "Error retrieving Account ID." + Environment.NewLine;
-                else
+                if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+                {
                     info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
+                }
+                else
+                {
+                    //message += "Jira Account ID not set." + Environment.NewLine;
+
+                    Settings.accountIdSet = false;
+                    if (!await SetAccountId())
+                        message += "Error retrieving Account ID." + Environment.NewLine;
+                    else
+                        info.jiraAccountId = Properties.Settings.Default.JiraAccountId;
+                }
             }
+
 
             if (!string.IsNullOrEmpty(message))
             {
