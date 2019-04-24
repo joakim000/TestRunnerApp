@@ -18,8 +18,6 @@ namespace TestRunnerAppWpf
 {
     public partial class MainViewModel : ViewModelBase
     {
-        private BackgroundWorker exportExecWorker = null;
-
 
         public void ExportCycleAsync(CycleModel cycle)
         {

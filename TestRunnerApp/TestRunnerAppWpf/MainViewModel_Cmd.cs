@@ -776,26 +776,7 @@ namespace TestRunnerAppWpf
                     }
                 }
 
-                /* Deprecated */
-                //if (Properties.Settings.Default.MgmtSystem == "None")
-                //{
-                //    jiraCloudMgmt = false;
-                //    reqTestMgmt = false;
-                //}
-                //else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
-                //{
-                //    jiraCloudMgmt = true;
-                //    reqTestMgmt = false;
-                //    JiraConnect jc = new JiraConnect(this);
-                //    if (!await jc.SetAccountId())
-                //        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-                //}
-                //else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
-                //{
-                //    jiraCloudMgmt = false;
-                //    reqTestMgmt = true;
-                //}
-                /* Deprecated */
+               
 
 
             }
@@ -815,95 +796,6 @@ namespace TestRunnerAppWpf
             }
         }
 
-        /*
-        public async void Execute_ExportCycleCmd()
-        {
-
-            if (gridViewModel.suite.jiraProject == null)
-            {
-                MessageBox.Show("Jira project not found.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            string errorMsg = string.Empty;
-            int successCalls = 0;
-            int previouslyExported = 0;
-
-            foreach (var c in gridViewModel.suite.cycles.Where(x => x.jiraCloud && x.jiraProjectKey == gridViewModel.suite.jiraProject.key))
-            {
-                if (c.jiraCycle == null || string.IsNullOrWhiteSpace(c.jiraCycle.key) || string.IsNullOrWhiteSpace(c.jiraProjectKey))
-                {
-                    errorMsg += $"Cycle {c.id} is missing Jira data. {Environment.NewLine}";
-                    continue;
-                }
-                foreach (CycleRun cr in c.cycleRuns)
-                {
-                    if (cr.exported)
-                    {
-                        previouslyExported++;
-                        continue;
-                    }
-
-                    string accountIdForCreateExec = null;
-                    if (string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
-                    {
-                        var jc = new JiraConnect(this);
-                        if (await jc.SetAccountId())
-                        {
-                            Debug.WriteLine("CreateExec: Got accountId");
-                            accountIdForCreateExec = Properties.Settings.Default.JiraAccountId;
-                        }
-                        else
-                        {
-                            Debug.WriteLine("CreateExec: Failed to get accountId, exec will be created with null user");
-                        }
-
-                    }
-                    else
-                        accountIdForCreateExec = Properties.Settings.Default.JiraAccountId;
-
-                    RunModel r = cr.run;
-                    Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(
-                                                                                    c.jiraProjectKey,
-                                                                                    c.jiraCycle.key,
-                                                                                    r.test.id,
-                                                                                    r.result,
-                                                                                    r.webDriverType,
-                                                                                    r.datetimeEnd,
-                                                                                    r.runTime,
-                                                                                    accountIdForCreateExec,
-                                                                                    r.resultObj.message);
-                    Debug.WriteLine(response.Item2);
-                    if (response.Item1 == HttpStatusCode.Created)
-                    {
-                        cr.exported = true;
-                        successCalls++;
-                    }
-                    else
-                    {
-                        int errorCode = response.Item2.Value<int>("errorCode");
-                        string status = response.Item2.Value<string>("status");
-                        string message = response.Item2.Value<string>("message");
-                        errorMsg += $"{errorCode.ToString()} {status}: {message}{Environment.NewLine}";
-                    }
-                }
-            }
-            if (!string.IsNullOrEmpty(errorMsg))
-            {
-                if (previouslyExported > 0)
-                    errorMsg += $"{Environment.NewLine}Previously exported: {previouslyExported.ToString()}";
-                errorMsg += $"{Environment.NewLine}Number of successful calls: {successCalls.ToString()}";
-                MessageBox.Show(errorMsg, "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            else if (previouslyExported > 0)
-            {
-                errorMsg += $"{Environment.NewLine}Previously exported: {previouslyExported.ToString()}";
-                errorMsg += $"{Environment.NewLine}Number of successful calls: {successCalls.ToString()}";
-                MessageBox.Show(errorMsg, "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
-
-        } */
         public bool CanExecute_ExportCycleCmd()
         {
             return true;
