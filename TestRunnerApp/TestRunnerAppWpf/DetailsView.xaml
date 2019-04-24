@@ -112,7 +112,7 @@
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
-                                              MinWidth="98"
+                                              MinWidth="{Binding ActualWidth, ElementName=DetailsViewMainGrid, Converter={StaticResource ElementSizeConverter}, ConverterParameter=3#94}" 
                                         Margin="10,-3,10,-2" />
                         </Label>
                         <ControlTemplate.Triggers>
@@ -143,7 +143,7 @@
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
                                         ContentSource="Header"
-                                              MinWidth="98"
+                                              MinWidth="{Binding ActualWidth, ElementName=DetailsViewMainGrid, Converter={StaticResource ElementSizeConverter}, ConverterParameter=3#94}" 
                                         Margin="10,-3,10,-2" />
                         </Label>
                         <ControlTemplate.Triggers>
@@ -166,7 +166,7 @@
 
     </UserControl.Resources>
 
-        <Grid  >
+        <Grid x:Name="DetailsViewMainGrid" >
 
         <TabControl x:Name="DetailsTabs"  BorderThickness="0" Padding="0" Background="{DynamicResource MenuBackgroundBrush}">
             
@@ -823,6 +823,15 @@
                     </Grid>
                 </ScrollViewer>
             </TabItem>
+
+            <TabItem Header="Log" Style="{StaticResource TabItemStyle}"
+                     Visibility="{Binding mainViewModel.showLog, Converter={StaticResource BoolToVisi}}">
+                <Grid>
+                    <TextBox Text="{Binding logText, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                 TextWrapping="Wrap" IsReadOnly="True"/>
+                </Grid>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </UserControl>

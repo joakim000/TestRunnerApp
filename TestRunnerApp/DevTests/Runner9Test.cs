@@ -16,6 +16,7 @@ namespace DevTests
             int step = 0;
             try
             {
+
                 Debug.WriteLine($"I'm a test, this is my BaseDir: {AppDomain.CurrentDomain.BaseDirectory}");
 
                 using (IWebDriver driver = WebDriver.Get(w))

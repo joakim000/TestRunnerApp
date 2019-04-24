@@ -14,6 +14,8 @@ using System.Windows;
 
 using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
+using System.Windows.Threading;
+using System.IO;
 
 namespace TestRunnerAppWpf
 {
@@ -68,12 +70,74 @@ namespace TestRunnerAppWpf
             get => Get(() => mgmtOptions, Enums.Mgmt);
             set => Set(() => mgmtOptions, value);
         }
-        
 
-
-        /* Commands */
-        public async void Execute_JiraGetAvailableProjectsCmd()
+        // Logging
+        string logsDir = AppDomain.CurrentDomain.BaseDirectory + @"Logs\";
+        int updateLogTry = 0;
+        public string logText
         {
+            get => Get(() => logText, string.Empty);
+            set => Set(() => logText, value);
+        }
+        public DispatcherTimer logTimer
+        {
+            get => Get(() => logTimer, new DispatcherTimer());
+            set => Set(() => logTimer, value);
+        }
+
+        public DetailsViewModel()
+        {
+            Debug.WriteLine("Creating detailsViewModel");
+
+            test = new TestModel();
+            cycle = new CycleModel();
+            suite = new SuiteModel();
+
+            jiraAvailableProjects = Settings.jiraAvailableProjects;
+
+            //Logging
+            logTimer = new DispatcherTimer();
+            logTimer.Interval = TimeSpan.FromSeconds(3);
+            logTimer.Tick += LogTimer_Tick;
+            //logTimer.Start();
+
+            this.PropertyChanged += DetailsViewModel_PropertyChanged;
+        }
+
+        private async void LogTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                UpdateLog();
+            }
+            catch (IOException)
+            {
+                logTimer.Stop();
+                await Task.Delay(5000);
+                logTimer.Start();
+            }
+
+        }
+
+        public async void UpdateLog()
+        {
+            try
+            {
+                logText = File.ReadAllText(logsDir + "RunnerDebugOutput.log");
+                updateLogTry = 0;
+            }
+            catch (IOException)
+            {
+                updateLogTry++;
+                await Task.Delay(5000);
+                if (updateLogTry < 10)
+                    UpdateLog();
+            }
+        }
+
+            /* Commands */
+            public async void Execute_JiraGetAvailableProjectsCmd()
+            {
             // Disable UI-controls during load operation
             mainViewModel.enableProjectLoad = false;
 
@@ -255,20 +319,7 @@ namespace TestRunnerAppWpf
         /* end: Deprecated */
 
 
-        public DetailsViewModel()
-        {
-            Debug.WriteLine("Creating detailsViewModel");
-
-            test = new TestModel();
-            cycle = new CycleModel();
-            suite = new SuiteModel();
-
-
-            jiraAvailableProjects = Settings.jiraAvailableProjects;
-
-            this.PropertyChanged += DetailsViewModel_PropertyChanged;
-
-        }
+       
 
         public void DetailsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

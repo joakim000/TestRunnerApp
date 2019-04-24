@@ -165,7 +165,8 @@ namespace TestRunnerAppWpf
                     string fileToOpen = Properties.Settings.Default.PreviousDir + @"\" +
                         Properties.Settings.Default.PreviousFile;
 
-                     FileMgmt.OpenFileSetup(fileToOpen, this);
+                    TestRunnerLib.Log.AddNoWrite($"Continue session from {fileToOpen}");
+                    FileMgmt.OpenFileSetup(fileToOpen, this);
 
                     Properties.Settings.Default.LoadFailure = false;
                 }
@@ -268,6 +269,7 @@ namespace TestRunnerAppWpf
             foreach (TestModel test in tests)
             {
                 Debug.WriteLine($"Running {test.name}");
+                TestRunnerLib.Log.Add($"Running {test.name}");
 
                 RunModel r = new RunModel(test, webDriverType);
                 syncContext.Send(x => test.runs.Add(r), null);
@@ -321,7 +323,9 @@ namespace TestRunnerAppWpf
             {
                 runStatus = "Done";
                 runCurrent = runTotal;
+                ResetProgress();
             }
+            detailsViewModel.UpdateLog();
             this.unsavedChanges = true;
             //Debug.WriteLine($"Async runTestWorker result: {e.Result}");
         }
@@ -381,9 +385,6 @@ namespace TestRunnerAppWpf
 
             //syncContext.Send(x => test.previousOutcome = r.result, null);
 
-            
-                
-
             jira.load.LoadProjectData(p);
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
 
@@ -416,7 +417,8 @@ namespace TestRunnerAppWpf
 
             p.executionStatuses = jira.load.LoadStatus(p.key, "TEST_EXECUTION", maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);
-            //p.planStatuses = await LoadStatus(p.key, "TEST_PLAN", maxResults);
+
+            //p.planStatuses = = jira.load.LoadStatus(p.key, "TEST_PLAN", maxResults).Result;
 
             p.cycles = jira.load.LoadCycles(p, p.key, null, maxResults).Result;
             done++; e.Result = done; projectLoadUpdate(sender, e, done, total);

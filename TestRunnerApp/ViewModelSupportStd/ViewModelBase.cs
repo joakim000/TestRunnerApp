@@ -32,7 +32,7 @@ namespace ViewModelSupport
             }
         }
 
-        private static readonly bool _isInDesignMode;
+        //private static readonly bool _isInDesignMode;
 
         static ViewModelBase()
         {

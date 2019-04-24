@@ -66,6 +66,11 @@ namespace TestRunnerAppWpf
             get => Get(() => singleCycleView, true);
             set => Set(() => singleCycleView, value);
         }
+        public bool showLog
+        {
+            get => Get(() => showLog, false);
+            set => Set(() => showLog, value);
+        }
 
 
         /* Data */

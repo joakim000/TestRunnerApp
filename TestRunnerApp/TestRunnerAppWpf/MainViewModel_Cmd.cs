@@ -115,6 +115,18 @@ namespace TestRunnerAppWpf
             return true;
         }
 
+        public void Execute_SetShowLogCmd()
+        {
+            Properties.Settings.Default.ShowLog = showLog;
+            //Properties.Settings.Default.ShowLog = !Properties.Settings.Default.ShowLog;
+            //showLog = Properties.Settings.Default.ShowLog;
+            Properties.Settings.Default.Save();
+        }
+        public bool CanExecute_SetShowLogCmd()
+        {
+            return true;
+        }
+
         // Help commands
         public void Execute_HelpCmd()
         {

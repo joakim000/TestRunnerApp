@@ -45,6 +45,12 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.Resources>
+            <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
+        </Grid.Resources>
+        <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
+
+
         <DataGrid ItemsSource="{Binding Path=suite.tests, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}"
                     AutoGenerateColumns="False"         
                   SelectionChanged="DataGrid_SelectionChanged"
@@ -83,7 +89,8 @@
                 
 
 
-                <DataGridTextColumn Header="Jira" Binding="{Binding jiraCase.key, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">
+                <DataGridTextColumn Header="Jira" Binding="{Binding jiraCase.key, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40"
+                                    Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}">
                    <DataGridTextColumn.ElementStyle>
                        <Style TargetType="TextBlock">
                            <Setter Property="HorizontalAlignment" Value="Center" />
@@ -103,11 +110,13 @@
                     </DataGridTextColumn.ElementStyle>
                   </DataGridTextColumn>-->
 
+                <!--electedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.jiraSelectedProject, 
+                                                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"-->
 
-               
+                <!--Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.mainViewModel.gridViewModel.suite.mgmt, Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource VisiJiraCloudTmj}}">-->
 
                 <DataGridTemplateColumn Header="Prio" IsReadOnly="False"  MinWidth="50" 
-                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}, AncestorLevel=1},  Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource BoolToVisiInverse}}">
+                                        Visibility="Visible">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="PrioCombo" 
@@ -148,7 +157,8 @@
                                         />-->
                 
                 <DataGridTemplateColumn Header="Status" IsReadOnly="False"  MinWidth="50" 
-                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}, AncestorLevel=1},  Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource BoolToVisiInverse}}">
+                                        Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}"
+                                        >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="StatusCombo" 
@@ -180,7 +190,8 @@
 
 
                 <DataGridTemplateColumn Header="Folder" IsReadOnly="False"  MinWidth="50" 
-                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}, AncestorLevel=1},  Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource BoolToVisiInverse}}">
+                                        Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}"
+                                        >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="FolderCombo" 
@@ -245,7 +256,8 @@
 
                 <DataGridTextColumn Header="Created" MinWidth="80" 
                                     Binding="{Binding jiraCase.createdOnDT, Converter={StaticResource DateTimeShortConverter},
-                                              UpdateSourceTrigger=LostFocus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, ValidatesOnNotifyDataErrors=True}" >
+                                              UpdateSourceTrigger=LostFocus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, ValidatesOnNotifyDataErrors=True}" 
+                                    Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />

@@ -68,9 +68,11 @@ namespace TestRunnerAppWpf
                 {
                     case MessageBoxResult.Yes:
                         model.Execute_FileSaveCmd();
+                        EndLog();
                         e.Cancel = false;
                         break;
                     case MessageBoxResult.No:
+                        EndLog();
                         e.Cancel = false;
                         break;
                     case MessageBoxResult.Cancel:
@@ -80,8 +82,16 @@ namespace TestRunnerAppWpf
             }
             else
             {
+                EndLog();
                 e.Cancel = false;
             }
+        }
+
+        private void EndLog()
+        {
+            //TestRunnerLib.Log.Add($"Session end {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
+            //TestRunnerLib.Log.Line();
+            //TestRunnerLib.Log.WriteScratch();
         }
 
         private void Exit(object sender, RoutedEventArgs e)

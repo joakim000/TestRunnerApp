@@ -186,7 +186,7 @@
                 </MenuItem>
                 <MenuItem Header="_Reset exported-flags" Command="{Binding ResetExportedFlagsCmd}"  >
                     <MenuItem.Icon>
-                        <Image Source="pack://application:,,,/Icons/Redo_16x.png" />
+                        <Image Source="pack://application:,,,/Icons/ForEach_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_Export" Command="{Binding ExportCycleCmd}"  >
@@ -280,6 +280,11 @@
                 <MenuItem Header="_Dark mode"  IsCheckable="True" IsChecked="{Binding checkedDarkTheme}" Command="{Binding SetThemeCmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/DarkTheme_16x.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Show log"  IsCheckable="True" IsChecked="{Binding showLog}" Command="{Binding SetShowLogCmd}"  >
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/Icons/Log_16x.png" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <!--<MenuItem Header="_Multi cycle view"  IsCheckable="True" IsChecked="{Binding multiCycleView}" Command="{Binding SetCycleViewCmd}"  >

@@ -195,6 +195,10 @@
     <Compile Include="EditCycleDialog.xaml.cs">
       <DependentUpon>EditCycleDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Log.xaml.cs">
+      <DependentUpon>Log.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LogViewModel.cs" />
     <Compile Include="NewTestDialogViewModel.cs" />
     <Compile Include="NewCycleDialogViewModel.cs" />
     <Compile Include="ExportViewModel.cs" />
@@ -253,6 +257,10 @@
     <Compile Include="Help\HowToWindow.xaml.cs">
       <DependentUpon>HowToWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Log.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

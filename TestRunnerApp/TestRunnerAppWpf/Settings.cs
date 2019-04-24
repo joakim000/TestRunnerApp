@@ -85,7 +85,7 @@ namespace TestRunnerAppWpf
 
                 // Get on-top-when-running setting
                 caller.checkedOnTop = Properties.Settings.Default.OnTop;
-
+                caller.showLog = Properties.Settings.Default.ShowLog;
                 caller.multiCycleView = Properties.Settings.Default.multiCycleView;
 
                 switch (Properties.Settings.Default.Theme)
@@ -105,6 +105,7 @@ namespace TestRunnerAppWpf
                 }
 
 
+                /* Check if we should enable JiraCloudTmj */
                 bool JiraCloudTmj_enabled = true;
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraInstance))
@@ -135,6 +136,7 @@ namespace TestRunnerAppWpf
                 else JiraCloudTmj_enabled = false;
 
                 Enums.Mgmt.Find(x => x.key == "JiraCloudTmj").enabled = JiraCloudTmj_enabled;
+                /* end: Check if we should enable JiraCloudTmj */
 
 
 

@@ -22,20 +22,25 @@ namespace TestRunnerAppWpf
             // Always want to have these dirs available
             string testsDir = AppDomain.CurrentDomain.BaseDirectory + "Tests";
             string cacheDir = AppDomain.CurrentDomain.BaseDirectory + "Cache";
+            string logsDir = AppDomain.CurrentDomain.BaseDirectory + "Logs";
             try
             {
                 if (!Directory.Exists(testsDir))
                     Directory.CreateDirectory(testsDir);
                 if (!Directory.Exists(cacheDir))
                     Directory.CreateDirectory(cacheDir);
+                if (!Directory.Exists(logsDir))
+                    Directory.CreateDirectory(logsDir);
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error creating dir: {ex}");
                 MessageBox.Show($"Error creating dir: {ex.Message}");
             }
-            
-            // Open file by association
+
+            w.Show();
+
+            // Open file by association or continue session
             if (e.Args.Length == 1)
             {
                 System.Diagnostics.Debug.WriteLine("Startup opening file: \n\n" + e.Args[0]);
@@ -44,9 +49,8 @@ namespace TestRunnerAppWpf
                 FileMgmt.OpenFileSetup(fileToOpen, w.model);
 
             }
-
-            w.Show();
-            w.model.ContinueSession();
+            else
+                w.model.ContinueSession();
         }
 
     }

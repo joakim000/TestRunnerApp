@@ -24,10 +24,14 @@ namespace TestRunnerLib
 
             public TestResult RunTest(WebDriverType webDriver, string[] testdata)
             {
+                string logsDir = AppDomain.CurrentDomain.BaseDirectory + @"Logs\";
+                Debug.Listeners.Add(new TextWriterTraceListener(logsDir + "RunnerDebugOutput.log", "RunListener"));
+
                 if (called == null)
                     return new TestResult(Outcome.Warning, "Type not found. Check namespace / type.");
 
-                Debug.WriteLine(called.Name);
+                Debug.WriteLine(DateTime.Now.ToString("yyMMdd HHmmss") + " " 
+                     + called.Module + " " + called.Namespace + "." + called.Name );
                 string message = called.Name.ToString();
 
                 // This will fall through if no match is found.
@@ -57,6 +61,7 @@ namespace TestRunnerLib
                 if (tr.e != null)
                     tr.e.Data.Clear();
 
+                Debug.Flush();
                 return tr;
             }
         }
