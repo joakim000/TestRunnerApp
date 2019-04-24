@@ -27,14 +27,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://joakim.dreamhosters.com/testapp/</InstallUrl>
+    <InstallUrl>http://joakim.dreamhosters.com/testapp/prel/</InstallUrl>
     <TargetCulture>en</TargetCulture>
     <ProductName>TestApp by Unicus</ProductName>
     <PublisherName>Unicus Sverige AB</PublisherName>
     <SuiteName>TestApp by Unicus</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>14</ApplicationRevision>
+    <ApplicationRevision>15</ApplicationRevision>
     <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -199,6 +199,8 @@
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>
     <Compile Include="LogViewModel.cs" />
+    <Compile Include="Work_ExportExec.cs" />
+    <Content Include="Work_ExportExec.cs.txt" />
     <Compile Include="NewTestDialogViewModel.cs" />
     <Compile Include="NewCycleDialogViewModel.cs" />
     <Compile Include="ExportViewModel.cs" />

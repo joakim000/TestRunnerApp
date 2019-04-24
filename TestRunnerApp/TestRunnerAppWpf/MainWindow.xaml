@@ -114,7 +114,7 @@
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Header="_Tests" Template="{DynamicResource MenuItemControlTemplateCustom}">
+            <MenuItem Header="_Test" Template="{DynamicResource MenuItemControlTemplateCustom}">
                 <MenuItem Header="_Add" Command="{Binding NewTestCmd}"  >
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/Icons/AddTest_16x.png" />
@@ -148,7 +148,7 @@
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Header="_Cycles" Template="{DynamicResource MenuItemControlTemplateCustom}">
+            <MenuItem Header="_Cycle" Template="{DynamicResource MenuItemControlTemplateCustom}">
                 <MenuItem Header="_Select" 
                           ItemsSource="{Binding Path=gridViewModel.suite.cycles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" 
                           
@@ -424,7 +424,7 @@
                     <Image Source="pack://application:,,,/Icons/Import_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>-->
                 <Button Command="{Binding ResetExportedFlagsCmd}" ToolTip="Reset exported-flags for selected cycle">
-                    <Image Source="pack://application:,,,/Icons/Redo_16x.png" Style="{StaticResource ToolBarImage}" />
+                    <Image Source="pack://application:,,,/Icons/ForEach_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
                 <Button Command="{Binding ExportCycleCmd}" ToolTip="Export cycle">
                     <Image Source="pack://application:,,,/Icons/Export_16x.png" Style="{StaticResource ToolBarImage}" />

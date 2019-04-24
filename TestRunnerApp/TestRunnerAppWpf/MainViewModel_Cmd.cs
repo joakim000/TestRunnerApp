@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -806,8 +806,19 @@ namespace TestRunnerAppWpf
         }
 
 
+        public void Execute_ExportCycleCmd()
+        {
+            if (gridViewModel.suite.currentCycle != null)
+            {
+                Debug.WriteLine("Export: Current cycle is: " + gridViewModel.suite.currentCycle.id);
+                ExportCycleAsync(gridViewModel.suite.currentCycle);
+            }
+        }
+
+        /*
         public async void Execute_ExportCycleCmd()
         {
+
             if (gridViewModel.suite.jiraProject == null)
             {
                 MessageBox.Show("Jira project not found.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -848,9 +859,8 @@ namespace TestRunnerAppWpf
                         }
 
                     }
-
-                        
-
+                    else
+                        accountIdForCreateExec = Properties.Settings.Default.JiraAccountId;
 
                     RunModel r = cr.run;
                     Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(
@@ -893,7 +903,7 @@ namespace TestRunnerAppWpf
             }
 
 
-        }
+        } */
         public bool CanExecute_ExportCycleCmd()
         {
             return true;

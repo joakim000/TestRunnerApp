@@ -1,0 +1,203 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using ViewModelSupport;
+using TestRunnerLib;
+using TestRunnerLib.Jira;
+using System.Windows;
+using System.Net;
+using Newtonsoft.Json.Linq;
+
+namespace TestRunnerAppWpf
+{
+    public partial class MainViewModel : ViewModelBase
+    {
+        private BackgroundWorker exportExecWorker = null;
+
+
+        public void ExportCycleAsync(CycleModel cycle)
+        {
+            Debug.WriteLine("Export: Got cycle: " + cycle.id);
+
+            if (gridViewModel.suite.jiraProject == null)
+            {
+                MessageBox.Show("Current suite has no Jira project.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (!cycle.jiraCloud)
+            {
+                MessageBox.Show("Cycle is not enabled for Jira.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (cycle.jiraProjectKey != gridViewModel.suite.jiraProject.key)
+            {
+                MessageBox.Show("Cycle does not match current Jira project.", "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            StartExportExecAsyncRunner(cycle);
+        }
+
+        private void CancelExportExecJob() => exportExecWorker.CancelAsync();
+
+        private void StartExportExecAsyncRunner(CycleModel cycle)
+        {
+            enableRun = false;
+            if (Properties.Settings.Default.OnTop)
+                topMost = true;
+            progressBarValue = 0;
+            runStatus = "Running";
+            runTotal = cycle.cycleRuns.Count().ToString();
+            runSlash = "/";
+            runCurrent = "1";
+
+            exportExecWorker = new BackgroundWorker
+            {
+                WorkerReportsProgress = true,
+                WorkerSupportsCancellation = true
+            };
+            exportExecWorker.DoWork += exportExecWorker_DoWork;
+            exportExecWorker.ProgressChanged += exportExecWorker_ProgressChanged;
+            exportExecWorker.RunWorkerCompleted += exportExecWorker_RunWorkerCompleted;
+
+            syncContext = SynchronizationContext.Current;
+            exportExecWorker.RunWorkerAsync(cycle);
+        }
+
+        async void exportExecWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Get accountID
+            string accountIdForCreateExec = null;
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAccountId))
+                accountIdForCreateExec = Properties.Settings.Default.JiraAccountId;
+            else
+            {
+                var jc = new JiraConnect(this);
+                if (await jc.SetAccountId())
+                {
+                    Debug.WriteLine("CreateExec: Got accountId");
+                    accountIdForCreateExec = Properties.Settings.Default.JiraAccountId;
+                }
+                else
+                {
+                    string idMessage = "CreateExec: Failed to get accountId, exec will be created with null user";
+                    Debug.WriteLine(idMessage);
+                    MessageBox.Show(idMessage, "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+
+
+            CycleModel c = (CycleModel)e.Argument;
+            string errorMsg = string.Empty;
+            int successCalls = 0;
+            int previouslyExported = 0;
+                       
+            int done = 0;
+            int total = c.cycleRuns.Count();
+
+            foreach (CycleRun cr in c.cycleRuns)
+            {
+                Debug.WriteLine($"Exporting {cr.test.id} {cr.run.datetime.ToString()}");
+
+                if (cr.exported)
+                {
+                    previouslyExported++;
+                }
+                else
+                {
+                    RunModel r = cr.run;
+                    Tuple<HttpStatusCode, JObject> response = await jira.CreateExec(
+                                                                                    c.jiraProjectKey,
+                                                                                    c.jiraCycle.key,
+                                                                                    r.test.id,
+                                                                                    r.result,
+                                                                                    r.webDriverType,
+                                                                                    r.datetimeEnd,
+                                                                                    r.runTime,
+                                                                                    accountIdForCreateExec,
+                                                                                    r.resultObj.message);
+                    Debug.WriteLine(response.Item2);
+                    if (response.Item1 == HttpStatusCode.Created)
+                    {
+                        cr.exported = true;
+                        successCalls++;
+                    }
+                    else
+                    {
+                        int errorCode = response.Item2.Value<int>("errorCode");
+                        string status = response.Item2.Value<string>("status");
+                        string message = response.Item2.Value<string>("message");
+                        errorMsg += $"{errorCode.ToString()} {status}: {message}{Environment.NewLine}";
+                    }
+
+                }
+
+                //syncContext.Send(x => test.runs.Add(r), null);
+
+                done++;
+                if (exportExecWorker.CancellationPending == true)
+                {
+                    syncContext.Send(x => runStatus = "Cancelled", null);
+                    e.Cancel = true;
+                    return;
+                }
+                int progressPercentage = Convert.ToInt32(((double)done / total) * 100);
+                Tuple<int, string> report = new Tuple<int, string>(done, $"Exports done: {done}");
+                (sender as BackgroundWorker).ReportProgress(progressPercentage, report);
+                
+            }
+            e.Result = new Tuple<string, int, int>(errorMsg, previouslyExported, successCalls);
+
+        }
+
+        void exportExecWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBarValue = e.ProgressPercentage;
+            if (e.UserState != null)
+            {
+                // Update UI
+                var t = (Tuple<int, string>)e.UserState;
+                Debug.WriteLine(t.Item2);
+                runCurrent = (t.Item1 + 1).ToString();
+            }
+        }
+
+        void exportExecWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            enableRun = true;
+            if (runStatus != "Cancelled")
+            {
+                runStatus = "Done";
+                runCurrent = runTotal;
+                ResetProgress();
+            }
+            var result = e.Result as Tuple<string, int, int>;
+            string errorMsg = result.Item1;
+            int previouslyExported = result.Item2;
+            int successCalls = result.Item3;
+            if (!string.IsNullOrEmpty(errorMsg))
+            {
+                if (previouslyExported > 0)
+                    errorMsg += $"{Environment.NewLine}Previously exported: {previouslyExported.ToString()}";
+                errorMsg += $"{Environment.NewLine}Number of successful calls: {successCalls.ToString()}";
+                MessageBox.Show(errorMsg, "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (previouslyExported > 0)
+            {
+                errorMsg += $"{Environment.NewLine}Previously exported: {previouslyExported.ToString()}";
+                errorMsg += $"{Environment.NewLine}Number of successful calls: {successCalls.ToString()}";
+                MessageBox.Show(errorMsg, "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+        }
+
+      
+
+    } // MainViewModel
+}

@@ -89,6 +89,8 @@ namespace TestRunnerAppWpf
         /* Threading */
         private BackgroundWorker runTestWorker = null;
         private BackgroundWorker projectLoadWorker = null;
+        
+
         SynchronizationContext syncContext = SynchronizationContext.Current;
         public int progressBarValue
         {
