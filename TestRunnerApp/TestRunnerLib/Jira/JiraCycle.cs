@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using ViewModelSupport;
 
 namespace TestRunnerLib.Jira
@@ -43,6 +44,22 @@ namespace TestRunnerLib.Jira
             get => Get(() => plannedEndDate);
             set => Set(() => plannedEndDate, value);
         }
+        public DateTime plannedStartDateDT
+        {
+            get => Get(() => plannedStartDateDT);
+            set => Set(() => plannedStartDateDT, value);
+        }
+        public DateTime plannedEndDateDT
+        {
+            get => Get(() => plannedEndDateDT);
+            set => Set(() => plannedEndDateDT, value);
+        }
+        public SelectedDatesCollection plannedDates
+        {
+            get => Get(() => plannedDates);
+            set => Set(() => plannedDates, value);
+        }
+
         public IdSelf project
         {
             //get => Get(() => project, new IdSelf());

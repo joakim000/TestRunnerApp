@@ -36,53 +36,43 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Column="1" x:Name="generalPanel" Margin="15,10,15,15" >
-            <!--<Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
 
-            <Label Content="ID" />
-            <TextBox x:Name="idTB"
-                     Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Content="Name" />
-            <TextBox 
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                     Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Content="Long description"  />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
-                     Text="{Binding Path=newItem.description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-            />
-
-            <Label Content="Project" />
-            <TextBox  
-                             IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                     Text="{Binding Path=newItem.jiraProjectKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-            <Label Content="Project version" />
-            <TextBox 
-                     Text="{Binding Path=newItem.jiraCycle.jiraProjectVersion.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-            />
-
-            <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
-            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="50"
-                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-
-        </StackPanel>
         <StackPanel x:Name="secondPanel"  Margin="15,10,15,15" Grid.Column="0"  >
             <!--<Label Content="Jira" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
 
             <StackPanel x:Name="jiraPanel"
                         Visibility="{Binding Path=mainViewModel.gridViewModel.suite.mgmt, Converter={StaticResource VisiJiraCloudTmj}}"
                         >
-                <Label Content="Jira Cycle" />
+
+                <Label Content="Jira" HorizontalAlignment="Center" />
+
+                <Label Content="Folder" />
+                <!--<TextBox  Width="150" Margin="0,0,10,15"
+                         Text="{Binding Path=newItem.jiraCycle.folder.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                                 IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                />-->
+                <ComboBox x:Name="FolderCombo" Template="{DynamicResource ComboBoxControlCustom}"
+                          Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
+                          SelectedItem="{Binding newItem.jiraCycle.folder, 
+                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          ItemsSource="{Binding jiraProject.cycleFolders, 
+                                                 Mode=OneWay, NotifyOnSourceUpdated=True}"
+                         IsEnabled="{Binding managed, Converter={StaticResource BoolInverseConverter}}"
+                          >
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Button Content="Create cycle" Margin="0,10,0,0" Width="100" HorizontalAlignment="Left"
+                        Command="{Binding CreateJiraCycleCmd}"/>
+
+                <Label Content="Import cycle" Margin="0,15,0,0" />
                 <ComboBox x:Name="CyclesCombo"  Template="{DynamicResource ComboBoxControlCustom}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
                           SelectedItem="{Binding jiraSelectedCycle, 
@@ -97,45 +87,85 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
+                <!--<Label Content="Create cycle" />-->
 
-                <Label Content="Jira Folder" />
-                <TextBox  Width="150" Margin="0,0,10,15"
-                         Text="{Binding Path=newItem.jiraCycle.folder.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-                                 IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                />
-                <!--<ComboBox x:Name="FolderCombo" Template="{DynamicResource ComboBoxControlCustom}"
-                          Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
-                          SelectedItem="{Binding newItem.jiraCycle.folder, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                          ItemsSource="{Binding jiraProject.cycleFolders, 
-                                                 Mode=OneWay, NotifyOnSourceUpdated=True}"
-                         IsEnabled="{Binding managed, Converter={StaticResource BoolInverseConverter}}"
-                          >
-                    
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding name}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>-->
+
+
 
 
             </StackPanel>
         </StackPanel>
 
+
+
+        <StackPanel Grid.Column="1" x:Name="generalPanel" Margin="15,10,15,15" >
+            <!--<Label Content="Description" FontSize="16" FontWeight="Bold" Margin="3,0,0,0"/>-->
+
+            <Label Content="ID" />
+            <TextBox x:Name="idTB"
+                     IsEnabled="{Binding newItem.jiraCloud, Converter={StaticResource BoolInverseConverter}, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Content="Name" />
+            <TextBox 
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Content="Description"  />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="82"
+                     Text="{Binding Path=newItem.description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />
+
+            <Label Content="Project" />
+            <TextBox  
+                             IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.jiraProjectKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+            <Label Content="Project version" />
+            <!--<TextBox 
+                     Text="{Binding Path=newItem.jiraCycle.jiraProjectVersion.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+            />-->
+            <ComboBox x:Name="JiraVersionCombo" Template="{DynamicResource ComboBoxControlCustom}"
+                          Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
+                          SelectedItem="{Binding newItem.jiraCycle.jiraProjectVersion, 
+                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                          ItemsSource="{Binding jiraProject.versions, 
+                                                 Mode=OneWay, NotifyOnSourceUpdated=True}"
+                          IsEnabled="{Binding managed, Converter={StaticResource BoolInverseConverter}}"
+                      >
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Grid.Column="1" Grid.Row="10" Content="Notes" />
+            <TextBox AcceptsReturn="True" TextWrapping="Wrap" AutoWordSelection="True"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Height="50"
+                     Text="{Binding Path=newItem.notes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+            />
+
+        </StackPanel>
+        
         <StackPanel Grid.Column="2" x:Name="thirdPanel" Margin="15,10,15,15">
 
             <Label Content="Status" />
-            <TextBox  
+            <!--<TextBox  
                        Text="{Binding Path=newItem.jiraCycle.status.name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                        IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-            />
-            <!--<ComboBox x:Name="JiraStatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
+            />-->
+            <ComboBox x:Name="JiraStatusCombo" Template="{DynamicResource ComboBoxControlCustom}"
                           Width="150" HorizontalAlignment="Left" Margin="0,0,10,15" Padding="10,2,10,2"
-                          ItemContainerStyle="{DynamicResource ComboItemStyle}"     
                           SelectedItem="{Binding newItem.jiraCycle.status, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                           ItemsSource="{Binding jiraProject.cycleStatuses, 
@@ -150,27 +180,58 @@
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
-            </ComboBox>-->
+            </ComboBox>
 
-            <Label Content="Planned start date" />
-            <TextBox 
-                                           IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                     Text="{Binding Path=newItem.jiraCycle.plannedStartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
-            />
-            <!--<Calendar x:Name="StartCal" SelectionMode="SingleDate"
-                      
-            />-->
-
-            <Label Content="Planned end date" />
-            <TextBox 
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+            <Label Content="Planned start" />
+            <TextBox Width="120" HorizontalAlignment="Left"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                     Text="{Binding Path=newItem.jiraCycle.plannedEndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     Text="{Binding Path=newItem.jiraCycle.plannedStartDateDT, StringFormat=yyyy-MM-dd, Mode=TwoWay,
+                Converter={StaticResource CalendarConverter},
+                UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                     LostFocus="PlannedStart_LostFocus"
             />
-            <!--<Calendar x:Name="EndCal" SelectionMode="SingleDate"
-                      
-            />-->
+             
+                </StackPanel>
+                <StackPanel Margin="15,0,0,0">
+                <Label Content="Planned end" />
+                    <TextBox Width="120" HorizontalAlignment="Left"
+                     IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                     Text="{Binding Path=newItem.jiraCycle.plannedEndDateDT, StringFormat=yyyy-MM-dd, Mode=TwoWay,
+                        Converter={StaticResource CalendarConverter},
+                UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
+                             LostFocus="PlannedEnd_LostFocus"
+            />
+                    
+               
+                    </StackPanel>
+            </StackPanel>
 
-           
+            <!--DisplayDate="{Binding newItem.jiraCycle.plannedStartDateDT}"-->
+            <Calendar x:Name="Cal" Margin="0" SelectionMode="SingleRange"  
+                 IsTodayHighlighted="True" 
+                 
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                 SelectedDatesChanged="Cal_SelectedDatesChanged"
+                      IsEnabled="{Binding managed, Converter={StaticResource BoolInverseConverter}, 
+                                    Mode=OneWay, NotifyOnSourceUpdated=True}"
+                 DisplayDateStart="2019-01-01"
+                      DisplayDateEnd="2099-12-31"
+                   >
+            </Calendar>
+
+            
+            <!--
+            Background="{DynamicResource ButtonBackgroundBrush}"
+                      Foreground="{DynamicResource ButtonForegroundBrush}"
+            
+            
+                      DisplayDateStart="{Binding newItem.jiraCycle.plannedStartDateDT}"
+                      DisplayDateEnd="{Binding newItem.jiraCycle.plannedEndDateDT}"
+
+            -->
+
 
         </StackPanel>
 

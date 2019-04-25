@@ -104,7 +104,9 @@ namespace TestRunnerLib.Jira
             else
             {
                 DateTime dt = (DateTime)nullableDt;
-                return dt.ToUniversalTime().ToString("s") + "Z";
+                //return dt.ToString("yyyyMMddTHH:mm:ssZ");
+                //return dt.ToUniversalTime().ToString("s") + "Z";
+                return dt.ToString("s") + "Z";
             }
         } 
 

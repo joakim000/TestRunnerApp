@@ -188,6 +188,25 @@ namespace TestRunnerLib
             get => Get(() => jiraLabelToIdToken);
             set => Set(() => jiraLabelToIdToken, value);
         }
+        [JsonIgnore]
+        public string jiraLabelToAssToken
+        {
+            get => Get(() => jiraLabelToAssToken, "A:");
+            set => Set(() => jiraLabelToAssToken, value);
+        }
+        [JsonIgnore]
+        public string jiraLabelToNamespaceToken
+        {
+            get => Get(() => jiraLabelToNamespaceToken, "N:");
+            set => Set(() => jiraLabelToNamespaceToken, value);
+        }
+         [JsonIgnore]
+        public string jiraLabelToTypeToken
+        {
+            get => Get(() => jiraLabelToTypeToken, "T:");
+            set => Set(() => jiraLabelToTypeToken, value);
+        }
+
         // Deprecated
         public string jiraProjectKey
         {
@@ -256,7 +275,28 @@ namespace TestRunnerLib
             {
                 foreach (string label in jiraCase.labels)
                     if (label.StartsWith(jiraLabelToIdToken, StringComparison.OrdinalIgnoreCase))
-                        id = label.Substring(jiraLabelToIdToken.Length);
+                    {
+                        id = label.Substring(jiraLabelToIdToken.Length).Trim();
+                        break;
+                    }
+                foreach (string label in jiraCase.labels)
+                    if (label.StartsWith(jiraLabelToAssToken, StringComparison.OrdinalIgnoreCase))
+                    {
+                        callAss = label.Substring(jiraLabelToAssToken.Length).Trim();
+                        break;
+                    }
+                foreach (string label in jiraCase.labels)
+                    if (label.StartsWith(jiraLabelToNamespaceToken, StringComparison.OrdinalIgnoreCase))
+                    {
+                        callSpace = label.Substring(jiraLabelToNamespaceToken.Length).Trim();
+                        break;
+                    }
+                foreach (string label in jiraCase.labels)
+                    if (label.StartsWith(jiraLabelToTypeToken, StringComparison.OrdinalIgnoreCase))
+                    {
+                        callType = label.Substring(jiraLabelToTypeToken.Length).Trim();
+                        break;
+                    }
             }
 
             name = jiraCase.name;
@@ -289,7 +329,26 @@ namespace TestRunnerLib
                         {
                             id = label.Substring(jiraLabelToIdToken.Length);
                         }
+                    foreach (string label in jiraCase.labels)
+                        if (label.StartsWith(jiraLabelToAssToken, StringComparison.OrdinalIgnoreCase))
+                        {
+                            callAss = label.Substring(jiraLabelToAssToken.Length).Trim();
+                            break;
+                        }
+                    foreach (string label in jiraCase.labels)
+                        if (label.StartsWith(jiraLabelToNamespaceToken, StringComparison.OrdinalIgnoreCase))
+                        {
+                            callSpace = label.Substring(jiraLabelToNamespaceToken.Length).Trim();
+                            break;
+                        }
+                    foreach (string label in jiraCase.labels)
+                        if (label.StartsWith(jiraLabelToTypeToken, StringComparison.OrdinalIgnoreCase))
+                        {
+                            callType = label.Substring(jiraLabelToTypeToken.Length).Trim();
+                            break;
+                        }
                 }
+
 
             if (e.PropertyName == "name")
                 name = jiraCase.name;

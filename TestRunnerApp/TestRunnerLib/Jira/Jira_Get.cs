@@ -47,7 +47,7 @@ namespace TestRunnerLib.Jira
             return t.Result;
         }
 
-        public  async Task<Tuple<HttpStatusCode, JObject>> GetCycle(string testCycleIdOrKey)
+        public async Task<Tuple<HttpStatusCode, JObject>> GetCycle(string testCycleIdOrKey)
         {
             string path = "/" + testCycleIdOrKey;
 
@@ -55,6 +55,38 @@ namespace TestRunnerLib.Jira
             await t;
             return t.Result;
         }
+        public async Task<JiraCycle> LoadCycle(string testCycleIdOrKey)
+        {
+            Tuple<HttpStatusCode, JObject> response = await GetCycle(testCycleIdOrKey);
+            if (response.Item1 == HttpStatusCode.OK)
+            {
+                JiraCycle c;
+                JObject j = response.Item2 as JObject;
+                c = j.ToObject<JiraCycle>();
+
+                DateTime dtStart;
+                if (DateTime.TryParse(c.plannedStartDate, out dtStart))
+                    c.plannedStartDateDT = dtStart;
+                else
+                    Debug.WriteLine($"Unable to parse plannedStartDate {c.plannedStartDate} for {c.key}");
+
+                DateTime dtEnd;
+                if (DateTime.TryParse(c.plannedEndDate, out dtEnd))
+                    c.plannedEndDateDT = dtEnd;
+                else
+                    Debug.WriteLine($"Unable to parse plannedEndDate {c.plannedEndDate} for {c.key}");
+                return c;
+            }
+            else
+            {
+                ShowError(response, "getting cycle", true);
+                return null;
+            }
+        }
+
+        
+
+
 
         public  async Task<Tuple<HttpStatusCode, JObject>> GetProjTmj(string projectIdOrKey)
         {

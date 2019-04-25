@@ -348,6 +348,7 @@ namespace TestRunnerAppWpf
         private void StartAsyncLoader(JiraProject p)
         {
             // Disable stuff while working
+            enableMenus = false;
             enableProjectLoad = false;
             ToggleJiraCaseUpdates(false);
 
@@ -480,6 +481,7 @@ namespace TestRunnerAppWpf
             // Reenable stuff after work done
             enableProjectLoad = true;
             ToggleJiraCaseUpdates(true);
+            enableMenus = true;
 
         }
 

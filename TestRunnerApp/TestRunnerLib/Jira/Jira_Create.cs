@@ -84,8 +84,8 @@ namespace TestRunnerLib.Jira
         public  async Task<Tuple<HttpStatusCode, JObject>> CreateCycle(string projectKey,
                                                                              string name, 
                                                                              string description,
-                                                                             string plannedStartDate,
-                                                                             string plannedEndDate,
+                                                                             DateTime? plannedStartDate,
+                                                                             DateTime? plannedEndDate,
                                                                              int? jiraProjectVersion,
                                                                              string statusName,
                                                                              int? folderId, 
@@ -103,11 +103,11 @@ namespace TestRunnerLib.Jira
             if (!string.IsNullOrEmpty(description))
                 data.Add("description", description);
 
-            if (!string.IsNullOrEmpty(plannedStartDate))
-                data.Add("plannedStartDate", plannedStartDate);
+            if (plannedStartDate != null)
+                data.Add("plannedStartDate", JiraDate(plannedStartDate));
 
-            if (!string.IsNullOrEmpty(plannedEndDate))
-                data.Add("plannedEndDate", plannedEndDate);
+            if (plannedEndDate != null)
+                data.Add("plannedEndDate", JiraDate(plannedEndDate));
 
             if (jiraProjectVersion != null)
                 data.Add("jiraProjectVersion", jiraProjectVersion);

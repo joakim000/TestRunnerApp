@@ -139,29 +139,30 @@ namespace TestRunnerAppWpf
                 /* end: Check if we should enable JiraCloudTmj */
 
 
-
+                
                 /* Deprecated - Mgmt now set per suite */
-                if (Properties.Settings.Default.MgmtSystem == "None")
-                {
-                    caller.jiraCloudMgmt = false;
-                    caller.reqTestMgmt = false;
-                }
-                else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
-                {
-                    caller.jiraCloudMgmt = true;
-                    caller.reqTestMgmt = false;
-                    //if (string.IsNullOrEmpty(caller.jiraAccountId))
-                    //{
-                    //    if (!await Jira.SetAccountId())
-                    //        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
-                    //}
-                }
-                else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
-                {
-                    caller.jiraCloudMgmt = false;
-                    caller.reqTestMgmt = true;
-                }
+                //if (Properties.Settings.Default.MgmtSystem == "None")
+                //{
+                //    caller.jiraCloudMgmt = false;
+                //    caller.reqTestMgmt = false;
+                //}
+                //else if (Properties.Settings.Default.MgmtSystem == "Jira Cloud with TM4J")
+                //{
+                //    caller.jiraCloudMgmt = true;
+                //    caller.reqTestMgmt = false;
+                //    //if (string.IsNullOrEmpty(caller.jiraAccountId))
+                //    //{
+                //    //    if (!await Jira.SetAccountId())
+                //    //        MessageBox.Show("Error retrieving Account ID.", "TestAppRunner with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+                //    //}
+                //}
+                //else if (Properties.Settings.Default.MgmtSystem == "ReqTest")
+                //{
+                //    caller.jiraCloudMgmt = false;
+                //    caller.reqTestMgmt = true;
+                //}
                 /* Deprecated - Mgmt now set per suite */
+                
 
                 if (!string.IsNullOrEmpty(Properties.Settings.Default.JiraAvailableProjects))
                 {

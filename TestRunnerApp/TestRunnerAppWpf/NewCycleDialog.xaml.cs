@@ -17,15 +17,16 @@ namespace TestRunnerAppWpf
 {
     public partial class NewCycleDialog : Window
     {
-        public NewCycleDialogViewModel viewModel { get; set; }
+        public CycleDialogViewModel viewModel { get; set; }
         MainViewModel mainViewModel { get; set; }
         
         public NewCycleDialog(MainViewModel mainViewModel)
         {
             InitializeComponent();
 
-            viewModel = new NewCycleDialogViewModel(mainViewModel);
+            viewModel = new CycleDialogViewModel(mainViewModel, this);
             DataContext = viewModel;
+            viewModel.SetSelectedDateRange();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -38,5 +39,18 @@ namespace TestRunnerAppWpf
             this.DialogResult = true;
         }
 
+        private void Cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            viewModel.Cal_SelectedDatesChanged(sender, e);
+        }
+
+        private void PlannedStart_LostFocus(object sender, RoutedEventArgs e)
+        {
+            viewModel.PlannedStart_LostFocus(sender, e);
+        }
+        private void PlannedEnd_LostFocus(object sender, RoutedEventArgs e)
+        {
+            viewModel.PlannedEnd_LostFocus(sender, e);
+        }
     }
 }

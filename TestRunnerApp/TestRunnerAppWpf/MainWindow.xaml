@@ -60,7 +60,7 @@
             <local:DetailsView x:Name="detailsView" />
         </DockPanel>
 
-        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" x:Name="MenuBar" >
+        <Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" x:Name="MenuBar" IsEnabled="{Binding enableMenus}">
             <!--<Menu.DataContext>
                 <local:MenuBarViewModel/>
             </Menu.DataContext>-->
@@ -358,7 +358,7 @@
 
         </Menu>
 
-        <ToolBarTray Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+        <ToolBarTray Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" IsEnabled="{Binding enableMenus}">
             <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
                 <Button Command="{Binding NewSuiteCmd}" ToolTip="New suite">
                     <Image Source="pack://application:,,,/Icons/NewTestGroup_16x.png" Style="{StaticResource ToolBarImage}"/>
@@ -400,8 +400,8 @@
                     <Image Source="pack://application:,,,/Icons/Paste_16x.png"  Style="{StaticResource ToolBarImage} />
                 </Button>
             </ToolBar>-->
-            
-            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}" >
                 <Button Command="{Binding NewTestCmd}" ToolTip="Add test">
                     <Image Source="pack://application:,,,/Icons/AddTest_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
@@ -412,8 +412,8 @@
                     <Image Source="pack://application:,,,/Icons/RemoveSingleDriverTest_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>
             </ToolBar>
-            
-            <ToolBar Template="{DynamicResource ToolBarControlTemplate}">
+
+            <ToolBar Template="{DynamicResource ToolBarControlTemplate}" IsEnabled="{Binding enableMenus}">
                 <Button Command="{Binding NewCycleCmd}" ToolTip="New cycle">
                     <Image Source="pack://application:,,,/Icons/NewFile_16x.png" Style="{StaticResource ToolBarImage}" />
                 </Button>

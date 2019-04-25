@@ -128,7 +128,11 @@ namespace TestRunnerAppWpf
             get => Get(() => enableProjectLoad, true);
             set => Set(() => enableProjectLoad, value);
         }
-
+        public bool enableMenus
+        {
+            get => Get(() => enableMenus, true);
+            set => Set(() => enableMenus, value);
+        }
 
 
         /* ViewModels */
@@ -193,16 +197,16 @@ namespace TestRunnerAppWpf
 
         /* Managment integration */
         // Options
-        public bool jiraCloudMgmt
-        {
-            get => Get(() => jiraCloudMgmt, false);
-            set => Set(() => jiraCloudMgmt, value);
-        }
-        public bool reqTestMgmt
-        {
-            get => Get(() => reqTestMgmt, false);
-            set => Set(() => reqTestMgmt, value);
-        }
+        //public bool jiraCloudMgmt
+        //{
+        //    get => Get(() => jiraCloudMgmt, false);
+        //    set => Set(() => jiraCloudMgmt, value);
+        //}
+        //public bool reqTestMgmt
+        //{
+        //    get => Get(() => reqTestMgmt, false);
+        //    set => Set(() => reqTestMgmt, value);
+        //}
 
         // Functions
         public Jira jira

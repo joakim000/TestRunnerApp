@@ -266,8 +266,20 @@ namespace TestRunnerLib.Jira
                     c.key = t.Value<string>("key");
                     c.name = t.Value<string>("name");
                     c.description = t.Value<string>("description");
+
                     c.plannedStartDate = t.Value<string>("plannedStartDate");
+                    DateTime dtStart;
+                    if (DateTime.TryParse(c.plannedStartDate, out dtStart))
+                        c.plannedStartDateDT = dtStart;
+                    else
+                        Debug.WriteLine($"Unable to parse plannedStartDate {c.plannedStartDate} for {c.key}");
+
                     c.plannedEndDate = t.Value<string>("plannedEndDate");
+                    DateTime dtEnd;
+                    if (DateTime.TryParse(c.plannedEndDate, out dtEnd))
+                        c.plannedEndDateDT = dtEnd;
+                    else
+                        Debug.WriteLine($"Unable to parse plannedEndDate {c.plannedEndDate} for {c.key}");
 
                     if (t.Value<JObject>("project") != null)
                         c.project = t.Value<JObject>("project").ToObject<IdSelf>();

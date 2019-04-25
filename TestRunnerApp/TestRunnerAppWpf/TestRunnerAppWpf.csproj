@@ -27,14 +27,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://joakim.dreamhosters.com/testapp/prel/</InstallUrl>
+    <InstallUrl>http://joakim.dreamhosters.com/testapp/</InstallUrl>
     <TargetCulture>en</TargetCulture>
     <ProductName>TestApp by Unicus</ProductName>
     <PublisherName>Unicus Sverige AB</PublisherName>
     <SuiteName>TestApp by Unicus</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

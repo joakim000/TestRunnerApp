@@ -17,14 +17,14 @@ namespace TestRunnerAppWpf
 {
     public partial class EditCycleDialog : Window
     {
-        public NewCycleDialogViewModel viewModel { get; set; }
+        public CycleDialogViewModel viewModel { get; set; }
         MainViewModel mainViewModel { get; set; }
         
         public EditCycleDialog(MainViewModel mainViewModel)
         {
             InitializeComponent();
 
-            viewModel = new NewCycleDialogViewModel(mainViewModel);
+            viewModel = new CycleDialogViewModel(mainViewModel, this);
             DataContext = viewModel;
         }
 

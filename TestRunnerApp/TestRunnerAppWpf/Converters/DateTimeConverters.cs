@@ -49,4 +49,22 @@ namespace TestRunnerAppWpf
             return value;
         }
     }
+
+
+    public class CalendarConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var dtString = value as string;
+            DateTime dt = DateTime.Now;
+            DateTime.TryParse(dtString, out dt);
+            return dt;
+        }
+    }
+
 }

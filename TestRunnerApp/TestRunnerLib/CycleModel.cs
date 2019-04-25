@@ -154,7 +154,18 @@ namespace TestRunnerLib
 
         private void JiraCycle_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            CopyFromJiraCycle();
+            if (e.PropertyName == "key")
+                id = jiraCycle.key;
+            if (e.PropertyName == "name")
+                name = jiraCycle.name;
+            if (e.PropertyName == "description")
+                description = jiraCycle.description;
+            if (e.PropertyName == "status")
+                if (jiraCycle.status != null)
+                    status = jiraCycle.status.name;
+            if(e.PropertyName == "jiraProjectVersion")
+                if (jiraCycle.jiraProjectVersion != null)
+                    projectVersion = jiraCycle.jiraProjectVersion.name;
         }
 
         private void CopyFromJiraCycle()
@@ -164,7 +175,8 @@ namespace TestRunnerLib
                 id = jiraCycle.key;
                 name = jiraCycle.name;
                 description = jiraCycle.description;
-                status = jiraCycle.status.name;
+                if (jiraCycle.status != null)
+                    status = jiraCycle.status.name;
                 if (jiraCycle.jiraProjectVersion != null)
                     projectVersion = jiraCycle.jiraProjectVersion.name;
             }

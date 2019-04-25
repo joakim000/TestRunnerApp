@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ViewModelSupport;
+using System.Windows;
 
 namespace TestRunnerLib.Jira
 {
@@ -45,6 +46,17 @@ namespace TestRunnerLib.Jira
             JiraAccessor.jiraObj = this;
         }
 
+        public void ShowError(Tuple<HttpStatusCode, JObject> response, string attemptedThing, bool showBox)
+        {
+            int errorCode = response.Item2.Value<int>("errorCode");
+            string status = response.Item2.Value<string>("status");
+            string message = response.Item2.Value<string>("message");
+            string errorMsg = $"Error {attemptedThing}" + Environment.NewLine + Environment.NewLine
+                              + $"{errorCode.ToString()} {status}: {message}{Environment.NewLine}";
+            Debug.WriteLine(errorMsg);
+            if (showBox)
+                MessageBox.Show(errorMsg, "TestRunnerApp with Jira", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         private async Task<Tuple<HttpStatusCode, object>> JiraCall(HttpMethod method, string api, Dictionary<string, string> data)
         {

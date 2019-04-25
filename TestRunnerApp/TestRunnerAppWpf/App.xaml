@@ -30,6 +30,7 @@
              <!--DateTime converters-->   
             <local:DateTimeShortConverter x:Key="DateTimeShortConverter" />
             <local:DateTimeForceShortConverter x:Key="DateTimeForceShortConverter" />
+            <local:CalendarConverter x:Key="CalendarConverter" />
 
             <!--Icon selectors-->
             <local:OutcomeImgConverter x:Key="OutcomeImgConverter" />
