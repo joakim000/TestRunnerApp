@@ -9,7 +9,7 @@ using ViewModelSupport;
 
 namespace TestRunnerLib
 {
-    public class Log 
+    public class Log
     {
         private static string full = string.Empty;
         private static string scratch = string.Empty;
