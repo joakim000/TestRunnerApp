@@ -825,10 +825,16 @@
             </TabItem>
 
             <TabItem Header="Log" Style="{StaticResource TabItemStyle}"
-                     Visibility="{Binding mainViewModel.showLog, Converter={StaticResource BoolToVisi}}">
+                     Visibility="{Binding mainViewModel.showLog, Converter={StaticResource BoolToVisi}}"
+                     >
                 <Grid>
-                    <TextBox Text="{Binding logText, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                 TextWrapping="Wrap" IsReadOnly="True"/>
+                    <TextBox x:Name="logTextBox"
+                        Text="{Binding logText, Mode=OneWay, NotifyOnSourceUpdated=True}"
+                 TextWrapping="Wrap" IsReadOnly="True"
+                             MouseRightButtonDown="LogTextBox_MouseRightButtonDown"
+                             MouseDoubleClick="LogTextBox_MouseDoubleClick"
+                             TextChanged="LogTextBox_TextChanged"
+                             />
                 </Grid>
             </TabItem>
 

@@ -28,7 +28,7 @@ namespace TestRunnerAppWpf
             logFile = logsDir + DateTime.Now.ToString("yyyyMMdd") + ".log";
 
             TestRunnerLib.Log.Line();
-            TestRunnerLib.Log.Add($"Session start {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
+            TestRunnerLib.Log.AddNoWrite($"Session start {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

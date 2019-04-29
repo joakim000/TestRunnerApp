@@ -40,7 +40,10 @@
             <!--Visibility converters-->
             <BooleanToVisibilityConverter x:Key="BoolToVisi" />
             <local:BoolToVisiInverse x:Key="BoolToVisiInverse"/>
+            
+            <!--Integration-->
             <local:VisiJiraCloudTmj x:Key="VisiJiraCloudTmj"/>
+            <local:BoolJiraCloudTmj x:Key="BoolJiraCloudTmj"/>
             <local:VisiReqTest x:Key="VisiReqTest"/>
             <local:VisiNone x:Key="VisiNone"/>
 

@@ -54,6 +54,25 @@ namespace TestRunnerAppWpf
             model.selectedCycleItems = new ObservableCollection<CycleModel>(itemsCast);
         }
 
+        //private void TabItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    logTextBox.ScrollToEnd();
+        //}
+
+        private void LogTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            logTextBox.ScrollToEnd();
+        }
+
+        private void LogTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            logTextBox.ScrollToEnd();
+        }
+
+        private void LogTextBox_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            logTextBox.Clear();
+        }
     }
 
     

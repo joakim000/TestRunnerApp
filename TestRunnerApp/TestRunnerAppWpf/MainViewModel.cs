@@ -269,7 +269,7 @@ namespace TestRunnerAppWpf
             foreach (TestModel test in tests)
             {
                 Debug.WriteLine($"Running {test.name}");
-                TestRunnerLib.Log.Add($"Running {test.name}");
+                TestRunnerLib.Log.AddNoWrite($"Running {test.name}");
 
                 RunModel r = new RunModel(test, webDriverType);
                 syncContext.Send(x => test.runs.Add(r), null);
