@@ -233,7 +233,10 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <!--<TextBox Text="{Binding resultObj.message}" Style="{StaticResource RowTextBox}" VerticalAlignment="Center"/>-->
-                                        <TextBlock Text="{Binding resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>
+                                        <!--<TextBlock Text="{Binding resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>-->
+                                        <TextBox Text="{Binding resultObj.message}"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,1,0,0"
+                                                         TextWrapping="Wrap" BorderThickness="0" IsReadOnly="True" Background="Transparent"/>
+                                        
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -526,15 +529,17 @@
                         <TextBox Text="{Binding notes, Mode=TwoWay, NotifyOnSourceUpdated=True, 
                                         NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" 
                                  IsReadOnly="False" Style="{DynamicResource CycleDetailsTextBoxLong}" />
-                        <Grid x:Name="cyclerunGridSingle" Margin="0,4,0,0">
-                            <DataGrid Grid.Column="2" x:Name="cycleRunDataGridSingle"
+                        <!--<Grid x:Name="cyclerunGridSingle" Margin="0,4,0,0">-->
+                            <DataGrid x:Name="cycleRunDataGridSingle"
+                                              Margin="0,5,0,0"
                                               ItemsSource="{Binding cycleRuns, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                               AutoGenerateColumns="False" 
                                               IsReadOnly="False"
                                               CanUserAddRows="False" SelectionUnit="FullRow"
                                               AlternatingRowBackground="{DynamicResource AlternateColorBrush}" AlternationCount="2"
                                               ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
-                                              VerticalScrollBarVisibility="Auto"
+                                              VerticalScrollBarVisibility="Disabled"
+                                              PreviewMouseWheel="CycleRunDataGridSingle_PreviewMouseWheel"
                                       >
                                 <DataGrid.RowHeaderStyle>
                                     <Style>
@@ -542,11 +547,11 @@
                                     </Style>
                                 </DataGrid.RowHeaderStyle>
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Test ID"   Binding="{Binding test.id}" IsReadOnly="True" >
+                                    <DataGridTextColumn Header="Test"   Binding="{Binding test.id}" IsReadOnly="True" >
                                         <DataGridTextColumn.ElementStyle>
                                             <Style TargetType="TextBlock">
                                                 <Setter Property="VerticalAlignment" Value="Center" />
-                                                <Setter Property="Margin" Value="2,0,3,0" />
+                                                <Setter Property="Margin" Value="5,0,3,0" />
                                             </Style>
                                         </DataGridTextColumn.ElementStyle>
                                     </DataGridTextColumn>
@@ -592,10 +597,12 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*">
+                                    <DataGridTemplateColumn Header="Message" IsReadOnly="True" Width="*" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding run.resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center"/>
+                                                <!--<TextBlock Text="{Binding run.resultObj.message}" Style="{StaticResource RowTextBlock}" VerticalAlignment="Center" HorizontalAlignment="Left" MaxWidth="100"/>-->
+                                                <TextBox Text="{Binding run.resultObj.message}"  VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,1,0,0"
+                                                         TextWrapping="Wrap" BorderThickness="0" IsReadOnly="True" Background="Transparent"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -635,7 +642,7 @@
                                     </DataTemplate>
                                 </DataGrid.RowDetailsTemplate>
                             </DataGrid>
-                        </Grid>
+                        <!--</Grid>-->
                     </StackPanel>
                 </Grid>
                 </ScrollViewer>
