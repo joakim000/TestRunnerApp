@@ -212,7 +212,7 @@ namespace TestRunnerAppWpf
             {
                 string fileToOpen = FileMgmt.OpenSuiteFrom();
                 if (fileToOpen != null)
-                    FileMgmt.OpenFileSetup(fileToOpen, this);
+                    LoadData.OpenFileSetup(fileToOpen, this);
 
             }
         }

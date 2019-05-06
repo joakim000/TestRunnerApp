@@ -91,6 +91,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileMgmt.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="HowTo.cs">

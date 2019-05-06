@@ -195,6 +195,7 @@
     <Compile Include="EditCycleDialog.xaml.cs">
       <DependentUpon>EditCycleDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LoadData.cs" />
     <Compile Include="Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
     </Compile>

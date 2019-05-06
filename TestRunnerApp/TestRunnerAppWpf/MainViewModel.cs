@@ -166,7 +166,7 @@ namespace TestRunnerAppWpf
                         Properties.Settings.Default.PreviousFile;
 
                     TestRunnerLib.Log.AddNoWrite($"Continue session from {fileToOpen}");
-                    FileMgmt.OpenFileSetup(fileToOpen, this);
+                    LoadData.OpenFileSetup(fileToOpen, this);
 
                     Properties.Settings.Default.LoadFailure = false;
                 }

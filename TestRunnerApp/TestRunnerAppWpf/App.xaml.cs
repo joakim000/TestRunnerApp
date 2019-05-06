@@ -46,7 +46,7 @@ namespace TestRunnerAppWpf
                 System.Diagnostics.Debug.WriteLine("Startup opening file: \n\n" + e.Args[0]);
 
                 string fileToOpen = e.Args[0];
-                FileMgmt.OpenFileSetup(fileToOpen, w.model);
+                LoadData.OpenFileSetup(fileToOpen, w.model);
 
             }
             else

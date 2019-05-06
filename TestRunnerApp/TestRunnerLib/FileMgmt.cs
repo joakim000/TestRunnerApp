@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
+
+using Newtonsoft.Json;
+
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Win32;
-using Newtonsoft.Json;
-using ViewModelSupport;
-using TestRunnerLib;
 using System.Windows;
-using Lib;
 
-namespace TestRunnerAppWpf
+using ViewModelSupport;
+
+namespace TestRunnerLib
 {
-    class FileMgmt : ViewModelBase
+    public class FileMgmt : ViewModelBase
     {
         public static string filename { get; set; }
         public static string libFilename { get; set; }
@@ -31,6 +27,7 @@ namespace TestRunnerAppWpf
         {
             return filename.Substring(0, filename.LastIndexOf(@"\"));
         }
+
 
         public static Tuple<string, SuiteModel> OpenSuite(string fileToOpen)
         {
@@ -76,7 +73,7 @@ namespace TestRunnerAppWpf
         }
 
         //public static Tuple<string, SuiteModel> OpenSuiteFrom()
-        public static string OpenSuiteFrom()
+        public static string OpenSuiteFrom(string previousDir, string previousFile)
         {
             //string serialized = string.Empty;
             //SuiteModel openSuite = null;
@@ -87,18 +84,18 @@ namespace TestRunnerAppWpf
             };
             //if (!string.IsNullOrEmpty(filename))
             //    picker.InitialDirectory = PreviousDir(filename);
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousDir))
+            if (!string.IsNullOrWhiteSpace(previousDir))
             {
-                picker.InitialDirectory = Properties.Settings.Default.PreviousDir;
+                picker.InitialDirectory = previousDir;
             }
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
+            if (!string.IsNullOrWhiteSpace(previousFile))
             {
-                picker.FileName = Properties.Settings.Default.PreviousFile;
+                picker.FileName = previousFile;
             }
             if (picker.ShowDialog() == true)
             {
-                Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
-                Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
+                previousDir = PreviousDir(picker.FileName);
+                previousFile = ShortFilename(picker.FileName);
                 return picker.FileName;
              
             }
@@ -114,7 +111,8 @@ namespace TestRunnerAppWpf
         public static Tuple<bool, string> SaveSuite(SuiteModel suite)
         {
             if (string.IsNullOrEmpty(filename))
-                return SaveAsSuite(suite);
+                //return SaveAsSuite(suite);
+                return null;
             else
             {
                 string serialized = null;
@@ -194,7 +192,7 @@ namespace TestRunnerAppWpf
         }
 
 
-        public static Tuple<bool, string> SaveAsSuite(SuiteModel suite)
+        public static Tuple<bool, string> SaveAsSuite(SuiteModel suite, string previousDir, string previousFile)
         {
             string serialized = null;
             try
@@ -220,14 +218,14 @@ namespace TestRunnerAppWpf
                 //    picker.InitialDirectory = PreviousDir(filename);
                 //    picker.FileName = ShortFilename(filename);
                 //}
-                if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousDir))
+                if (!string.IsNullOrWhiteSpace(previousDir))
                 {
-                    picker.InitialDirectory = Properties.Settings.Default.PreviousDir;
+                    picker.InitialDirectory = previousDir;
                 }
 
-                //if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousFile))
+                //if (!string.IsNullOrWhiteSpace(previousFile))
                 //{
-                //    picker.FileName = Properties.Settings.Default.PreviousFile;
+                //    picker.FileName = previousFile;
                 //}
                 if (!string.IsNullOrWhiteSpace(suite.filename))
                 {
@@ -247,8 +245,8 @@ namespace TestRunnerAppWpf
                         File.WriteAllText(picker.FileName, serialized);
                         suite.filename = picker.FileName;
                         filename = picker.FileName; // ?
-                        Properties.Settings.Default.PreviousDir = PreviousDir(picker.FileName);
-                        Properties.Settings.Default.PreviousFile = ShortFilename(picker.FileName);
+                        previousDir = PreviousDir(picker.FileName);
+                        previousFile = ShortFilename(picker.FileName);
                         return new Tuple<bool, string>(true, picker.FileName);
                     }
                     catch (Exception e)
@@ -271,7 +269,7 @@ namespace TestRunnerAppWpf
 
         }
 
-        public static string CopyTestLibraryFrom()
+        public static string CopyTestLibraryFrom(string previousLibDir, string previousLibFile)
         {
             var picker = new OpenFileDialog
             {
@@ -279,18 +277,18 @@ namespace TestRunnerAppWpf
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 Title = "Import test library"
             };
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousLibDir))
+            if (!string.IsNullOrWhiteSpace(previousLibDir))
             {
-                picker.InitialDirectory = Properties.Settings.Default.PreviousLibDir;
+                picker.InitialDirectory = previousLibDir;
             }
-            if (!string.IsNullOrWhiteSpace(Properties.Settings.Default.PreviousLibFile))
+            if (!string.IsNullOrWhiteSpace(previousLibFile))
             {
-                picker.FileName = Properties.Settings.Default.PreviousLibFile;
+                picker.FileName = previousLibFile;
             }
             if (picker.ShowDialog() == true)
             {
-                Properties.Settings.Default.PreviousLibDir = PreviousDir(picker.FileName);
-                Properties.Settings.Default.PreviousLibFile = ShortFilename(picker.FileName);
+                previousLibDir = PreviousDir(picker.FileName);
+                previousLibFile = ShortFilename(picker.FileName);
 
                 try
                 {
@@ -317,8 +315,7 @@ namespace TestRunnerAppWpf
             return picker.FileName;
         }
 
-       
 
-
+        
     } // class FileMgmt
 } // Namespace
