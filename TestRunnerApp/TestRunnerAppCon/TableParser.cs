@@ -71,7 +71,8 @@
                     sb.AppendLine();
                 }
             }
-
+            sb.AppendFormat(" |{0}| ", headerSpliter);
+            sb.AppendLine();
             return sb.ToString();
         }
 

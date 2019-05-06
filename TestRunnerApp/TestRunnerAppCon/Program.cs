@@ -16,7 +16,7 @@ namespace TestRunnerAppCon
 
         static void Main(string[] args)
         {
-            Console.WriteLine("TestRunnerApp v2.1rc7" + Environment.NewLine + Environment.NewLine);
+            Console.WriteLine("TestRunnerApp v2.1rc7" + Environment.NewLine);
 
             var context = new CustomSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(context);
@@ -24,10 +24,10 @@ namespace TestRunnerAppCon
             int argCount = args.Length;
 
 #if DEBUG
-            for (int i = 0; i < argCount; i++)
-            {
-                Console.WriteLine($"arg {i}: [{args[i]}]");
-            }
+            //for (int i = 0; i < argCount; i++)
+            //{
+            //    Console.WriteLine($"arg {i}: [{args[i]}]");
+            //}
 #endif
 
             if (argCount < 1)
@@ -40,7 +40,11 @@ namespace TestRunnerAppCon
 
             if (string.Equals("help", file))
             {
-                Console.WriteLine("Help placeholder");
+
+                Console.WriteLine("Usage: TestRunnerApp MySuite.testapp command [parameter]");
+                Console.WriteLine("Available commands: list, save, runall, mailstatus");
+                Console.WriteLine("list (all) | list fail (failed tests) | list warning (warned tests) | list error (failed + warned)");
+                Console.WriteLine("mailstatus to-adress [optional filter, cf. list command]");
                 Environment.Exit(0);
             }
 
@@ -94,7 +98,7 @@ namespace TestRunnerAppCon
 
             //Console.ReadKey();
             //ListTests(model.suite);
-            Console.ReadKey();
+            //Console.ReadKey();
 
         }
 
