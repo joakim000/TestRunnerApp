@@ -49,8 +49,18 @@ namespace TestRunnerAppWpf
             int testsToRun = tests.Count();
             CycleModel cycle = gridViewModel.suite.currentCycle;
 
+            int pass = 0, fail = 0, warning = 0, skipped = 0;
+
             foreach (TestModel test in tests)
             {
+                if (string.IsNullOrEmpty(test.callAss) ||
+                    string.IsNullOrEmpty(test.callSpace) ||
+                    string.IsNullOrEmpty(test.callType))
+                {
+                    skipped++;
+                    continue;
+                }
+
                 Debug.WriteLine($"Running {test.name}");
                 TestRunnerLib.Log.AddNoWrite($"Running {test.name}");
 
@@ -81,7 +91,8 @@ namespace TestRunnerAppWpf
                 (sender as BackgroundWorker).ReportProgress(progressPercentage, report);
 
             }
-            e.Result = testsRun;
+            //e.Result = testsRun;
+            e.Result = new Tuple<int, int, int, int>(pass, fail, warning, skipped);
 
         }
 

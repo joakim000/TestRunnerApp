@@ -9,7 +9,7 @@ using ViewModelSupport;
 
 namespace TestRunnerAppCon
 {
-    class Model : ViewModelBase
+    public class Model : ViewModelBase
     {
         public SuiteModel suite
         {

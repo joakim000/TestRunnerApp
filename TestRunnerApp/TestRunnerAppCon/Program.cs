@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TestRunnerLib;
 
@@ -11,11 +12,14 @@ namespace TestRunnerAppCon
     class Program
     {
         public static string dataExt = "testapp";
-        //Model model { get; set; }
+        //SynchronizationContext syncContext = SynchronizationContext.Current;
 
         static void Main(string[] args)
         {
             Console.WriteLine("TestRunnerApp v2.1rc7" + Environment.NewLine + Environment.NewLine);
+
+            var context = new CustomSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(context);
 
             int argCount = args.Length;
 
@@ -66,6 +70,21 @@ namespace TestRunnerAppCon
                     ListTests(model.suite);
                     break;
 
+                case "save":
+                    FileMgmt.SaveSuite(model.suite);
+                    break;
+
+                case "runall":
+                    //ListTests(model.suite);
+                    RunTests r = new RunTests();
+                    context = (CustomSynchronizationContext)SynchronizationContext.Current;
+                    r.Run(model, WebDriverType.Chrome, context);
+                    break;
+
+                case "mailstatus":
+                    Mail.SuiteStatus(model.suite);
+                    break;
+
                 default:
                     Console.WriteLine("Unrecognized command. Try 'help'.");
                     Environment.Exit(-1);
@@ -74,6 +93,8 @@ namespace TestRunnerAppCon
             }
 
             //Console.ReadKey();
+            //ListTests(model.suite);
+            Console.ReadKey();
 
         }
 
@@ -109,13 +130,14 @@ namespace TestRunnerAppCon
                 return;
             }
 
-            string[] columns = { "ID", "Name", "Last run", "Last outcome" };
+            string[] columns = { "ID", "Name", "Last run", "Last outcome", "Ex message" };
 
             var table = suite.tests.ToStringTable(columns,
                      t => t.id,
                      t => t.name,
                      t => t.previousDateTime == null ? string.Empty : t.previousDateTime.ToString(),
-                     t => t.previousOutcome
+                     t => t.previousOutcome,
+                     t => t.runs.Count() > 0 ? t.runs.Last()?.resultObj?.eMessage : string.Empty
 
                      
                  );
@@ -127,38 +149,37 @@ namespace TestRunnerAppCon
 
 
 
-        static void ListTests_old(SuiteModel suite)
-        {
-            int size = 10;
-            string table = String.Empty;
+        //static void ListTests_old(SuiteModel suite)
+        //{
+        //    string table = String.Empty;
 
-            string header = string.Format("|{0,10}|{1,10}|{2,10}|{3,10}|",
-                    "ID",
-                    "Name",
-                    "Last run",
-                    "Last outcome"
-                    );
-            header += Environment.NewLine;
+        //    string header = string.Format("|{0,10}|{1,10}|{2,10}|{3,10}|",
+        //            "ID",
+        //            "Name",
+        //            "Last run",
+        //            "Last outcome"
+        //            );
+        //    header += Environment.NewLine;
 
-            foreach (TestModel t in suite.tests)
-            {
-                table += string.Format("|{0,10}|{1,10}|{2,10}|{3,10}|",
-                    t.id,
-                    t.name,
-                    t.previousDateTime.ToString(),
-                    t.previousOutcome.ToString()
-                    );
-                table += Environment.NewLine;
-            }
-
+        //    foreach (TestModel t in suite.tests)
+        //    {
+        //        table += string.Format("|{0,10}|{1,10}|{2,10}|{3,10}|",
+        //            t.id,
+        //            t.name,
+        //            t.previousDateTime.ToString(),
+        //            t.previousOutcome.ToString()
+        //            );
+        //        table += Environment.NewLine;
+        //    }
 
 
-            if (string.IsNullOrEmpty(table))
-                Console.WriteLine("No tests found.");
-            else
-                Console.WriteLine(header + table);
 
-        }
+        //    if (string.IsNullOrEmpty(table))
+        //        Console.WriteLine("No tests found.");
+        //    else
+        //        Console.WriteLine(header + table);
+
+        //}
 
     }
 }
