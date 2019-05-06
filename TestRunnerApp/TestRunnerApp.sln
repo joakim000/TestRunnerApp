@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModelSupportStd", "View
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTests", "DevTests\DevTests.csproj", "{F790401C-C0A4-413C-9F00-86FE6188ECA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerAppCon", "TestRunnerAppCon\TestRunnerAppCon.csproj", "{3E1AD56D-43B2-4DFD-88E5-5F84C3EB3D41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F790401C-C0A4-413C-9F00-86FE6188ECA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F790401C-C0A4-413C-9F00-86FE6188ECA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F790401C-C0A4-413C-9F00-86FE6188ECA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1AD56D-43B2-4DFD-88E5-5F84C3EB3D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1AD56D-43B2-4DFD-88E5-5F84C3EB3D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1AD56D-43B2-4DFD-88E5-5F84C3EB3D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1AD56D-43B2-4DFD-88E5-5F84C3EB3D41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
