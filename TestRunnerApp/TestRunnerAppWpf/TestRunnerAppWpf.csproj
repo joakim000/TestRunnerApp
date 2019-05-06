@@ -259,6 +259,8 @@
     <Compile Include="Help\HowToWindow.xaml.cs">
       <DependentUpon>HowToWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Work_LoadProject.cs" />
+    <Compile Include="Work_RunTests.cs" />
     <Page Include="Log.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

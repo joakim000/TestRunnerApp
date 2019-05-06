@@ -7,7 +7,7 @@
     <ProjectGuid>{3E1AD56D-43B2-4DFD-88E5-5F84C3EB3D41}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>TestRunnerAppCon</RootNamespace>
-    <AssemblyName>TestRunnerAppCon</AssemblyName>
+    <AssemblyName>TestRunnerApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,7 +32,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Test_16x.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,18 +49,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="FileMgmt.cs" />
     <Compile Include="LoadData.cs" />
+    <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestRunnerLib\TestRunnerLib.csproj">
       <Project>{1f21be67-3ad1-4e31-8bbd-94cba167fb7c}</Project>
       <Name>TestRunnerLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewModelSupportStd\ViewModelSupportStd.csproj">
+      <Project>{dc68c101-4f56-4a88-88ca-7e5ad48cd041}</Project>
+      <Name>ViewModelSupportStd</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Test_16x.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
