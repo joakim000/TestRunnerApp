@@ -42,9 +42,9 @@ namespace TestRunnerAppCon
             {
 
                 Console.WriteLine("Usage: TestRunnerApp MySuite.testapp command [parameter]");
-                Console.WriteLine("Available commands: list, save, runall, mailstatus");
-                Console.WriteLine("list (all) | list fail (failed tests) | list warning (warned tests) | list error (failed + warned)");
-                Console.WriteLine("mailstatus to-adress [optional filter, cf. list command]");
+                Console.WriteLine("Available commands: list, save, runall, mail");
+                Console.WriteLine("list [Pass] [Fail] [Warning] [NotRun]");
+                Console.WriteLine("mail to-adress [Pass] [Fail] [Warning] [NotRun]");
                 Environment.Exit(0);
             }
 
@@ -71,7 +71,8 @@ namespace TestRunnerAppCon
             switch (cmd)
             {
                 case "list":
-                    ListTests(model.suite);
+                    var listFilters = args.Skip(2).ToArray();
+                    ListTests(model.suite, listFilters);
                     break;
 
                 case "save":
@@ -85,8 +86,17 @@ namespace TestRunnerAppCon
                     r.Run(model, WebDriverType.Chrome, context);
                     break;
 
-                case "mailstatus":
-                    Mail.SuiteStatus(model.suite);
+                case "mail":
+                    if (argCount < 3)
+                    {
+                        Console.WriteLine("No adress specified. Try 'help'.");
+                        Environment.Exit(-1);
+                    }
+
+                    string sendTo = args[2];
+                    var mailFilters = args.Skip(3).ToArray();
+                    ListTests(model.suite, mailFilters);
+                    Mail.SuiteStatus(model.suite, sendTo, mailFilters);
                     break;
 
                 default:
@@ -96,8 +106,6 @@ namespace TestRunnerAppCon
 
             }
 
-            //Console.ReadKey();
-            //ListTests(model.suite);
             //Console.ReadKey();
 
         }
@@ -126,68 +134,17 @@ namespace TestRunnerAppCon
         }
 
 
-        static void ListTests(SuiteModel suite)
+        static void ListTests(SuiteModel suite, string[] filters)
         {
-            //if (suite.tests.Count() < 1)
-            //{
-            //    Console.WriteLine("No tests found.");
-            //    return;
-            //}
 
-            //string[] columns = { "ID", "Name", "Last run", "Last outcome", "Ex message" };
-
-            //var table = suite.tests.ToHtmlTable(columns,
-            ////var table = suite.tests.ToStringTable(columns,
-            //         t => t.id,
-            //         t => t.name,
-            //         t => t.previousDateTime == null ? string.Empty : t.previousDateTime.ToString(),
-            //         t => t.previousOutcome,
-            //         t => t.runs.Count() > 0 && t.runs.Last()?.resultObj?.eMessage != null ?
-            //                    t.runs.Last()?.resultObj?.eMessage : string.Empty
-
-
-            //     );
-            Outcome[] filter = { Outcome.Fail, Outcome.Warning };
+            //Outcome[] filter = { Outcome.Fail, Outcome.Warning };
             Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutCome,
                                 Col.failStep, Col.message, Col.eType};
 
-            Console.WriteLine(Mail.SuiteToTable(suite, false, filter, selection));
+            Console.WriteLine(Report.SuiteToTable(suite, false, Report.readFilters(filters), selection));
 
         }
 
-
-
-        //static void ListTests_old(SuiteModel suite)
-        //{
-        //    string table = String.Empty;
-
-        //    string header = string.Format("|{0,10}|{1,10}|{2,10}|{3,10}|",
-        //            "ID",
-        //            "Name",
-        //            "Last run",
-        //            "Last outcome"
-        //            );
-        //    header += Environment.NewLine;
-
-        //    foreach (TestModel t in suite.tests)
-        //    {
-        //        table += string.Format("|{0,10}|{1,10}|{2,10}|{3,10}|",
-        //            t.id,
-        //            t.name,
-        //            t.previousDateTime.ToString(),
-        //            t.previousOutcome.ToString()
-        //            );
-        //        table += Environment.NewLine;
-        //    }
-
-
-
-        //    if (string.IsNullOrEmpty(table))
-        //        Console.WriteLine("No tests found.");
-        //    else
-        //        Console.WriteLine(header + table);
-
-        //}
 
     }
 }
