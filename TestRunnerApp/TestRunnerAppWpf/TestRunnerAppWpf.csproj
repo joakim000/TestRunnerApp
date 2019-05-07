@@ -493,12 +493,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="chromedriver.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="geckodriver.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Icons\F1Help_16x.png" />
     <Resource Include="Icons\Log_16x.png" />
     <Resource Include="Icons\TestJob_16x.png" />
@@ -512,12 +506,6 @@
     <Resource Include="Icons\edge_logo_256.png" />
     <Resource Include="Help\TMJkey.png" />
     <Resource Include="Help\soonHorse.jpg" />
-    <Content Include="IEDriverServer.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="phantomjs.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Test_16x.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
