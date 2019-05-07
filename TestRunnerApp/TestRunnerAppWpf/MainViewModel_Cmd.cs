@@ -227,6 +227,7 @@ namespace TestRunnerAppWpf
             if (saveResult.Item1)
             {
                 gridViewModel.suite.filename = saveResult.Item2;
+                setWindowTitle();
                 this.unsavedChanges = false;
             }
         }

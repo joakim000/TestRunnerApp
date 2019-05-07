@@ -26,13 +26,18 @@ namespace TestRunnerAppCon
             }
 
             var tests = new List<TestModel>();
-            foreach (Outcome o in filter)
+            if (filter.Length == 0)
+                tests = suite.tests.ToList();
+            else
             {
-                tests.AddRange(suite.tests.Where(x => x.previousOutcome == o));
-            }
-            if (tests.Count() < 1)
-            {
-                return table;
+                foreach (Outcome o in filter)
+                {
+                    tests.AddRange(suite.tests.Where(x => x.previousOutcome == o));
+                }
+                if (tests.Count() < 1)
+                {
+                    return table;
+                }
             }
 
             var headersList = new List<string>();
@@ -74,7 +79,6 @@ namespace TestRunnerAppCon
                         columnsList.Add(t => t.runs.Count() > 0 && t.runs.Last()?.runTime != null ?
                                             t.runs.Last()?.runTime.ToString() : string.Empty);
                         break;
-
                     case Col.webDriverType:
                         headersList.Add("Web driver");
                         columnsList.Add(t => t.runs.Count() > 0 && t.runs.Last()?.webDriverType != null ?

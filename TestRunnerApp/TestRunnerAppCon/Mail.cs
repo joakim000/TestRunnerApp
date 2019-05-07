@@ -13,15 +13,17 @@ namespace TestRunnerAppCon
     {
         public static void SuiteStatus(SuiteModel suite, string sendTo, string[] filters)
         {
-            //Outcome[] filter = { Outcome.Fail, Outcome.Warning };
-            
             Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutCome,
                                 Col.failStep, Col.message, Col.eType};
 
-            string user = "user@gmail.com";
-            string pw = "password";
+            if (string.IsNullOrEmpty(Settings.sendFrom) || string.IsNullOrEmpty(Settings.sendFromPw))
+            {
+                Console.WriteLine("Missing config needed to send mail.");
+                Environment.Exit(-1);
+            }
+            string user = Settings.sendFrom;
+            string pw = Settings.sendFromPw;
 
-            //string to = "joakim.odermalm@unicus.no";
             string to = sendTo;
             string from = "donotreply@gmail.com";
             string subject = "TestRunnerApp suite status " + DateTime.Now.ToString();
@@ -33,11 +35,10 @@ namespace TestRunnerAppCon
             body += @"<p>" + Report.SuiteToTable(suite, true, Report.readFilters(filters), selection) + "</p>";
             //body += @"<pre>" + SuiteToTable(suite) + "</pre>";
             body += Environment.NewLine;
-            body += @"</body></html>"; 
-
+            body += @"</body></html>";
 
             SendGmail(to, from, subject, body, user, pw);
-
+        
         }
 
 
@@ -60,9 +61,17 @@ namespace TestRunnerAppCon
             mm.IsBodyHtml = true;
             mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
+            try
+            {
+                client.Send(mm);
+                Console.WriteLine("Email sent.");
+            }
+            catch (SmtpException ex)
+            {
+                Console.WriteLine($"Failed to send: {ex.Message}");
+            }
 
-            client.Send(mm);
-            Console.WriteLine("Email sent.");
+            
         }
 
         public static void SendLocal(string to, string from, string subject, string body, string user, string pw)

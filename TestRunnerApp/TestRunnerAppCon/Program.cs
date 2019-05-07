@@ -14,21 +14,21 @@ namespace TestRunnerAppCon
         public static string dataExt = "testapp";
         //SynchronizationContext syncContext = SynchronizationContext.Current;
 
+        
+             
+
+
         static void Main(string[] args)
         {
             Console.WriteLine("TestRunnerApp v2.1rc7" + Environment.NewLine);
-
             var context = new CustomSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(context);
-
             int argCount = args.Length;
 
-#if DEBUG
-            //for (int i = 0; i < argCount; i++)
-            //{
-            //    Console.WriteLine($"arg {i}: [{args[i]}]");
-            //}
-#endif
+            SettingsManager settings = new SettingsManager();
+            SettingsGetter getter = new SettingsGetter();
+            getter.Restore(settings);
+
 
             if (argCount < 1)
             {
