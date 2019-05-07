@@ -128,26 +128,30 @@ namespace TestRunnerAppCon
 
         static void ListTests(SuiteModel suite)
         {
-            if (suite.tests.Count() < 1)
-            {
-                Console.WriteLine("No tests found.");
-                return;
-            }
+            //if (suite.tests.Count() < 1)
+            //{
+            //    Console.WriteLine("No tests found.");
+            //    return;
+            //}
 
-            string[] columns = { "ID", "Name", "Last run", "Last outcome", "Ex message" };
+            //string[] columns = { "ID", "Name", "Last run", "Last outcome", "Ex message" };
 
-            var table = suite.tests.ToStringTable(columns,
-                     t => t.id,
-                     t => t.name,
-                     t => t.previousDateTime == null ? string.Empty : t.previousDateTime.ToString(),
-                     t => t.previousOutcome,
-                     t => t.runs.Count() > 0 ? t.runs.Last()?.resultObj?.eMessage : string.Empty
+            //var table = suite.tests.ToHtmlTable(columns,
+            ////var table = suite.tests.ToStringTable(columns,
+            //         t => t.id,
+            //         t => t.name,
+            //         t => t.previousDateTime == null ? string.Empty : t.previousDateTime.ToString(),
+            //         t => t.previousOutcome,
+            //         t => t.runs.Count() > 0 && t.runs.Last()?.resultObj?.eMessage != null ?
+            //                    t.runs.Last()?.resultObj?.eMessage : string.Empty
 
-                     
-                 );
 
+            //     );
+            Outcome[] filter = { Outcome.Fail, Outcome.Warning };
+            Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutCome,
+                                Col.failStep, Col.message, Col.eType};
 
-            Console.WriteLine(table);
+            Console.WriteLine(Mail.SuiteToTable(suite, false, filter, selection));
 
         }
 
