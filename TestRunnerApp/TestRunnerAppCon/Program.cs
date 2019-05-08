@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace TestRunnerAppCon
     {
         public static string dataExt = "testapp";
         //SynchronizationContext syncContext = SynchronizationContext.Current;
+        public static BackgroundWorker runTestWorker = new BackgroundWorker();
+        private static EventWaitHandle ewh = new EventWaitHandle(false, EventResetMode.AutoReset);
 
         static void Main(string[] args)
         {
@@ -21,6 +24,7 @@ namespace TestRunnerAppCon
             // Prepare for threaded processing
             var context = new CustomSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(context);
+            
 
             // Check argument list
             var argsList = new List<string>(args);
@@ -37,6 +41,7 @@ namespace TestRunnerAppCon
             {
                 ShowHelp();
                 Environment.Exit(0);
+                
             }
             if (!string.Equals(dataExt, FileMgmt.FileExt(file)))
             {
@@ -95,14 +100,27 @@ namespace TestRunnerAppCon
             switch (cmd)
             {
                 case "list":
-                    ListTests(model.suite, outcomes, idPattern);
+                    Report.ListTests(model.suite, outcomes, idPattern);
                     break;
 
                 case "run":
-                    ListTests(model.suite, outcomes, idPattern);
-                    RunTests r = new RunTests();
+                    // Temporary
+                    WebDriverType webDriverType = WebDriverType.Chrome;
+
+
+                    Report.ListTests(model.suite, outcomes, idPattern);
+
                     context = (CustomSynchronizationContext)SynchronizationContext.Current;
-                    r.Run(model, WebDriverType.Chrome, context);
+                    runTestWorker = new BackgroundWorker();
+                    runTestWorker.RunWorkerCompleted += RunTestWorker_RunWorkerCompleted;
+
+                    RunTests r = new RunTests();
+                    r.Run(model, outcomes, idPattern, webDriverType, context, runTestWorker);
+                    ewh.WaitOne();
+                    
+                    Console.WriteLine("Saving suite to file.");
+                    FileMgmt.SaveSuite(model.suite);
+                    Report.ListTests(model.suite, outcomes, idPattern);
                     break;
 
                 case "mail":
@@ -132,8 +150,8 @@ namespace TestRunnerAppCon
                             Environment.Exit(-1);
                         }
                     }
-                    
-                    ListTests(model.suite, outcomes, idPattern);
+
+                    Report.ListTests(model.suite, outcomes, idPattern);
                     Mail.SuiteStatus(model.suite, sendTo, outcomes, idPattern);
                     break;
 
@@ -154,6 +172,11 @@ namespace TestRunnerAppCon
 
             //Console.ReadKey();
 
+        }
+
+        private static void RunTestWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ewh.Set();
         }
 
         static void CheckDirs()
@@ -179,25 +202,6 @@ namespace TestRunnerAppCon
             }
         }
 
-
-        //static void ListTests(SuiteModel suite, string[] filters)
-        //{
-
-        //    //Outcome[] filter = { Outcome.Fail, Outcome.Warning };
-        //    Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutcome,
-        //                        Col.failStep, Col.message, Col.eType};
-
-        //    Console.WriteLine(Report.SuiteToTable(suite, false, Report.readFilters(filters), selection));
-
-        //}
-
-        static void ListTests(SuiteModel suite, string[] filters, string idPattern)
-        {
-            var tests = Report.SelectTests(suite, filters, idPattern);
-            string s = Report.TestsToTable(tests, false, Report.readCols(Settings.columns));
-            Console.WriteLine(s);
-
-        }
 
         static void ShowHelp()
         {

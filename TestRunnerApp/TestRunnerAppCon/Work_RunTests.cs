@@ -19,19 +19,30 @@ namespace TestRunnerAppCon
         private CycleModel currentCycle;
         private CustomSynchronizationContext syncContext;
 
+        private string[] outcomes;
+        private string idPattern;
+
         private BackgroundWorker runTestWorker = null;
 
         public void Run(Model model,
+                        string[] outcomes,
+                        string idPattern,
                         WebDriverType webDriverType,
-                        CustomSynchronizationContext context)
+                        CustomSynchronizationContext context,
+                        BackgroundWorker worker)
         {
             this.model = model;
-            this.currentCycle = model.suite.currentCycle;
+            this.outcomes = outcomes;
+            this.idPattern = idPattern;
             this.webDriverType = webDriverType;
+
+            this.runTestWorker = worker;
             this.syncContext = context;
 
-            // Run all for now
-            StartAsyncRunner(model.suite.tests);
+            this.currentCycle = model.suite.currentCycle;
+
+            var tests = new ObservableCollection<TestModel>(Report.SelectTests(model.suite, outcomes, idPattern));
+            StartAsyncRunner(tests);
 
         }
 
@@ -49,11 +60,14 @@ namespace TestRunnerAppCon
             //runSlash = "/";
             //runCurrent = "1";
 
-            runTestWorker = new BackgroundWorker
-            {
-                WorkerReportsProgress = true,
-                WorkerSupportsCancellation = true
-            };
+            //runTestWorker = new BackgroundWorker
+            //{
+            //    WorkerReportsProgress = true,
+            //    WorkerSupportsCancellation = true
+            //};
+            runTestWorker.WorkerReportsProgress = true;
+            runTestWorker.WorkerSupportsCancellation = true;
+
             runTestWorker.DoWork += runTestWorker_DoWork;
             runTestWorker.ProgressChanged += runTestWorker_ProgressChanged;
             runTestWorker.RunWorkerCompleted += runTestworker_RunWorkerCompleted;
@@ -214,8 +228,10 @@ namespace TestRunnerAppCon
                 Console.WriteLine($"Error code: {e.Error}");
                 Console.WriteLine(resultLine);
 
-                Console.WriteLine("Saving suite to file.");
-                FileMgmt.SaveSuite(model.suite);
+                //Report.ListTests(model.suite, outcomes, idPattern);
+
+                //Console.WriteLine("Saving suite to file.");
+                //FileMgmt.SaveSuite(model.suite);
             }
 
 

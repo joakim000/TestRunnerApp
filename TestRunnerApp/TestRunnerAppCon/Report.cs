@@ -13,8 +13,6 @@ namespace TestRunnerAppCon
                previousDateTime, previousOutcome, previousRuntime, webDriverType, runNotes,
                message, failStep, eType, eMessage };
 
-    enum FilterOutcome { all, pass, fail, warning, error };
-
     class Report
     {
         public static string SuiteToTable(SuiteModel suite, bool html, Outcome[] filter, Col[] selection)
@@ -286,6 +284,14 @@ namespace TestRunnerAppCon
                 selected.RemoveAll(test => !Regex.IsMatch(test.id, idPattern));
 
             return selected;
+        }
+
+        public static void ListTests(SuiteModel suite, string[] filters, string idPattern)
+        {
+            var tests = Report.SelectTests(suite, filters, idPattern);
+            string s = Report.TestsToTable(tests, false, Report.readCols(Settings.columns));
+            Console.WriteLine(s);
+
         }
 
     }
