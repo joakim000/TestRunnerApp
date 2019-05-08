@@ -105,7 +105,7 @@ namespace TestRunnerAppCon
 
                 case "run":
                     // Temporary
-                    WebDriverType webDriverType = WebDriverType.Chrome;
+                    WebDriverType webDriverType = Settings.webDriverType;
 
 
                     Report.ListTests(model.suite, outcomes, idPattern);
@@ -115,12 +115,12 @@ namespace TestRunnerAppCon
                     runTestWorker.RunWorkerCompleted += RunTestWorker_RunWorkerCompleted;
 
                     RunTests r = new RunTests();
-                    r.Run(model, outcomes, idPattern, webDriverType, context, runTestWorker);
+                    List<TestModel> testsRun = r.Run(model, outcomes, idPattern, webDriverType, context, runTestWorker);
                     ewh.WaitOne();
                     
                     Console.WriteLine("Saving suite to file.");
                     FileMgmt.SaveSuite(model.suite);
-                    Report.ListTests(model.suite, outcomes, idPattern);
+                    Report.ListTests(testsRun);
                     break;
 
                 case "mail":

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,7 +25,7 @@ namespace TestRunnerAppCon
 
         private BackgroundWorker runTestWorker = null;
 
-        public void Run(Model model,
+        public List<TestModel> Run(Model model,
                         string[] outcomes,
                         string idPattern,
                         WebDriverType webDriverType,
@@ -43,7 +44,7 @@ namespace TestRunnerAppCon
 
             var tests = new ObservableCollection<TestModel>(Report.SelectTests(model.suite, outcomes, idPattern));
             StartAsyncRunner(tests);
-
+            return new List<TestModel>(tests);
         }
 
 

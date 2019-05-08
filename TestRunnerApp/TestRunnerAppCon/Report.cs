@@ -233,6 +233,17 @@ namespace TestRunnerAppCon
         }
 
 
+        public static WebDriverType readWebDriver(string s)
+        {
+
+            if (s.Equals("Chrome", StringComparison.OrdinalIgnoreCase))
+                return WebDriverType.Chrome;
+            if (s.Equals("Firefox", StringComparison.OrdinalIgnoreCase))
+                return WebDriverType.Firefox;
+
+            return WebDriverType.None;
+        }
+
         public static Col[] readCols(string[] cols)
         {
             var colList = new List<Col>();
@@ -289,6 +300,12 @@ namespace TestRunnerAppCon
         public static void ListTests(SuiteModel suite, string[] filters, string idPattern)
         {
             var tests = Report.SelectTests(suite, filters, idPattern);
+            string s = Report.TestsToTable(tests, false, Report.readCols(Settings.columns));
+            Console.WriteLine(s);
+
+        }
+        public static void ListTests(List<TestModel> tests)
+        {
             string s = Report.TestsToTable(tests, false, Report.readCols(Settings.columns));
             Console.WriteLine(s);
 

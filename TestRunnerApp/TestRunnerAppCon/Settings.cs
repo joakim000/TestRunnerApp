@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ViewModelSupport;
+using TestRunnerLib;
 
 namespace TestRunnerAppCon
 {
@@ -15,6 +16,8 @@ namespace TestRunnerAppCon
     {
         // Report
         public static string[] columns { get; set; }
+        // Run
+        public static WebDriverType webDriverType {get; set;}
         // Mail
         public static string smtpHost { get; set; }
         public static int smtpPort { get; set; }
@@ -40,6 +43,12 @@ namespace TestRunnerAppCon
 
     public class SettingsManager : ViewModelBase
     {
+        // Run
+        public string webDriverType
+        {
+            get => Get(() => webDriverType);
+            set => Set(() => webDriverType, value);
+        }
         // Report columns
         public string columns
         {
@@ -135,6 +144,8 @@ namespace TestRunnerAppCon
         {
             // Report
             Settings.columns = columns.Split(' ');
+            // Run
+            Settings.webDriverType = Report.readWebDriver(webDriverType);
             // Mail
             Settings.smtpHost = smtpHost;
             Settings.smtpPort = smtpPort;
