@@ -76,6 +76,7 @@
     <Compile Include="Report.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="StringExtensions.cs" />
     <Compile Include="TableParser.cs" />
     <Compile Include="FileMgmt.cs" />
     <Compile Include="LoadData.cs" />

@@ -14,93 +14,139 @@ namespace TestRunnerAppCon
         public static string dataExt = "testapp";
         //SynchronizationContext syncContext = SynchronizationContext.Current;
 
-        
-             
-
-
         static void Main(string[] args)
         {
             Console.WriteLine("TestRunnerApp v2.1rc7" + Environment.NewLine);
+
+            // Prepare for threaded processing
             var context = new CustomSynchronizationContext();
             SynchronizationContext.SetSynchronizationContext(context);
+
+            // Check argument list
+            var argsList = new List<string>(args);
             int argCount = args.Length;
-
-            SettingsManager settings = new SettingsManager();
-            SettingsGetter getter = new SettingsGetter();
-            getter.Restore(settings);
-
-
             if (argCount < 1)
             {
                 Console.WriteLine("No arguments. Try 'help'.");
                 Environment.Exit(-1);
             }
 
+            // First argument should be either "help" or a file with supported extension
             string file = args[0];
-
             if (string.Equals("help", file))
             {
-
-                Console.WriteLine("Usage: TestRunnerApp MySuite.testapp command [parameter]");
-                Console.WriteLine("Available commands: list, save, runall, mail");
-                Console.WriteLine("list [Pass] [Fail] [Warning] [NotRun]");
-                Console.WriteLine("mail to-adress [Pass] [Fail] [Warning] [NotRun]");
+                ShowHelp();
                 Environment.Exit(0);
             }
-
             if (!string.Equals(dataExt, FileMgmt.FileExt(file)))
             {
                 Console.WriteLine("Unsupported file type. Try 'help'.");
                 Environment.Exit(-1);
             }
 
+            // Check for existence of needed dirs (try to create if not existant)
             CheckDirs();
 
+            // Get settings from file
+            SettingsManager settings = new SettingsManager();
+            SettingsGetter getter = new SettingsGetter();
+            getter.Restore(settings);
+            
+            // Read data from file in first argument
             Console.WriteLine("Reading data from: " + file);
             Model model = new Model();
             LoadData.OpenFileSetup(file, model);
 
+            // Check for /id argument
+            string idPattern = null;
+            int idIndex = argsList.IndexOf("/id");
+            if (idIndex >= 0)
+            {
+                if (argCount > idIndex + 1) // Avoid case of /id arg with nothing after
+                    idPattern = argsList[idIndex + 1];
+            }
+
+            // Check for /o argument
+            string[] outcomes = { };
+            int oIndex = argsList.IndexOf("/o");
+            if (oIndex >= 0)
+            {
+                if (argCount > oIndex + 1) // Avoid case of /o arg with nothing after
+                {
+                    outcomes = args.Skip(oIndex + 1).ToArray();
+                    int slashIndex = Array.FindIndex(outcomes, a => a.Contains("/"));
+                    if (slashIndex >= 0)
+                    {
+                        outcomes = outcomes.Take(slashIndex).ToArray();
+                    }
+                }
+            }
+
+
+            // Find command argument
             if (argCount < 2)
             {
                 Console.WriteLine("No command argument. Try 'help'.");
                 Environment.Exit(-1);
             }
-
             string cmd = args[1];
 
+            // Find filters and execute command
             switch (cmd)
             {
                 case "list":
-                    var listFilters = args.Skip(2).ToArray();
-                    ListTests(model.suite, listFilters);
+                    ListTests(model.suite, outcomes, idPattern);
                     break;
 
-                case "save":
-                    FileMgmt.SaveSuite(model.suite);
-                    break;
-
-                case "runall":
-                    //ListTests(model.suite);
+                case "run":
+                    ListTests(model.suite, outcomes, idPattern);
                     RunTests r = new RunTests();
                     context = (CustomSynchronizationContext)SynchronizationContext.Current;
                     r.Run(model, WebDriverType.Chrome, context);
                     break;
 
                 case "mail":
-                    if (argCount < 3)
+                    // Check for /to argument
+                    string sendTo = null;
+                    int toIndex = Array.FindIndex(args, a => a.Equals("/to", StringComparison.OrdinalIgnoreCase));
+                    if (toIndex >= 0)
+                    {
+                        if (argCount > toIndex + 1) // Avoid case of /to arg with nothing after
+                            sendTo = argsList[toIndex + 1];
+                    }
+
+                    if (sendTo == null)
                     {
                         Console.WriteLine("No adress specified. Try 'help'.");
                         Environment.Exit(-1);
                     }
+                    else
+                    {
+                        try
+                        {
+                            var toAddr = new System.Net.Mail.MailAddress(sendTo);
+                        }
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            Environment.Exit(-1);
+                        }
+                    }
+                    
+                    ListTests(model.suite, outcomes, idPattern);
+                    Mail.SuiteStatus(model.suite, sendTo, outcomes, idPattern);
+                    break;
 
-                    string sendTo = args[2];
-                    var mailFilters = args.Skip(3).ToArray();
-                    ListTests(model.suite, mailFilters);
-                    Mail.SuiteStatus(model.suite, sendTo, mailFilters);
+                case "save":
+                    FileMgmt.SaveSuite(model.suite);
+                    break;
+
+                case "help":
+                    ShowHelp();
                     break;
 
                 default:
-                    Console.WriteLine("Unrecognized command. Try 'help'.");
+                    Console.WriteLine($"Unrecognized command '{cmd}'. Try 'help'.");
                     Environment.Exit(-1);
                     break;
 
@@ -134,17 +180,43 @@ namespace TestRunnerAppCon
         }
 
 
-        static void ListTests(SuiteModel suite, string[] filters)
+        //static void ListTests(SuiteModel suite, string[] filters)
+        //{
+
+        //    //Outcome[] filter = { Outcome.Fail, Outcome.Warning };
+        //    Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutcome,
+        //                        Col.failStep, Col.message, Col.eType};
+
+        //    Console.WriteLine(Report.SuiteToTable(suite, false, Report.readFilters(filters), selection));
+
+        //}
+
+        static void ListTests(SuiteModel suite, string[] filters, string idPattern)
         {
-
-            //Outcome[] filter = { Outcome.Fail, Outcome.Warning };
-            Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutCome,
-                                Col.failStep, Col.message, Col.eType};
-
-            Console.WriteLine(Report.SuiteToTable(suite, false, Report.readFilters(filters), selection));
+            var tests = Report.SelectTests(suite, filters, idPattern);
+            string s = Report.TestsToTable(tests, false, Report.readCols(Settings.columns));
+            Console.WriteLine(s);
 
         }
 
+        static void ShowHelp()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Help for TestRunnerApp console");
+            Console.WriteLine("==============================");
+            Console.WriteLine("Usage: TestRunnerApp Example.testapp command params");
+            Console.WriteLine();
+            Console.WriteLine("Available commands:");
+            Console.WriteLine("list [filter options]");
+            Console.WriteLine("run [filter options]");
+            Console.WriteLine("mail /to 'email' [filter options]");
+            Console.WriteLine();
+            Console.WriteLine("Filter:");
+            Console.WriteLine("  by last outcome: /o [Pass] [Fail] [Warning] [NotRun]");
+            Console.WriteLine("  by test id: /id 'regEx'");
+            Console.WriteLine("==============================");
+        }
+       
 
     }
 }

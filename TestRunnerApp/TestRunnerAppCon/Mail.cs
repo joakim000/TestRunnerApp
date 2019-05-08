@@ -11,50 +11,64 @@ namespace TestRunnerAppCon
 
     class Mail
     {
-        public static void SuiteStatus(SuiteModel suite, string sendTo, string[] filters)
+        public static void SuiteStatus(SuiteModel suite, string sendTo, string[] filters, string idPattern)
         {
-            Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutCome,
+            Col[] selection = { Col.id, Col.name, Col.previousDateTime, Col.webDriverType, Col.previousOutcome,
                                 Col.failStep, Col.message, Col.eType};
 
-            if (string.IsNullOrEmpty(Settings.sendFrom) || string.IsNullOrEmpty(Settings.sendFromPw))
+            if (string.IsNullOrEmpty(Settings.sendFromAccount) || 
+                string.IsNullOrEmpty(Settings.sendFromAccountPw) ||
+                string.IsNullOrEmpty(Settings.subject))
             {
                 Console.WriteLine("Missing config needed to send mail.");
                 Environment.Exit(-1);
             }
-            string user = Settings.sendFrom;
-            string pw = Settings.sendFromPw;
+            string user = Settings.sendFromAccount;
+            string pw = Settings.sendFromAccountPw;
 
             string to = sendTo;
-            string from = "donotreply@gmail.com";
-            string subject = "TestRunnerApp suite status " + DateTime.Now.ToString();
+            string from = Settings.sendFrom == null ? "donotreply@unknown.net" : Settings.sendFrom;
+            string subject = Settings.subject;
 
+            // Prepare html document
             string body = @"<html><body>";
+            // Style
             body += @"<style> pre { font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace; } </style>";
             body += @"<style> p { font-family: 'Consolas', 'Lucida Console', 'Courier New', monospace; } </style>";
-            body += Environment.NewLine;
-            body += @"<p>" + Report.SuiteToTable(suite, true, Report.readFilters(filters), selection) + "</p>";
-            //body += @"<pre>" + SuiteToTable(suite) + "</pre>";
-            body += Environment.NewLine;
-            body += @"</body></html>";
 
-            SendGmail(to, from, subject, body, user, pw);
+            // Header
+            body += $"<p>{suite.name}<br />{DateTime.Now.ToString()}</p>";
+            string outcomesString = string.Empty;
+            foreach (string s in filters)
+                outcomesString += s + " ";
+            body += $"<p>Outcomes: {outcomesString}<br />ID pattern: {idPattern}</p>";
+            body += "<hr />";
+
+            // Main table
+            //body += @"<p>" + Report.SuiteToTable(suite, true, Report.readFilters(filters), selection) + "</p>";
+            var tests = Report.SelectTests(suite, filters, idPattern);
+            string table = Report.TestsToTable(tests, true, Report.readCols(Settings.columns));
+            body += table;
+
+            body += @"</body></html>"; body += Environment.NewLine;
+            // end: Prepare html document
+
+            SendMail(to, from, subject, body, user, pw);
         
         }
 
 
-        public static void SendGmail(string to, string from, string subject, string body, string user, string pw)
+        public static void SendMail(string to, string from, string subject, string body, string user, string pw)
         {
 
             SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.Host = "smtp.gmail.com";
-            client.EnableSsl = true;
-            client.Timeout = 10000;
+            client.Host = Settings.smtpHost;
+            client.Port = Settings.smtpPort;
+            client.Timeout = Settings.smtpTimeout;
+            client.EnableSsl = Settings.enableSsl;
+            client.UseDefaultCredentials = Settings.useDefaultCredentials;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential(user, pw);
-
-
 
             MailMessage mm = new MailMessage(from, to, subject, body);
             mm.BodyEncoding = UTF8Encoding.UTF8;
@@ -73,31 +87,6 @@ namespace TestRunnerAppCon
 
             
         }
-
-        public static void SendLocal(string to, string from, string subject, string body, string user, string pw)
-        {
-
-            SmtpClient client = new SmtpClient();
-            client.Port = 25;
-            client.Host = "192.168.0.112";
-            client.EnableSsl = false;
-            client.Timeout = 10000;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(user, pw);
-
-
-
-            MailMessage mm = new MailMessage(from, to, subject, body);
-            mm.BodyEncoding = UTF8Encoding.UTF8;
-            mm.IsBodyHtml = true;
-            mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
-
-
-            client.Send(mm);
-            Console.WriteLine("Email sent.");
-        }
-
 
         
     }
