@@ -93,10 +93,16 @@ namespace TestRunnerLib
             get => Get(() => name);
             set => Set(() => name, value);
         }
+        // Deprecated
         public string status
         {
             get => Get(() => status);
             set => Set(() => status, value);
+        }
+        public JiraStatus statusObj
+        {
+            get => Get(() => statusObj);
+            set => Set(() => statusObj, value);
         }
         public string objective
         {
@@ -123,10 +129,16 @@ namespace TestRunnerLib
             get => Get(() => notes);
             set => Set(() => notes, value);
         }
+        // Deprecated
         public string prio
         {
             get => Get(() => prio);
             set => Set(() => prio, value);
+        }
+        public JiraPrio prioObj
+        {
+            get => Get(() => prioObj);
+            set => Set(() => prioObj, value);
         }
         public string version
         {
@@ -304,11 +316,11 @@ namespace TestRunnerLib
             descPrecond = jiraCase.precondition;
             estimatedTime = jiraCase.estimatedTime;
 
-            if (jiraCase.priority != null)
-                prio = jiraCase.priority.name;
+            //if (jiraCase.priority != null)
+            //    prio = jiraCase.priority.name;
 
-            if (jiraCase.status != null)
-                status = jiraCase.status.name;
+            //if (jiraCase.status != null)
+            //    status = jiraCase.status.name;
 
             //if (jiraCase.folder != null)
             //    folder = jiraCase.folder.name;
@@ -366,13 +378,13 @@ namespace TestRunnerLib
             if (e.PropertyName == "version")
                 version = jiraCase.version;
 
-            if (e.PropertyName == "status")
-                if (jiraCase.status != null)
-                    status = jiraCase.status.name;
+            //if (e.PropertyName == "status")
+            //    if (jiraCase.status != null)
+            //        status = jiraCase.status.name;
 
-            if (e.PropertyName == "priority")
-                if (jiraCase.priority != null)
-                    prio = jiraCase.priority.name;
+            //if (e.PropertyName == "priority")
+            //    if (jiraCase.priority != null)
+            //        prio = jiraCase.priority.name;
 
         }
         /* end: Event handlers */
@@ -468,12 +480,15 @@ namespace TestRunnerLib
             c.descExpected = descExpected.SafeCopy();
 
             c.notes = notes.SafeCopy();
-            c.prio = prio.SafeCopy();
+            //c.prio = prio.SafeCopy();
             c.version = version.SafeCopy();
 
             c.jiraProjectKey = jiraProjectKey.SafeCopy();
             c.jiraCloudTmj = jiraCloudTmj;
             c.jiraCase = jiraCase;
+
+            c.prio = prio;
+            c.status = status;
 
 
             //c.jiraPrioId = jiraPrioId.SafeCopy();

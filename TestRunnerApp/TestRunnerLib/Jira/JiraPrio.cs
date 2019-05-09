@@ -63,6 +63,12 @@ namespace TestRunnerLib.Jira
 
         public JiraPrio() { }
 
+        public JiraPrio(string name, string statusColor)
+        {
+            this.name = name;
+            this.statusColor = statusColor;
+        }
+
 
     }
 

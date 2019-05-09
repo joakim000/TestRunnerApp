@@ -65,7 +65,11 @@ namespace TestRunnerLib.Jira
 
         public JiraStatus() { }
 
-
+        public JiraStatus(string name, string color)
+        {
+            this.name = name;
+            this.color = color;
+        }
     }
 
 }

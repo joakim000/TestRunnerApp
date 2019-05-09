@@ -76,7 +76,8 @@
             </DataGrid.RowHeaderTemplate>
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding id, UpdateSourceTrigger=LostFocus}" IsReadOnly="False" MinWidth="40">
+                <DataGridTextColumn Header="ID" x:Name="_id"
+                                    Binding="{Binding id, UpdateSourceTrigger=LostFocus}" IsReadOnly="False" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -86,10 +87,11 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                
 
 
-                <DataGridTextColumn Header="Jira" Binding="{Binding jiraCase.key, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40"
+
+                <DataGridTextColumn Header="Jira" x:Name="JiraCloudTmj_key"
+                                    Binding="{Binding jiraCase.key, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40"
                                     Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}">
                    <DataGridTextColumn.ElementStyle>
                        <Style TargetType="TextBlock">
@@ -115,8 +117,43 @@
 
                 <!--Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.mainViewModel.gridViewModel.suite.mgmt, Mode=OneWay, NotifyOnSourceUpdated=true, Converter={StaticResource VisiJiraCloudTmj}}">-->
 
-                <DataGridTemplateColumn Header="Prio" IsReadOnly="False"  MinWidth="50" 
-                                        Visibility="Visible">
+                <DataGridTemplateColumn Header="Prio" x:Name="None_prio"
+                                        IsReadOnly="False"  MinWidth="50" 
+                                          Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiNone}}"
+                                        >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="PrioCombo" 
+                                      IsEnabled="True"
+                                      Template="{DynamicResource ComboBoxControlDataGrid}"
+                                      IsEditable="False" IsReadOnly="True"
+                                       Width="Auto" 
+                                       HorizontalAlignment="Stretch" Margin="0,0,0,0" Padding="4,4,0,4"
+                                       SelectedItem="{Binding prioObj, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.suite.prios, Mode=OneWay, NotifyOnSourceUpdated=true}">
+
+                                <!--ItemContainerStyle="{DynamicResource ComboItemStyle}"-->
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center"  Margin="3,2,1,0" FontWeight="Black"
+                                                       Foreground="{Binding statusColor}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Prio" x:Name="JiraCloudTmj_prio"
+                                        IsReadOnly="False"  MinWidth="50" 
+                                          Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}"
+                                        >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <ComboBox x:Name="PrioCombo" 
@@ -155,8 +192,42 @@
                                         SelectedItemBinding="{Binding jiraCase.status, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                         TextBinding="{Binding name}"
                                         />-->
-                
-                <DataGridTemplateColumn Header="Status" IsReadOnly="False"  MinWidth="50" 
+
+                <DataGridTemplateColumn Header="Status" x:Name="None_status"
+                                        IsReadOnly="False"  MinWidth="50" 
+                                        Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiNone}}"
+                                        >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="StatusCombo" 
+                                      IsEnabled="True"
+                                      Template="{DynamicResource ComboBoxControlDataGrid}"
+                                      IsEditable="False" IsReadOnly="True"
+                                      Width="Auto" 
+                                      HorizontalAlignment="Stretch" Margin="0,0,0,0" Padding="4,4,0,4"
+                                  SelectedItem="{Binding statusObj, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.suite.testStatuses, Mode=OneWay, NotifyOnSourceUpdated=true}">
+
+                                <!--ItemContainerStyle="{DynamicResource ComboItemStyle}"-->
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center" Margin="3,2,1,0" FontWeight="Black"
+                                                       Foreground="{Binding color}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Status" x:Name="JiraCloudTmj_status"
+                                        IsReadOnly="False"  MinWidth="50" 
                                         Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}"
                                         >
                     <DataGridTemplateColumn.CellTemplate>
@@ -189,8 +260,9 @@
                 </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="Folder" IsReadOnly="False"  MinWidth="50" 
-                                        Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}"
+                <DataGridTemplateColumn Header="Folder" x:Name="JiraCloudTmj_folder"
+                                        IsReadOnly="False"  MinWidth="50" 
+                                        Visibility="Collapsed"
                                         >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -220,7 +292,37 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
+                <DataGridTemplateColumn Header="Component" x:Name="JiraCloudTmj_component"
+                                        IsReadOnly="False"  MinWidth="50" 
+                                        Visibility="{Binding DataContext.suite.mgmt, Source={StaticResource ProxyElement}, Converter={StaticResource VisiJiraCloudTmj}}"
+                                        >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox x:Name="ComponentCombo" 
+                                      IsEnabled="True"
+                                      Template="{DynamicResource ComboBoxControlDataGrid}"
+                                      IsEditable="False" IsReadOnly="True"
+                                      Width="Auto" 
+                                      HorizontalAlignment="Stretch" Margin="0,0,0,0" Padding="4,4,0,4"
+                                  SelectedItem="{Binding jiraCase.component, 
+                                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.suite.jiraProject.components, Mode=OneWay, NotifyOnSourceUpdated=true}">
 
+                                <!--ItemContainerStyle="{DynamicResource ComboItemStyle}"-->
+
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding name}" VerticalAlignment="Center" Margin="3,2,1,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
                 <!--<DataGridTextColumn Header="Folder" Binding="{Binding jiraCase.folder.name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="40">
                     <DataGridTextColumn.ElementStyle>
@@ -236,7 +338,8 @@
                 
                 
                 
-                <DataGridTextColumn Header="Name" Binding="{Binding name, UpdateSourceTrigger=LostFocus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, ValidatesOnNotifyDataErrors=True}" Width="*" MinWidth="100">
+                <DataGridTextColumn Header="Name" 
+                                    Binding="{Binding name, UpdateSourceTrigger=LostFocus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True, ValidatesOnNotifyDataErrors=True}" Width="*" MinWidth="100">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -267,7 +370,8 @@
                 </DataGridTextColumn>
 
 
-                <DataGridTextColumn Header="Runs" Binding="{Binding numberOfRuns}" IsReadOnly="True"  MinWidth="40" >
+                <DataGridTextColumn Header="Runs" x:Name="_numberOfRuns"
+                                    Binding="{Binding numberOfRuns}" IsReadOnly="True"  MinWidth="40" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -277,7 +381,8 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn Header="Previous" Binding="{Binding previousDateTime, Converter={StaticResource DateTimeShortConverter}}" IsReadOnly="True"  MinWidth="40" >
+                <DataGridTextColumn Header="Last run" x:Name="_previousDateTime"
+                                    Binding="{Binding previousDateTime, Converter={StaticResource DateTimeShortConverter}}" IsReadOnly="True"  MinWidth="40" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -287,7 +392,8 @@
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="Latest" IsReadOnly="True" SortMemberPath="previousOutcome"  MinWidth="50" >
+                <DataGridTemplateColumn Header="" x:Name="_previousOutcome"
+                                        IsReadOnly="True" SortMemberPath="previousOutcome"  MinWidth="50" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="{Binding previousOutcome, Converter={StaticResource OutcomeImgConverter}}"  Height="20" Margin="0,3,0,3"/>
@@ -300,7 +406,8 @@
                     </DataGridTemplateColumn.CellEditingTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Run time" Binding="{Binding previousRunTime, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="80" >
+                <DataGridTextColumn Header="Time" x:Name="_runtime"
+                                    Binding="{Binding previousRunTime, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />
@@ -309,8 +416,9 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                
-                <DataGridTextColumn Header="Estimate" Binding="{Binding jiraCase.estimatedTime, UpdateSourceTrigger=LostFocus}" MinWidth="80" >
+
+                <DataGridTextColumn Header="Estimate" x:Name="JiraCloudTmj_estimate"
+                                    Binding="{Binding jiraCase.estimatedTime, UpdateSourceTrigger=LostFocus}" MinWidth="80" >
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="VerticalAlignment" Value="Center" />

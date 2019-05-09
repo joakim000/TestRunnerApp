@@ -22,10 +22,10 @@ namespace TestRunnerLib
             get => Get(() => cycles);
             set => Set(() => cycles, value);
         }
-        public ObservableCollection<JiraStatus> statuses
+        public ObservableCollection<JiraStatus> testStatuses
         {
-            get => Get(() => statuses);
-            set => Set(() => statuses, value);
+            get => Get(() => testStatuses);
+            set => Set(() => testStatuses, value);
         }
         public ObservableCollection<JiraPrio> prios
         {
@@ -154,6 +154,27 @@ namespace TestRunnerLib
             //currentCycle.name = "New cycle";
             //cycles.Add(currentCycle);
 
+            // Default prios
+            if (prios == null)
+            {
+                prios = new ObservableCollection<JiraPrio>();
+                prios.Add(new JiraPrio("Low", "Green"));
+                prios.Add(new JiraPrio("Normal", "DarkGoldenRod"));
+                prios.Add(new JiraPrio("High", "Red"));
+            }
+            
+
+            // Default statuses
+            if (testStatuses == null)
+            {
+                testStatuses = new ObservableCollection<JiraStatus>();
+                testStatuses.Add(new JiraStatus("Ready", "Blue"));
+                testStatuses.Add(new JiraStatus("Draft", "DarkGoldenRod"));
+                testStatuses.Add(new JiraStatus("Approved", "Green"));
+                testStatuses.Add(new JiraStatus("On hold", "Gray"));
+            }
+            
+                 
 
 
             this.PropertyChanged += SuiteModel_PropertyChanged;
