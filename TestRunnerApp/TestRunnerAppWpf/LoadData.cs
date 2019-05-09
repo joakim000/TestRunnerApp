@@ -32,7 +32,15 @@ namespace TestRunnerAppWpf
                 gvm.suite = openResult.Item2;
 
                 if (openResult.Item1 != null)
-                    gvm.suite.filename = openResult.Item1;
+                {
+                    //gvm.suite.filename = openResult.Item1;
+                    mvm.currentFilename = openResult.Item1;
+                }
+                else
+                {
+                    mvm.currentFilename = null;
+                }
+
 
                 // Reset views
                 dvm.test = new TestModel();

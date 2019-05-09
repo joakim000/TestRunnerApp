@@ -41,9 +41,9 @@ namespace TestRunnerAppWpf
             runStatus = "Loading project";
             runTotal = string.Empty; runSlash = string.Empty; runCurrent = string.Empty;
 #if DEBUG
-            runTotal = "11"; //Steps in load
-            runSlash = "/";
-            runCurrent = "1";
+            //runTotal = "11"; //Steps in load
+            //runSlash = "/";
+            //runCurrent = "1";
 #endif
 
 
@@ -137,7 +137,7 @@ namespace TestRunnerAppWpf
 #if DEBUG
                 var t = (Tuple<int, string>)e.UserState;
                 //Debug.WriteLine(t.Item2);
-                runCurrent = (t.Item1 + 1).ToString();
+                //runCurrent = (t.Item1 + 1).ToString();
 #endif
             }
         }

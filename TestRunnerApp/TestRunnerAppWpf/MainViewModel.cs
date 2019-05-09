@@ -90,6 +90,8 @@ namespace TestRunnerAppWpf
         {
             if (e.PropertyName == "unsavedChanges")
                 Debug.WriteLine("unsavedChanges changed to: " + unsavedChanges.ToString());
+            if (e.PropertyName == "currentFilename")
+                setWindowTitle();
         }
         /* Events */
         public void GridViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -176,13 +178,17 @@ namespace TestRunnerAppWpf
         private void setWindowTitle()
         {
             string s = string.Empty;
+            //string filename = FileMgmt.ShortFilename(Properties.Settings.Default.PreviousFile);
+            string filename = Properties.Settings.Default.PreviousFile;
             if (!string.IsNullOrWhiteSpace(gridViewModel.suite.name))
                 s += gridViewModel.suite.name;
             else
                 s += "Untitled suite";
             s += " ";
-            if (!string.IsNullOrWhiteSpace(gridViewModel.suite.filename))
-                s += $"[{gridViewModel.suite.filename}] ";
+            //if (!string.IsNullOrWhiteSpace(gridViewModel.suite.filename))
+            //    s += $"[{gridViewModel.suite.filename}] ";
+            if (!string.IsNullOrWhiteSpace(currentFilename))
+                s += $"[{currentFilename}] ";
             s += $"- {Properties.Settings.Default.AppTitle}";
 
             windowTitle = s;

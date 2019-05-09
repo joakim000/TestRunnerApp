@@ -164,6 +164,11 @@ namespace TestRunnerAppWpf
             get => Get(() => windowTitle, "TestApp by Unicus");
             set => Set(() => windowTitle, value);
         }
+        public string currentFilename
+        {
+            get => Get(() => currentFilename);
+            set => Set(() => currentFilename, value);
+        }
 
         /* WebDriver availibility */
         public bool chromeAvailable

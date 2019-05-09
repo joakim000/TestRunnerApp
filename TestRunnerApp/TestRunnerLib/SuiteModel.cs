@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.ObjectModel;
-
+using System.Linq;
 using TestRunnerLib.Jira;
 
 using ViewModelSupport;
@@ -154,25 +154,6 @@ namespace TestRunnerLib
             //currentCycle.name = "New cycle";
             //cycles.Add(currentCycle);
 
-            // Default prios
-            if (prios == null)
-            {
-                prios = new ObservableCollection<JiraPrio>();
-                prios.Add(new JiraPrio("Low", "Green"));
-                prios.Add(new JiraPrio("Normal", "DarkGoldenRod"));
-                prios.Add(new JiraPrio("High", "Red"));
-            }
-            
-
-            // Default statuses
-            if (testStatuses == null)
-            {
-                testStatuses = new ObservableCollection<JiraStatus>();
-                testStatuses.Add(new JiraStatus("Ready", "Blue"));
-                testStatuses.Add(new JiraStatus("Draft", "DarkGoldenRod"));
-                testStatuses.Add(new JiraStatus("Approved", "Green"));
-                testStatuses.Add(new JiraStatus("On hold", "Gray"));
-            }
             
                  
 
@@ -194,5 +175,35 @@ namespace TestRunnerLib
                     t.jiraLabelToIdToken = jiraLabelToIdToken;
             }
         }
+
+        public void SetDefaults()
+        {
+            
+            mgmt = Enums.Mgmt.Where(m => m.key.Equals("None")).Single();
+
+            jiraLabelToId = true;
+            jiraLabelToIdToken = "ID";
+
+            // Default prios
+            if (prios == null)
+            {
+                prios = new ObservableCollection<JiraPrio>();
+                prios.Add(new JiraPrio("Low", "Green"));
+                prios.Add(new JiraPrio("Normal", "DarkGoldenRod"));
+                prios.Add(new JiraPrio("High", "Red"));
+            }
+
+            // Default statuses
+            if (testStatuses == null)
+            {
+                testStatuses = new ObservableCollection<JiraStatus>();
+                testStatuses.Add(new JiraStatus("Ready", "Blue"));
+                testStatuses.Add(new JiraStatus("Draft", "DarkGoldenRod"));
+                testStatuses.Add(new JiraStatus("Approved", "Green"));
+                testStatuses.Add(new JiraStatus("On hold", "Gray"));
+            }
+
+        }
+
     }
 }

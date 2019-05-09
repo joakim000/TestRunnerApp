@@ -279,7 +279,8 @@ namespace TestRunnerAppWpf
 
         public void Execute_BatchImportCasesCmd()
         {
-            SuiteModel suite = mainViewModel.detailsViewModel.suite;
+            SuiteModel suite = mainViewModel.gridViewModel.suite;
+            //SuiteModel suite = mainViewModel.detailsViewModel.suite;
             foreach (JiraCase jc in suite.jiraProject.cases)
             {
                 TestModel t;

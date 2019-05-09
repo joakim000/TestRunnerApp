@@ -193,10 +193,13 @@ namespace TestRunnerAppWpf
 
                     if (string.IsNullOrEmpty(d.newItem.name))
                         d.newItem.name = "Untitled suite";
-                    gridViewModel.suite = d.newItem;
+                    d.newItem.SetDefaults();
 
-                    //SelectedItems_PropertyChanged(null, null);
-                    FileMgmt.filename = null;
+                    
+                    gridViewModel.suite = d.newItem;
+                    this.currentFilename = null;
+                    //FileMgmt.filename = null;
+
 
                 }
             }
@@ -226,7 +229,8 @@ namespace TestRunnerAppWpf
             Tuple<bool, string> saveResult = FileMgmt.SaveAsSuite(gridViewModel.suite);
             if (saveResult.Item1)
             {
-                gridViewModel.suite.filename = saveResult.Item2;
+                //gridViewModel.suite.filename = saveResult.Item2;
+                this.currentFilename = saveResult.Item2;
                 setWindowTitle();
                 this.unsavedChanges = false;
             }
