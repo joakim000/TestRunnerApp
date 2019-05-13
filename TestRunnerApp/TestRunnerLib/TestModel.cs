@@ -7,6 +7,7 @@ using Lib;
 using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace TestRunnerLib
 {
@@ -218,6 +219,12 @@ namespace TestRunnerLib
             get => Get(() => jiraLabelToTypeToken, "T:");
             set => Set(() => jiraLabelToTypeToken, value);
         }
+        [JsonIgnore]
+        public bool jiraPrecondToTestData
+        {
+            get => Get(() => jiraPrecondToTestData, true);
+            set => Set(() => jiraPrecondToTestData, value);
+        }
 
         // Deprecated
         public string jiraProjectKey
@@ -309,6 +316,23 @@ namespace TestRunnerLib
                         callType = label.Substring(jiraLabelToTypeToken.Length).Trim();
                         break;
                     }
+            }
+
+            if (jiraPrecondToTestData && !string.IsNullOrEmpty(jiraCase?.precondition))
+            {
+                string testDataPattern = @"td(?<index>\d+)=\[(?<data>.*?)\]";
+                MatchCollection tdMatches = Regex.Matches(jiraCase.precondition, testDataPattern);
+                if (tdMatches.Count > 0)
+                {
+                    testDataColl.Clear();
+                    foreach (Match td in tdMatches)
+                    {
+                        int index = int.Parse(td.Groups["index"].Value);
+                        string data = td.Groups["data"].Value;
+                        TestDataItem item = new TestDataItem(index, data);
+                        testDataColl.Add(item);
+                    }
+                }
             }
 
             name = jiraCase.name;
