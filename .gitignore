@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/TestRunnerApp/TestRunnerAppCon/TRAC.cfg
+/TestRunnerApp/TestRunnerAppCon/TRAC_noAccountInfo.cfg
