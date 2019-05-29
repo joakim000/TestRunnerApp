@@ -144,6 +144,8 @@ namespace TestRunnerAppWpf
             var jiraProjects = new ObservableCollection<JiraProject>();
 
             // Load keys and TMJ-enabled from TMJ 
+            if (mainViewModel.jira == null)
+                mainViewModel.JiraSetup();
             int maxResults = 100;
             Tuple<HttpStatusCode, JObject> projectsTmj = await mainViewModel.jira.GetProjectsTmj(maxResults.ToString());
             if (projectsTmj.Item1 == HttpStatusCode.OK)
