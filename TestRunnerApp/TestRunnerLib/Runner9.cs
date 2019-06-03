@@ -125,10 +125,10 @@ namespace TestRunnerLib
             {
                 return new TestResult(Outcome.Warning, "File not found. Check assembly.", ex);
             }
-            //catch (Exception ex)
-            //{
-            //    return new TestResult(Outcome.Warning, ex);
-            //}
+            catch (Exception ex)
+            {
+                return new TestResult(Outcome.Warning, ex);
+            }
 
         }
 
