@@ -89,6 +89,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CompuMaster.Calendar, Version=2016.9.7.100, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CompuMaster.Calendar.2016.9.7.100\lib\net20\CompuMaster.Calendar.dll</HintPath>
+    </Reference>
     <Reference Include="IronPython, Version=2.7.9.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\packages\IronPython.2.7.9\lib\net45\IronPython.dll</HintPath>
     </Reference>
@@ -153,6 +156,9 @@
     </Reference>
     <Reference Include="SharpVectors.Runtime.Wpf, Version=1.3.0.0, Culture=neutral, PublicKeyToken=d16e717f0a981fb9, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpVectors.Reloaded.1.3.0\lib\net40\SharpVectors.Runtime.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SvenskaHögtider, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Apoteksinfo.Holidays.1.0.1\lib\net45\SvenskaHögtider.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
