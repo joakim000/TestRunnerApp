@@ -263,6 +263,43 @@
                                     <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Message" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
                                     <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding resultObj.message }" IsReadOnly="True"/>-->
 
+                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Test data used in run" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
+                                    <DataGrid Grid.Row="3"
+                                       ItemsSource="{Binding test.testDataColl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+
+                                       AutoGenerateColumns="False"         
+                                        x:Name="testDataGrid"
+                                        IsReadOnly="False"
+                                        CanUserAddRows="True"
+                                        RowDetailsVisibilityMode="Collapsed"
+                                        AlternatingRowBackground="{DynamicResource AlternateColorBrush}" 
+                                        AlternationCount="2"
+                                        ColumnHeaderStyle="{DynamicResource DatagridColumnHeaderTemplateStyle}"
+                                        RowHeaderStyle="{DynamicResource DataGridRowHeaderTemplateStyle}"
+                  
+                                       >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Index" Binding="{Binding index, UpdateSourceTrigger=PropertyChanged}" MinWidth="40" IsReadOnly="True">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                        <Setter Property="Margin" Value="5,0,5,0" />
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Test data" Binding="{Binding data, UpdateSourceTrigger=PropertyChanged}"  MinWidth="100" MaxWidth="300">
+                                                <DataGridTextColumn.ElementStyle>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                        <Setter Property="Margin" Value="5,0,5,0" />
+                                                    </Style>
+                                                </DataGridTextColumn.ElementStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Exception type"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
                                     <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding resultObj.eType }"
                                              Style="{StaticResource RowDetailsTextBox}" BorderThickness="0"/>

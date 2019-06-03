@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -87,6 +88,45 @@ namespace TestRunnerAppCon
                 }
             }
 
+            // Check for /d argument
+            var testData = new Dictionary<string, Tuple<int, string>>();
+            string[] dataArguments = { };
+            int dIndex = argsList.IndexOf("/d");
+            if (dIndex >= 0)
+            {
+                if (argCount > dIndex + 1) // Avoid case of /d arg with nothing after
+                {
+                    dataArguments = args.Skip(dIndex + 1).ToArray();
+                    int slashIndex = Array.FindIndex(dataArguments, a => a.Contains("/"));
+                    if (slashIndex >= 0)
+                    {
+                        dataArguments = dataArguments.Take(slashIndex).ToArray();
+                    }
+                    foreach (string arg in dataArguments)
+                    {
+                        int hash = arg.IndexOf("#");
+                        string id = arg.Substring(0, hash);
+                        int colon = arg.IndexOf(":");
+                        bool couldParseIndex = int.TryParse(arg.Substring(hash + 1, colon -2 ), out int index);
+
+                        string data = null;
+                        if (arg.Length > colon)
+                        {
+                            data = arg.Substring(colon + 1);
+                        }
+                        if ((!string.IsNullOrEmpty(id)) && couldParseIndex && (!string.IsNullOrEmpty(data)))
+                        {
+                            testData.Add(id, new Tuple<int, string>(index, data));
+                        }
+                    }
+                    Console.WriteLine($"Testdata, count: {testData.Count()}");
+                    foreach (var td in testData)
+                    {
+                        Console.WriteLine($"Test-id:{td.Key} Index:{td.Value.Item1} Data:{td.Value.Item2} ");
+                    }
+                }
+            }
+
 
             // Find command argument
             if (argCount < 2)
@@ -115,7 +155,7 @@ namespace TestRunnerAppCon
                     runTestWorker.RunWorkerCompleted += RunTestWorker_RunWorkerCompleted;
 
                     RunTests r = new RunTests();
-                    List<TestModel> testsRun = r.Run(model, outcomes, idPattern, webDriverType, context, runTestWorker);
+                    List<TestModel> testsRun = r.Run(model, outcomes, idPattern, testData, webDriverType, context, runTestWorker);
                     ewh.WaitOne();
                     
                     Console.WriteLine("Saving suite to file.");
@@ -218,6 +258,10 @@ namespace TestRunnerAppCon
             Console.WriteLine("Filter:");
             Console.WriteLine("  by last outcome: /o [Pass] [Fail] [Warning] [NotRun]");
             Console.WriteLine("  by test id: /id 'regEx'");
+            Console.WriteLine();
+            Console.WriteLine("Change testdata before run:");
+            Console.WriteLine("  /d TestId#TestDataIndex:NewTestData");
+            Console.WriteLine("  Note: New testdata cannot contain forward slash.");
             Console.WriteLine("==============================");
         }
        
