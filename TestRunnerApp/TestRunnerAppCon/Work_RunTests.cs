@@ -28,7 +28,7 @@ namespace TestRunnerAppCon
         public List<TestModel> Run(Model model,
                         string[] outcomes,
                         string idPattern,
-                        Dictionary<string, Tuple<int, string>> testData,
+                        List<TestdataChange> testdata,
                         WebDriverType webDriverType,
                         CustomSynchronizationContext context,
                         BackgroundWorker worker)
@@ -46,14 +46,14 @@ namespace TestRunnerAppCon
             var tests = new ObservableCollection<TestModel>(Report.SelectTests(model.suite, outcomes, idPattern));
 
             // Modify testdata from cmd-line
-            foreach (var td in testData)
+            foreach (var td in testdata)
             {
-                TestModel t = tests.Where(test => string.Equals(test.id, td.Key)).SingleOrDefault();
+                TestModel t = tests.Where(test => string.Equals(test.id, td.id)).SingleOrDefault();
                 if (t != null)
                 {
-                    if (t.testDataColl.Where(tdi => tdi.index == td.Value.Item1).Count() > 0)
+                    if (t.testDataColl.Where(tdi => tdi.index == td.index).Count() > 0)
                     {
-                        t.testDataColl.Where(tdi => tdi.index == td.Value.Item1).Single().data = td.Value.Item2;
+                        t.testDataColl.Where(tdi => tdi.index == td.index).Single().data = td.data;
                     }
                 }
             }

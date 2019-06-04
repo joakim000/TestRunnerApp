@@ -255,6 +255,7 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <!--<TextBlock Grid.Column="0" Grid.Row="0" Text="Failed step" FontSize="12" VerticalAlignment="Bottom" Margin="3,5,0,1" FontWeight="Bold"  />
                                     <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding resultObj.failStep }" IsReadOnly="True" 
@@ -263,8 +264,8 @@
                                     <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Message" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
                                     <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding resultObj.message }" IsReadOnly="True"/>-->
 
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Test data used in run" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
-                                    <DataGrid Grid.Row="3"
+                                    <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Test data used in run" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />-->
+                                    <DataGrid Grid.Row="10"
                                        ItemsSource="{Binding test.testDataColl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
 
                                        AutoGenerateColumns="False"         
