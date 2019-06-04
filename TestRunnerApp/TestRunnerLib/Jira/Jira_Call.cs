@@ -25,6 +25,8 @@ namespace TestRunnerLib.Jira
 
     public partial class Jira
     {
+        public static Jira jiraStatic { get; set; } 
+        
         public enum FolderType { All, Case, Plan, Cycle }
 
         public static JiraConnectInfo jiraCloudInfo { get; set; }
@@ -44,6 +46,7 @@ namespace TestRunnerLib.Jira
             export = new JiraExport(this);
 
             JiraAccessor.jiraObj = this;
+            jiraStatic = this;
         }
 
         public void ShowError(Tuple<HttpStatusCode, JObject> response, string attemptedThing, bool showBox)

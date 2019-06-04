@@ -254,6 +254,7 @@ namespace TestRunnerAppCon
             Console.WriteLine("list [filter options]");
             Console.WriteLine("run [filter options]");
             Console.WriteLine("mail /to 'email' [filter options]");
+            //Console.WriteLine("mail 'address' [additional addresses] [filter options]");
             Console.WriteLine();
             Console.WriteLine("Filter:");
             Console.WriteLine("  by last outcome: /o [Pass] [Fail] [Warning] [NotRun]");
@@ -262,6 +263,7 @@ namespace TestRunnerAppCon
             Console.WriteLine("Change testdata before run:");
             Console.WriteLine("  /d TestId#TestDataIndex:NewTestData");
             Console.WriteLine("  Note: New testdata cannot contain forward slash.");
+            Console.WriteLine("  Ex: /d T1#1:foo T1#2:bar T2#1:far T2#2:'b o o'");
             Console.WriteLine("==============================");
         }
        
