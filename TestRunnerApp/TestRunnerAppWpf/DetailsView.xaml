@@ -33,6 +33,7 @@
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
+            
         </Style>
 
         <Style TargetType="{x:Type TextBlock}" x:Key="RowTextBlock" >
@@ -58,6 +59,7 @@
             <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
             <Setter Property="IsReadOnly" Value="True" />
             <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontFamily" Value="Consolas" />
             <Setter Property="AutoWordSelection" Value="True" />
             <Setter Property="CaretBrush" Value="{DynamicResource CaretBrush}" />
         </Style>
@@ -220,6 +222,11 @@
                                         <Image Source="{Binding result, Converter={StaticResource OutcomeImgConverter}}" Height="20" Margin="5,3,5,3" VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="80" Text="{Binding previousOutcome}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTemplateColumn Header="Step" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -263,8 +270,9 @@
                                     <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Message" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
                                     <TextBox Grid.Column="0" Grid.Row="3" Text="{Binding resultObj.message }" IsReadOnly="True"/>-->
 
-                                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Test data used in run" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />
-                                    <DataGrid Grid.Row="3"
+                                    <!--<TextBlock Grid.Column="0" Grid.Row="2" Text="Test data used in run" FontSize="12" VerticalAlignment="Bottom" Margin="0,5,0,1" FontWeight="Bold"  />-->
+                                    <Expander Grid.Row="3" Header="Test data used" FontSize="12" FontWeight="Bold" >
+                                    <DataGrid 
                                        ItemsSource="{Binding test.testDataColl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
 
                                        AutoGenerateColumns="False"         
@@ -299,7 +307,8 @@
                                             </DataGridTextColumn>
                                         </DataGrid.Columns>
                                     </DataGrid>
-
+                                    </Expander>
+                                    
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Exception type"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
                                     <TextBox Grid.Column="0" Grid.Row="5" Text="{Binding resultObj.eType }"
                                              Style="{StaticResource RowDetailsTextBox}" BorderThickness="0"/>
