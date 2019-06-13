@@ -83,6 +83,7 @@
     <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestdataChange.cs" />
     <Compile Include="Work_RunTests.cs" />
   </ItemGroup>
   <ItemGroup>

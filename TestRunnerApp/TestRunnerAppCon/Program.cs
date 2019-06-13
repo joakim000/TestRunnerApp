@@ -88,8 +88,9 @@ namespace TestRunnerAppCon
                 }
             }
 
+
             // Check for /d argument
-            var testData = new Dictionary<string, Tuple<int, string>>();
+            var testdata = new List<TestdataChange>();
             string[] dataArguments = { };
             int dIndex = argsList.IndexOf("/d");
             if (dIndex >= 0)
@@ -116,13 +117,13 @@ namespace TestRunnerAppCon
                         }
                         if ((!string.IsNullOrEmpty(id)) && couldParseIndex && (!string.IsNullOrEmpty(data)))
                         {
-                            testData.Add(id, new Tuple<int, string>(index, data));
+                            testdata.Add(new TestdataChange(id, index, data));
                         }
                     }
-                    Console.WriteLine($"Testdata, count: {testData.Count()}");
-                    foreach (var td in testData)
+                    Console.WriteLine($"Testdata, count: {testdata.Count()}");
+                    foreach (var td in testdata)
                     {
-                        Console.WriteLine($"Test-id:{td.Key} Index:{td.Value.Item1} Data:{td.Value.Item2} ");
+                        Console.WriteLine($"Test-id:{td.id} Index:{td.index} Data:{td.data} ");
                     }
                 }
             }
@@ -155,7 +156,7 @@ namespace TestRunnerAppCon
                     runTestWorker.RunWorkerCompleted += RunTestWorker_RunWorkerCompleted;
 
                     RunTests r = new RunTests();
-                    List<TestModel> testsRun = r.Run(model, outcomes, idPattern, testData, webDriverType, context, runTestWorker);
+                    List<TestModel> testsRun = r.Run(model, outcomes, idPattern, testdata, webDriverType, context, runTestWorker);
                     ewh.WaitOne();
                     
                     Console.WriteLine("Saving suite to file.");
@@ -266,7 +267,8 @@ namespace TestRunnerAppCon
             Console.WriteLine("  Ex: /d T1#1:foo T1#2:bar T2#1:far T2#2:'b o o'");
             Console.WriteLine("==============================");
         }
-       
+
+
 
     }
 }
