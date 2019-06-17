@@ -98,6 +98,9 @@
                 <Setter Property="HorizontalAlignment" Value="Left" />
             </Style>
 
+            <Style TargetType="{x:Type ContextMenu}"  >
+                <Setter Property="Background" Value="{DynamicResource MenuBackgroundBrush}" />
+            </Style>
            
 
 

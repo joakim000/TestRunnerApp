@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Windows;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using ViewModelSupport;
+using System.IO;
+using Microsoft.Win32;
+using System.Linq;
 
 namespace TestRunnerLib
 {
@@ -131,5 +135,67 @@ namespace TestRunnerLib
             }
              
         }
+
+        /// <summary>
+        /// Commands for Context menu on exception message textbox
+        /// </summary>
+        public void Execute_ExCopyAllCmd()
+        {
+            Clipboard.SetText(resultObj.eMessage);
+        }
+        public bool CanExecute_ExCopyAllCmd()
+        {
+            return true;
+        }
+        public void Execute_ExViewCmd()
+        {
+
+        }
+        public bool CanExecute_ExViewCmd()
+        {
+            return true;
+        }
+        public void Execute_ExSaveAsCmd()
+        {
+            string s = String.Empty;
+           
+            s = resultObj.eMessage;
+            string dtString = datetime.ToString().Replace("-", "").Replace(":", "");
+
+            int filterIndex = 0;
+            if (resultObj.eMessage.Count(x => x == ';') > 10)
+                filterIndex = 2;
+            if (resultObj.eMessage.Contains("<table>", StringComparison.OrdinalIgnoreCase))
+                filterIndex = 3;
+
+            var picker = new SaveFileDialog
+                {
+                    Filter = "Text (*.txt)|*.txt|Comma-separated values (*.csv)|*.csv|" + 
+                             "Hypertext Markup Language (*.html)|*.html|All files (*.*)|*.*",
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    FileName = $"{test.id} {dtString}",
+                    FilterIndex = filterIndex
+                };
+
+            
+
+                if (picker.ShowDialog() == true)
+                {
+                    try
+                    {
+                        File.WriteAllText(picker.FileName, s);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"Saving file: {e}");
+                        MessageBox.Show($"Error saving to file: {picker.FileName}", "TestRunnerApp", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+        }
+        public bool CanExecute_ExSaveAsCmd()
+        {
+            return true;
+        }
+
     }
 }

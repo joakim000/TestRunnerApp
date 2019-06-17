@@ -16,6 +16,7 @@ using SharpVectors.Converters;
 using SharpVectors.Renderers.Wpf;
 using System.Windows.Threading;
 using System.IO;
+using Microsoft.Win32;
 
 namespace TestRunnerAppWpf
 {
@@ -306,6 +307,60 @@ namespace TestRunnerAppWpf
             return true;
         }
 
+        /// <summary>
+        /// Commands for Context menu on exception message textbox
+        /// </summary>
+        public void Execute_ExCopyAllCmd()
+        {
+           if (selectedItems.Count > 0)
+            {
+                Clipboard.SetText(selectedItems.Last().resultObj.eMessage);
+            }
+        }
+        public bool CanExecute_ExCopyAllCmd()
+        {
+            return true;
+        }
+        public void Execute_ExViewCmd()
+        {
+
+        }
+        public bool CanExecute_ExViewCmd()
+        {
+            return true;
+        }
+        public void Execute_ExSaveAsCmd()
+        {
+            string s = String.Empty;
+            if (selectedItems.Count > 0)
+            {
+                s = selectedItems.Last().resultObj.eMessage;
+
+                var picker = new SaveFileDialog
+                {
+                    Filter = "Text (*.txt)|*.txt|CSV (*.csv)|*.csv|All files (*.*)|*.*",
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    FileName = $"{selectedItems.Last().test.id}_{selectedItems.Last().datetime}"
+                };
+                if (picker.ShowDialog() == true)
+                {
+                    try
+                    {
+                        File.WriteAllText(picker.FileName, s);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine($"Saving file: {e}");
+                        MessageBox.Show($"Error saving to file: {picker.FileName}", "TestRunnerApp", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+        public bool CanExecute_ExSaveAsCmd()
+        {
+            return true;
+        }
+
         /* end: Commands */
 
         /* Deprecated */
@@ -322,7 +377,7 @@ namespace TestRunnerAppWpf
         /* end: Deprecated */
 
 
-       
+
 
         public void DetailsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

@@ -315,8 +315,31 @@
 
                                     <TextBlock Grid.Column="0" Grid.Row="6" Text="Exception message" Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
                                     <TextBox Grid.Column="0" Grid.Row="7" Text="{Binding resultObj.eMessage }" 
-                                             Style="{StaticResource RowDetailsTextBox}" BorderThickness="0" />
-
+                                             Style="{StaticResource RowDetailsTextBox}" BorderThickness="0"
+                                             x:Name="ExTextBox"
+                                             >
+                                        <TextBox.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Command="Copy" />
+                                                <MenuItem Command="SelectAll" />
+                                                <MenuItem Header="_Copy all" Command="{Binding ExCopyAllCmd}"  >
+                                                    <MenuItem.Icon>
+                                                        <Image Source="pack://application:,,,/Icons/Copy_16x.png" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <!--<MenuItem Header="_View" Command="{Binding ExViewCmd}"  >
+                                                    <MenuItem.Icon>
+                                                        <Image Source="pack://application:,,,/Icons/MockupComponentGreen_16x.png" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>-->
+                                                <MenuItem Header="_Save as..." Command="{Binding ExSaveAsCmd}"  >
+                                                    <MenuItem.Icon>
+                                                        <Image Source="pack://application:,,,/Icons/SaveAs_16x.png" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </TextBox.ContextMenu>
+                                    </TextBox>
                                     <TextBlock Grid.Column="0" Grid.Row="8" Text="Notes"  Style="{StaticResource TBLeft}" Margin="4,5,0,1"/>
                                     <TextBox Grid.Column="0" Grid.Row="9" Text="{Binding note, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource RowDetailsTextBox}"
                                              AcceptsReturn="True" IsReadOnly="False" Background="{x:Static SystemColors.WindowBrushKey}"/>
