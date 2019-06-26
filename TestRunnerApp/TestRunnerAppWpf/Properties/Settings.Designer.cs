@@ -262,7 +262,7 @@ namespace TestRunnerAppWpf.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("v2.1 rc10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2.2 rc1")]
         public string versionString {
             get {
                 return ((string)(this["versionString"]));
