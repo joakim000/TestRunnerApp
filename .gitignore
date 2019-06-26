@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 /TestRunnerApp/TestRunnerAppCon/TRAC.cfg
 /TestRunnerApp/TestRunnerAppCon/TRAC_noAccountInfo.cfg
+/TestRunnerApp/TestRunnerAppWpf/geckodriver.exe
+/TestRunnerApp/TestRunnerAppWpf/chromedriver.exe

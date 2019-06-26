@@ -27,14 +27,14 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://joakim.dreamhosters.com/testrunnerapp/</InstallUrl>
+    <InstallUrl>http://joakim.dreamhosters.com/testapp/</InstallUrl>
     <TargetCulture>en</TargetCulture>
     <ProductName>TestApp by Unicus</ProductName>
     <PublisherName>Unicus Sverige AB</PublisherName>
     <SuiteName>TestApp by Unicus</SuiteName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>2.2.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -513,6 +513,12 @@
     <Resource Include="Icons\edge_logo_256.png" />
     <Resource Include="Help\TMJkey.png" />
     <Resource Include="Help\soonHorse.jpg" />
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="geckodriver.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Test_16x.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
