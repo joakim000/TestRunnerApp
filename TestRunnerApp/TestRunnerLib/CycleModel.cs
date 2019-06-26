@@ -113,6 +113,16 @@ namespace TestRunnerLib
             get => Get(() => projectVersion);
             set => Set(() => projectVersion, value);
         }
+        public DateTime plannedStartDateDT
+        {
+            get => Get(() => plannedStartDateDT);
+            set => Set(() => plannedStartDateDT, value);
+        }
+        public DateTime plannedEndDateDT
+        {
+            get => Get(() => plannedEndDateDT);
+            set => Set(() => plannedEndDateDT, value);
+        }
 
 
         /* Jira integration */
@@ -149,6 +159,13 @@ namespace TestRunnerLib
             {
                 jiraCycle.PropertyChanged += JiraCycle_PropertyChanged;
                 CopyFromJiraCycle();
+            }
+            if (jiraCycle != null)
+            {
+                if (e.PropertyName == "plannedStartDateDT")
+                    jiraCycle.plannedStartDateDT = plannedStartDateDT;
+                if (e.PropertyName == "plannedEndDateDT")
+                    jiraCycle.plannedEndDateDT = plannedEndDateDT;
             }
         }
 

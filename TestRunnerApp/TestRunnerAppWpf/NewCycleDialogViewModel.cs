@@ -88,9 +88,12 @@ namespace TestRunnerAppWpf
             this.newCycleDialog = newCycleDialog;
             newItem = new CycleModel();
 
-            
+            if (mainViewModel.detailsViewModel.suite.mgmt?.key == "None")
+            {
 
-            if (mainViewModel.detailsViewModel.suite.mgmt.key == "JiraCloudTmj")
+            }
+
+            else if (mainViewModel.detailsViewModel.suite.mgmt?.key == "JiraCloudTmj")
             {
                 if (mainViewModel.gridViewModel.suite.jiraProject == null)
                     mainViewModel.gridViewModel.suite.jiraProject = new JiraProject();
@@ -115,7 +118,7 @@ namespace TestRunnerAppWpf
                 //managed = true;
 
             }
-            if (mainViewModel.detailsViewModel.suite.mgmt.key == "ReqTest")
+            else if (mainViewModel.detailsViewModel.suite.mgmt?.key == "ReqTest")
             {
                 //noMgmt = false;
             }
@@ -231,23 +234,20 @@ namespace TestRunnerAppWpf
         public void SetSelectedDateRange()
         {
             if (newCycleDialog != null)
-                newCycleDialog.Cal.SelectedDates.AddRange(newItem.jiraCycle.plannedStartDateDT,
-                                                          newItem.jiraCycle.plannedEndDateDT);
+            {
+                 newCycleDialog.Cal.SelectedDates.AddRange(newItem.plannedStartDateDT,
+                                                              newItem.plannedEndDateDT);
+            }
         }
 
         public void Cal_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             Debug.WriteLine("SelcteddatesChanged");
             var cal = sender as Calendar;
-            //newItem.jiraCycle.plannedStartDateDT = cal.SelectedDates.First();
-            //newItem.jiraCycle.plannedEndDateDT = cal.SelectedDates.Last();
-
-            newItem.jiraCycle.plannedStartDateDT = cal.SelectedDates.Min();
-            newItem.jiraCycle.plannedEndDateDT = cal.SelectedDates.Max();
-
-            //plannedStartDateDT = cal.SelectedDates.First();
-            //plannedEndDateDT = cal.SelectedDates.Last();
+            newItem.plannedStartDateDT = cal.SelectedDates.Min();
+            newItem.plannedEndDateDT = cal.SelectedDates.Max();
         }
+
         public async void PlannedStart_LostFocus(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("PlannedStart_LostFocus");

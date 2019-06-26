@@ -187,7 +187,7 @@
             <Label Content="Planned start" />
             <TextBox Width="120" HorizontalAlignment="Left"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                     Text="{Binding Path=newItem.jiraCycle.plannedStartDateDT, StringFormat=yyyy-MM-dd, Mode=TwoWay,
+                     Text="{Binding Path=newItem.plannedStartDateDT, StringFormat=yyyy-MM-dd, Mode=TwoWay,
                 Converter={StaticResource CalendarConverter},
                 UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                      LostFocus="PlannedStart_LostFocus"
@@ -198,7 +198,7 @@
                 <Label Content="Planned end" />
                     <TextBox Width="120" HorizontalAlignment="Left"
                      IsReadOnly="{Binding managed, Mode=OneWay, NotifyOnSourceUpdated=True}"
-                     Text="{Binding Path=newItem.jiraCycle.plannedEndDateDT, StringFormat=yyyy-MM-dd, Mode=TwoWay,
+                     Text="{Binding Path=newItem.plannedEndDateDT, StringFormat=yyyy-MM-dd, Mode=TwoWay,
                         Converter={StaticResource CalendarConverter},
                 UpdateSourceTrigger=LostFocus, ValidatesOnExceptions=True, ValidatesOnDataErrors=True}"
                              LostFocus="PlannedEnd_LostFocus"

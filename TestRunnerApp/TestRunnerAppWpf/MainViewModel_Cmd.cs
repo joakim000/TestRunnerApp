@@ -388,7 +388,7 @@ namespace TestRunnerAppWpf
         public void Execute_EditCycleCmd()
         {
 
-            MessageBox.Show("Upcoming feature for v2.2", "TestRunnerApp with Jira",
+            MessageBox.Show("Upcoming feature for v2.3", "TestRunnerApp with Jira",
                 MessageBoxButton.OK, MessageBoxImage.Information);
 
             //var d = new EditCycleDialog(this);
