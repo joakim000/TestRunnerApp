@@ -1,3 +1,4 @@
 # TestRunnerApp
 #
-# For running tests, with Selenium or other types of tests
+# WPF frontend for running, monitoring, logging tests in C# language (limited IronPython support). Extended Selenium support. Jira integration.
+
